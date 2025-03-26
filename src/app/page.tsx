@@ -66,7 +66,8 @@ const Home = observer(() => {
       
       // ホームページへ遷移
       router.push("/home");
-    } catch (_error) {
+    } catch (err) {
+      console.error(err);
       setSignInError("Failed to sign in");
     } finally {
       setLoading(false);
