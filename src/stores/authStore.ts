@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { userPool } from '../lib/cognito';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
 class AuthStore {
   isAuthenticated = false;

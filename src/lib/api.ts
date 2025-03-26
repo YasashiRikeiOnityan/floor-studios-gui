@@ -27,7 +27,7 @@ export const fetchUser = async (userId: string) => {
     signInUserStore.setUser(user);
     return user;
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : '予期せぬエラーが発生しました';
+    // const errorMessage = error instanceof Error ? error.message : '予期せぬエラーが発生しました';
     throw error;
   } finally {
     signInUserStore.setLoading(false);
