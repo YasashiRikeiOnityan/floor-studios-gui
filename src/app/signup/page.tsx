@@ -11,34 +11,14 @@ const SignUp = observer(() => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState('');
-  const [validateErrorEmail, setValidateErrorEmail] = useState('');
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
-      setValidateErrorEmail('メールアドレスを入力してください');
-      return false;
-    }
-    if (!emailRegex.test(email)) {
-      setValidateErrorEmail('有効なメールアドレスを入力してください');
-      return false;
-    }
-    setValidateErrorEmail('');
-    return true;
-  };
 
   const handleSendVerificationCode = async () => {
     try {
       setError('');
       setIsLoading(true);
-
-      if (!validateEmail(email)) {
-        setIsLoading(false);
-        return;
-      }
 
       if (password !== confirmPassword) {
         throw new Error('パスワードが一致しません');
@@ -80,14 +60,14 @@ const SignUp = observer(() => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">
-            Create an account
+            Create an account（後で整える）
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email" className="sr-only">
-                メールアドレス
+                Email address
               </label>
               <input
                 id="email"
@@ -95,23 +75,15 @@ const SignUp = observer(() => {
                 type="email"
                 required
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  validateEmail(e.target.value);
-                }}
-                className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                  validateErrorEmail ? 'border-red-500' : 'border-gray-300'
-                } placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                placeholder="メールアドレス"
+                onChange={(e) => setEmail(e.target.value)}
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="floor-studios@example.com"
                 disabled={isEmailSent}
               />
-              {validateErrorEmail && (
-                <p className="mt-1 text-sm text-red-600">{validateErrorEmail}</p>
-              )}
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
-                パスワード
+                Password
               </label>
               <input
                 id="password"
@@ -121,13 +93,13 @@ const SignUp = observer(() => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="パスワード"
+                placeholder="password"
                 disabled={isEmailSent}
               />
             </div>
             <div>
               <label htmlFor="confirm-password" className="sr-only">
-                パスワード（確認）
+                Password (Confirm)
               </label>
               <input
                 id="confirm-password"
@@ -137,14 +109,14 @@ const SignUp = observer(() => {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="パスワード（確認）"
+                placeholder="password (confirm)"
                 disabled={isEmailSent}
               />
             </div>
             {isEmailSent && (
               <div>
                 <label htmlFor="verification-code" className="sr-only">
-                  検証コード
+                  Verification code
                 </label>
                 <input
                   id="verification-code"
@@ -154,7 +126,7 @@ const SignUp = observer(() => {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="検証コード（6桁）"
+                  placeholder="verification code (6 digits)"
                 />
               </div>
             )}
@@ -169,10 +141,10 @@ const SignUp = observer(() => {
               <button
                 type="button"
                 onClick={handleSendVerificationCode}
-                disabled={isLoading || !!validateErrorEmail}
+                disabled={isLoading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
               >
-                {isLoading ? '送信中...' : '検証コードを送信'}
+                {isLoading ? 'Sending...' : 'Send verification code'}
               </button>
             ) : (
               <button
@@ -181,7 +153,7 @@ const SignUp = observer(() => {
                 disabled={isLoading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
               >
-                {isLoading ? '登録中...' : '登録する'}
+                {isLoading ? 'Registering...' : 'Register'}
               </button>
             )}
           </div>
