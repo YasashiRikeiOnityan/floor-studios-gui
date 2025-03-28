@@ -183,7 +183,7 @@ const Home = observer(() => {
   return (
     <>
       <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-start mt-24 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div className="flex flex-1 flex-col justify-start mt-10 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
           <div className="mt-8 mx-auto w-full max-w-sm lg:w-96">
             <div>
