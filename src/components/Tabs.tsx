@@ -18,7 +18,7 @@ export default function Tabs(props: TabsProps) {
         <select
           defaultValue={props.tabs.find((tab) => tab === props.state)}
           aria-label="Select a tab"
-          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
         >
           {props.tabs.map((tab) => (
             <option key={tab}>{tab}</option>

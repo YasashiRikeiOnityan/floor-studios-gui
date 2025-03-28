@@ -24,6 +24,14 @@ const Home = observer(() => {
   const [tabState, setTabState] = useState("Sign in");
   const [isEmailSent, setIsEmailSent] = useState(false);
 
+  const resetErrors = () => {
+    setValidateEmailError("");
+    setValidatePasswordError("");
+    setValidateVerificationCodeError("");
+    setSignUpError("");
+    setSignInError("");
+  };
+
   // メールアドレスのバリデーション
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -35,7 +43,26 @@ const Home = observer(() => {
   };
 
   // 入力のバリデーション
-  const handleValidate = () => {
+  const handleValidateSignUp = () => {
+    if (!email) {
+      setValidateEmailError("Please enter your email");
+    }
+    if (!password) {
+      setValidatePasswordError("Please enter your password");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setValidatePasswordError("Password does not match");
+      return false;
+    }
+    if (!isValidEmail(email)) {
+      setValidateEmailError("Please enter a valid email address");
+      return false;
+    }
+    return true;
+  };
+
+  const handleValidateSignIn = () => {
     if (!email) {
       setValidateEmailError("Please enter your email");
     }
@@ -52,14 +79,11 @@ const Home = observer(() => {
 
   const handleSignIn = async () => {
     try {
-      // ステートをリセット
       setLoading(true);
-      setValidateEmailError("");
-      setValidatePasswordError("");
-      setSignInError("");
+      resetErrors();
 
       // バリデーション
-      if (!handleValidate()) {
+      if (!handleValidateSignIn()) {
         return;
       }
 
@@ -88,15 +112,11 @@ const Home = observer(() => {
 
   const handleSignUp = async () => {
     try {
-      setSignUpError("");
       setLoading(true);
+      resetErrors();
 
-      if (password !== confirmPassword) {
-        throw new Error('Password does not match');
-      }
-
-      if (password.length < 6) {
-        throw new Error('Password must be at least 6 characters long');
+      if (!handleValidateSignUp()) {
+        return;
       }
 
       await signUp(email, password);
@@ -110,17 +130,19 @@ const Home = observer(() => {
 
   const handleVerify = async () => {
     try {
-      setSignUpError("");
       setLoading(true);
+      resetErrors();
 
       if (!isValidVerificationCode(verificationCode)) {
         throw new Error('Verification code must be 6 digits');
       }
 
       await confirmSignUp(email, verificationCode);
+
+      // ホームページへ遷移
       router.push('/home');
     } catch (err) {
-      setSignUpError(err instanceof Error ? err.message : 'Failed to verify');
+      setValidateVerificationCodeError(err instanceof Error ? err.message : 'Failed to verify');
     } finally {
       setLoading(false);
     }
@@ -128,6 +150,7 @@ const Home = observer(() => {
 
   const callBackUpdateTabState = (state: string) => {
     setTabState(state);
+    resetErrors();
   };
 
   const tabs = ["Sign up", "Sign in"];
@@ -192,6 +215,7 @@ const Home = observer(() => {
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={isEmailSent}
                       />
+                      {isSignIn && validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
                     </div>
                   </div>
 
@@ -285,11 +309,11 @@ const Home = observer(() => {
                       </label>
                     </div>
 
-                    <div className="text-sm/6">
+                    {isSignIn && <div className="text-sm/6">
                       <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                         Forgot password?
                       </a>
-                    </div>
+                    </div>}
                   </div>
 
                   {/* サインアップボタン */}
@@ -331,6 +355,9 @@ const Home = observer(() => {
                   {/* エラーメッセージ */}
                   {signUpError && <div className="flex items-center justify-center">
                     <div className="text-sm/6 text-red-500">{signUpError}</div>
+                  </div>}
+                  {validateVerificationCodeError && <div className="flex items-center justify-center">
+                    <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>
                   </div>}
                   {signInError && <div className="flex items-center justify-center">
                     <div className="text-sm/6 text-red-500">{signInError}</div>
