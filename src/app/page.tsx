@@ -24,6 +24,7 @@ const Home = observer(() => {
   const [tabState, setTabState] = useState("Sign in");
   const [isEmailSent, setIsEmailSent] = useState(false);
 
+  // エラーをリセット
   const resetErrors = () => {
     setValidateEmailError("");
     setValidatePasswordError("");
@@ -42,7 +43,7 @@ const Home = observer(() => {
     return /^[0-9]{6}$/.test(verificationCode);
   };
 
-  // 入力のバリデーション
+  // サインアップ時の入力のバリデーション
   const handleValidateSignUp = () => {
     if (!email) {
       setValidateEmailError("Please enter your email");
@@ -62,6 +63,7 @@ const Home = observer(() => {
     return true;
   };
 
+  // サインイン時の入力のバリデーション
   const handleValidateSignIn = () => {
     if (!email) {
       setValidateEmailError("Please enter your email");
@@ -77,6 +79,63 @@ const Home = observer(() => {
     return true;
   };
 
+
+  // サインアップ処理
+  const handleSignUp = async () => {
+    try {
+      setLoading(true);
+      resetErrors();
+
+      if (!handleValidateSignUp()) {
+        return;
+      }
+
+      await signUp(email, password);
+      setIsEmailSent(true);
+    } catch (err) {
+      setSignUpError(err instanceof Error ? err.message : 'Failed to send verification code');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 検証処理
+  const handleVerify = async () => {
+    try {
+      setLoading(true);
+      resetErrors();
+
+      // バリデーション
+      if (!isValidVerificationCode(verificationCode)) {
+        throw new Error('Verification code must be 6 digits');
+      }
+
+      // 検証
+      await confirmSignUp(email, verificationCode);
+
+      // 検証成功後、自動的にサインイン
+      const { idToken } = await signIn(email, password);
+
+      // 認証情報を保存
+      authStore.setAuth(idToken, rememberMe);
+
+      // JWTからユーザーIDを取得
+      const payload = JSON.parse(atob(idToken.split(".")[1]));
+      const userId = payload.sub;
+
+      // ストアに保存
+      signInUserStore.setUserId(userId);
+
+      // ホームページへ遷移
+      router.push("/home");
+    } catch (err) {
+      setValidateVerificationCodeError(err instanceof Error ? err.message : "Failed to verify");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // サインイン処理
   const handleSignIn = async () => {
     try {
       setLoading(true);
@@ -110,44 +169,7 @@ const Home = observer(() => {
     }
   };
 
-  const handleSignUp = async () => {
-    try {
-      setLoading(true);
-      resetErrors();
-
-      if (!handleValidateSignUp()) {
-        return;
-      }
-
-      await signUp(email, password);
-      setIsEmailSent(true);
-    } catch (err) {
-      setSignUpError(err instanceof Error ? err.message : 'Failed to send verification code');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerify = async () => {
-    try {
-      setLoading(true);
-      resetErrors();
-
-      if (!isValidVerificationCode(verificationCode)) {
-        throw new Error('Verification code must be 6 digits');
-      }
-
-      await confirmSignUp(email, verificationCode);
-
-      // ホームページへ遷移
-      router.push('/home');
-    } catch (err) {
-      setValidateVerificationCodeError(err instanceof Error ? err.message : 'Failed to verify');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // タブの状態を更新
   const callBackUpdateTabState = (state: string) => {
     setTabState(state);
     resetErrors();
@@ -161,7 +183,7 @@ const Home = observer(() => {
   return (
     <>
       <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-start mt-40 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div className="flex flex-1 flex-col justify-start mt-24 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
           <div className="mt-8 mx-auto w-full max-w-sm lg:w-96">
             <div>

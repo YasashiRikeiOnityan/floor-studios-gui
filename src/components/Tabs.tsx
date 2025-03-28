@@ -1,3 +1,4 @@
+import { classNames } from '@/lib/utils'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 type TabsProps = {
@@ -6,9 +7,6 @@ type TabsProps = {
   callBackUpdateState: (state: string) => void;
 }
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Tabs(props: TabsProps) {
   return (
