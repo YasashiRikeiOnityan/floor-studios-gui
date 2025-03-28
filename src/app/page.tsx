@@ -2,24 +2,36 @@
 
 import { observer } from "mobx-react-lite";
 import { authStore } from "../stores/authStore";
-import { signIn } from "../lib/cognito";
+import { confirmSignUp, signIn, signUp } from "../lib/cognito";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInUserStore } from "@/stores/signInUserStore";
+import Tabs from "@/components/Tabs";
 
 const Home = observer(() => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [validateEmailError, setValidateEmailError] = useState("");
   const [validatePasswordError, setValidatePasswordError] = useState("");
+  const [validateVerificationCodeError, setValidateVerificationCodeError] = useState("");
   const [signInError, setSignInError] = useState("");
+  const [signUpError, setSignUpError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [tabState, setTabState] = useState("Sign in");
+  const [isEmailSent, setIsEmailSent] = useState(false);
 
   // メールアドレスのバリデーション
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // 6桁の数字のバリデーション
+  const isValidVerificationCode = (verificationCode: string) => {
+    return /^[0-9]{6}$/.test(verificationCode);
   };
 
   // 入力のバリデーション
@@ -74,18 +86,69 @@ const Home = observer(() => {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      setSignUpError("");
+      setLoading(true);
+
+      if (password !== confirmPassword) {
+        throw new Error('Password does not match');
+      }
+
+      if (password.length < 6) {
+        throw new Error('Password must be at least 6 characters long');
+      }
+
+      await signUp(email, password);
+      setIsEmailSent(true);
+    } catch (err) {
+      setSignUpError(err instanceof Error ? err.message : 'Failed to send verification code');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerify = async () => {
+    try {
+      setSignUpError("");
+      setLoading(true);
+
+      if (!isValidVerificationCode(verificationCode)) {
+        throw new Error('Verification code must be 6 digits');
+      }
+
+      await confirmSignUp(email, verificationCode);
+      router.push('/home');
+    } catch (err) {
+      setSignUpError(err instanceof Error ? err.message : 'Failed to verify');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const callBackUpdateTabState = (state: string) => {
+    setTabState(state);
+  };
+
+  const tabs = ["Sign up", "Sign in"];
+
+  const isSignUp = tabState === "Sign up";
+  const isSignIn = tabState === "Sign in";
+
   return (
     <>
       <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <div className="mx-auto w-full max-w-sm lg:w-96">
+        <div className="flex flex-1 flex-col justify-start mt-40 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
+          <div className="mt-8 mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <img
+              {/* <img
                 alt="Floor Studios"
                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
                 className="h-10 w-auto"
-              />
-              <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+              /> */}
+              {isSignUp && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Create an account</h2>}
+              {isSignIn && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>}
             </div>
 
             <div className="mt-10">
@@ -106,6 +169,7 @@ const Home = observer(() => {
                             validateEmailError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={isEmailSent}
                       />
                       {validateEmailError && <div className="text-sm/6 text-red-500">{validateEmailError}</div>}
                     </div>
@@ -126,15 +190,61 @@ const Home = observer(() => {
                           validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={isEmailSent}
+                      />
+                    </div>
+                  </div>
+
+                  {isSignUp && <div>
+                    <label htmlFor="confirmPassword" className="block text-sm/6 font-medium text-gray-900">
+                      Confirm password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        required
+                        autoComplete="current-password"
+                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
+                          validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            handleSignIn();
+                            handleSignUp();
                           }
                         }}
+                        disabled={isEmailSent}
                       />
                       {validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
                     </div>
-                  </div>
+                  </div>}
+
+                  {isSignUp && isEmailSent && <div>
+                    <label htmlFor="verificationCode" className={"block text-sm/6 font-medium text-gray-900"}>
+                      Verification code
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="verificationCode"
+                        name="verificationCode"
+                        type="text"
+                        required
+                        autoComplete="verificationCode"
+                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
+                            validateVerificationCodeError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                        onChange={(e) => setVerificationCode(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            handleVerify();
+                          }
+                        }}
+                      />
+                      {validateVerificationCodeError && <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>}
+                    </div>
+                  </div>}
 
                   <div className="flex items-center justify-between">
                     <div className="flex gap-3">
@@ -182,8 +292,32 @@ const Home = observer(() => {
                     </div>
                   </div>
 
+                  {/* サインアップボタン */}
+                  {isSignUp && !isEmailSent && <div>
+                    <button
+                      type="submit"
+                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      disabled={loading}
+                      onClick={handleSignUp}
+                    >
+                      {loading ? "Signing up..." : "Sign up"}
+                    </button>
+                  </div>}
+
+                  {/* 検証ボタン */}
+                  {isSignUp && isEmailSent && <div>
+                    <button
+                      type="submit"
+                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      disabled={loading}
+                      onClick={handleVerify}
+                    >
+                      {loading ? "Verifying..." : "Verify"}
+                    </button>
+                  </div>}
+
                   {/* サインインボタン */}
-                  <div>
+                  {isSignIn && <div>
                     <button
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -192,17 +326,15 @@ const Home = observer(() => {
                     >
                       {loading ? "Signing in..." : "Sign in"}
                     </button>
-                  </div>
+                  </div>}
 
                   {/* エラーメッセージ */}
+                  {signUpError && <div className="flex items-center justify-center">
+                    <div className="text-sm/6 text-red-500">{signUpError}</div>
+                  </div>}
                   {signInError && <div className="flex items-center justify-center">
                     <div className="text-sm/6 text-red-500">{signInError}</div>
                   </div>}
-
-                  {/* サインアップリンク */}
-                  <div className="flex items-center justify-end">
-                    <a href="signup" className="text-sm/6 font-semibold text-indigo-600 hover:text-indigo-500">Create an account</a>
-                  </div>
                 </div>
               </div>
             </div>
