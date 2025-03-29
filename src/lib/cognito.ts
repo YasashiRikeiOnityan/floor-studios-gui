@@ -83,4 +83,4 @@ export const signOut = async (user: CognitoUser): Promise<void> => {
       resolve();
     });
   });
-}; 
+};

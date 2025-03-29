@@ -1,35 +1,22 @@
-import { signInUserStore } from '../stores/signInUserStore';
-import { authStore } from '../stores/authStore';
+import { authStore } from '@/stores/authStore';
+import axios from 'axios';
 
-export const fetchUser = async (userId: string) => {
+const httpClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+})
+
+const idToken = authStore.idToken;
+
+export const ApiGetUsers = async () => {
   try {
-    signInUserStore.setLoading(true);
-
-    const idToken = authStore.getIdToken();
-    if (!idToken) {
-      throw new Error('認証トークンが見つかりません');
-    }
-
-    const response = await fetch(`/api/users/${userId}`, {
-      method: 'GET',
+    const url = "/users"
+    const response = await httpClient.get(url, {
       headers: {
-        'Authorization': `Bearer ${idToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      throw new Error(errorData?.message || 'ユーザー情報の取得に失敗しました');
-    }
-
-    const user = await response.json();
-    signInUserStore.setUser(user);
-    return user;
+        Authorization: `Bearer ${idToken}`,
+      }
+    })
+    console.log(response.data.body)
   } catch (error) {
-    // const errorMessage = error instanceof Error ? error.message : '予期せぬエラーが発生しました';
-    throw error;
-  } finally {
-    signInUserStore.setLoading(false);
+    console.log(error)
   }
-}; 
+};

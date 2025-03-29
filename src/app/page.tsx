@@ -1,8 +1,8 @@
 "use client";
 
 import { observer } from "mobx-react-lite";
-import { authStore } from "../stores/authStore";
-import { confirmSignUp, signIn, signUp } from "../lib/cognito";
+import { authStore } from "@/stores/authStore";
+import { confirmSignUp, signIn, signUp } from "@/lib/cognito";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInUserStore } from "@/stores/signInUserStore";
@@ -160,7 +160,7 @@ const Home = observer(() => {
       signInUserStore.setUserId(userId);
       
       // ホームページへ遷移
-      router.push("/home");
+      router.push("/orders");
     } catch (err) {
       console.error(err);
       setSignInError("Failed to sign in");
@@ -183,9 +183,9 @@ const Home = observer(() => {
   return (
     <>
       <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-start mt-10 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
+        <div className="flex flex-1 flex-col justify-start md:mt-10 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mt-8 mx-auto w-full max-w-sm lg:w-96">
+            <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
             <div>
               {/* <img
                 alt="Floor Studios"
@@ -235,6 +235,11 @@ const Home = observer(() => {
                           validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && isSignIn) {
+                            handleSignIn();
+                          }
+                        }}
                         disabled={isEmailSent}
                       />
                       {isSignIn && validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}

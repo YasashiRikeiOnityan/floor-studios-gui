@@ -1,5 +1,5 @@
 import { classNames } from '@/lib/utils'
-import { ChevronDownIcon } from '@heroicons/react/16/solid'
+// import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 type TabsProps = {
   tabs: string[];
@@ -7,12 +7,10 @@ type TabsProps = {
   callBackUpdateState: (state: string) => void;
 }
 
-
 export default function Tabs(props: TabsProps) {
   return (
     <div>
-      <div className="grid grid-cols-1 sm:hidden">
-        {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
+      {/* <div className="grid grid-cols-1 sm:hidden">
         <select
           defaultValue={props.tabs.find((tab) => tab === props.state)}
           aria-label="Select a tab"
@@ -27,8 +25,9 @@ export default function Tabs(props: TabsProps) {
           aria-hidden="true"
           className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end fill-gray-500"
         />
-      </div>
-      <div className="hidden sm:block">
+      </div> */}
+      <div className="block">
+      {/* <div className="hidden sm:block"> */}
         <nav aria-label="Tabs" className="flex space-x-4">
           {props.tabs.map((tab) => (
             <div
