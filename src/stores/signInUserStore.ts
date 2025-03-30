@@ -1,8 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 
-interface User {
-  id: string;
-  email: string;
+type User = {
+  userId: string,
+  email: string,
+  userName: string,
+  imgUrl: string,
 }
 
 class SignInUserStore {

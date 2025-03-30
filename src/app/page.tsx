@@ -127,7 +127,7 @@ const Home = observer(() => {
       signInUserStore.setUserId(userId);
 
       // ホームページへ遷移
-      router.push("/home");
+      router.push("/orders");
     } catch (err) {
       setValidateVerificationCodeError(err instanceof Error ? err.message : "Failed to verify");
     } finally {
