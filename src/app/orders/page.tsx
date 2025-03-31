@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
 import DraftsList from "@/components/DraftsList";
 import { useState } from "react";
-
+import { signInUserStore } from "@/stores/signInUserStore";
 const Orders = () => {
   const tabs = ["Drafts", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -13,6 +13,8 @@ const Orders = () => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
+
+  console.log("Orders", signInUserStore.getUserId());
   
   return (
     <>

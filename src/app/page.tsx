@@ -155,6 +155,7 @@ const Home = observer(() => {
       // JWTからユーザーIDを取得
       const payload = JSON.parse(atob(idToken.split(".")[1]));
       const userId = payload.sub;
+      console.log(userId);
 
       // ストアに保存
       signInUserStore.setUserId(userId);
@@ -403,7 +404,7 @@ const Home = observer(() => {
             className="absolute inset-0 size-full object-cover"
           />
         </div>
-      </div>
+    </div>
     </>
   );
 });

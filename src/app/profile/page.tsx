@@ -1,16 +1,24 @@
 "use client";
 
 import Header from "@/components/Header";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { ApiGetUsers } from "@/lib/api";
+import { signInUserStore } from "@/stores/signInUserStore";
+import { User } from "@/lib/type";
 
 const Profile = observer(() => {
+
+  const [user, setUser] = useState<User>();
+
   useEffect(() => {
-    // const userId = "87a41a28-3071-7025-ef9a-ae6281d3dd4c";
-    // userStore.fetchUser(userId);
-    ApiGetUsers();
+    const getUser = async () => {
+      const user = await signInUserStore.getUserFromApi();
+      setUser(user);
+    }
+    getUser();
   }, []);
+
+  console.log("Profile", signInUserStore.getUserId());
 
   return (
     <>
@@ -32,11 +40,11 @@ const Profile = observer(() => {
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm/6 font-medium text-gray-900">User Name</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Floor Studios</dd>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user?.userName || ""}</dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">floor-studios@example.com</dd>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{user?.email || ""}</dd>
                   </div>
                 </dl>
               </div>

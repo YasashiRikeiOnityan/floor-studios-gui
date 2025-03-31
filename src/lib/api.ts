@@ -14,7 +14,7 @@ export const ApiGetUsers = async () => {
     const response = await httpClient.get(url, {
       headers: {
         Authorization: `Bearer ${idToken}`,
-        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
       }
     })
     console.log(response.data.body)
@@ -28,7 +28,6 @@ export const ApiGetUsersUserId = async (userId: string): Promise<ApiGetUsersUser
   const response = await httpClient.get(url, {
     headers: {
       "Authorization": `Bearer ${idToken}`,
-      "Access-Control-Allow-Origin": "*",
     }
   });
   return response.data.body;

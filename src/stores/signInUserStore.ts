@@ -1,15 +1,15 @@
+import { GetUsersUserIdInteractor } from '@/interactor/GetUsersUserIdInteractor';
 import { makeAutoObservable } from 'mobx';
-
-type User = {
-  userId: string,
-  email: string,
-  userName: string,
-  imgUrl: string,
-}
+import { User } from '@/lib/type';
 
 class SignInUserStore {
   userId: string = "";
-  user: User | null = null;
+  user: User = {
+    userId: "",
+    email: "",
+    userName: "",
+    imgUrl: "",
+  };
   isLoading = false;
 
   constructor() {
@@ -20,8 +20,26 @@ class SignInUserStore {
     this.userId = userId;
   }
 
-  setUser(user: User | null) {
+  getUserId() {
+    return this.userId;
+  }
+
+  setUser(user: User) {
     this.user = user;
+  }
+
+  getUser(): User {
+    return this.user;
+  }
+
+  async getUserFromApi(): Promise<User> {
+    if (this.userId) {
+      const res = await GetUsersUserIdInteractor(this.userId);
+      this.setUser(res);
+    } else {
+      console.log("userId is not found");
+    }
+    return this.user;
   }
 
   setLoading(loading: boolean) {
@@ -29,7 +47,12 @@ class SignInUserStore {
   }
 
   clear() {
-    this.user = null;
+    this.user = {
+      userId: "",
+      email: "",
+      userName: "",
+      imgUrl: "",
+    };
     this.isLoading = false;
   }
 }
