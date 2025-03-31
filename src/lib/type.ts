@@ -1,8 +1,8 @@
 export type ApiGetUsersUserIdResponse = {
-  userId: string;
-  email?: string;
-  userName?: string;
-  imgUrl?: string;
+  user_id: string;
+  email: string;
+  user_name?: string;
+  img_url?: string;
 }
 
 export type User = {

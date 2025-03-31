@@ -38,7 +38,7 @@ const Orders = () => {
                   type={"button"}
                   onClick={() => { }}
                   text={"Start new design"}
-                  outlined={true}
+                  style={"outline"}
                   fullWidth={false}
                 />
               </div>

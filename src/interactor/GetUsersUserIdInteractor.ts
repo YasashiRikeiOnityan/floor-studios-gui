@@ -7,10 +7,11 @@ export const GetUsersUserIdInteractor = async (userId: string) => {
 }
 
 const mapUser = (user: ApiGetUsersUserIdResponse) => {
+  console.log(user);
   return {
-    userId: user.userId,
-    email: user.email || "",
-    userName: user.userName || "",
-    imgUrl: user.imgUrl || "",
+    userId: user.user_id,
+    email: user.email,
+    userName: user?.user_name || "",
+    imgUrl: user?.img_url || "",
   }
 }

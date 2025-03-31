@@ -30,5 +30,5 @@ export const ApiGetUsersUserId = async (userId: string): Promise<ApiGetUsersUser
       "Authorization": `Bearer ${idToken}`,
     }
   });
-  return response.data.body;
+  return response.data;
 }
