@@ -1,9 +1,11 @@
 "use client";
 
 import { classNames } from '@/lib/utils';
+import { signInUserStore } from '@/stores/signInUserStore';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite';
+import { useRouter } from 'next/navigation';
 
 type HeaderProps = {
   current: string;
@@ -17,18 +19,18 @@ const user = {
 };
 
 const navigation = [
-  { name: 'Orders', href: '/orders'},
-  { name: 'Profile', href: '/profile'},
+  { name: 'Orders', href: '/orders' },
 ];
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/profile' },
+  { name: 'Your Profile', href: `/profile?user_id=${signInUserStore.getUserId()}` },
   { name: 'Sign out', href: '/' },
 ];
 
 const Header = observer((props: HeaderProps) => {
-    return (
-      <Disclosure as="nav" className="border-b border-gray-200 bg-white">
+  const router = useRouter();
+  return (
+    <Disclosure as="nav" className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">
@@ -46,19 +48,19 @@ const Header = observer((props: HeaderProps) => {
             </div>
             <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
               {navigation.map((item) => (
-                <a
+                <div
                   key={item.name}
-                  href={item.href}
+                  onClick={() => {router.push(item.href)}}
                   aria-current={item.name === props.current ? 'page' : undefined}
                   className={classNames(
                     item.name === props.current
                       ? 'border-indigo-500 text-gray-900'
                       : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                    'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium',
+                    'inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium cursor-pointer',
                   )}
                 >
                   {item.name}
-                </a>
+                </div>
               ))}
             </div>
           </div>
@@ -87,12 +89,12 @@ const Header = observer((props: HeaderProps) => {
               >
                 {userNavigation.map((item) => (
                   <MenuItem key={item.name}>
-                    <a
-                      href={item.href}
+                    <div
                       className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                      onClick={() => {router.push(item.href)}}
                     >
                       {item.name}
-                    </a>
+                    </div>
                   </MenuItem>
                 ))}
               </MenuItems>
@@ -147,7 +149,7 @@ const Header = observer((props: HeaderProps) => {
               <BellIcon aria-hidden="true" className="size-6" />
             </button>
           </div>
-          <div className="mt-3 space-y-1">
+          {/* <div className="mt-3 space-y-1">
             {userNavigation.map((item) => (
               <DisclosureButton
                 key={item.name}
@@ -158,11 +160,11 @@ const Header = observer((props: HeaderProps) => {
                 {item.name}
               </DisclosureButton>
             ))}
-          </div>
+          </div> */}
         </div>
       </DisclosurePanel>
     </Disclosure>
-    )
+  )
 })
 
 export default Header;

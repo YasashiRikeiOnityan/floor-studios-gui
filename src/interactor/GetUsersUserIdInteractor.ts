@@ -7,7 +7,6 @@ export const GetUsersUserIdInteractor = async (userId: string) => {
 }
 
 const mapUser = (user: ApiGetUsersUserIdResponse) => {
-  console.log(user);
   return {
     userId: user.user_id,
     email: user.email,

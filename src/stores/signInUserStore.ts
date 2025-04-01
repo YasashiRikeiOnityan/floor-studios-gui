@@ -1,6 +1,7 @@
 import { GetUsersUserIdInteractor } from '@/interactor/GetUsersUserIdInteractor';
 import { makeAutoObservable } from 'mobx';
 import { User } from '@/lib/type';
+import { UpdateUsersUserIdInteractor } from '@/interactor/PutUsersUserIdInteractor';
 
 class SignInUserStore {
   userId: string = "";
@@ -14,29 +15,10 @@ class SignInUserStore {
 
   constructor() {
     makeAutoObservable(this);
-    if (typeof window !== 'undefined') {
-      this.loadStoredUserId();
-    }
-  }
-
-  private loadStoredUserId() {
-    if (typeof window !== 'undefined') {
-      const storedUserId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
-      if (storedUserId) {
-        this.userId = storedUserId;
-      }
-    }
   }
 
   setUserId(userId: string) {
     this.userId = userId;
-    if (typeof window !== 'undefined') {
-      if (localStorage.getItem('rememberMe') === 'true') {
-        localStorage.setItem('userId', userId);
-      } else {
-        sessionStorage.setItem('userId', userId);
-      }
-    }
   }
 
   getUserId() {
@@ -51,16 +33,26 @@ class SignInUserStore {
     return this.user;
   }
 
-  async getUserFromApi(): Promise<User> {
-    this.isLoading = true;
-    if (this.userId) {
-      const res = await GetUsersUserIdInteractor(this.userId);
+  async getUserFromApi(userId: string): Promise<User> {
+    this.setLoading(true);
+    try {
+      const res = await GetUsersUserIdInteractor(userId);
       this.setUser(res);
-    } else {
-      console.log("userId is not found");
+      return res;
+    } finally {
+      this.setLoading(false);
     }
-    this.isLoading = false;
-    return this.user;
+  }
+
+  async putUserToApi(userId: string, user: {userName: string}): Promise<User> {
+    this.setLoading(true);
+    try {
+      const res = await UpdateUsersUserIdInteractor(userId, user);
+      this.setUser(res);
+      return res;
+    } finally {
+      this.setLoading(false);
+    }
   }
 
   setLoading(loading: boolean) {
@@ -76,10 +68,6 @@ class SignInUserStore {
     };
     this.userId = "";
     this.isLoading = false;
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('userId');
-      sessionStorage.removeItem('userId');
-    }
   }
 }
 

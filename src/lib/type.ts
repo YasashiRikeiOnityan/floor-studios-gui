@@ -11,3 +11,15 @@ export type User = {
   userName?: string;
   imgUrl?: string;
 }
+
+export type ApiPutUsersUserIdRequest = {
+  user_name?: string;
+  img_url?: string;
+}
+
+export type ApiPutUsersUserIdResponse = {
+  user_id: string;
+  email: string;
+  user_name?: string;
+  img_url?: string;
+}

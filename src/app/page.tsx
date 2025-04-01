@@ -117,7 +117,8 @@ const Home = observer(() => {
       const { idToken } = await signIn(email, password);
 
       // 認証情報を保存
-      authStore.setAuth(idToken, rememberMe);
+      authStore.setIdToken(idToken);
+      authStore.setRememberMe(rememberMe);
 
       // JWTからユーザーIDを取得
       const payload = JSON.parse(atob(idToken.split(".")[1]));
@@ -148,14 +149,16 @@ const Home = observer(() => {
 
       // サインイン
       const { idToken } = await signIn(email, password);
+
+      console.log(idToken);
       
       // ストアに保存
-      authStore.setAuth(idToken, rememberMe);
+      authStore.setIdToken(idToken);
+      authStore.setRememberMe(rememberMe);
       
       // JWTからユーザーIDを取得
       const payload = JSON.parse(atob(idToken.split(".")[1]));
       const userId = payload.sub;
-      console.log(userId);
 
       // ストアに保存
       signInUserStore.setUserId(userId);
