@@ -8,7 +8,7 @@ export const UpdateUsersUserIdInteractor = async (userId: string, user: {userNam
 }
 
 const getRequestBody = (user: {userName: string}): ApiPutUsersUserIdRequest => {
-  let requestBody: ApiPutUsersUserIdRequest = {
+  const requestBody: ApiPutUsersUserIdRequest = {
     user_name: user.userName,
   };
   return requestBody;
