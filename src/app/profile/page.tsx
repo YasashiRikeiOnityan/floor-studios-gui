@@ -8,8 +8,9 @@ import { User } from "@/lib/type";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-const Profile = observer(() => {
+const ProfileContent = observer(() => {
   const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const userId = searchParams.get("user_id") || "";
@@ -59,7 +60,7 @@ const Profile = observer(() => {
 
   const handleSave = async () => {
     if (!handleValidateName()) {
-      return;
+      return; 
     }
     setIsEditing(false);
     const user = await signInUserStore.putUserToApi(userId, {userName: userName});
@@ -145,5 +146,13 @@ const Profile = observer(() => {
     </div>
   );
 });
+
+const Profile = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <ProfileContent />
+    </Suspense>
+  );
+};
 
 export default Profile;
