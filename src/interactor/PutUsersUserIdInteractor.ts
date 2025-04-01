@@ -1,5 +1,5 @@
 import { ApiPutUsersUserId } from "@/lib/api";
-import { ApiPutUsersUserIdRequest, ApiPutUsersUserIdResponse, User } from "@/lib/type";
+import { ApiPutUsersUserIdRequest, ApiPutUsersUserIdResponse } from "@/lib/type";
 
 export const UpdateUsersUserIdInteractor = async (userId: string, user: {userName: string}) => {
   const requestBody = getRequestBody(user);
@@ -8,10 +8,9 @@ export const UpdateUsersUserIdInteractor = async (userId: string, user: {userNam
 }
 
 const getRequestBody = (user: {userName: string}): ApiPutUsersUserIdRequest => {
-  let requestBody: ApiPutUsersUserIdRequest = {};
-  if (user.userName) {
-    requestBody.user_name = user.userName;
-  }
+  let requestBody: ApiPutUsersUserIdRequest = {
+    user_name: user.userName,
+  };
   return requestBody;
 }
 
