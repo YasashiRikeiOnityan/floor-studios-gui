@@ -114,11 +114,10 @@ const Home = observer(() => {
       await confirmSignUp(email, verificationCode);
 
       // 検証成功後、自動的にサインイン
-      const { idToken } = await signIn(email, password);
+      const { idToken, refreshToken } = await signIn(email, password);
 
       // 認証情報を保存
-      authStore.setIdToken(idToken);
-      authStore.setRememberMe(rememberMe);
+      authStore.setAuth(idToken, refreshToken, rememberMe);
 
       // JWTからユーザーIDを取得
       const payload = JSON.parse(atob(idToken.split(".")[1]));
@@ -148,13 +147,10 @@ const Home = observer(() => {
       }
 
       // サインイン
-      const { idToken } = await signIn(email, password);
-
-      console.log(idToken);
+      const { idToken, refreshToken } = await signIn(email, password);
       
       // ストアに保存
-      authStore.setIdToken(idToken);
-      authStore.setRememberMe(rememberMe);
+      authStore.setAuth(idToken, refreshToken, rememberMe);
       
       // JWTからユーザーIDを取得
       const payload = JSON.parse(atob(idToken.split(".")[1]));

@@ -2,33 +2,56 @@
 
 import { classNames } from '@/lib/utils';
 import { signInUserStore } from '@/stores/signInUserStore';
+import { authStore } from '@/stores/authStore';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
+import { signOut, userPool } from '@/lib/cognito';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
 type HeaderProps = {
   current: string;
 };
 
 const user = {
-  name: 'Floor Studios',
-  email: 'floor-studios@example.com',
+  name: "Floor Studios",
+  email: "floor-studios@example.com",
   imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 
 const navigation = [
-  { name: 'Orders', href: '/orders' },
+  { name: "Orders", href: "/orders" },
 ];
 
 const userNavigation = [
-  { name: 'Your Profile', href: `/profile?user_id=${signInUserStore.getUserId()}` },
-  { name: 'Sign out', href: '/' },
+  { name: "Your Profile", href: `/profile?user_id=${signInUserStore.getUserId()}` },
+  { name: "Sign out", href: "" },
 ];
 
 const Header = observer((props: HeaderProps) => {
   const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(signInUserStore.getUser().email || "");
+
+      // ストアのクリア
+      authStore.clear();
+      signInUserStore.clear();
+
+      // ホームページへ遷移
+      router.push('/');
+    } catch (error) {
+      console.error('Failed to sign out:', error);
+      // エラーが発生しても、ストアをクリアしてホームページに遷移
+      authStore.clear();
+      signInUserStore.clear();
+      router.push('/');
+    }
+  };
+
   return (
     <Disclosure as="nav" className="border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -91,7 +114,13 @@ const Header = observer((props: HeaderProps) => {
                   <MenuItem key={item.name}>
                     <div
                       className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-                      onClick={() => {router.push(item.href)}}
+                      onClick={() => {
+                        if (item.name === 'Sign out') {
+                          handleSignOut();
+                        } else if (item.name === 'Your Profile') {
+                          router.push(`/profile?user_id=${signInUserStore.getUserId()}`);
+                        }
+                      }}
                     >
                       {item.name}
                     </div>

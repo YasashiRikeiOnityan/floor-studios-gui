@@ -6,6 +6,7 @@ type ButtonProps = {
   style?: "fill" | "outline" | "text";
   onClick: MouseEventHandler<HTMLButtonElement>;
   loading?: boolean;
+  disabled?: boolean;
   text: string;
   loadingText?: string;
   fullWidth?: boolean
@@ -26,8 +27,9 @@ const Button = (props: ButtonProps) => {
           "w-full": props.fullWidth
         }
       )}
-      disabled={props.loading}
+      disabled={props.loading || props.disabled}
       onClick={props.onClick}
+      style={{ cursor: props.disabled ? "not-allowed" : "pointer" }}
     >
       {props.loading ? props.loadingText : props.text}
     </button>

@@ -1,19 +1,19 @@
-import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails, CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
 const poolData = {
   UserPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!,
-  ClientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!
+  ClientId: process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!,
 };
 
 export const userPool = new CognitoUserPool(poolData);
 
-export const signUp = async (email: string, password: string) => {
+export const signUp = (email: string, password: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const attributeList = [
       new CognitoUserAttribute({
         Name: 'email',
-        Value: email
-      })
+        Value: email,
+      }),
     ];
 
     userPool.signUp(email, password, attributeList, [], (err, result) => {
@@ -21,31 +21,31 @@ export const signUp = async (email: string, password: string) => {
         reject(err);
         return;
       }
-      resolve(result);
+      resolve();
     });
   });
 };
 
-export const confirmSignUp = async (email: string, code: string) => {
+export const confirmSignUp = (email: string, code: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const userData = {
       Username: email,
-      Pool: userPool
+      Pool: userPool,
     };
 
     const cognitoUser = new CognitoUser(userData);
 
-    cognitoUser.confirmRegistration(code, true, (err: Error | null, result: string) => {
+    cognitoUser.confirmRegistration(code, true, (err, result) => {
       if (err) {
         reject(err);
         return;
       }
-      resolve(result);
+      resolve();
     });
   });
 };
 
-export const signIn = async (email: string, password: string): Promise<{ user: CognitoUser; idToken: string }> => {
+export const signIn = (email: string, password: string): Promise<{ idToken: string; refreshToken: string }> => {
   return new Promise((resolve, reject) => {
     const authenticationDetails = new AuthenticationDetails({
       Username: email,
@@ -54,7 +54,7 @@ export const signIn = async (email: string, password: string): Promise<{ user: C
 
     const userData = {
       Username: email,
-      Pool: userPool
+      Pool: userPool,
     };
 
     const cognitoUser = new CognitoUser(userData);
@@ -62,25 +62,47 @@ export const signIn = async (email: string, password: string): Promise<{ user: C
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: (result) => {
         resolve({
-          user: cognitoUser,
-          idToken: result.getIdToken().getJwtToken()
+          idToken: result.getIdToken().getJwtToken(),
+          refreshToken: result.getRefreshToken().getToken(),
         });
       },
       onFailure: (err) => {
         reject(err);
-      }
+      },
     });
   });
 };
 
-export const signOut = async (user: CognitoUser): Promise<void> => {
+export const signOut = async (email: string): Promise<void> => {
   return new Promise((resolve, reject) => {
-    (user.signOut as (callback: (err: Error | null) => void) => void)((err: Error | null) => {
+    const userData = {
+      Username: email,
+      Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.signOut(() => {
+      resolve();
+    });
+  });
+};
+
+export const refreshToken = (refreshToken: CognitoRefreshToken): Promise<{ idToken: string }> => {
+  return new Promise((resolve, reject) => {
+    const userData = {
+      Username: '',
+      Pool: userPool,
+    };
+
+    const cognitoUser = new CognitoUser(userData);
+
+    cognitoUser.refreshSession(refreshToken, (err, session) => {
       if (err) {
         reject(err);
         return;
       }
-      resolve();
+      resolve({
+        idToken: session.getIdToken().getJwtToken(),
+      });
     });
   });
 };
