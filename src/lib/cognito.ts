@@ -17,6 +17,7 @@ export const signUp = (email: string, password: string): Promise<void> => {
     ];
 
     userPool.signUp(email, password, attributeList, [], (err, result) => {
+      console.log(result);
       if (err) {
         reject(err);
         return;
@@ -36,6 +37,7 @@ export const confirmSignUp = (email: string, code: string): Promise<void> => {
     const cognitoUser = new CognitoUser(userData);
 
     cognitoUser.confirmRegistration(code, true, (err, result) => {
+      console.log(result);
       if (err) {
         reject(err);
         return;
@@ -74,7 +76,7 @@ export const signIn = (email: string, password: string): Promise<{ idToken: stri
 };
 
 export const signOut = async (email: string): Promise<void> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const userData = {
       Username: email,
       Pool: userPool,

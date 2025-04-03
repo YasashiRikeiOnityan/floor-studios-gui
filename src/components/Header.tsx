@@ -7,8 +7,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
-import { signOut, userPool } from '@/lib/cognito';
-import { CognitoUser } from 'amazon-cognito-identity-js';
+import { signOut } from '@/lib/cognito';
 
 type HeaderProps = {
   current: string;
