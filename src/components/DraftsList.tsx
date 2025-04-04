@@ -27,9 +27,6 @@ const DraftsList = observer(({ specifications }: DraftsListProps) => {
               Product Information
             </th>
             <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-              Type
-            </th>
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
               Updated
             </th>
             <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -53,9 +50,6 @@ const DraftsList = observer(({ specifications }: DraftsListProps) => {
                 <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                   <div className="text-gray-900">{specification.productName}</div>
                   <div className="mt-1 text-gray-500">{specification.brandName}</div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div className="text-gray-900">{specification.status}</div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                   {formatDate(specification.updatedAt)}
