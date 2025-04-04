@@ -10,6 +10,8 @@ export type User = {
   email?: string;
   userName?: string;
   imgUrl?: string;
+  timezone?: string;
+  language?: string;
 }
 
 export type ApiPutUsersUserIdRequest = {
