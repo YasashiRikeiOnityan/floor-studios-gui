@@ -49,6 +49,17 @@ const Orders = () => {
                   state={activeTab}
                   callBackUpdateState={handleTabClick}
                 />
+                <div className="hidden sm:block">
+                  <Button
+                    type={"button"}
+                    onClick={handleStartNewDesign}
+                    text={"Start new design"}
+                    style={"outline"}
+                    fullWidth={false}
+                  />
+                </div>
+              </div>
+              <div className="sm:hidden flex justify-end">
                 <Button
                   type={"button"}
                   onClick={handleStartNewDesign}

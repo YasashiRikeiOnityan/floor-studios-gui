@@ -20,7 +20,7 @@ const Button = (props: ButtonProps) => {
         "flex justify-center rounded-sm px-6 py-0.5 text-sm/6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2",
         {
           "shadow-sm bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600": props.style === "fill",
-          "shadow-sm border border-indigo-600 text-indigo-600 hover:shadow-indigo-400 focus-visible:outline-indigo-600": props.style === "outline",
+          "shadow-sm border border-indigo-600 text-indigo-600 hover:bg-indigo-100 focus-visible:outline-indigo-600": props.style === "outline",
           "text-indigo-600 hover:bg-indigo-100": props.style === "text",
         },
         {
