@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest } from '@/lib/type';
+import { ApiGetSpecificationsResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -91,6 +91,16 @@ export const ApiDeleteUsersUserId = async (userId: string) => {
     return response.data;
   } catch (error) {
     console.error('Failed to delete user:', error);
+    throw error;
+  }
+};
+
+export const ApiGetSpecifications = async (): Promise<ApiGetSpecificationsResponse[]> => {
+  try {
+    const response = await httpClient.get('/specifications');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch specifications:', error);
     throw error;
   }
 };

@@ -1,6 +1,7 @@
 import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
 import { makeAutoObservable } from "mobx";
-
+import { Specification } from "@/lib/type";
+import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 class SpecificationStore {
   constructor() {
     makeAutoObservable(this);
@@ -17,7 +18,7 @@ class SpecificationStore {
     productName: "",
     productCode: "",
   };
-
+  specifications: Specification[] = [];
   loading: boolean = false;
 
   setCurrentSpecification(specificationsId: string, brandName: string, productName: string, productCode: string) {
@@ -27,6 +28,14 @@ class SpecificationStore {
       productName,
       productCode,
     };
+  }
+
+  async getSpecifications(): Promise<Specification[]> {
+    this.loading = true;
+    const response = await GetSpecificationsInteractor();
+    this.specifications = response;
+    this.loading = false;
+    return response;
   }
 
   async postSpecifications(brandName: string, productName: string, productCode: string) {

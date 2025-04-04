@@ -2,6 +2,7 @@ import { GetUsersUserIdInteractor } from '@/interactor/GetUsersUserIdInteractor'
 import { makeAutoObservable } from 'mobx';
 import { User } from '@/lib/type';
 import { UpdateUsersUserIdInteractor } from '@/interactor/PutUsersUserIdInteractor';
+import { authStore } from './authStore';
 
 class SignInUserStore {
   userId: string = "";
@@ -22,7 +23,15 @@ class SignInUserStore {
   }
 
   getUserId() {
-    return this.userId;
+    if (this.userId !== "") {
+      return this.userId;
+    }
+    const idToken = authStore.getIdToken() || "";
+    if (idToken !== "") {
+      this.userId = JSON.parse(atob(idToken.split(".")[1])).sub;
+      return this.userId;
+    }
+    return "";
   }
 
   setUser(user: User) {

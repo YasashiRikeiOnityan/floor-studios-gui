@@ -4,13 +4,24 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
 import DraftsList from "@/components/DraftsList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Specification } from "@/lib/type";
+import { specificationStore } from "@/stores/specificationStore";
 
 const Orders = () => {
   const router = useRouter();
   const tabs = ["Drafts", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [specifications, setSpecifications] = useState<Specification[]>([]);
+
+  useEffect(() => {
+    const fetchSpecifications = async () => {
+      const specifications = await specificationStore.getSpecifications();
+      setSpecifications(specifications);
+    };
+    fetchSpecifications();
+  }, []);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -46,7 +57,7 @@ const Orders = () => {
                   fullWidth={false}
                 />
               </div>
-              {activeTab === "Drafts" && <DraftsList />}
+              {activeTab === "Drafts" && <DraftsList specifications={specifications} />}
             </div>
           </main>
         </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { makeAutoObservable} from 'mobx';
 
 class AuthStore {
@@ -6,9 +8,26 @@ class AuthStore {
   rememberMe: boolean = false;
   constructor() {
     makeAutoObservable(this);
+    if (typeof window !== 'undefined') {
+      this.loadStoredAuth();
+    }
+  }
+
+  private loadStoredAuth() {
+    const storedRememberMe = localStorage.getItem("rememberMe");
+    if (storedRememberMe === "true") {
+      this.rememberMe = true;
+      this.idToken = localStorage.getItem("idToken") || "";
+      this.refreshToken = localStorage.getItem("refreshToken") || "";
+    } else if (storedRememberMe === "false") {
+      this.rememberMe = false;
+      this.idToken = sessionStorage.getItem("idToken") || "";
+      this.refreshToken = sessionStorage.getItem("refreshToken") || "";
+    }
   }
 
   setAuth(idToken: string, refreshToken: string, rememberMe: boolean) {
+    if (typeof window === 'undefined') return;
     if (rememberMe) {
       localStorage.setItem("rememberMe", "true");
       localStorage.setItem("idToken", idToken);
@@ -30,6 +49,7 @@ class AuthStore {
   }
 
   getIdToken() {
+    if (typeof window === 'undefined') return this.idToken;
     const localStorageRememberMe = localStorage.getItem("rememberMe") || "";
     console.log(localStorageRememberMe);
     if (localStorageRememberMe === "true") {
@@ -44,6 +64,7 @@ class AuthStore {
   }
 
   getRefreshToken() {
+    if (typeof window === 'undefined') return this.refreshToken;
     const localStorageRememberMe = localStorage.getItem("rememberMe") || "";
     if (localStorageRememberMe === "true") {
       return localStorage.getItem("refreshToken");
@@ -59,18 +80,20 @@ class AuthStore {
     this.idToken = "";
     this.refreshToken = "";
     this.rememberMe = false;
-    localStorage.removeItem("rememberMe");
-    localStorage.removeItem("idToken");
-    localStorage.removeItem("refreshToken");
-    sessionStorage.removeItem("rememberMe");
-    sessionStorage.removeItem("idToken");
-    sessionStorage.removeItem("refreshToken");
-    // ローカルストレージからCognitoIdentityServiceProviderを削除
-    Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith("CognitoIdentityServiceProvider")) {
-        localStorage.removeItem(key);
-      }
-    });
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("rememberMe");
+      localStorage.removeItem("idToken");
+      localStorage.removeItem("refreshToken");
+      sessionStorage.removeItem("rememberMe");
+      sessionStorage.removeItem("idToken");
+      sessionStorage.removeItem("refreshToken");
+      // ローカルストレージからCognitoIdentityServiceProviderを削除
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("CognitoIdentityServiceProvider")) {
+            localStorage.removeItem(key);
+          }
+      });
+    }
   }
 }
 

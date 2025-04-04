@@ -115,12 +115,23 @@ const ProfileContent = observer(() => {
                   </div>
                 </div>}
                 {/* メールアドレス */}
-                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                {!isEditing && <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {signInUserStore.isLoading ? <Loading /> : user?.email || ""}
                   </dd>
-                </div>
+                </div>}
+                {isEditing && <div className="px-4 py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
+                  <div>
+                    <input
+                      type="text"
+                      value={user?.email || ""}
+                      disabled={true}
+                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 order-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                    />
+                  </div>
+                </div>}
               </dl>
             </div>
             {/* ボタン */}
