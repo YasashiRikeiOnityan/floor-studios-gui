@@ -97,7 +97,7 @@ const ProfileContent = observer(() => {
               />
             </div>
             <div className="mt-2 border-t border-gray-100">
-              <dl className="divide-y divide-gray-100 [&>*:last-child]:border-b">
+              <dl className="divide-y divide-gray-100">
                 {/* ユーザー名 */}
                 {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                   <dt className="text-sm/6 font-medium text-gray-900">User Name</dt>
