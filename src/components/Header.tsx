@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { classNames } from '@/lib/utils';
 import { signInUserStore } from '@/stores/signInUserStore';
@@ -14,13 +14,13 @@ type HeaderProps = {
 };
 
 const navigation = [
-  { name: "Orders", href: "/orders" },
-  { name: "Profile", href: `/profile?user_id=${signInUserStore.getUserId()}` },
+  { name: "Orders" },
+  { name: "Profile" },
 ];
 
 const userNavigation = [
-  { name: "Your Profile", href: `/profile?user_id=${signInUserStore.getUserId()}` },
-  { name: "Sign out", href: "" },
+  { name: "Your Profile" },
+  { name: "Sign out" },
 ];
 
 const Header = observer((props: HeaderProps) => {
@@ -66,7 +66,13 @@ const Header = observer((props: HeaderProps) => {
               {navigation.map((item) => (
                 <div
                   key={item.name}
-                  onClick={() => {router.push(item.href)}}
+                  onClick={() => {
+                    if (item.name === 'Orders') {
+                      router.push('/orders');
+                    } else if (item.name === 'Profile') {
+                      router.push(`/profile?user_id=${signInUserStore.getUserId()}`);
+                    }
+                  }}
                   aria-current={item.name === props.current ? 'page' : undefined}
                   className={classNames(
                     item.name === props.current
@@ -139,8 +145,13 @@ const Header = observer((props: HeaderProps) => {
           {navigation.map((item) => (
             <DisclosureButton
               key={item.name}
-              as="a"
-              href={item.href}
+              onClick={() => {
+                if (item.name === 'Orders') {
+                  router.push('/orders');
+                } else if (item.name === 'Profile') {
+                  router.push(`/profile?user_id=${signInUserStore.getUserId()}`);
+                }
+              }}
               aria-current={item.name === props.current ? 'page' : undefined}
               className={classNames(
                 item.name === props.current

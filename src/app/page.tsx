@@ -110,13 +110,17 @@ const Home = observer(() => {
         throw new Error('Verification code must be 6 digits');
       }
 
+      // 古いユーザー情報をクリア
+      authStore.clear();
+      signInUserStore.clear();
+
       // 検証
       await confirmSignUp(email, verificationCode);
-
+      
       // 検証成功後、自動的にサインイン
       const { idToken, refreshToken } = await signIn(email, password);
 
-      // 認証情報を保存
+      // ストアに保存
       authStore.setAuth(idToken, refreshToken, rememberMe);
 
       // JWTからユーザーIDを取得
@@ -126,8 +130,8 @@ const Home = observer(() => {
       // ストアに保存
       signInUserStore.setUserId(userId);
 
-      // ホームページへ遷移
-      router.push("/orders");
+      // 初回ステップへ遷移
+      router.push(`/profile?user_id=${userId}`);
     } catch (err) {
       setValidateVerificationCodeError(err instanceof Error ? err.message : "Failed to verify");
     } finally {
@@ -145,6 +149,10 @@ const Home = observer(() => {
       if (!handleValidateSignIn()) {
         return;
       }
+
+      // 古いユーザー情報をクリア
+      authStore.clear();
+      signInUserStore.clear();
 
       // サインイン
       const { idToken, refreshToken } = await signIn(email, password);

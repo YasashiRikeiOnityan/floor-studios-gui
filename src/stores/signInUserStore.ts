@@ -28,8 +28,9 @@ class SignInUserStore {
     }
     const idToken = authStore.getIdToken() || "";
     if (idToken !== "") {
-      this.userId = JSON.parse(atob(idToken.split(".")[1])).sub;
-      return this.userId;
+      const userId = JSON.parse(atob(idToken.split(".")[1])).sub;
+      this.userId = userId;
+      return userId;
     }
     return "";
   }
