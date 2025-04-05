@@ -2,28 +2,28 @@ export type ApiGetUsersUserIdResponse = {
   user_id: string;
   email: string;
   user_name?: string;
-  img_url?: string;
+  image_url?: string;
 }
 
 export type User = {
   userId: string;
   email?: string;
   userName?: string;
-  imgUrl?: string;
+  imageUrl?: string;
   timezone?: string;
   language?: string;
 }
 
 export type ApiPutUsersUserIdRequest = {
   user_name?: string;
-  img_url?: string;
+  image_url?: string;
 }
 
 export type ApiPutUsersUserIdResponse = {
   user_id: string;
   email: string;
   user_name?: string;
-  img_url?: string;
+  image_url?: string;
 }
 
 export type ApiPostSpecificationsRequest = {
