@@ -10,12 +10,13 @@ import Loading from "@/components/Loading";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import PageTitle from "@/components/PageTitle";
 
 const ProfileContent = observer(() => {
   const searchParams = useSearchParams();
-  const [mounted, setMounted] = useState(false);
   const userId = searchParams.get("user_id") || "";
 
+  const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useState("");
@@ -30,7 +31,7 @@ const ProfileContent = observer(() => {
   useEffect(() => {
     const getUser = async () => {
       if (mounted && userId) {
-        const user = await signInUserStore.getUserFromApi(userId);
+        const user = await signInUserStore.fetchUser(userId);
         setUser(user);
         setUserName(user.userName || "");
         setTimeZone(user.timezone || "");
@@ -80,11 +81,7 @@ const ProfileContent = observer(() => {
     <div className="min-h-full">
       <Header current="Profile" />
       <div className="py-5 sm:py-10">
-        <header>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-lg sm:text-3xl font-bold tracking-tight text-gray-900">Profile</h1>
-          </div>
-        </header>
+        <PageTitle title="Profile" />
         <main>
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-y-3 items-end">
@@ -143,15 +140,9 @@ const ProfileContent = observer(() => {
                 </div>}
                 {isEditing && <div className="py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4">
                   <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
-                  <div>
-                    <input
-                      type="text"
-                      value={user?.email || ""}
-                      disabled={true}
-                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 order-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
-                    />
-                    <div className="text-sm/6 text-gray-500">Email address is not editable</div>
-                  </div>
+                  <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    {user?.email || ""}
+                  </dd>
                 </div>}
                 {/* 言語 */}
                 {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">

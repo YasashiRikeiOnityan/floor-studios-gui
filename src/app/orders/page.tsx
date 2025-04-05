@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Specification } from "@/lib/type";
 import { specificationStore } from "@/stores/specificationStore";
+import PageTitle from "@/components/PageTitle";
 
 const Orders = () => {
   const router = useRouter();
@@ -36,11 +37,7 @@ const Orders = () => {
       <div className="min-h-full">
         <Header current="Orders"/>
         <div className="py-5 sm:py-10">
-          <header>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h1 className="text-lg sm:text-3xl font-bold tracking-tight text-gray-900">Orders</h1>
-            </div>
-          </header>
+          <PageTitle title="Orders" />
           <main>
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
               <div className="flex flex-col gap-y-3 items-start sm:flex-row sm:items-center sm:justify-between">

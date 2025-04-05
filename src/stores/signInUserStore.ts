@@ -10,7 +10,7 @@ class SignInUserStore {
     userId: "",
     email: "",
     userName: "",
-    imgUrl: "",
+    imageUrl: "",
   };
   isLoading = false;
 
@@ -42,7 +42,7 @@ class SignInUserStore {
     return this.user;
   }
 
-  async getUserFromApi(userId: string): Promise<User> {
+  async fetchUser(userId: string): Promise<User> {
     this.setLoading(true);
     try {
       const res = await GetUsersUserIdInteractor(userId);
@@ -73,7 +73,7 @@ class SignInUserStore {
       userId: "",
       email: "",
       userName: "",
-      imgUrl: "",
+      imageUrl: "",
     };
     this.userId = "";
     this.isLoading = false;
