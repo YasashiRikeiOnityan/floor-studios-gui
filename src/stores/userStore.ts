@@ -1,13 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { GetUsersUserIdInteractor } from "@/interactor/GetUsersUserIdInteractor";
-
-type User = {
-    userId: string,
-    email: string,
-    userName: string,
-    imgUrl: string,
-  }
-
+import { User } from "@/lib/type";
 class UserStore {
   user: User | undefined = undefined;
   loading: boolean = false;
