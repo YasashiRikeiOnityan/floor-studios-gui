@@ -19,6 +19,6 @@ const mapUser = (user: ApiPutUsersUserIdResponse) => {
     userId: user.user_id,
     email: user.email,
     userName: user?.user_name || "",
-    imgUrl: user?.img_url || "",
+    imageUrl: user?.image_url || "",
   }
 }
