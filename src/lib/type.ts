@@ -34,32 +34,28 @@ export type ApiPostSpecificationsRequest = {
 
 export type Specification = {
   specificationId: string;
-  tenantId: string;
+  tenantIdStatus: string;
   brandName: string;
   productName: string;
   productCode: string;
-  createdBy: {
+  updatedBy: {
     userId: string;
     userName: string;
   };
-  createdAt: string;
   updatedAt: string;
-  status: string;
 }
 
 export type ApiGetSpecificationsResponse = {
   specification_id: string;
-  tenant_id: string;
+  tenant_id_status: string;
   brand_name: string;
   product_name: string;
   product_code: string;
-  created_by: {
+  updated_by: {
     user_id: string;
     user_name: string;
   };
-  created_at: string;
   updated_at: string;
-  status: string;
 }
 
 export type ApiPostSpecificationsResponse = {

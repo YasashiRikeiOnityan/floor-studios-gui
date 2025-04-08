@@ -9,16 +9,14 @@ export const GetSpecificationsInteractor = async () => {
 const mapSpecifications = (specifications: ApiGetSpecificationsResponse): Specification => {
   return {
     specificationId: specifications.specification_id,
-    tenantId: specifications.tenant_id,
+    tenantIdStatus: specifications.tenant_id_status,
     brandName: specifications.brand_name,
     productName: specifications.product_name,
     productCode: specifications.product_code,
-    createdBy: {
-      userId: specifications.created_by.user_id,
-      userName: specifications.created_by.user_name,
+    updatedBy: {
+      userId: specifications.updated_by.user_id,
+      userName: specifications.updated_by.user_name,
     },
-    createdAt: specifications.created_at,
     updatedAt: specifications.updated_at,
-    status: specifications.status,
   }
 }

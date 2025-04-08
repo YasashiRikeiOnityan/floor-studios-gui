@@ -15,6 +15,7 @@ type HeaderProps = {
 
 const navigation = [
   { name: "Orders" },
+  { name: "Brand" },
   { name: "Profile" },
 ];
 

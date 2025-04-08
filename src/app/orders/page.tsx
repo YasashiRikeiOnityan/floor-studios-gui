@@ -12,7 +12,7 @@ import PageTitle from "@/components/PageTitle";
 
 const Orders = () => {
   const router = useRouter();
-  const tabs = ["Drafts", "Samples", "Bulks"]
+  const tabs = ["Drafts", "Completed", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [specifications, setSpecifications] = useState<Specification[]>([]);
 
