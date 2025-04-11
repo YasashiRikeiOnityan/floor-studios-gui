@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationsResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest } from '@/lib/type';
+import { ApiGetSpecificationsResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -95,9 +95,13 @@ export const ApiDeleteUsersUserId = async (userId: string) => {
   }
 };
 
-export const ApiGetSpecifications = async (): Promise<ApiGetSpecificationsResponse[]> => {
+export const ApiGetSpecifications = async (specificationGroupId: string | undefined, status: SpecificationStatus): Promise<ApiGetSpecificationsResponse[]> => {
   try {
-    const response = await httpClient.get('/specifications');
+    const queryParams = {
+      specification_group_id: specificationGroupId,
+      status: status,
+    };
+    const response = await httpClient.get('/specifications', { params: queryParams });
     return response.data;
   } catch (error) {
     console.error('Failed to fetch specifications:', error);

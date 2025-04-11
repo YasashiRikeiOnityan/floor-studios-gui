@@ -61,3 +61,5 @@ export type ApiGetSpecificationsResponse = {
 export type ApiPostSpecificationsResponse = {
   specifications_id: string;
 }
+
+export type SpecificationStatus = "DRAFT" | "COMPLETED" | "SAMPLE" | "BULK" | undefined;

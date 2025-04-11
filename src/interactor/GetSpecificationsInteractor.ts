@@ -1,8 +1,8 @@
 import { ApiGetSpecifications } from "@/lib/api"
-import { ApiGetSpecificationsResponse, Specification } from "@/lib/type";
+import { ApiGetSpecificationsResponse, Specification, SpecificationStatus } from "@/lib/type";
 
-export const GetSpecificationsInteractor = async () => {
-  const response = await ApiGetSpecifications();
+export const GetSpecificationsInteractor = async (specificationGroupId: string | undefined, status: SpecificationStatus) => {
+  const response = await ApiGetSpecifications(specificationGroupId, status);
   return response.map(elem => mapSpecifications(elem));
 }
 

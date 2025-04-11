@@ -3,26 +3,15 @@
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
-import DraftsList from "@/components/DraftsList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Specification } from "@/lib/type";
-import { specificationStore } from "@/stores/specificationStore";
 import PageTitle from "@/components/PageTitle";
+import Cards from "@/components/Cards";
 
 const Orders = () => {
   const router = useRouter();
   const tabs = ["Drafts", "Completed", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [specifications, setSpecifications] = useState<Specification[]>([]);
-
-  useEffect(() => {
-    const fetchSpecifications = async () => {
-      const specifications = await specificationStore.getSpecifications();
-      setSpecifications(specifications);
-    };
-    fetchSpecifications();
-  }, []);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -65,7 +54,10 @@ const Orders = () => {
                   fullWidth={false}
                 />
               </div>
-              {activeTab === "Drafts" && <DraftsList specifications={specifications} />}
+              {/* {activeTab === "Drafts" && <DraftsList specifications={specifications} />} */}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {activeTab === "Drafts" && <Cards specificationGroupId={"NO_GROUP"} status={"DRAFT"} />}
+              </div>
             </div>
           </main>
         </div>
