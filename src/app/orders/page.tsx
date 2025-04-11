@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
 import { SpecificationStatus } from "@/lib/type";
+import AlertDialog from "@/components/AlertDialod";
 
 const Orders = () => {
   const router = useRouter();
@@ -67,6 +68,7 @@ const Orders = () => {
             </div>
           </main>
         </div>
+        <AlertDialog />
       </div>
     </>
   )

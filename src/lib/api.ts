@@ -105,7 +105,7 @@ export const ApiGetSpecifications = async (specificationGroupId: string | undefi
     return response.data;
   } catch (error) {
     console.error('Failed to fetch specifications:', error);
-    throw error;
+    return [];
   }
 };
 
