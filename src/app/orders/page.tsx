@@ -7,14 +7,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
+import { SpecificationStatus } from "@/lib/type";
 
 const Orders = () => {
   const router = useRouter();
   const tabs = ["Drafts", "Completed", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [specificationGroupId, setSpecificationGroupId] = useState<string | undefined>("NO_GROUP");
+  const [status, setStatus] = useState<SpecificationStatus>("DRAFT");
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
+    setStatus(tab === "Drafts" ? "DRAFT" : tab === "Completed" ? "COMPLETED" : tab === "Samples" ? "SAMPLE" : "BULK");
   };
 
   const handleStartNewDesign = () => {
@@ -55,8 +59,8 @@ const Orders = () => {
                 />
               </div>
               {/* {activeTab === "Drafts" && <DraftsList specifications={specifications} />} */}
-              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {activeTab === "Drafts" && <Cards specificationGroupId={"NO_GROUP"} status={"DRAFT"} />}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {activeTab === "Drafts" && <Cards specificationGroupId={specificationGroupId} status={status} />}
               </div>
             </div>
           </main>
