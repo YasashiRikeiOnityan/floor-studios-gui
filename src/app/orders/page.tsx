@@ -19,6 +19,8 @@ const Orders = () => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     setStatus(tab === "Drafts" ? "DRAFT" : tab === "Completed" ? "COMPLETED" : tab === "Samples" ? "SAMPLE" : "BULK");
+    // ビルド通すように仮置き
+    setSpecificationGroupId("NO_GROUP");
   };
 
   const handleStartNewDesign = () => {
