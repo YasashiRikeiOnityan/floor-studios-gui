@@ -9,8 +9,10 @@ import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
 import { SpecificationStatus } from "@/lib/type";
 import AlertDialog from "@/components/AlertDialod";
+import { observer } from "mobx-react-lite";
+import SpecificationGroups from "@/components/SpecificationGroups";
 
-const Orders = () => {
+const Orders = observer(() => {
   const router = useRouter();
   const tabs = ["Drafts", "Completed", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -35,14 +37,19 @@ const Orders = () => {
         <div className="py-5 sm:py-10">
           <PageTitle title="Orders" />
           <main>
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
               <div className="flex flex-col gap-y-3 items-start sm:flex-row sm:items-center sm:justify-between">
-                <Tabs
-                  tabs={tabs}
-                  state={activeTab}
-                  callBackUpdateState={handleTabClick}
-                />
-                <div className="hidden sm:block">
+                <div className="flex items-center gap-x-8"> 
+                  <Tabs
+                    tabs={tabs}
+                    state={activeTab}
+                    callBackUpdateState={handleTabClick}
+                  />
+                  <div className="hidden lg:block">
+                    <SpecificationGroups />
+                  </div>
+                </div>
+                <div className="hidden lg:block">
                   <Button
                     type={"button"}
                     onClick={handleStartNewDesign}
@@ -52,7 +59,8 @@ const Orders = () => {
                   />
                 </div>
               </div>
-              <div className="sm:hidden flex justify-end">
+              <div className="lg:hidden flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-3">
+                <SpecificationGroups />
                 <Button
                   type={"button"}
                   onClick={handleStartNewDesign}
@@ -61,7 +69,6 @@ const Orders = () => {
                   fullWidth={false}
                 />
               </div>
-              {/* {activeTab === "Drafts" && <DraftsList specifications={specifications} />} */}
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 {activeTab === "Drafts" && <Cards specificationGroupId={specificationGroupId} status={status} />}
               </div>
@@ -72,6 +79,6 @@ const Orders = () => {
       </div>
     </>
   )
-};
+});
 
 export default Orders;

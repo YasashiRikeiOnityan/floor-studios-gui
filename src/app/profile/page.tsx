@@ -14,7 +14,7 @@ import PageTitle from "@/components/PageTitle";
 
 const ProfileContent = observer(() => {
   const searchParams = useSearchParams();
-  const userId = searchParams.get("user_id") || "";
+  const userId = searchParams.get("id") || "";
 
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User>();

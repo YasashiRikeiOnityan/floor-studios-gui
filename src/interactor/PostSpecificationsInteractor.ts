@@ -18,6 +18,6 @@ const getRequestBody = (brandName: string, productName: string, productCode: str
 
 const mapSpecifications = (specifications: ApiPostSpecificationsResponse) => {
   return {
-    specificationsId: specifications.specifications_id,
+    specificationId: specifications.specification_id
   }
 }

@@ -118,3 +118,13 @@ export const ApiPostSpecifications = async (specifications: ApiPostSpecification
     throw error;
   }
 };
+
+export const ApiDeleteSpecificationsSpecificationId = async (specificationId: string) => {
+  try {
+    const response = await httpClient.delete(`/specifications/${specificationId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to delete specification:', error);
+    throw error;
+  }
+}

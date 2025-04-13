@@ -1,30 +1,36 @@
-import { Specification, SpecificationStatus } from "@/lib/type";
+"use client";
+
+import { SpecificationStatus } from "@/lib/type";
 import { formatRelativeTime } from "@/lib/utils";
 import { specificationStore } from "@/stores/specificationStore";
-import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import SpecificationMenu from "./SpecificationMenu";
+import { observer } from "mobx-react-lite";
+import Loading from "./Loading";
 
 type CardsProps = {
   specificationGroupId: string | undefined;
   status: SpecificationStatus;
 }
 
-const Cards = (props: CardsProps) => {
-  const [specifications, setSpecifications] = useState<Specification[]>([]);
+const Cards = observer((props: CardsProps) => {
 
   useEffect(() => {
     const fetchSpecifications = async () => {
-      const specifications = await specificationStore.getSpecifications(props.specificationGroupId, props.status);
-      setSpecifications(specifications);
+      await specificationStore.getSpecifications(props.specificationGroupId, props.status);
     };
     fetchSpecifications();
   }, []);
 
+  if (specificationStore.loading) {
+    return <Loading full={true} />;
+  }
+
   return (
     <>
-      {specifications.map((specification) => (
-        <div key={specification.specificationId} className="overflow-hidden rounded-lg bg-white shadow-md">
-          <div className="px-2 sm:p-4">
+      {specificationStore.specifications.map((specification) => (
+        <div key={specification.specificationId} className="rounded-lg bg-white shadow-md">
+          <div className="p-4">
             <div className="flex items-center justify-between">
               <div className="gap-1">
                 <div className="font-bold">
@@ -34,9 +40,11 @@ const Cards = (props: CardsProps) => {
                   {specification.brandName}
                 </div>
               </div>
-              <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
+              <div className="relative">
+                <SpecificationMenu specificationId={specification.specificationId} />
+              </div>
             </div>
-            <div className="mt-5 sm:mt-10 flex items-center justify-end">
+            <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
               <div>
                 <div className="text-xs">
                   {formatRelativeTime(specification.updatedAt)}
@@ -48,6 +56,6 @@ const Cards = (props: CardsProps) => {
       ))}
     </>
   )
-}
+});
 
 export default Cards;

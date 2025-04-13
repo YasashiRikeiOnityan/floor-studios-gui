@@ -1,10 +1,18 @@
 import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { Specification, SpecificationStatus } from "@/lib/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
+import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
+
 class SpecificationStore {
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      setCurrentSpecification: action,
+      postSpecifications: action,
+      deleteSpecificationsSpecificationsId: action,
+      clear: action,
+      getSpecifications: action,
+    });
   }
 
   currentSpecification: {
@@ -30,12 +38,14 @@ class SpecificationStore {
     };
   }
 
-  async getSpecifications(specificationGroupId: string | undefined, status: SpecificationStatus): Promise<Specification[]> {
+  async getSpecifications(specificationGroupId: string | undefined, status: SpecificationStatus) {
     this.loading = true;
     const response = await GetSpecificationsInteractor(specificationGroupId, status);
+    response.sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
     this.specifications = response;
     this.loading = false;
-    return response;
   }
 
   async postSpecifications(brandName: string, productName: string, productCode: string) {
@@ -43,7 +53,14 @@ class SpecificationStore {
     // リクエストを送信
     const response = await PostSpecificationsInteractor(brandName, productName, productCode);
     // ストアにセットする
-    this.setCurrentSpecification(response.specificationsId, brandName, productName, productCode);
+    this.setCurrentSpecification(response.specificationId, brandName, productName, productCode);
+    this.loading = false;
+  }
+
+  async deleteSpecificationsSpecificationsId(specificationId: string) {
+    this.loading = true;
+    await DeleteSpecificationsSpecificationIdInteractor(specificationId);
+    this.specifications = this.specifications.filter(spec => spec.specificationId !== specificationId);
     this.loading = false;
   }
 

@@ -131,7 +131,7 @@ const Home = observer(() => {
       signInUserStore.setUserId(userId);
 
       // 初回ステップへ遷移
-      router.push(`/profile?user_id=${userId}`);
+      router.push(`/profile?id=${userId}`);
     } catch (err) {
       setValidateVerificationCodeError(err instanceof Error ? err.message : "Failed to verify");
     } finally {
