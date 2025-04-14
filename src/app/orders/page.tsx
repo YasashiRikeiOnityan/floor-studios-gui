@@ -16,7 +16,7 @@ const Orders = observer(() => {
   const router = useRouter();
   const tabs = ["Drafts", "Completed", "Samples", "Bulks"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [specificationGroupId, setSpecificationGroupId] = useState<string | undefined>("NO_GROUP");
+  const [specificationGroupId, setSpecificationGroupId] = useState<string>("NO_GROUP");
   const [status, setStatus] = useState<SpecificationStatus>("DRAFT");
 
   const handleTabClick = (tab: string) => {
@@ -70,7 +70,7 @@ const Orders = observer(() => {
                 />
               </div>
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                {activeTab === "Drafts" && <Cards specificationGroupId={specificationGroupId} status={status} />}
+                <Cards specificationGroupId={specificationGroupId} status={status} />
               </div>
             </div>
           </main>

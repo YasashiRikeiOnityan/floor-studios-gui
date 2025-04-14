@@ -9,7 +9,7 @@ import { observer } from "mobx-react-lite";
 import Loading from "./Loading";
 
 type CardsProps = {
-  specificationGroupId: string | undefined;
+  specificationGroupId: string;
   status: SpecificationStatus;
 }
 
@@ -20,7 +20,7 @@ const Cards = observer((props: CardsProps) => {
       await specificationStore.getSpecifications(props.specificationGroupId, props.status);
     };
     fetchSpecifications();
-  }, []);
+  }, [props.specificationGroupId, props.status]);
 
   if (specificationStore.loading) {
     return <Loading full={true} />;

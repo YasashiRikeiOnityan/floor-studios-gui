@@ -39,7 +39,7 @@ class SpecificationStore {
     };
   }
 
-  async getSpecifications(specificationGroupId: string | undefined, status: SpecificationStatus) {
+  async getSpecifications(specificationGroupId: string, status: SpecificationStatus) {
     this.loading = true;
     const response = await GetSpecificationsInteractor(specificationGroupId, status);
     response.sort((a, b) => {
