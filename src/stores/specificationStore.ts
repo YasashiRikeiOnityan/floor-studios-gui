@@ -3,6 +3,7 @@ import { action, makeAutoObservable } from "mobx";
 import { Specification, SpecificationStatus } from "@/lib/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
+import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
 
 class SpecificationStore {
   constructor() {
@@ -58,10 +59,13 @@ class SpecificationStore {
   }
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {
-    this.loading = true;
     await DeleteSpecificationsSpecificationIdInteractor(specificationId);
     this.specifications = this.specifications.filter(spec => spec.specificationId !== specificationId);
-    this.loading = false;
+  }
+
+  async getSpecificationsSpecificationIdDownload(specificationId: string) {
+    const response = await GetSpecificationsSpecificationIdDownloadInteractor(specificationId);
+    return response.url;
   }
 
   clear() {

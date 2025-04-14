@@ -1,17 +1,25 @@
 import { specificationStore } from '@/stores/specificationStore';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import { useState } from 'react';
+import Loading from './Loading';
 
 type SpecificationMenuProps = {
   specificationId: string;
 }
 
 const SpecificationMenu = (props: SpecificationMenuProps) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   return (
     <Menu as="div" className="relative ml-3">
       <div>
         <MenuButton className="relative flex h-8 w-8 max-w-xs items-center justify-center rounded-full bg-white text-sm hover:bg-gray-100 hover:cursor-pointer">
-          <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
+          {isDownloading ? (
+            <Loading full={false} />
+          ) : (
+            <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
+          )}
         </MenuButton>
       </div>
       <MenuItems
@@ -37,7 +45,19 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         <MenuItem>
           <div
             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-            onClick={() => {}}
+            onClick={async () => {
+              setIsDownloading(true);
+              try {
+                const url = await specificationStore.getSpecificationsSpecificationIdDownload(props.specificationId);
+                if (url) {
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.click();
+                }
+              } finally {
+                setIsDownloading(false);
+              }
+            }}
           >
             Download
           </div>
@@ -45,9 +65,15 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         <MenuItem>
           <div
             className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-            onClick={() => {
-              // アラートダイアログを表示する
-              specificationStore.deleteSpecificationsSpecificationsId(props.specificationId);
+            onClick={async () => {
+              if (window.confirm('Do you want to delete this specification?')) {
+                setIsDownloading(true);
+                try {
+                  await specificationStore.deleteSpecificationsSpecificationsId(props.specificationId);
+                } finally {
+                  setIsDownloading(false);
+                }
+              }
             }}
           >
             Delete

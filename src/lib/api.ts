@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationsResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -128,3 +128,13 @@ export const ApiDeleteSpecificationsSpecificationId = async (specificationId: st
     throw error;
   }
 }
+
+export const ApiGetSpecificationsSpecificationIdDownload = async (specificationId: string): Promise<ApiGetSpecificationsSpecificationIdDownloadResponse> => {
+  try {
+    const response = await httpClient.get(`/specifications/${specificationId}/download`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to download specification:', error);
+    throw error;
+  }
+};
