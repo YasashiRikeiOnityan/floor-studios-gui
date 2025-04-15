@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -136,5 +136,15 @@ export const ApiGetSpecificationsSpecificationIdDownload = async (specificationI
   } catch (error) {
     console.error('Failed to download specification:', error);
     throw error;
+  }
+};
+
+export const ApiGetSpecificationGroups = async (): Promise<ApiGetSpecificationGroupsResponse[]> => {
+  try {
+    const response = await httpClient.get('/specificationgroups');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch specification groups:', error);
+    return [];
   }
 };

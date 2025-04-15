@@ -22,8 +22,6 @@ const Orders = observer(() => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     setStatus(tab === "Drafts" ? "DRAFT" : tab === "Completed" ? "COMPLETED" : tab === "Samples" ? "SAMPLE" : "BULK");
-    // ビルド通すように仮置き
-    setSpecificationGroupId("NO_GROUP");
   };
 
   const handleStartNewDesign = () => {
@@ -46,7 +44,7 @@ const Orders = observer(() => {
                     callBackUpdateState={handleTabClick}
                   />
                   <div className="hidden lg:block">
-                    <SpecificationGroups />
+                    <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
                   </div>
                 </div>
                 <div className="hidden lg:block">
@@ -60,7 +58,7 @@ const Orders = observer(() => {
                 </div>
               </div>
               <div className="lg:hidden flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-3">
-                <SpecificationGroups />
+                <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
                 <Button
                   type={"button"}
                   onClick={handleStartNewDesign}
