@@ -10,6 +10,7 @@ import { specificationGroupsStore } from '@/stores/specificationGroupsStore';
 type SpecificationGroup = {
   currentSpecificationGroupId: string;
   setCurrentSpecificationGroupId: (specificationGroupId: string) => void;
+  fullWidth?: boolean;
 }
 
 const SpecificationGroups = observer((props: SpecificationGroup) => {
@@ -24,7 +25,7 @@ const SpecificationGroups = observer((props: SpecificationGroup) => {
 
   return (
     <Listbox value={props.currentSpecificationGroupId} onChange={props.setCurrentSpecificationGroupId} as="div" className="relative">
-      <ListboxButton className="grid w-80 cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+      <ListboxButton className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}>
         <span className="col-start-1 row-start-1 truncate pr-6">{currentSpecificationGroup?.specificationGroupName}</span>
         <ChevronUpDownIcon
           aria-hidden="true"
@@ -34,7 +35,7 @@ const SpecificationGroups = observer((props: SpecificationGroup) => {
 
       <ListboxOptions
         transition
-        className="absolute right-0 z-10 mt-1 max-h-60 w-80 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
+        className={`absolute right-0 z-10 mt-1 max-h-60 ${props.fullWidth ? "w-full" : "w-80"} overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm`}
       >
         {specificationGroups.map((specificationGroup) => (
           <ListboxOption

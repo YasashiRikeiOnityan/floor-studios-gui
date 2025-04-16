@@ -2,6 +2,7 @@
 
 import Button from "@/components/Button";
 import Header from "@/components/Header";
+import SpecificationGroups from "@/components/SpecificationGroups";
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
@@ -16,7 +17,7 @@ const NewDesign = observer(() => {
   const [brandName, setBrandName] = useState(specificationStore.currentSpecification.brandName);
   const [productName, setProductName] = useState(specificationStore.currentSpecification.productName);
   const [productCode, setProductCode] = useState(specificationStore.currentSpecification.productCode);
-
+  const [specificationGroupId, setSpecificationGroupId] = useState("NO_GROUP");
   // useEffect(() => {
   //   setMounted(true);
   // }, []);
@@ -116,6 +117,16 @@ const NewDesign = observer(() => {
                             onChange={(e) => setProductCode(e.target.value)}
                           />
                         </div>
+                      </div>
+                    </div>
+
+                    {/* コレクション名 */}
+                    <div className="sm:col-span-4">
+                      <label htmlFor="collection" className="block text-sm/6 font-medium text-gray-900">
+                        Collection
+                      </label>
+                      <div className="mt-2">
+                        <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} fullWidth={true} />
                       </div>
                     </div>
 

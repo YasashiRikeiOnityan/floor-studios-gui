@@ -25,7 +25,7 @@ const Orders = observer(() => {
   };
 
   const handleStartNewDesign = () => {
-    router.push("/new_design");
+    router.push("/design/new");
   }
   
   return (

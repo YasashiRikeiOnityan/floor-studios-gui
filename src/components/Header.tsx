@@ -16,6 +16,7 @@ type HeaderProps = {
 const navigation = [
   { name: "Orders" },
   { name: "Brand" },
+  { name: "Collections" },
   { name: "Profile" },
 ];
 
@@ -72,6 +73,10 @@ const Header = observer((props: HeaderProps) => {
                       router.push('/orders');
                     } else if (item.name === 'Profile') {
                       router.push(`/profile?id=${signInUserStore.getUserId()}`);
+                    } else if (item.name === 'Brand') {
+                      router.push('/brand');
+                    } else if (item.name === 'Collections') {
+                      router.push('/collections');
                     }
                   }}
                   aria-current={item.name === props.current ? 'page' : undefined}
