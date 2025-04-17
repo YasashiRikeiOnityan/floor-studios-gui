@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetTenantResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -54,6 +54,26 @@ httpClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const ApiGetTenant = async (): Promise<ApiGetTenantResponse> => {
+  try {
+    const response = await httpClient.get('/tenant');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch tenant:', error);
+    throw error;
+  }
+};
+
+export const ApiPutTenant = async (tenant: ApiPutTenantRequest): Promise<ApiPutTenantResponse> => {
+  try {
+    const response = await httpClient.put('/tenant', tenant);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update tenant:', error);
+    throw error;
+  }
+};
 
 export const ApiGetUsers = async () => {
   try {

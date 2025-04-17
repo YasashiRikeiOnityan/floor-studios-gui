@@ -1,5 +1,5 @@
 import { GetUsersUserIdInteractor } from '@/interactor/GetUsersUserIdInteractor';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { User } from '@/lib/type';
 import { UpdateUsersUserIdInteractor } from '@/interactor/PutUsersUserIdInteractor';
 import { authStore } from './authStore';
@@ -12,6 +12,7 @@ class SignInUserStore {
     userName: "",
     imageUrl: "",
   };
+  isFetched: boolean = false;
   isLoading = false;
 
   constructor() {
@@ -44,14 +45,19 @@ class SignInUserStore {
   }
 
   async fetchUser(userId: string): Promise<User> {
-    this.setLoading(true);
-    try {
-      const res = await GetUsersUserIdInteractor(userId);
-      this.setUser(res);
-      return res;
-    } finally {
-      this.setLoading(false);
+    if (this.isFetched) {
+      return this.user;
     }
+    runInAction(() => {
+      this.setLoading(true);
+    });
+    const res = await GetUsersUserIdInteractor(userId);
+    runInAction(() => {
+      this.setUser(res);
+      this.setIsFetched(true);
+      this.setLoading(false);
+    });
+    return res;
   }
 
   async putUserToApi(userId: string, user: {userName: string}): Promise<User> {
@@ -63,6 +69,10 @@ class SignInUserStore {
     } finally {
       this.setLoading(false);
     }
+  }
+
+  setIsFetched(isFetched: boolean) {
+    this.isFetched = isFetched;
   }
 
   setLoading(loading: boolean) {

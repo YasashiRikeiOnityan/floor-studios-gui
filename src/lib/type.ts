@@ -1,3 +1,37 @@
+export type Tenant = {
+  tenantId: string;
+  tenantName: string;
+  billingInfo: {
+    name: string;
+    address: string;
+  };
+}
+export type ApiGetTenantResponse = {
+  tenant_id: string;
+  tenant_name: string;
+  billing_info: {
+    name: string;
+    address: string;
+  };
+}
+
+export type ApiPutTenantRequest = {
+  tenant_name: string;
+  billing_info: {
+    name: string;
+    address: string;
+  };
+}
+
+export type ApiPutTenantResponse = {
+  tenant_id: string;
+  tenant_name: string;
+  billing_info: {
+    name: string;
+    address: string;
+  };
+}
+
 export type ApiGetUsersUserIdResponse = {
   user_id: string;
   email: string;
