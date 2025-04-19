@@ -65,6 +65,37 @@ class TenantStore {
       this.loading = false;
     });
   }
+
+  clear() {
+    this.tenant = {
+      tenantId: "",
+      tenantName: "",
+      contact: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+      },
+      billingAddress: {
+        addressLine1: "",
+        addressLine2: "",
+        zipCode: "",
+        state: "",
+        city: "",
+        country: "",
+      },
+      shippingAddress: {
+        sameAsBillingAddress: false,
+        addressLine1: "",
+        addressLine2: "",
+        zipCode: "",
+        state: "",
+        city: "",
+        country: "",
+      },
+    };
+    this.loading = false;
+  }
 }
 
 export const tenantStore = new TenantStore();

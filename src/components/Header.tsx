@@ -3,6 +3,7 @@
 import { classNames } from '@/lib/utils';
 import { signInUserStore } from '@/stores/signInUserStore';
 import { authStore } from '@/stores/authStore';
+import { tenantStore } from '@/stores/tenantStore';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite';
@@ -35,20 +36,24 @@ const Header = observer((props: HeaderProps) => {
       // ストアのクリア
       authStore.clear();
       signInUserStore.clear();
+      tenantStore.clear();
 
       // ホームページへ遷移
       router.push('/');
     } catch (error) {
       console.error('Failed to sign out:', error);
-      // エラーが発生しても、ストアをクリアしてホームページに遷移
+      // エラーが発生してもストアをクリア
       authStore.clear();
       signInUserStore.clear();
-      router.push('/');
+      tenantStore.clear();
+
+      // ホームページへ遷移
+      router.push('/'); 
     }
   };
 
   return (
-    <Disclosure as="nav" className="border-b border-gray-200 bg-white">
+    <Disclosure as="nav" className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">

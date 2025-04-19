@@ -80,7 +80,7 @@ const ProfileContent = observer(() => {
   return (
     <div className="min-h-full">
       <Header current="Profile" />
-      <div className="py-5 sm:py-10">
+      <div className="mt-16 py-5 sm:py-10">
         <PageTitle title="Profile" />
         <main>
           <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
