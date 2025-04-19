@@ -99,9 +99,9 @@ const ProfileContent = observer(() => {
                 {!isEditing && <div className="py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4">
                   <dt className="text-sm/6 font-medium text-gray-900">Profile Image</dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {signInUserStore.isLoading ? <Loading /> : 
+                    {signInUserStore.isLoading ? <Loading /> :
                       <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Profile Image" className="w-10 h-10 rounded-full" />}
-                      {/* user?.imageUrl ? <img src={user?.imageUrl} alt="Profile Image" className="w-10 h-10 rounded-full" /> : <>no image</>} */}
+                    {/* user?.imageUrl ? <img src={user?.imageUrl} alt="Profile Image" className="w-10 h-10 rounded-full" /> : <>no image</>} */}
                   </dd>
                 </div>}
                 {isEditing && <div className="py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4">

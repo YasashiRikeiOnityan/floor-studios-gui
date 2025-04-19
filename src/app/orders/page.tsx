@@ -27,17 +27,17 @@ const Orders = observer(() => {
   const handleStartNewDesign = () => {
     router.push("/design/new");
   }
-  
+
   return (
     <>
       <div className="min-h-full">
-        <Header current="Orders"/>
+        <Header current="Orders" />
         <div className="mt-16 py-5 sm:py-10">
           <PageTitle title="Orders" />
           <main>
             <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
               <div className="flex flex-col gap-y-3 items-start sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-x-8"> 
+                <div className="flex items-center gap-x-8">
                   <Tabs
                     tabs={tabs}
                     state={activeTab}

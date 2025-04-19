@@ -60,8 +60,7 @@ class TenantStore {
     const response = await PutTenantInteractor(tenant);
     runInAction(() => {
       this.tenant = response;
-    });
-    runInAction(() => {
+      this.isFetched = true;
       this.loading = false;
     });
   }
