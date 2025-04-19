@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { specificationStore } from "@/stores/specificationStore";
+// import { specificationStore } from "@/stores/specificationStore";
 
 const EditDesign = observer(() => {
   const searchParams = useSearchParams();
