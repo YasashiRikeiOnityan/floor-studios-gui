@@ -49,13 +49,14 @@ class SpecificationStore {
     this.loading = false;
   }
 
-  async postSpecifications(brandName: string, productName: string, productCode: string) {
+  async postSpecifications(brandName: string, productName: string, productCode: string, specificationGroupId: string) {
     this.loading = true;
     // リクエストを送信
-    const response = await PostSpecificationsInteractor(brandName, productName, productCode);
+    const response = await PostSpecificationsInteractor(brandName, productName, productCode, specificationGroupId);
     // ストアにセットする
     this.setCurrentSpecification(response.specificationId, brandName, productName, productCode);
     this.loading = false;
+    return response.specificationId;
   }
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {

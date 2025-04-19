@@ -3,12 +3,15 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
 import Loading from './Loading';
+import { useRouter } from 'next/navigation';
 
 type SpecificationMenuProps = {
   specificationId: string;
 }
 
 const SpecificationMenu = (props: SpecificationMenuProps) => {
+  const router = useRouter();
+
   const [isDownloading, setIsDownloading] = useState(false);
 
   return (
@@ -37,7 +40,9 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         <MenuItem>
           <div
             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-            onClick={() => { }}
+            onClick={() => {
+              router.push(`/design/edit?id=${props.specificationId}`);
+            }}
           >
             Edit
           </div>

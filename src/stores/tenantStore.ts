@@ -7,18 +7,38 @@ class TenantStore {
   tenant: Tenant = {
     tenantId: "",
     tenantName: "",
-    billingInfo: {
-      name: "",
-      address: "",
+    contact: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+    },
+    billingAddress: {
+      addressLine1: "",
+      addressLine2: "",
+      zipCode: "",
+      state: "",
+      city: "",
+      country: "",
+    },
+    shippingAddress: {
+      sameAsBillingAddress: false,
+      addressLine1: "",
+      addressLine2: "",
+      zipCode: "",
+      state: "",
+      city: "",
+      country: "",
     },
   };
   isFetched: boolean = false;
   loading: boolean = false;
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  async fetchTenant(): Promise<Tenant> {
+  async fetchTenant() {
     if (this.isFetched) {
       return this.tenant;
     }
@@ -31,7 +51,6 @@ class TenantStore {
       this.isFetched = true;
       this.loading = false;
     });
-    return response;
   }
 
   async putTenant(tenant: Tenant) {

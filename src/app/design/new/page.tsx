@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import SpecificationGroups from "@/components/SpecificationGroups";
 import { specificationStore } from "@/stores/specificationStore";
+import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 // import { useEffect, useState } from "react";
@@ -13,22 +14,15 @@ import { useState } from "react";
 const NewDesign = observer(() => {
   const router = useRouter();
 
-  // const [mounted, setMounted] = useState(false);
-  const [brandName, setBrandName] = useState(specificationStore.currentSpecification.brandName);
-  const [productName, setProductName] = useState(specificationStore.currentSpecification.productName);
-  const [productCode, setProductCode] = useState(specificationStore.currentSpecification.productCode);
+  const [brandName, setBrandName] = useState(tenantStore.tenant.tenantName);
+  const [productName, setProductName] = useState("");
+  const [productCode, setProductCode] = useState("");
   const [specificationGroupId, setSpecificationGroupId] = useState("NO_GROUP");
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, []);
-
-  // テナント情報の取得
-  // テナント名をブランド名の初期値とする
 
   // 作成ボタンのクリック時の処理
   const handleCreateAndNext = async () => {
-    await specificationStore.postSpecifications(brandName, productName, productCode);
-    router.push("/orders");
+    const id = await specificationStore.postSpecifications(brandName, productName, productCode, specificationGroupId);
+    router.push(`/design/edit?id=${id}`);
   };
 
   // キャンセルボタンのクリック時の処理

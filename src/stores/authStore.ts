@@ -51,9 +51,7 @@ class AuthStore {
   getIdToken() {
     if (typeof window === 'undefined') return this.idToken;
     const localStorageRememberMe = localStorage.getItem("rememberMe") || "";
-    console.log(localStorageRememberMe);
     if (localStorageRememberMe === "true") {
-      console.log(localStorage.getItem("idToken"));
       return localStorage.getItem("idToken");
     }
     const sessionStorageRememberMe = sessionStorage.getItem("rememberMe") || "";

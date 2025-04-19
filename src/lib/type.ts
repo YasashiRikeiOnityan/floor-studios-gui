@@ -1,34 +1,110 @@
 export type Tenant = {
   tenantId: string;
   tenantName: string;
-  billingInfo: {
-    name: string;
-    address: string;
+  contact: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+  };
+  billingAddress: {
+    addressLine1: string;
+    addressLine2: string;
+    zipCode: string;
+    state: string;
+    city: string;
+    country: string;
+  };
+  shippingAddress: {
+    sameAsBillingAddress: boolean;
+    addressLine1: string;
+    addressLine2: string;
+    zipCode: string;
+    state: string;
+    city: string;
+    country: string;
   };
 }
 export type ApiGetTenantResponse = {
   tenant_id: string;
   tenant_name: string;
-  billing_info: {
-    name: string;
-    address: string;
+  contact?: {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
+  };
+  billing_address?: {
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
+  };
+  shipping_address?: {
+    same_as_billing_address: boolean;
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
   };
 }
 
 export type ApiPutTenantRequest = {
   tenant_name: string;
-  billing_info: {
-    name: string;
-    address: string;
+  contact: {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
+  };
+  billing_address: {
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
+  };
+  shipping_address: {
+    same_as_billing_address: boolean;
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
   };
 }
 
 export type ApiPutTenantResponse = {
   tenant_id: string;
   tenant_name: string;
-  billing_info: {
-    name: string;
-    address: string;
+  contact?: {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
+  };
+  billing_address?: {
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
+  };
+  shipping_address?: {
+    same_as_billing_address: boolean;
+    address_line_1: string;
+    address_line_2: string;
+    zip_code: string;
+    state: string;
+    city: string;
+    country: string;
   };
 }
 
@@ -64,6 +140,7 @@ export type ApiPostSpecificationsRequest = {
   brand_name: string;
   product_name: string;
   product_code: string;
+  specification_group_id: string;
 }
 
 export type Specification = {
@@ -96,7 +173,7 @@ export type ApiPostSpecificationsResponse = {
   specification_id: string;
 }
 
-export type SpecificationStatus = "DRAFT" | "COMPLETED" | "SAMPLE" | "BULK" | undefined;
+export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
 export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
   url: string;
