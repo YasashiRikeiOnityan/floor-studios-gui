@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetTenantResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetSpecificationsSpecificationIdResponse, ApiGetTenantResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutSpecificationsSpecificationIdRequest, ApiPutSpecificationsSpecificationIdResponse, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -135,6 +135,26 @@ export const ApiPostSpecifications = async (specifications: ApiPostSpecification
     return response.data;
   } catch (error) {
     console.error('Failed to post specifications:', error);
+    throw error;
+  }
+};
+
+export const ApiGetSpecificationsSpecificationId = async (specificationId: string): Promise<ApiGetSpecificationsSpecificationIdResponse> => {
+  try {
+    const response = await httpClient.get(`/specifications/${specificationId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch specification:', error);
+    throw error;
+  }
+};
+
+export const ApiPutSpecificationsSpecificationId = async (specificationId: string, specification: ApiPutSpecificationsSpecificationIdRequest): Promise<ApiPutSpecificationsSpecificationIdResponse> => {
+  try {
+    const response = await httpClient.put(`/specifications/${specificationId}`, specification);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update specification:', error);
     throw error;
   }
 };

@@ -4,6 +4,7 @@ import { Specification, SpecificationStatus } from "@/lib/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
+import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/GetSpecificationsSpecificationIdInteractor";
 
 class SpecificationStore {
   constructor() {
@@ -16,34 +17,34 @@ class SpecificationStore {
     });
   }
 
-  currentSpecification: {
-    specificationsId: string;
-    brandName: string;
-    productName: string;
-    productCode: string;
-  } = {
-    specificationsId: "",
+  currentSpecification: Specification = {
+    specificationId: "",
+    tenantIdStatus: "",
     brandName: "",
     productName: "",
     productCode: "",
-  };
+    updatedBy: {
+      userId: "",
+      userName: "",
+    },
+    updatedAt: "",
+    status: undefined,
+    specificationGroupId: "",
+    kind: "",
+    details: {},
+  }
   specifications: Specification[] = [];
   loading: boolean = false;
 
-  setCurrentSpecification(specificationsId: string, brandName: string, productName: string, productCode: string) {
-    this.currentSpecification = {
-      specificationsId,
-      brandName,
-      productName,
-      productCode,
-    };
+  setCurrentSpecification(specification: Specification) {
+    this.currentSpecification = specification;
   }
 
   async getSpecifications(specificationGroupId: string, status: SpecificationStatus) {
     this.loading = true;
     const response = await GetSpecificationsInteractor(specificationGroupId, status);
     response.sort((a, b) => {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      return new Date(b.updatedAt || "").getTime() - new Date(a.updatedAt || "").getTime();
     });
     this.specifications = response;
     this.loading = false;
@@ -54,9 +55,22 @@ class SpecificationStore {
     // リクエストを送信
     const response = await PostSpecificationsInteractor(brandName, productName, productCode, specificationGroupId);
     // ストアにセットする
-    this.setCurrentSpecification(response.specificationId, brandName, productName, productCode);
+    this.setCurrentSpecification({
+      specificationId: response.specificationId,
+      brandName: brandName,
+      productName: productName,
+      productCode: productCode,
+      specificationGroupId: specificationGroupId,
+    });
     this.loading = false;
     return response.specificationId;
+  }
+
+  async getSpecificationsSpecificationId(specificationId: string) {
+    this.loading = true;
+    const response = await GetSpecificationsSpecificationIdInteractor(specificationId);
+    this.setCurrentSpecification(response);
+    this.loading = false;
   }
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {
@@ -71,10 +85,20 @@ class SpecificationStore {
 
   clear() {
     this.currentSpecification = {
-      specificationsId: "",
+      specificationId: "",
+      tenantIdStatus: "",
       brandName: "",
       productName: "",
       productCode: "",
+      specificationGroupId: "",
+      updatedBy: {
+        userId: "",
+        userName: "",
+      },
+      updatedAt: "",
+      status: undefined,
+      kind: "",
+      details: {},
     };
   }
 

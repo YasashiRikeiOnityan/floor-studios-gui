@@ -47,7 +47,7 @@ const Cards = observer((props: CardsProps) => {
             <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
               <div>
                 <div className="text-xs">
-                  {formatRelativeTime(specification.updatedAt)}
+                  {formatRelativeTime(specification.updatedAt || "")}
                 </div>
               </div>
             </div>

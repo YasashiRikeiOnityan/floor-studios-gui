@@ -129,6 +129,7 @@ const Brand = observer(() => {
                   text={"Edit"}
                   style={"text"}
                   fullWidth={false}
+                  disabled={tenantStore.loading}
                 />
               </div>
               <div className="mt-2 border-t border-gray-100">

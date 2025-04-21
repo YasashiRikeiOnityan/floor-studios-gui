@@ -25,6 +25,7 @@ export type Tenant = {
     country: string;
   };
 }
+
 export type ApiGetTenantResponse = {
   tenant_id: string;
   tenant_name: string;
@@ -145,16 +146,24 @@ export type ApiPostSpecificationsRequest = {
 
 export type Specification = {
   specificationId: string;
-  tenantIdStatus: string;
+  tenantIdStatus?: string;
   brandName: string;
   productName: string;
   productCode: string;
-  updatedBy: {
+  updatedBy?: {
     userId: string;
     userName: string;
   };
-  updatedAt: string;
+  updatedAt?: string;
+  status?: SpecificationStatus;
+  specificationGroupId: string;
+  kind?: string;
+  details?: {
+    [key: string]: string;
+  };
 }
+
+export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
 export type ApiGetSpecificationsResponse = {
   specification_id: string;
@@ -173,7 +182,40 @@ export type ApiPostSpecificationsResponse = {
   specification_id: string;
 }
 
-export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
+
+export type ApiGetSpecificationsSpecificationIdResponse = {
+  specification_id: string;
+  brand_name: string;
+  product_name: string;
+  product_code: string;
+  updated_by?: {
+    user_id: string;
+    user_name: string;
+  };
+  updated_at?: string;
+  status?: SpecificationStatus;
+  specification_group_id: string;
+  kind?: string;
+  details?: {
+    [key: string]: string;
+  };
+}
+
+export type ApiPutSpecificationsSpecificationIdRequest = {
+  brand_name?: string;
+  product_name?: string;
+  product_code?: string;
+  specification_group_id?: string;
+  kind?: string;
+  status?: SpecificationStatus;
+  details?: {
+    [key: string]: string;
+  };
+}
+
+export type ApiPutSpecificationsSpecificationIdResponse = {
+  specification_id: string;
+}
 
 export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
   url: string;
