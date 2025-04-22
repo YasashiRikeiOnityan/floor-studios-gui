@@ -157,7 +157,7 @@ export type Specification = {
   updatedAt?: string;
   status?: SpecificationStatus;
   specificationGroupId: string;
-  kind?: string;
+  type?: string;
   details?: {
     [key: string]: string;
   };
@@ -176,6 +176,12 @@ export type ApiGetSpecificationsResponse = {
     user_name: string;
   };
   updated_at: string;
+  status?: SpecificationStatus;
+  specification_group_id: string;
+  type?: string;
+  details?: {
+    [key: string]: string;
+  };
 }
 
 export type ApiPostSpecificationsResponse = {
@@ -195,7 +201,7 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   updated_at?: string;
   status?: SpecificationStatus;
   specification_group_id: string;
-  kind?: string;
+  type?: string;
   details?: {
     [key: string]: string;
   };
@@ -206,7 +212,7 @@ export type ApiPutSpecificationsSpecificationIdRequest = {
   product_name?: string;
   product_code?: string;
   specification_group_id?: string;
-  kind?: string;
+  type?: string;
   status?: SpecificationStatus;
   details?: {
     [key: string]: string;

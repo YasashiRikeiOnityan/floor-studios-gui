@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import { specificationStore } from "@/stores/specificationStore";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import Header from "@/components/Header";
-import Types from "@/components/Types";
-import Button from "@/components/Button";
+import SelectType from "@/components/SelectType";
 
 const steps = [
   { name: "Type", href: "#", status: "complete" },
@@ -24,7 +23,6 @@ const EditDesign = observer(() => {
   const specificationId = searchParams.get("id") || "";
   const [mounted, setMounted] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [currentType, setCurrentType] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -66,34 +64,7 @@ const EditDesign = observer(() => {
   const renderContent = () => {
     switch (currentStep) {
       case 0:
-        return (
-          <>
-            <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-gray-900">What would you like to design?</h1>
-            <p className="mt-2 text-sm text-gray-500">
-              Choose the type of design you want to create.
-            </p>
-            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              <Types currentType={currentType} callBackUpdateState={setCurrentType} />
-            </div>
-            {/* ボタン */}
-            <div className="mt-6 flex flex-row gap-x-3 justify-end">
-              <Button
-                type={"button"}
-                onClick={() => {setCurrentType("")}}
-                text={"Cancel"}
-                style={"text"}
-                fullWidth={false}
-              />
-              <Button
-                type={"button"}
-                onClick={() => { }}
-                text={"Save and Next"}
-                style={"fill"}
-                fullWidth={false}
-              />
-            </div>
-          </>
-        );
+        return <SelectType callBackUpdateState={handleStepClick} />
       case 1:
         return <div className="w-full">Fit Content</div>;
       case 2:

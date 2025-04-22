@@ -1,10 +1,11 @@
 import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
 import { action, makeAutoObservable } from "mobx";
-import { Specification, SpecificationStatus } from "@/lib/type";
+import { ApiPutSpecificationsSpecificationIdRequest, Specification, SpecificationStatus } from "@/lib/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
 import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/GetSpecificationsSpecificationIdInteractor";
+import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/PutSpecificationsSpecificationIdInteractor";
 
 class SpecificationStore {
   constructor() {
@@ -30,7 +31,7 @@ class SpecificationStore {
     updatedAt: "",
     status: undefined,
     specificationGroupId: "",
-    kind: "",
+    type: "",
     details: {},
   }
   specifications: Specification[] = [];
@@ -73,6 +74,10 @@ class SpecificationStore {
     this.loading = false;
   }
 
+  async putSpecification(specification: ApiPutSpecificationsSpecificationIdRequest) {
+    await PutSpecificationsSpecificationIdInteractor(this.currentSpecification.specificationId, specification);
+  }
+
   async deleteSpecificationsSpecificationsId(specificationId: string) {
     await DeleteSpecificationsSpecificationIdInteractor(specificationId);
     this.specifications = this.specifications.filter(spec => spec.specificationId !== specificationId);
@@ -97,7 +102,7 @@ class SpecificationStore {
       },
       updatedAt: "",
       status: undefined,
-      kind: "",
+      type: "",
       details: {},
     };
   }
