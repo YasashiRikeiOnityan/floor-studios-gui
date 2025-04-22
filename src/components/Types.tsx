@@ -1,11 +1,3 @@
-import { SpecificationStatus } from "@/lib/type";
-import { formatRelativeTime } from "@/lib/utils";
-import { specificationStore } from "@/stores/specificationStore";
-import { useEffect } from "react";
-import SpecificationMenu from "./SpecificationMenu";
-import { observer } from "mobx-react-lite";
-import Loading from "./Loading";
-
 type TypesProps = {
   currentType: string;
   callBackUpdateState: (state: string) => void;
