@@ -31,8 +31,7 @@ const EditDesign = observer(() => {
   useEffect(() => {
     const fetchSpecification = async () => {
       if (mounted && specificationId) {
-        const response = await specificationStore.getSpecificationsSpecificationId(specificationId);
-        console.log(specificationStore.currentSpecification);
+        await specificationStore.getSpecificationsSpecificationId(specificationId);
       }
     };
     fetchSpecification();
