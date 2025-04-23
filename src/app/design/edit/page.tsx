@@ -2,11 +2,12 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { specificationStore } from "@/stores/specificationStore";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import Header from "@/components/Header";
 import SelectType from "@/components/SelectType";
+import Loading from "@/components/Loading";
 
 const steps = [
   { name: "Type", href: "#", status: "complete" },
@@ -17,7 +18,7 @@ const steps = [
   { name: "Carelabel", href: "#", status: "upcoming" },
 ];
 
-const EditDesign = observer(() => {
+const EditDesignContent = observer(() => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const specificationId = searchParams.get("id") || "";
@@ -145,5 +146,13 @@ const EditDesign = observer(() => {
     </div>
   );
 });
+
+const EditDesign = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <EditDesignContent />
+    </Suspense>
+  );
+};
 
 export default EditDesign;
