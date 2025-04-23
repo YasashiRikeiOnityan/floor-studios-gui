@@ -65,11 +65,11 @@ const EditDesignContent = observer(() => {
 
   const steps = EditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
   const currentStepIndex = EditSteps.findIndex(step => step.progress === specificationStore.currentSpecification.progress);
-  const currentStepName = EditSteps[currentStepIndex]?.name || "";
-  const currentStepProgress = EditSteps[currentStepIndex]?.progress || "";
-  const currentStepOrder = EditSteps[currentStepIndex]?.order || 0;
-  const currentStepId = EditSteps[currentStepIndex]?.progress || "";
-  const currentStepUrl = `/design/edit?id=${specificationId}#${currentStepOrder + 1}`;
+  // const currentStepName = EditSteps[currentStepIndex]?.name || "";
+  // const currentStepProgress = EditSteps[currentStepIndex]?.progress || "";
+  // const currentStepOrder = EditSteps[currentStepIndex]?.order || 0;
+  // const currentStepId = EditSteps[currentStepIndex]?.progress || "";
+  // const currentStepUrl = `/design/edit?id=${specificationId}#${currentStepOrder + 1}`;
 
   return (
     <div className="flex min-h-full">
