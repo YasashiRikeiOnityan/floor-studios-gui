@@ -36,7 +36,7 @@ const SpecificationGroups = observer((props: SpecificationGroup) => {
       <ListboxOptions
         transition
         className={`absolute right-0 z-10 mt-1 max-h-60 ${props.fullWidth ? "w-full" : "w-80"} overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm`}
-        modal={true}
+        modal={false}
       >
         {specificationGroups.map((specificationGroup) => (
           <ListboxOption
