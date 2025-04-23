@@ -156,6 +156,7 @@ export type Specification = {
   };
   updatedAt?: string;
   status?: SpecificationStatus;
+  progress?: string;
   specificationGroupId: string;
   type?: string;
   details?: {
@@ -177,6 +178,7 @@ export type ApiGetSpecificationsResponse = {
   };
   updated_at: string;
   status?: SpecificationStatus;
+  progress?: string;
   specification_group_id: string;
   type?: string;
   details?: {
@@ -200,6 +202,7 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   };
   updated_at?: string;
   status?: SpecificationStatus;
+  progress?: string;
   specification_group_id: string;
   type?: string;
   details?: {
@@ -214,6 +217,7 @@ export type ApiPutSpecificationsSpecificationIdRequest = {
   specification_group_id?: string;
   type?: string;
   status?: SpecificationStatus;
+  progress?: string;
   details?: {
     [key: string]: string;
   };
@@ -237,3 +241,18 @@ export type ApiGetSpecificationGroupsResponse = {
   tenant_id: string;
   specification_group_name: string;
 }
+
+export const EditSteps = [
+  {order: 0, name: "", progress: "INITIAL"},
+  {order: 1, name: "Type", progress: "TYPE"},
+  {order: 2, name: "Fit", progress: "FIT"},
+  {order: 3, name: "Fabric", progress: "FABRIC"},
+  {order: 4, name: "Clourway", progress: "COLOURWAY"},
+  {order: 5, name: "Necklabel", progress: "NECKLABEL"},
+  {order: 6, name: "Carelabel", progress: "CARELABEL"},
+  {order: 7, name: "OEM Point", progress: "OEMPOINT"},
+  {order: 8, name: "Sample", progress: "SAMPLE"},
+  {order: 9, name: "Main Production", progress: "MAINPRODUCTION"},
+  {order: 10, name: "Information", progress: "INFORMATION"},
+  {order: 11, name: "", progress: "COMPLETE"}
+]
