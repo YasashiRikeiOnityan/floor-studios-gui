@@ -19,7 +19,7 @@ const Types = (props: TypesProps) => {
   return (
     <>
       {types.map((type) => (
-        <div key={type.id} className={`rounded-lg ${props.currentType === type.id ? "bg-indigo-100" : "bg-white"} shadow-md`} onClick={() => props.callBackUpdateState(type.id)}>
+        <div key={type.id} className={`rounded-md ${props.currentType === type.id ? "bg-indigo-100 border-indigo-800" : "bg-white"} shadow-md`} onClick={() => props.callBackUpdateState(type.id)}>
           <div className="p-4">
             <div className="flex flex-col items-center justify-center gap-1">
                 <img src={type.image} alt={type.name} className="h-full" />
