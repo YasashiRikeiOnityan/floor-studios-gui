@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import { CheckIcon } from '@heroicons/react/20/solid';
@@ -14,10 +14,17 @@ type SpecificationGroup = {
 }
 
 const SpecificationGroups = observer((props: SpecificationGroup) => {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    specificationGroupsStore.fetchSpecificationGroups();
+    setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      specificationGroupsStore.fetchSpecificationGroups();
+    }
+  }, [mounted]);
 
   const specificationGroups = [{ specificationGroupId: "NO_GROUP", specificationGroupName: "Not Assigned to collection" }, ...specificationGroupsStore.specificationGroups];
 
