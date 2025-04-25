@@ -30,6 +30,7 @@ class SpecificationStore {
     },
     updatedAt: "",
     status: undefined,
+    progress: "INITIAL",
     specificationGroupId: "",
     type: "",
     details: {},
@@ -102,6 +103,7 @@ class SpecificationStore {
       },
       updatedAt: "",
       status: undefined,
+      progress: "INITIAL",
       type: "",
       details: {},
     };

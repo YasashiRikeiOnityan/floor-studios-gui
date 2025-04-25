@@ -8,15 +8,7 @@ import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import Header from "@/components/Header";
 import SelectType from "@/components/SelectType";
 import Loading from "@/components/Loading";
-
-const steps = [
-  { name: "Type", href: "#", status: "complete" },
-  { name: "Fit", href: "#", status: "current" },
-  { name: "Fabric", href: "#", status: "upcoming" },
-  { name: "Colourway", href: "#", status: "upcoming" },
-  { name: "Necklabel", href: "#", status: "upcoming" },
-  { name: "Carelabel", href: "#", status: "upcoming" },
-];
+import { EditSteps } from "@/lib/type";
 
 const EditDesignContent = observer(() => {
   const router = useRouter();
@@ -57,40 +49,39 @@ const EditDesignContent = observer(() => {
   }, []);
 
   const handleStepClick = (index: number) => {
+    console.log(currentStep)
     setCurrentStep(index);
     router.push(`/design/edit?id=${specificationId}#${index + 1}`);
   };
 
   const renderContent = () => {
-    switch (currentStep) {
-      case 0:
-        return <SelectType callBackUpdateState={handleStepClick} />
-      case 1:
-        return <div className="w-full">Fit Content</div>;
-      case 2:
-        return <div className="w-full">Fabric Content</div>;
-      case 3:
-        return <div className="w-full">Colourway Content</div>;
-      case 4:
-        return <div className="w-full">Necklabel Content</div>;
-      case 5:
-        return <div className="w-full">Carelabel Content</div>;
+    switch (specificationStore.currentSpecification.progress) {
+      case "INITIAL":
+        return <SelectType callBackUpdateState={handleStepClick} />;
       default:
         return <></>;
     }
   };
+
+  const steps = EditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
+  const currentStepIndex = EditSteps.findIndex(step => step.progress === specificationStore.currentSpecification.progress);
+  // const currentStepName = EditSteps[currentStepIndex]?.name || "";
+  // const currentStepProgress = EditSteps[currentStepIndex]?.progress || "";
+  // const currentStepOrder = EditSteps[currentStepIndex]?.order || 0;
+  // const currentStepId = EditSteps[currentStepIndex]?.progress || "";
+  // const currentStepUrl = `/design/edit?id=${specificationId}#${currentStepOrder + 1}`;
 
   return (
     <div className="flex min-h-full">
       <Header current="" />
       <div className="mx-auto max-w-7xl mt-16 py-5 sm:py-10 flex w-full">
         {/* プログレスバー */}
-        <div className="w-72 border-r border-gray-200 px-4 sm:px-6 lg:px-10 shrink-0">
+        <div className="w-64 border-r border-gray-200 pl-4 sm:pl-6 lg:pl-10 shrink-0">
           <nav aria-label="Progress">
             <ol role="list" className="space-y-6">
               {steps.map((step, index) => (
                 <li key={step.name}>
-                  {index < currentStep ? (
+                  {step.order <= currentStepIndex ? (
                     <button
                       onClick={() => handleStepClick(index)}
                       className="group w-full text-left"
@@ -107,7 +98,7 @@ const EditDesignContent = observer(() => {
                         </span>
                       </span>
                     </button>
-                  ) : index === currentStep ? (
+                  ) : step.order === currentStepIndex + 1 ? (
                     <button
                       onClick={() => handleStepClick(index)}
                       className="flex w-full items-start"
@@ -123,12 +114,15 @@ const EditDesignContent = observer(() => {
                     <button
                       onClick={() => handleStepClick(index)}
                       className="group w-full text-left"
+                      disabled={true}
                     >
                       <div className="flex items-start">
                         <div aria-hidden="true" className="relative flex size-5 shrink-0 items-center justify-center">
-                          <div className="size-2 rounded-full bg-gray-300 group-hover:bg-gray-400" />
+                          <div className="size-2 rounded-full bg-gray-300" />
+                          {/* <div className="size-2 rounded-full bg-gray-300 group-hover:bg-gray-400" /> */}
                         </div>
-                        <p className="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</p>
+                        <p className="ml-3 text-sm font-medium text-gray-500">{step.name}</p>
+                        {/* <p className="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">{step.name}</p> */}
                       </div>
                     </button>
                   )}
