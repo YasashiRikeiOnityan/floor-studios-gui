@@ -15,7 +15,8 @@ const EditDesignContent = observer(() => {
   const searchParams = useSearchParams();
   const specificationId = searchParams.get("id") || "";
   const [mounted, setMounted] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+  const [actualStep, setActualStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -25,46 +26,47 @@ const EditDesignContent = observer(() => {
     const fetchSpecification = async () => {
       if (mounted && specificationId) {
         await specificationStore.getSpecificationsSpecificationId(specificationId);
+        const currentStepIndex = EditSteps.findIndex(step => step.progress === specificationStore.currentSpecification.progress);
+        if (currentStepIndex === -1) {
+          setActualStep(1);
+          setCurrentStep(1);
+        } else {
+          setActualStep(currentStepIndex + 1);
+          setCurrentStep(currentStepIndex + 1);
+        }
       }
     };
     fetchSpecification();
   }, [specificationId, mounted]);
 
-  // URLのハッシュを監視
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const stepIndex = parseInt(hash.substring(1)) - 1; // #1 -> 0
-        if (!isNaN(stepIndex) && stepIndex >= 0 && stepIndex < steps.length) {
-          setCurrentStep(stepIndex);
-        }
-      }
-    };
-
-    // 初期ロード時とハッシュ変更時の処理
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  const handleStepClick = (index: number) => {
-    console.log(currentStep)
-    setCurrentStep(index);
-    router.push(`/design/edit?id=${specificationId}#${index + 1}`);
-  };
+  const callBackUpdateState = (step: number) => {
+    if (step < actualStep) {
+      setCurrentStep(actualStep);
+    } else {
+      setCurrentStep(step + 1);
+      setActualStep(step + 1);
+    }
+  }
 
   const renderContent = () => {
-    switch (specificationStore.currentSpecification.progress) {
-      case "INITIAL":
-        return <SelectType callBackUpdateState={handleStepClick} />;
+    if (specificationStore.loading) {
+      return <Loading fullWidth={true} />;
+    }
+    switch (currentStep) {
+      case 1:
+        return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />;
+      case 2:
+        return <>Fit</>
+      case 3:
+        return <>Fabric</>
+      case 4:
+        return <>Colurway</>
       default:
         return <></>;
     }
   };
 
   const steps = EditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
-  const currentStepIndex = EditSteps.findIndex(step => step.progress === specificationStore.currentSpecification.progress);
   // const currentStepName = EditSteps[currentStepIndex]?.name || "";
   // const currentStepProgress = EditSteps[currentStepIndex]?.progress || "";
   // const currentStepOrder = EditSteps[currentStepIndex]?.order || 0;
@@ -81,10 +83,10 @@ const EditDesignContent = observer(() => {
             <ol role="list" className="space-y-6">
               {steps.map((step, index) => (
                 <li key={step.name}>
-                  {step.order <= currentStepIndex ? (
+                  {step.order < actualStep ? (
                     <button
-                      onClick={() => handleStepClick(index)}
-                      className="group w-full text-left"
+                      onClick={() => {setCurrentStep(step.order)}}
+                      className="group w-full text-left cursor-pointer"
                     >
                       <span className="flex items-start">
                         <span className="relative flex size-5 shrink-0 items-center justify-center">
@@ -98,10 +100,10 @@ const EditDesignContent = observer(() => {
                         </span>
                       </span>
                     </button>
-                  ) : step.order === currentStepIndex + 1 ? (
+                  ) : step.order === actualStep ? (
                     <button
-                      onClick={() => handleStepClick(index)}
-                      className="flex w-full items-start"
+                      onClick={() => {setCurrentStep(step.order)}}
+                      className="flex w-full items-start cursor-pointer"
                       aria-current="step"
                     >
                       <span aria-hidden="true" className="relative flex size-5 shrink-0 items-center justify-center">
@@ -112,9 +114,9 @@ const EditDesignContent = observer(() => {
                     </button>
                   ) : (
                     <button
-                      onClick={() => handleStepClick(index)}
-                      className="group w-full text-left"
-                      disabled={true}
+                      onClick={() => {setCurrentStep(step.order)}}
+                      className={`group w-full text-left ${step.order > actualStep ? "text-gray-300" : "text-gray-500 cursor-pointer"}`}
+                      disabled={step.order > actualStep}
                     >
                       <div className="flex items-start">
                         <div aria-hidden="true" className="relative flex size-5 shrink-0 items-center justify-center">

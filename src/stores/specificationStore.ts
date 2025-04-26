@@ -76,7 +76,9 @@ class SpecificationStore {
   }
 
   async putSpecification(specification: ApiPutSpecificationsSpecificationIdRequest) {
+    this.loading = true;
     await PutSpecificationsSpecificationIdInteractor(this.currentSpecification.specificationId, specification);
+    this.loading = false;
   }
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {
@@ -87,6 +89,13 @@ class SpecificationStore {
   async getSpecificationsSpecificationIdDownload(specificationId: string) {
     const response = await GetSpecificationsSpecificationIdDownloadInteractor(specificationId);
     return response.url;
+  }
+
+  updateSpecification(specification: Partial<Specification>) {
+    this.currentSpecification = {
+      ...this.currentSpecification,
+      ...specification,
+    };
   }
 
   clear() {
