@@ -11,7 +11,7 @@ import Loading from "@/components/Loading";
 import { EditSteps } from "@/lib/type";
 
 const EditDesignContent = observer(() => {
-  const router = useRouter();
+  // const router = useRouter();
   const searchParams = useSearchParams();
   const specificationId = searchParams.get("id") || "";
   const [mounted, setMounted] = useState(false);
@@ -50,7 +50,7 @@ const EditDesignContent = observer(() => {
 
   const renderContent = () => {
     if (specificationStore.loading) {
-      return <Loading fullWidth={true} />;
+      return <Loading full={true} />;
     }
     switch (currentStep) {
       case 1:
