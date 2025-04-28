@@ -20,7 +20,6 @@ class SpecificationStore {
 
   currentSpecification: Specification = {
     specificationId: "",
-    tenantIdStatus: "",
     brandName: "",
     productName: "",
     productCode: "",
@@ -101,7 +100,6 @@ class SpecificationStore {
   clear() {
     this.currentSpecification = {
       specificationId: "",
-      tenantIdStatus: "",
       brandName: "",
       productName: "",
       productCode: "",

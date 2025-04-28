@@ -174,7 +174,6 @@ export type ApiPostSpecificationsRequest = {
 
 export type Specification = {
   specificationId: string;
-  tenantIdStatus?: string;
   brandName: string;
   productName: string;
   productCode: string;

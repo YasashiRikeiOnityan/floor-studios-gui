@@ -85,7 +85,6 @@ const Brand = observer(() => {
       return;
     }
     tenantStore.putTenant({
-      tenantId: tenantStore.tenant.tenantId,
       tenantName: tenantName,
       contact: {
         firstName: contactFirstName,
