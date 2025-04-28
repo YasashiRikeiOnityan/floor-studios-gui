@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { observer } from "mobx-react-lite";
 import { Suspense, useEffect, useState } from "react";
 import { specificationStore } from "@/stores/specificationStore";
@@ -82,7 +82,7 @@ const EditDesignContent = observer(() => {
         <div className="w-64 border-r border-gray-200 pl-4 sm:pl-6 lg:pl-10 shrink-0">
           <nav aria-label="Progress">
             <ol role="list" className="space-y-6">
-              {steps.map((step, index) => (
+              {steps.map((step) => (
                 <li key={step.name}>
                   {step.order < actualStep ? (
                     <button
