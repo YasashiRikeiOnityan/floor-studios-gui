@@ -10,6 +10,7 @@ import SelectType from "@/components/SelectType";
 import Loading from "@/components/Loading";
 import { EditSteps } from "@/lib/type";
 import TShirtFit from "@/components/TShirtFit";
+import Information from "@/components/Information";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -68,6 +69,8 @@ const EditDesignContent = observer(() => {
         return <>Fabric</>
       case 4:
         return <>Colurway</>
+      case 10:
+        return <Information />
       default:
         return <></>;
     }
@@ -102,7 +105,7 @@ const EditDesignContent = observer(() => {
                             className="size-full text-indigo-600 group-hover:text-indigo-800"
                           />
                         </span>
-                        <span className="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                        <span className={`ml-3 text-sm font-medium ${step.order === currentStep ? "text-indigo-600" : "text-gray-500"} group-hover:text-gray-900`}>
                           {step.name}
                         </span>
                       </span>
@@ -117,7 +120,9 @@ const EditDesignContent = observer(() => {
                         <span className="absolute size-4 rounded-full bg-indigo-200" />
                         <span className="relative block size-2 rounded-full bg-indigo-600" />
                       </span>
-                      <span className="ml-3 text-sm font-medium text-indigo-600">{step.name}</span>
+                      <span className={`ml-3 text-sm font-medium ${step.order === currentStep ? "text-indigo-600" : "text-gray-500"} group-hover:text-gray-900`}>
+                        {step.name}
+                      </span>
                     </button>
                   ) : (
                     <button
