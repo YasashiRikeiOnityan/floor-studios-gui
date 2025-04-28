@@ -37,7 +37,6 @@ const mapTenantRequest = (tenant: Tenant): ApiPutTenantRequest => {
 
 const mapTenant = (tenant: ApiPutTenantResponse): Tenant => {
   return {
-    tenantId: tenant.tenant_id,
     tenantName: tenant.tenant_name,
     contact: {
       firstName: tenant.contact?.first_name || "",
