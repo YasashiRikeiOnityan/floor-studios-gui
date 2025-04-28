@@ -182,20 +182,19 @@ export type Specification = {
     userName: string;
   };
   updatedAt?: string;
+  specificationGroupId?: string;
   status?: SpecificationStatus;
   progress?: string;
-  specificationGroupId: string;
-  type?: string;
-  fit?: {
-    [key: string]: SizeValue;
-  };
+  type?: SpecificationType;
+  fit?: TShirtFit;
 }
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
+export type SpecificationType = "T-SHIRT" | "SHORTS" | undefined;
+
 export type ApiGetSpecificationsResponse = {
   specification_id: string;
-  tenant_id_status: string;
   brand_name: string;
   product_name: string;
   product_code: string;
@@ -204,13 +203,7 @@ export type ApiGetSpecificationsResponse = {
     user_name: string;
   };
   updated_at: string;
-  status?: SpecificationStatus;
-  progress?: string;
-  specification_group_id: string;
   type?: string;
-  details?: {
-    [key: string]: string;
-  };
 }
 
 export type ApiPostSpecificationsResponse = {
@@ -292,4 +285,16 @@ export type SizeValue = {
   l: number;
   xl: number;
   xxl: number;
+}
+
+export type TShirtFit = {
+  totalLength: SizeValue;
+  chestWidth: SizeValue;
+  bottomWidth: SizeValue;
+  sleeveLength: SizeValue;
+  armhole: SizeValue;
+  sleeveOpening: SizeValue;
+  neckRibLength: SizeValue;
+  neckOpening: SizeValue;
+  shoulderToShoulder: SizeValue;
 }

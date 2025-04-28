@@ -9,7 +9,7 @@ import Header from "@/components/Header";
 import SelectType from "@/components/SelectType";
 import Loading from "@/components/Loading";
 import { EditSteps } from "@/lib/type";
-import Fit from "@/components/Fit";
+import TShirtFit from "@/components/TShirtFit";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -55,9 +55,15 @@ const EditDesignContent = observer(() => {
     }
     switch (currentStep) {
       case 1:
-        return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />;
+        return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />
       case 2:
-        return <Fit callBackUpdateState={() => {callBackUpdateState(2)}} />
+        if (specificationStore.currentSpecification.type === "T-SHIRT") {
+          return <TShirtFit callBackUpdateState={() => {callBackUpdateState(2)}} />
+        } else if (specificationStore.currentSpecification.type === "SHORTS") {
+          return <>ここ</>
+        } else {
+          return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />
+        }
       case 3:
         return <>Fabric</>
       case 4:

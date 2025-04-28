@@ -1,11 +1,13 @@
+import { SpecificationType } from "@/lib/type";
+
 type TypesProps = {
-  currentType: string;
-  callBackUpdateState: (state: string) => void;
+  currentType: SpecificationType;
+  callBackUpdateState: (state: SpecificationType) => void;
   disabled: boolean;
 }
 
 const Types = (props: TypesProps) => {
-  const types = [
+  const types: {id: SpecificationType, name: string, image: string}[] = [
     {
       id: "T-SHIRT",
       name: "T-Shirt",
@@ -17,6 +19,7 @@ const Types = (props: TypesProps) => {
       image: "/shorts.png",
     }
   ];
+
   return (
     <>
       {types.map((type) => (

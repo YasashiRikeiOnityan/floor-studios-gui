@@ -9,7 +9,6 @@ export const GetSpecificationsInteractor = async (specificationGroupId: string, 
 const mapSpecifications = (specifications: ApiGetSpecificationsResponse): Specification => {
   return {
     specificationId: specifications.specification_id,
-    specificationGroupId: specifications.specification_group_id,
     brandName: specifications.brand_name,
     productName: specifications.product_name,
     productCode: specifications.product_code,

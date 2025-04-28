@@ -9,7 +9,7 @@ type SelectTypeProps = {
 };
 
 const SelectType = observer((props: SelectTypeProps) => {
-  const [currentType, setCurrentType] = useState(specificationStore.currentSpecification.type || "");
+  const [currentType, setCurrentType] = useState(specificationStore.currentSpecification.type || undefined);
 
   const handleSave = async () => {
     await specificationStore.putSpecification({
@@ -20,11 +20,13 @@ const SelectType = observer((props: SelectTypeProps) => {
       type: currentType,
       progress: "TYPE"
     });
+    specificationStore.currentSpecification.progress = "TYPE";
+    specificationStore.currentSpecification.type = currentType;
     props.callBackUpdateState();
   }
 
   // 種類は一度選択したら変更できないようにする
-  const alreadySelected = specificationStore.currentSpecification.type !== "";
+  const alreadySelected = specificationStore.currentSpecification.type !== undefined;
 
   return (
     <>
@@ -36,13 +38,13 @@ const SelectType = observer((props: SelectTypeProps) => {
         Choose the type of design you want to create.
       </p> */}
       <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        <Types currentType={currentType} callBackUpdateState={setCurrentType} disabled={specificationStore.currentSpecification.type !== ""} />
+        <Types currentType={currentType} callBackUpdateState={setCurrentType} disabled={specificationStore.currentSpecification.type !== undefined} />
       </div>
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">
         <Button
           type={"button"}
-          onClick={() => {setCurrentType("")}}
+          onClick={() => {setCurrentType(undefined)}}
           text={"Cancel"}
           style={"text"}
           fullWidth={false}

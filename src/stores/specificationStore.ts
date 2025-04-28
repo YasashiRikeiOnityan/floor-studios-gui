@@ -31,8 +31,8 @@ class SpecificationStore {
     status: undefined,
     progress: "INITIAL",
     specificationGroupId: "",
-    type: "",
-    fit: {},
+    type: undefined,
+    fit: undefined,
   }
   specifications: Specification[] = [];
   loading: boolean = false;
@@ -111,8 +111,8 @@ class SpecificationStore {
       updatedAt: "",
       status: undefined,
       progress: "INITIAL",
-      type: "",
-      fit: {},
+      type: undefined,
+      fit: undefined,
     };
   }
 

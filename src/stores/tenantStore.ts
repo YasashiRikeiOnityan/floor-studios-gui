@@ -33,7 +33,8 @@ class TenantStore {
   tenantSettingsTShirtFit: TenantSettingsTShirtFit = {
     fits: [],
   };
-  isFetched: boolean = false;
+  isTenantFetched: boolean = false;
+  isTenantSettingsTShirtFitFetched: boolean = false;
   loading: boolean = false;
 
   constructor() {
@@ -41,7 +42,7 @@ class TenantStore {
   }
 
   async fetchTenant() {
-    if (this.isFetched) {
+    if (this.isTenantFetched) {
       return this.tenant;
     }
     runInAction(() => {
@@ -50,7 +51,7 @@ class TenantStore {
     const response = await GetTenantInteractor();
     runInAction(() => {
       this.tenant = response;
-      this.isFetched = true;
+      this.isTenantFetched = true;
       this.loading = false;
     });
   }
@@ -62,15 +63,23 @@ class TenantStore {
     const response = await PutTenantInteractor(tenant);
     runInAction(() => {
       this.tenant = response;
-      this.isFetched = true;
+      this.isTenantFetched = true;
       this.loading = false;
     });
   }
 
-  async fetchTenantSettingsFit() {
+  async fetchTenantSettingsTShirtFit() {
+    if (this.isTenantSettingsTShirtFitFetched) {
+      return this.tenantSettingsTShirtFit;
+    }
+    runInAction(() => {
+      this.loading = true;
+    });
     const response = await GetTenantSettingsFitInteractor();
     runInAction(() => {
       this.tenantSettingsTShirtFit = response;
+      this.isTenantSettingsTShirtFitFetched = true;
+      this.loading = false;
     });
   }
 

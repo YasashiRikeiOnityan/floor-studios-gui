@@ -5,11 +5,11 @@ import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 
-type FitProps = {
+type TShirtFitProps = {
   callBackUpdateState: () => void;
 };
 
-const Fit = observer((props: FitProps) => {
+const TShirtFit = observer((props: TShirtFitProps) => {
   const [totalLength, setTotalLength] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [chestWidth, setChestWidth] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [bottomWidth, setBottomWidth] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
@@ -29,16 +29,28 @@ const Fit = observer((props: FitProps) => {
   useEffect(() => {
     const fetchSettingsFit = async () => {
       if (mounted) {
-        await tenantStore.fetchTenantSettingsFit();
-        setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
-        setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[0].chestWidth);
-        setBottomWidth(tenantStore.tenantSettingsTShirtFit.fits[0].bottomWidth);
-        setSleeveLength(tenantStore.tenantSettingsTShirtFit.fits[0].sleeveLength);
-        setArmhole(tenantStore.tenantSettingsTShirtFit.fits[0].armhole);
-        setSleeveOpening(tenantStore.tenantSettingsTShirtFit.fits[0].sleeveOpening);
-        setNeckRibLength(tenantStore.tenantSettingsTShirtFit.fits[0].neckRibLength);
-        setNeckOpening(tenantStore.tenantSettingsTShirtFit.fits[0].neckOpening);
-        setShoulderToShoulder(tenantStore.tenantSettingsTShirtFit.fits[0].shoulderToShoulder);
+        await tenantStore.fetchTenantSettingsTShirtFit();
+        if (specificationStore.currentSpecification.fit) {
+          setTotalLength(specificationStore.currentSpecification.fit.totalLength);
+          setChestWidth(specificationStore.currentSpecification.fit.chestWidth);
+          setBottomWidth(specificationStore.currentSpecification.fit.bottomWidth);
+          setSleeveLength(specificationStore.currentSpecification.fit.sleeveLength);
+          setArmhole(specificationStore.currentSpecification.fit.armhole);
+          setSleeveOpening(specificationStore.currentSpecification.fit.sleeveOpening);
+          setNeckRibLength(specificationStore.currentSpecification.fit.neckRibLength);
+          setNeckOpening(specificationStore.currentSpecification.fit.neckOpening);
+          setShoulderToShoulder(specificationStore.currentSpecification.fit.shoulderToShoulder);
+        } else {
+          setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
+          setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[0].chestWidth);
+          setBottomWidth(tenantStore.tenantSettingsTShirtFit.fits[0].bottomWidth);
+          setSleeveLength(tenantStore.tenantSettingsTShirtFit.fits[0].sleeveLength);
+          setArmhole(tenantStore.tenantSettingsTShirtFit.fits[0].armhole);
+          setSleeveOpening(tenantStore.tenantSettingsTShirtFit.fits[0].sleeveOpening);
+          setNeckRibLength(tenantStore.tenantSettingsTShirtFit.fits[0].neckRibLength);
+          setNeckOpening(tenantStore.tenantSettingsTShirtFit.fits[0].neckOpening);
+          setShoulderToShoulder(tenantStore.tenantSettingsTShirtFit.fits[0].shoulderToShoulder);
+        }
       }
     };
     fetchSettingsFit();
@@ -108,7 +120,6 @@ const Fit = observer((props: FitProps) => {
   };
 
   const handleSaveAndNext = () => {
-    console.log(totalLength, chestWidth, bottomWidth, sleeveLength, armhole, sleeveOpening, neckRibLength, neckOpening, shoulderToShoulder);
     specificationStore.putSpecification({
       progress: "FIT",
       fit: {
@@ -123,6 +134,18 @@ const Fit = observer((props: FitProps) => {
         shoulder_to_shoulder: shoulderToShoulder,
       }
     });
+    specificationStore.currentSpecification.progress = "FIT";
+    specificationStore.currentSpecification.fit = {
+      totalLength: totalLength,
+      chestWidth: chestWidth,
+      bottomWidth: bottomWidth,
+      sleeveLength: sleeveLength,
+      armhole: armhole,
+      sleeveOpening: sleeveOpening,
+      neckRibLength: neckRibLength,
+      neckOpening: neckOpening,
+      shoulderToShoulder: shoulderToShoulder,
+    };
     props.callBackUpdateState();
   };
 
@@ -673,4 +696,4 @@ const Fit = observer((props: FitProps) => {
   );
 });
 
-export default Fit;
+export default TShirtFit;
