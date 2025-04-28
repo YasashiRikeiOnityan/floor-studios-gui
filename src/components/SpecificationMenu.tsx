@@ -32,7 +32,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
       >
         <MenuItem>
           <div
-            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
             onClick={() => { }}
           >
             Details
@@ -40,7 +40,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         </MenuItem>
         <MenuItem>
           <div
-            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
             onClick={() => {
               router.push(`/design/edit?id=${props.specificationId}`);
             }}
@@ -50,7 +50,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         </MenuItem>
         <MenuItem>
           <div
-            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
             onClick={async () => {
               setIsDownloading(true);
               try {
@@ -70,7 +70,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         </MenuItem>
         <MenuItem>
           <div
-            className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+            className="block px-4 py-2 text-sm text-red-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
             onClick={async () => {
               if (window.confirm('Do you want to delete this specification?')) {
                 setIsDownloading(true);

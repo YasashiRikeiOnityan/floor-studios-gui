@@ -8,7 +8,6 @@ export const GetTenantInteractor = async (): Promise<Tenant> => {
 
 const mapTenant = (tenant: ApiGetTenantResponse): Tenant => {
   return {
-    tenantId: tenant.tenant_id,
     tenantName: tenant.tenant_name,
     contact: {
       firstName: tenant.contact?.first_name || "",

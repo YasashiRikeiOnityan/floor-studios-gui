@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetSpecificationsSpecificationIdResponse, ApiGetTenantResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutSpecificationsSpecificationIdRequest, ApiPutSpecificationsSpecificationIdResponse, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetSpecificationsSpecificationIdResponse, ApiGetTenantResponse, ApiGetTenantSettingsTShirtFitResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutSpecificationsSpecificationIdRequest, ApiPutSpecificationsSpecificationIdResponse, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -74,6 +74,19 @@ export const ApiPutTenant = async (tenant: ApiPutTenantRequest): Promise<ApiPutT
     throw error;
   }
 };
+
+export const ApiGetTenantSettingsTShirtFit = async (): Promise<ApiGetTenantSettingsTShirtFitResponse> => {
+  try {
+    const queryParams = {
+      kind: "SETTINGS#TSHIRT#FIT"
+    };
+    const response = await httpClient.get('/tenant', { params: queryParams });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 export const ApiGetUsers = async () => {
   try {

@@ -1,5 +1,4 @@
 export type Tenant = {
-  tenantId: string;
   tenantName: string;
   contact: {
     firstName: string;
@@ -26,8 +25,22 @@ export type Tenant = {
   };
 }
 
+export type TenantSettingsTShirtFit = {
+  fits: {
+    fitName: string;
+    totalLength: SizeValue;
+    chestWidth: SizeValue;
+    bottomWidth: SizeValue;
+    sleeveLength: SizeValue;
+    armhole: SizeValue;
+    sleeveOpening: SizeValue;
+    neckRibLength: SizeValue;
+    neckOpening: SizeValue;
+    shoulderToShoulder: SizeValue;
+  }[];
+}
+
 export type ApiGetTenantResponse = {
-  tenant_id: string;
   tenant_name: string;
   contact?: {
     first_name: string;
@@ -109,6 +122,21 @@ export type ApiPutTenantResponse = {
   };
 }
 
+export type ApiGetTenantSettingsTShirtFitResponse = {
+  fits: {
+    fit_name: string;
+    total_length: SizeValue;
+    chest_width: SizeValue;
+    bottom_width: SizeValue;
+    sleeve_length: SizeValue;
+    armhole: SizeValue;
+    sleeve_opening: SizeValue;
+    neck_rib_length: SizeValue;
+    neck_opening: SizeValue;
+    shoulder_to_shoulder: SizeValue;
+  }[];
+}
+
 export type ApiGetUsersUserIdResponse = {
   user_id: string;
   email: string;
@@ -159,8 +187,8 @@ export type Specification = {
   progress?: string;
   specificationGroupId: string;
   type?: string;
-  details?: {
-    [key: string]: string;
+  fit?: {
+    [key: string]: SizeValue;
   };
 }
 
@@ -205,8 +233,8 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   progress?: string;
   specification_group_id: string;
   type?: string;
-  details?: {
-    [key: string]: string;
+  fit?: {
+    [key: string]: SizeValue;
   };
 }
 
@@ -218,8 +246,8 @@ export type ApiPutSpecificationsSpecificationIdRequest = {
   type?: string;
   status?: SpecificationStatus;
   progress?: string;
-  details?: {
-    [key: string]: string;
+  fit?: {
+    [key: string]: SizeValue;
   };
 }
 
@@ -256,3 +284,13 @@ export const EditSteps = [
   {order: 10, name: "Information", progress: "INFORMATION"},
   {order: 11, name: "", progress: "COMPLETE"}
 ]
+
+export type SizeValue = {
+  xxs: number;
+  xs: number;
+  s: number;
+  m: number;
+  l: number;
+  xl: number;
+  xxl: number;
+}

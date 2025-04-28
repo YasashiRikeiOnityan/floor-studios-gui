@@ -21,7 +21,7 @@ const mapSpecification = (specification: ApiGetSpecificationsSpecificationIdResp
     specificationGroupId: specification.specification_group_id,
     type: specification.type || "",
     progress: specification.progress || "",
-    details: specification.details || {},
+    fit: specification.fit || {},
   }
 }
 

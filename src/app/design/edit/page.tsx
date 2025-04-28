@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import SelectType from "@/components/SelectType";
 import Loading from "@/components/Loading";
 import { EditSteps } from "@/lib/type";
+import Fit from "@/components/Fit";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -56,7 +57,7 @@ const EditDesignContent = observer(() => {
       case 1:
         return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />;
       case 2:
-        return <>Fit</>
+        return <Fit callBackUpdateState={() => {callBackUpdateState(2)}} />
       case 3:
         return <>Fabric</>
       case 4:

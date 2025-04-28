@@ -1,11 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Tenant } from "@/lib/type";
+import { Tenant, TenantSettingsTShirtFit } from "@/lib/type";
 import { GetTenantInteractor } from "@/interactor/GetTenantInteractor";
 import { PutTenantInteractor } from "@/interactor/PutTenantInteractor";
-
+import { GetTenantSettingsFitInteractor } from "@/interactor/GetTenantSettingsFitInteractor";
 class TenantStore {
   tenant: Tenant = {
-    tenantId: "",
     tenantName: "",
     contact: {
       firstName: "",
@@ -30,6 +29,9 @@ class TenantStore {
       city: "",
       country: "",
     },
+  };
+  tenantSettingsTShirtFit: TenantSettingsTShirtFit = {
+    fits: [],
   };
   isFetched: boolean = false;
   loading: boolean = false;
@@ -65,9 +67,15 @@ class TenantStore {
     });
   }
 
+  async fetchTenantSettingsFit() {
+    const response = await GetTenantSettingsFitInteractor();
+    runInAction(() => {
+      this.tenantSettingsTShirtFit = response;
+    });
+  }
+
   clear() {
     this.tenant = {
-      tenantId: "",
       tenantName: "",
       contact: {
         firstName: "",
