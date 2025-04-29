@@ -29,12 +29,12 @@ const EditDesignContent = observer(() => {
       if (mounted && specificationId) {
         await specificationStore.getSpecificationsSpecificationId(specificationId);
         const currentStepIndex = EditSteps.findIndex(step => step.progress === specificationStore.currentSpecification.progress);
-        if (currentStepIndex === -1) {
+        if (currentStepIndex <= 0) {
           setActualStep(1);
           setCurrentStep(1);
         } else {
-          setActualStep(currentStepIndex + 1);
-          setCurrentStep(currentStepIndex + 1);
+          setActualStep(currentStepIndex);
+          setCurrentStep(currentStepIndex);
         }
       }
     };
@@ -45,8 +45,8 @@ const EditDesignContent = observer(() => {
     if (step < actualStep) {
       setCurrentStep(actualStep);
     } else {
-      setCurrentStep(step + 1);
-      setActualStep(step + 1);
+      setCurrentStep(step);
+      setActualStep(step);
     }
   }
 
@@ -69,6 +69,16 @@ const EditDesignContent = observer(() => {
         return <>Fabric</>
       case 4:
         return <>Colurway</>
+      case 5:
+        return <>Necklabel</>
+      case 6:
+        return <>Carelabel</>
+      case 7:
+        return <>OEM Point</>
+      case 8:
+        return <>Sample</>
+      case 9:
+        return <>Main Production</>
       case 10:
         return <Information />
       default:

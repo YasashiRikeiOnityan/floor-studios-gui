@@ -187,8 +187,31 @@ export type Specification = {
   progress?: string;
   type?: SpecificationType;
   fit?: TShirtFit;
+  information?: {
+    contact?: {
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      email: string;
+    };
+    billingAddress?: {
+      addressLine1: string;
+      addressLine2: string;
+      zipCode: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+    shippingAddress?: {
+      addressLine1: string;
+      addressLine2: string;
+      zipCode: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+  };
 }
-
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
 export type SpecificationType = "T-SHIRT" | "SHORTS" | undefined;
@@ -228,6 +251,30 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   fit?: {
     [key: string]: SizeValue;
   };
+  information?: {
+    contact?: {
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
+    };
+    billing_address?: {
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+    shipping_address?: {
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+  };
 }
 
 export type ApiPutSpecificationsSpecificationIdRequest = {
@@ -240,6 +287,30 @@ export type ApiPutSpecificationsSpecificationIdRequest = {
   progress?: string;
   fit?: {
     [key: string]: SizeValue;
+  };
+  information?: {
+    contact?: {
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
+    };
+    billing_address?: {
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+    shipping_address?: {
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+    };
   };
 }
 
