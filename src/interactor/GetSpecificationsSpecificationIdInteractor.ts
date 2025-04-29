@@ -22,6 +22,7 @@ const mapSpecification = (specification: ApiGetSpecificationsSpecificationIdResp
     type: mapSpecificationType(specification.type || ""),
     progress: specification.progress || "",
     fit: convertFit(specification.type || "", specification.fit || {}),
+    information: convertInformation(specification.information || {}),
   }
 }
 
@@ -51,4 +52,34 @@ const convertFit = (type: string, fit: ApiGetSpecificationsSpecificationIdRespon
     }
   }
   return undefined
+}
+
+const convertInformation = (information: ApiGetSpecificationsSpecificationIdResponse["information"]) => {
+  if (!information) {
+    return undefined
+  }
+  return {
+    contact: {
+      firstName: information.contact?.first_name || "",
+      lastName: information.contact?.last_name || "",
+      phoneNumber: information.contact?.phone_number || "",
+      email: information.contact?.email || "",
+    },
+    billingAddress: {
+      addressLine1: information.billing_address?.address_line_1 || "",
+      addressLine2: information.billing_address?.address_line_2 || "",
+      zipCode: information.billing_address?.zip_code || "",
+      state: information.billing_address?.state || "",
+      city: information.billing_address?.city || "",
+      country: information.billing_address?.country || "",
+    },
+    shippingAddress: {
+      addressLine1: information.shipping_address?.address_line_1 || "",
+      addressLine2: information.shipping_address?.address_line_2 || "",
+      zipCode: information.shipping_address?.zip_code || "",
+      state: information.shipping_address?.state || "",
+      city: information.shipping_address?.city || "",
+      country: information.shipping_address?.country || "",
+    }
+  }
 }
