@@ -187,6 +187,7 @@ export type Specification = {
   progress?: string;
   type?: SpecificationType;
   fit?: TShirtFit;
+  mainProduction?: TShirtMainProduction;
   information?: {
     contact?: {
       firstName: string;
@@ -251,6 +252,12 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   fit?: {
     [key: string]: SizeValue;
   };
+  main_production?: {
+    quantity: {
+      [key: string]: number;
+    };
+    delivery_date: string;
+  };
   information?: {
     contact?: {
       first_name: string;
@@ -287,6 +294,12 @@ export type ApiPutSpecificationsSpecificationIdRequest = {
   progress?: string;
   fit?: {
     [key: string]: SizeValue;
+  };
+  main_production?: {
+    quantity: {
+      [key: string]: number;
+    };
+    delivery_date: string;
   };
   information?: {
     contact?: {
@@ -368,4 +381,17 @@ export type TShirtFit = {
   neckRibLength: SizeValue;
   neckOpening: SizeValue;
   shoulderToShoulder: SizeValue;
+}
+
+export type TShirtMainProduction = {
+  quantity: {
+    xxs: number;
+    xs: number;
+    s: number;
+    m: number;
+    l: number;
+    xl: number;
+    xxl: number;
+  };
+  deliveryDate: string;
 }

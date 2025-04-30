@@ -1,5 +1,5 @@
 import { ApiGetSpecificationsSpecificationId } from "@/lib/api";
-import { ApiGetSpecificationsSpecificationIdResponse, Specification, SpecificationStatus, SpecificationType, TShirtFit } from "@/lib/type";
+import { ApiGetSpecificationsSpecificationIdResponse, Specification, SpecificationStatus, SpecificationType, TShirtFit, TShirtMainProduction } from "@/lib/type";
 
 export const GetSpecificationsSpecificationIdInteractor = async (specificationId: string): Promise<Specification> => {
   const response = await ApiGetSpecificationsSpecificationId(specificationId);
@@ -22,6 +22,7 @@ const mapSpecification = (specification: ApiGetSpecificationsSpecificationIdResp
     type: mapSpecificationType(specification.type || ""),
     progress: specification.progress || "",
     fit: convertFit(specification.type || "", specification.fit || {}),
+    mainProduction: convertMainProduction(specification.type || "", specification.main_production || { quantity: {}, delivery_date: "" }),
     information: convertInformation(specification.information || {}),
   }
 }
@@ -49,6 +50,27 @@ const convertFit = (type: string, fit: ApiGetSpecificationsSpecificationIdRespon
       neckRibLength: fit.neck_rib_length || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       neckOpening: fit.neck_opening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       shoulderToShoulder: fit.shoulder_to_shoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+    }
+  }
+  return undefined
+}
+
+const convertMainProduction = (type: string, mainProduction: ApiGetSpecificationsSpecificationIdResponse["main_production"]): TShirtMainProduction | undefined => {
+  if (!mainProduction) {
+    return undefined
+  }
+  if (type === "T-SHIRT") {
+    return {
+      quantity: {
+        xxs: mainProduction.quantity.xxs || 0,
+        xs: mainProduction.quantity.xs || 0,
+        s: mainProduction.quantity.s || 0,
+        m: mainProduction.quantity.m || 0,
+        l: mainProduction.quantity.l || 0,
+        xl: mainProduction.quantity.xl || 0,
+        xxl: mainProduction.quantity.xxl || 0,
+      },
+      deliveryDate: mainProduction.delivery_date || "",
     }
   }
   return undefined

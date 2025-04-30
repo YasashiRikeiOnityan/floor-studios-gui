@@ -29,7 +29,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
   useEffect(() => {
     const fetchSettingsFit = async () => {
       if (mounted) {
-        await tenantStore.fetchTenantSettingsTShirtFit();
         if (specificationStore.currentSpecification.fit) {
           setTotalLength(specificationStore.currentSpecification.fit.totalLength);
           setChestWidth(specificationStore.currentSpecification.fit.chestWidth);
@@ -41,6 +40,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           setNeckOpening(specificationStore.currentSpecification.fit.neckOpening);
           setShoulderToShoulder(specificationStore.currentSpecification.fit.shoulderToShoulder);
         } else {
+          await tenantStore.fetchTenantSettingsTShirtFit();
           setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
           setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[0].chestWidth);
           setBottomWidth(tenantStore.tenantSettingsTShirtFit.fits[0].bottomWidth);

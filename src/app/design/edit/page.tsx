@@ -11,6 +11,7 @@ import Loading from "@/components/Loading";
 import { EditSteps } from "@/lib/type";
 import TShirtFit from "@/components/TShirtFit";
 import Information from "@/components/Information";
+import MainProduction from "@/components/MainProduction";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -78,7 +79,7 @@ const EditDesignContent = observer(() => {
       case 8:
         return <>Sample</>
       case 9:
-        return <>Main Production</>
+        return <MainProduction type={specificationStore.currentSpecification.type} callBackUpdateState={() => {callBackUpdateState(9)}} />
       case 10:
         return <Information />
       default:
