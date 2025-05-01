@@ -108,6 +108,7 @@ const Information = observer(() => {
         country: shippingCountry,
       },
     };
+    // 完了画面に遷移させて、そこでステータスを変更させる。
     router.push("/orders");
   }
 
@@ -132,6 +133,10 @@ const Information = observer(() => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+      </p>
+      <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Confirm your information</h1>
       <dl className="divide-y divide-gray-100">
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt className="text-sm/6 text-gray-900">Contact</dt>

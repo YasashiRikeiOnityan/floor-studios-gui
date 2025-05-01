@@ -12,6 +12,7 @@ import { EditSteps } from "@/lib/type";
 import TShirtFit from "@/components/TShirtFit";
 import Information from "@/components/Information";
 import MainProduction from "@/components/MainProduction";
+import Fabric from "@/components/Fabric";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -67,7 +68,7 @@ const EditDesignContent = observer(() => {
           return <SelectType callBackUpdateState={() => {callBackUpdateState(1)}} />
         }
       case 3:
-        return <>Fabric</>
+        return <Fabric />
       case 4:
         return <>Colurway</>
       case 5:
