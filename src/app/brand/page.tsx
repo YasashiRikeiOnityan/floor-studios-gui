@@ -110,6 +110,30 @@ const Brand = observer(() => {
         country: shippingCountry,
       },
     });
+    tenantStore.tenant.tenantName = tenantName;
+    tenantStore.tenant.contact = {
+      firstName: contactFirstName,
+      lastName: contactLastName,
+      phoneNumber: contactPhoneNumber,
+      email: contactEmail,
+    };
+    tenantStore.tenant.billingAddress = {
+      addressLine1: billingAddressLine1,
+      addressLine2: billingAddressLine2,
+      zipCode: billingZipCode,
+      state: billingState,
+      city: billingCity,
+      country: billingCountry,
+    };
+    tenantStore.tenant.shippingAddress = {
+      sameAsBillingAddress: sameAsBillingAddress,
+      addressLine1: shippingAddressLine1,
+      addressLine2: shippingAddressLine2,
+      zipCode: shippingZipCode,
+      state: shippingState,
+      city: shippingCity,
+      country: shippingCountry,
+    };
     setIsEditing(false);
   }
 

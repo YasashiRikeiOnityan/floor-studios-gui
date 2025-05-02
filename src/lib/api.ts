@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetSpecificationsSpecificationIdResponse, ApiGetTenantResponse, ApiGetTenantSettingsTShirtFitResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutSpecificationsSpecificationIdRequest, ApiPutSpecificationsSpecificationIdResponse, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetSpecificationsSpecificationIdResponse, ApiGetTenantResponse, ApiGetTenantSettingsTShirtFabricResponse, ApiGetTenantSettingsTShirtFitResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutSpecificationsSpecificationIdRequest, ApiPutSpecificationsSpecificationIdResponse, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 
@@ -57,7 +57,10 @@ httpClient.interceptors.response.use(
 
 export const ApiGetTenant = async (): Promise<ApiGetTenantResponse> => {
   try {
-    const response = await httpClient.get('/tenant');
+    const queryParams = {
+      kind: "TENANT"
+    };
+    const response = await httpClient.get('/tenant', { params: queryParams });
     return response.data;
   } catch (error) {
     console.error('Failed to fetch tenant:', error);
@@ -79,6 +82,19 @@ export const ApiGetTenantSettingsTShirtFit = async (): Promise<ApiGetTenantSetti
   try {
     const queryParams = {
       kind: "SETTINGS#TSHIRT#FIT"
+    };
+    const response = await httpClient.get('/tenant', { params: queryParams });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export const ApiGetTenantSettingsTShirtFabric = async (): Promise<ApiGetTenantSettingsTShirtFabricResponse> => {
+  try {
+    const queryParams = {
+      kind: "SETTINGS#TSHIRT#FABRIC"
     };
     const response = await httpClient.get('/tenant', { params: queryParams });
     return response.data;

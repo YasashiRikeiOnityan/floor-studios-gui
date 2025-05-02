@@ -1,7 +1,37 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
+import Button from "./Button";
+import { useEffect, useState } from "react";
+import { tenantStore } from "@/stores/tenantStore";
+// import { Material, SubMaterial } from "@/lib/type";
 
 const Fabric = observer(() => {
+
+  // const [selectedMaterials, setSelectedMaterials] = useState<Material[]>([]);
+  // const [selectedSubMaterials, setSelectedSubMaterials] = useState<SubMaterial[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      const fetchTenantSettingsTShirtFabric = async () => {
+        await tenantStore.fetchTenantSettingsTShirtFabric();
+      };
+      fetchTenantSettingsTShirtFabric();
+    }
+  }, [mounted]);
+
+  const handleCancel = () => {
+    
+  };
+
+  const handleSaveAndNext = () => {
+    
+  };
+
   return (
     <>
       <p className="text-sm text-gray-500">
@@ -19,6 +49,23 @@ const Fabric = observer(() => {
           <dt className="text-sm/6 text-gray-900">Clourway</dt>
         </div>
       </dl>
+      {/* ボタン */}
+      <div className="mt-6 flex flex-row gap-x-3 justify-end">
+        <Button
+          type={"button"}
+          onClick={handleCancel}
+          text={"Cancel"}
+          style={"text"}
+          fullWidth={false}
+        />
+        <Button
+          type={"button"}
+          onClick={handleSaveAndNext}
+          text={"Save and Next"}
+          style={"fill"}
+          fullWidth={false}
+        />
+      </div>
     </>
   );
 });

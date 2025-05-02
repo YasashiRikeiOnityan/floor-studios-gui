@@ -123,16 +123,18 @@ const MainProduction = (props: MainProductionProps) => {
         </div>
       }
       {/* 希望納期 */}
-      <div className="mt-6 space-y-4">
-        <Toggle label="Set delivery date" enabled={deliveryDateEnabled} setEnabled={() => setDeliveryDateEnabled(!deliveryDateEnabled)} />
+      <div className="mt-10 items-center md:grid md:grid-cols-3 md:gap-4">
+        <div className="mb-2 md:mb-0 md:col-span-1">
+          <Toggle label="Set delivery date" enabled={deliveryDateEnabled} setEnabled={() => setDeliveryDateEnabled(!deliveryDateEnabled)} />
+        </div>
         {deliveryDateEnabled && (
           <input
             type="date"
             value={deliveryDate}
             onChange={(e) => setDeliveryDate(e.target.value)}
-            className="block rounded-md bg-white px-3 py-1.5 text-center text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            className="w-full block rounded-md bg-white px-3 py-1.5 text-center text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
           />
-        )}
+          )}
       </div>
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">

@@ -40,6 +40,38 @@ export type TenantSettingsTShirtFit = {
   }[];
 }
 
+export type TenantSettingsTShirtFabric = {
+  materials: {
+    rowMaterial: string;
+    thickness: string;
+  }[];
+  subMaterials: {
+    rowMaterial: string;
+  }[];
+  colourways: {
+    pantone: string;
+    hex: string;
+  }[];
+}
+
+export type Material = {
+  rowMaterial: string;
+  thickness: string;
+  description: string;
+  colourway: Colourway;
+}
+
+export type SubMaterial = {
+  rowMaterial: string;
+  description: string;
+  colourway: Colourway;
+}
+
+export type Colourway = {
+  pantone: string;
+  hex: string;
+}
+
 export type ApiGetTenantResponse = {
   tenant_name: string;
   contact?: {
@@ -134,6 +166,20 @@ export type ApiGetTenantSettingsTShirtFitResponse = {
     neck_rib_length: SizeValue;
     neck_opening: SizeValue;
     shoulder_to_shoulder: SizeValue;
+  }[];
+}
+
+export type ApiGetTenantSettingsTShirtFabricResponse = {
+  materials: {
+    row_material: string;
+    thickness: string;
+  }[];
+  sub_materials: {
+    row_material: string;
+  }[];
+  colourways: {
+    pantone: string;
+    hex: string;
   }[];
 }
 
