@@ -1,6 +1,7 @@
 import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
 import { action, makeAutoObservable } from "mobx";
-import { ApiPutSpecificationsSpecificationIdRequest, Specification, SpecificationStatus } from "@/lib/type";
+import { SpecificationStatus } from "@/lib/type";
+import { Specification, ApiPutSpecificationsSpecificationIdRequest } from "@/lib/type/specification/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
