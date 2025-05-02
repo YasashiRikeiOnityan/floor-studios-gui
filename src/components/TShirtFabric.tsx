@@ -45,9 +45,6 @@ const Fabric = observer(() => {
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt className="text-sm/6 text-gray-900">Sub Material</dt>
         </div>
-        <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Clourway</dt>
-        </div>
       </dl>
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">

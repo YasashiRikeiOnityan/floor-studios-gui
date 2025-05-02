@@ -233,6 +233,7 @@ export type Specification = {
   progress?: string;
   type?: SpecificationType;
   fit?: TShirtFit;
+  fabric?: TShirtFabric;
   mainProduction?: TShirtMainProduction;
   information?: {
     contact?: {
@@ -259,6 +260,7 @@ export type Specification = {
     };
   };
 }
+
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
 export type SpecificationType = "T-SHIRT" | "SHORTS" | undefined;
@@ -280,7 +282,6 @@ export type ApiPostSpecificationsResponse = {
   specification_id: string;
 }
 
-
 export type ApiGetSpecificationsSpecificationIdResponse = {
   specification_id: string;
   brand_name: string;
@@ -297,6 +298,19 @@ export type ApiGetSpecificationsSpecificationIdResponse = {
   type?: string;
   fit?: {
     [key: string]: SizeValue;
+  };
+  fabric?: {
+    materials: {
+      row_material: string;
+      thickness: string;
+      description: string;
+      colourway: Colourway;
+    }[];
+    sub_materials: {
+      row_material: string;
+      description: string;
+      colourway: Colourway;
+    }[];
   };
   main_production?: {
     quantity: {
@@ -427,6 +441,11 @@ export type TShirtFit = {
   neckRibLength: SizeValue;
   neckOpening: SizeValue;
   shoulderToShoulder: SizeValue;
+}
+
+export type TShirtFabric = {
+  materials: Material[];
+  subMaterials: SubMaterial[];
 }
 
 export type TShirtMainProduction = {

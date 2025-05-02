@@ -12,7 +12,7 @@ import { EditSteps } from "@/lib/type";
 import TShirtFit from "@/components/TShirtFit";
 import Information from "@/components/Information";
 import MainProduction from "@/components/MainProduction";
-import Fabric from "@/components/Fabric";
+import Fabric from "@/components/TShirtFabric";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
