@@ -5,46 +5,10 @@ import {
 } from "@/lib/type/specification/type";
 
 export type TShirtSpecification = {
-  specificationId: string;
-  brandName: string;
-  productName: string;
-  productCode: string;
-  updatedBy: {
-    userId: string;
-    userName: string;
-  };
-  updatedAt: string;
-  status: SpecificationStatus;
-  specificationGroupId: string;
-  type: "T-SHIRT";
-  progress: string;
   fit?: TShirtFit;
   fabric?: TShirtFabric;
+  sample?: TShirtSample;
   mainProduction?: TShirtMainProduction;
-  information?: {
-    contact?: {
-      firstName: string;
-      lastName: string;
-      phoneNumber: string;
-      email: string;
-    };
-    billingAddress?: {
-      addressLine1: string;
-      addressLine2: string;
-      zipCode: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-    shippingAddress?: {
-      addressLine1: string;
-      addressLine2: string;
-      zipCode: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-  };
 };
 
 export type TShirtFit = {
@@ -77,6 +41,20 @@ export type TShirtFabric = {
     };
     description: string;
   }[];
+};
+
+export type TShirtSample = {
+  sample: boolean;
+  quantity?: {
+    xxs: number;
+    xs: number;
+    s: number;
+    m: number;
+    l: number;
+    xl: number;
+    xxl: number;
+  };
+  canSendSample?: boolean;
 };
 
 export type TShirtMainProduction = {
@@ -141,6 +119,19 @@ export type ApiGetTShirtSpecificationResponse = {
       };
       description: string;
     }[];
+  };
+  sample?: {
+    sample: boolean;
+    quantity?: {
+      xxs: number;
+      xs: number;
+      s: number;
+      m: number;
+      l: number;
+      xl: number;
+      xxl: number;
+    };
+    can_send_sample: boolean;
   };
   main_production?: {
     quantity: {
@@ -219,6 +210,19 @@ export type ApiPutTShirtSpecificationRequest = {
       description: string;
     }[];
   };
+  sample?: {
+    sample: boolean;
+    quantity?: {
+      xxs: number;
+      xs: number;
+      s: number;
+      m: number;
+      l: number;
+      xl: number;
+      xxl: number;
+    };
+    can_send_sample?: boolean;
+  };
   main_production?: {
     quantity: {
       xxs: number;
@@ -262,4 +266,17 @@ export type ApiPutTShirtSpecificationResponse = {
   specification_id: string;
 };
 
+export const TShirtEditSteps = [
+  {order: 0, name: "", progress: "INITIAL"},
+  {order: 1, name: "Type", progress: "TYPE"},
+  {order: 2, name: "Fit", progress: "FIT"},
+  {order: 3, name: "Fabric", progress: "FABRIC"},
+  {order: 4, name: "Tag", progress: "TAG"},
+  {order: 5, name: "Carelabel", progress: "CARELABEL"},
+  {order: 6, name: "OEM Point", progress: "OEMPOINT"},
+  {order: 7, name: "Sample", progress: "SAMPLE"},
+  {order: 8, name: "Main Production", progress: "MAINPRODUCTION"},
+  {order: 9, name: "Information", progress: "INFORMATION"},
+  {order: 10, name: "", progress: "COMPLETE"}
+]
 

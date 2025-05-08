@@ -1,22 +1,49 @@
 import {
   ApiGetTShirtSpecificationResponse,
   ApiPutTShirtSpecificationRequest,
-  TShirtSpecification
+  TShirtSpecification,
 } from "@/lib/type/specification/t-shirt/type";
 
-type FirstSpecification = {
+export type Specification = {
   specificationId: string;
   brandName: string;
   productName: string;
   productCode: string;
+  type?: SpecificationType;
+  status?: SpecificationStatus;
+  progress?: string;
+  specificationGroupId?: string;
   updatedBy?: {
     userId: string;
     userName: string;
   };
   updatedAt?: string;
+  information?: {
+    contact?: {
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      email: string;
+    };
+    billingAddress?: {
+      addressLine1: string;
+      addressLine2: string;
+      zipCode: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+    shippingAddress?: {
+      addressLine1: string;
+      addressLine2: string;
+      zipCode: string;
+      state: string;
+      city: string;
+      country: string;
+    };
+  };
+  tshirt?: TShirtSpecification;
 }
-
-export type Specification = FirstSpecification | TShirtSpecification;
 
 export type ApiGetSpecificationsSpecificationIdResponse = ApiGetTShirtSpecificationResponse;
 
@@ -50,3 +77,21 @@ export type SizeValue = {
   xl: number;
   xxl: number;
 };
+
+export type Material = {
+  rowMaterial: string;
+  thickness: string;
+  description: string;
+  colourway: Colourway;
+}
+
+export type SubMaterial = {
+  rowMaterial: string;
+  description: string;
+  colourway: Colourway;
+}
+
+export type Colourway = {
+  pantone: string;
+  hex: string;
+}

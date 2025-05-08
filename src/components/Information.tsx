@@ -74,6 +74,7 @@ const Information = observer(() => {
           country: billingCountry,
         },
         shipping_address: {
+          same_as_billing_address: true,
           address_line_1: shippingAddressLine1,
           address_line_2: shippingAddressLine2,
           zip_code: shippingZipCode,

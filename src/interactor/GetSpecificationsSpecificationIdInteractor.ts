@@ -1,4 +1,5 @@
 import { ApiGetSpecificationsSpecificationId } from "@/lib/api";
+import { TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 import {
   Specification,
   SpecificationStatus,
@@ -11,20 +12,21 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
 }
 
 const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse): Specification => {
-  if (specification.type === "T-SHIRT") {
-    return formatTShirtSpecification(specification);
-  } else {
-    return {
-      specificationId: specification.specification_id,
-      brandName: specification.brand_name,
-      productName: specification.product_name,
-      productCode: specification.product_code,
-      updatedBy: {
-        userId: specification.updated_by?.user_id || "",
-        userName: specification.updated_by?.user_name || "",
-      },
-      updatedAt: specification.updated_at || "",
-    };
+  return {
+    specificationId: specification.specification_id,
+    brandName: specification.brand_name,
+    productName: specification.product_name,
+    productCode: specification.product_code,
+    updatedBy: {
+      userId: specification.updated_by?.user_id || "",
+      userName: specification.updated_by?.user_name || "",
+    },
+    updatedAt: specification.updated_at || "",
+    status: formatSpecificationStatus(specification.status || ""),
+    type: specification.type || undefined,
+    progress: specification.progress || "",
+    tshirt: specification.type === "T-SHIRT" ? formatTShirtSpecification(specification) : undefined,
+    information: formatInformation(specification.information),
   }
 }
 
@@ -59,22 +61,9 @@ const formatInformation = (information: ApiGetSpecificationsSpecificationIdRespo
   }
 }
 
-const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse): Specification => {
+const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse): TShirtSpecification => {
   return {
-    specificationId: specification.specification_id,
-    brandName: specification.brand_name,
-    productName: specification.product_name,
-    productCode: specification.product_code,
-    updatedBy: {
-      userId: specification.updated_by?.user_id || "",
-      userName: specification.updated_by?.user_name || "",
-    },
-    updatedAt: specification.updated_at || "",
-    status: formatSpecificationStatus(specification.status || ""),
-    specificationGroupId: specification.specification_group_id,
-    type: "T-SHIRT",
-    progress: specification.progress || "",
-    fit: {
+    fit: specification.fit ? {
       totalLength: specification.fit?.total_length || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       chestWidth: specification.fit?.chest_width || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       bottomWidth: specification.fit?.bottom_width || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
@@ -84,7 +73,7 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       neckRibLength: specification.fit?.neck_rib_length || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       neckOpening: specification.fit?.neck_opening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       shoulderToShoulder: specification.fit?.shoulder_to_shoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
-    },
+    } : undefined,
     fabric: {
       materials: (specification.fabric?.materials || []).map((material) => ({
         rowMaterial: material?.row_material || "",
@@ -104,6 +93,19 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
         description: subMaterial.description || "",
       })),
     },
+    sample: {
+      sample: specification.sample?.sample || false,
+      quantity: {
+        xxs: specification.sample?.quantity?.xxs || 0,
+        xs: specification.sample?.quantity?.xs || 0,
+        s: specification.sample?.quantity?.s || 0,
+        m: specification.sample?.quantity?.m || 0,
+        l: specification.sample?.quantity?.l || 0,
+        xl: specification.sample?.quantity?.xl || 0,
+        xxl: specification.sample?.quantity?.xxl || 0,
+      },
+      canSendSample: specification.sample?.can_send_sample || false,
+    },
     mainProduction: {
       quantity: {
         xxs: specification.main_production?.quantity.xxs || 0,
@@ -116,6 +118,5 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       },
       deliveryDate: specification.main_production?.delivery_date || "",
     },
-    information: formatInformation(specification.information),
   }
 }

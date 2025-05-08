@@ -24,16 +24,10 @@ class SpecificationStore {
     brandName: "",
     productName: "",
     productCode: "",
-    updatedBy: {
-      userId: "",
-      userName: "",
-    },
-    updatedAt: "",
-    status: undefined,
-    progress: "INITIAL",
     specificationGroupId: "",
+    status: undefined,
     type: undefined,
-    fit: undefined,
+    tshirt: undefined,
   }
   specifications: Specification[] = [];
   loading: boolean = false;
@@ -111,9 +105,8 @@ class SpecificationStore {
       },
       updatedAt: "",
       status: undefined,
-      progress: "INITIAL",
       type: undefined,
-      fit: undefined,
+      tshirt: undefined,
     };
   }
 

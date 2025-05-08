@@ -3,6 +3,7 @@ import { ApiGetTenantSettingsTShirtFabricResponse, TenantSettingsTShirtFabric } 
 
 export const GetTenantSettingsTShirtFabricInteractor = async (): Promise<TenantSettingsTShirtFabric> => {
   const response = await ApiGetTenantSettingsTShirtFabric();
+  console.log(mapTenantSettingsTShirtFabric(response));
   return mapTenantSettingsTShirtFabric(response);
 };
 

@@ -10,15 +10,15 @@ type TShirtFitProps = {
 };
 
 const TShirtFit = observer((props: TShirtFitProps) => {
-  const [totalLength, setTotalLength] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [chestWidth, setChestWidth] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [bottomWidth, setBottomWidth] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [sleeveLength, setSleeveLength] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [armhole, setArmhole] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [sleeveOpening, setSleeveOpening] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [neckRibLength, setNeckRibLength] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [neckOpening, setNeckOpening] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>({ xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [totalLength, setTotalLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [chestWidth, setChestWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [bottomWidth, setBottomWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [sleeveLength, setSleeveLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [armhole, setArmhole] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [sleeveOpening, setSleeveOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [neckRibLength, setNeckRibLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [neckOpening, setNeckOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
 
   const [mounted, setMounted] = useState(false);
 
@@ -29,16 +29,16 @@ const TShirtFit = observer((props: TShirtFitProps) => {
   useEffect(() => {
     const fetchSettingsFit = async () => {
       if (mounted) {
-        if (specificationStore.currentSpecification.fit) {
-          setTotalLength(specificationStore.currentSpecification.fit.totalLength);
-          setChestWidth(specificationStore.currentSpecification.fit.chestWidth);
-          setBottomWidth(specificationStore.currentSpecification.fit.bottomWidth);
-          setSleeveLength(specificationStore.currentSpecification.fit.sleeveLength);
-          setArmhole(specificationStore.currentSpecification.fit.armhole);
-          setSleeveOpening(specificationStore.currentSpecification.fit.sleeveOpening);
-          setNeckRibLength(specificationStore.currentSpecification.fit.neckRibLength);
-          setNeckOpening(specificationStore.currentSpecification.fit.neckOpening);
-          setShoulderToShoulder(specificationStore.currentSpecification.fit.shoulderToShoulder);
+        if (specificationStore.currentSpecification.tshirt?.fit) {
+          setTotalLength(specificationStore.currentSpecification.tshirt.fit.totalLength);
+          setChestWidth(specificationStore.currentSpecification.tshirt.fit.chestWidth);
+          setBottomWidth(specificationStore.currentSpecification.tshirt.fit.bottomWidth);
+          setSleeveLength(specificationStore.currentSpecification.tshirt.fit.sleeveLength);
+          setArmhole(specificationStore.currentSpecification.tshirt.fit.armhole);
+          setSleeveOpening(specificationStore.currentSpecification.tshirt.fit.sleeveOpening);
+          setNeckRibLength(specificationStore.currentSpecification.tshirt.fit.neckRibLength);
+          setNeckOpening(specificationStore.currentSpecification.tshirt.fit.neckOpening);
+          setShoulderToShoulder(specificationStore.currentSpecification.tshirt.fit.shoulderToShoulder);
         } else {
           await tenantStore.fetchTenantSettingsTShirtFit();
           setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
@@ -134,17 +134,19 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         shoulder_to_shoulder: shoulderToShoulder,
       }
     });
-    specificationStore.currentSpecification.progress = "FIT";
-    specificationStore.currentSpecification.fit = {
-      totalLength: totalLength,
-      chestWidth: chestWidth,
-      bottomWidth: bottomWidth,
-      sleeveLength: sleeveLength,
-      armhole: armhole,
-      sleeveOpening: sleeveOpening,
-      neckRibLength: neckRibLength,
-      neckOpening: neckOpening,
-      shoulderToShoulder: shoulderToShoulder,
+    specificationStore.currentSpecification.tshirt = {
+      ...specificationStore.currentSpecification.tshirt,
+      fit: {
+        totalLength: totalLength,
+        chestWidth: chestWidth,
+        bottomWidth: bottomWidth,
+        sleeveLength: sleeveLength,
+        armhole: armhole,
+        sleeveOpening: sleeveOpening,
+        neckRibLength: neckRibLength,
+        neckOpening: neckOpening,
+        shoulderToShoulder: shoulderToShoulder,
+      },
     };
     props.callBackUpdateState();
   };
