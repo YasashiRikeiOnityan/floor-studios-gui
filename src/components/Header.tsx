@@ -59,14 +59,14 @@ const Header = observer((props: HeaderProps) => {
           <div className="flex">
             <div className="flex shrink-0 items-center">
               <img
-                alt="Your Company"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                className="block h-8 w-auto lg:hidden"
+                alt="Floor Studios"
+                src="/FloorStudios.png"
+                className="block h-4 w-auto lg:hidden"
               />
               <img
-                alt="Your Company"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                className="hidden h-8 w-auto lg:block"
+                alt="Floor Studios"
+                src="/FloorStudios.png"
+                className="hidden h-4 w-auto lg:block"
               />
             </div>
             <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
