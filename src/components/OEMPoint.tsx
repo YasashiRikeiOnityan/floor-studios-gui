@@ -83,9 +83,10 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleSaveAndNext = async () => {
+    const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => !(oemPoint.oemPoint === "" && !oemPoint.file));
     specificationStore.putSpecification({
       progress: "SAMPLE",
-      oem_points: await Promise.all(oemPoints.map(async (oemPoint) => {
+      oem_points: await Promise.all(oemPointsWithoutEmpty.map(async (oemPoint) => {
         return oemPoint.file ? {
           oem_point: oemPoint.oemPoint,
           file: {
@@ -101,7 +102,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
     specificationStore.currentSpecification = {
       ...specificationStore.currentSpecification,
       progress: "SAMPLE",
-      oemPoints: oemPoints,
+      oemPoints: oemPointsWithoutEmpty,
     };
     props.callBackUpdateState();
   };
@@ -215,15 +216,15 @@ const OEMPoint = observer((props: OEMPointProps) => {
         <Button
           type="button"
           onClick={handleAddOemPoint}
-          children={
-            <div className="flex items-center gap-x-2">
-              <PlusIcon className="size-5" />
-              <p>Add OEM Point</p>
-            </div>
-          }
           style={"text"}
+          disabled={oemPoints.length >= 3}
           fullWidth={true}
-        />
+        >
+          <div className="flex items-center gap-x-2">
+            <PlusIcon className="size-5" />
+            <p>Add OEM Point</p>
+          </div>
+        </Button>
       </div>
 
       {/* プレビューモーダル */}
