@@ -133,6 +133,14 @@ export type ApiGetTShirtSpecificationResponse = {
     };
     can_send_sample: boolean;
   };
+  oem_points?: {
+    oem_point: string;
+    file?: {
+      name: string;
+      content: string;
+      type: string;
+    };
+  }[];
   main_production?: {
     quantity: {
       xxs: number;
@@ -223,6 +231,14 @@ export type ApiPutTShirtSpecificationRequest = {
     };
     can_send_sample?: boolean;
   };
+  oem_points?: {
+    oem_point: string;
+    file?: {
+      name: string;
+      content: string;
+      type: string;
+    };
+  }[];
   main_production?: {
     quantity: {
       xxs: number;

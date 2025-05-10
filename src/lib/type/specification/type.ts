@@ -18,6 +18,10 @@ export type Specification = {
     userName: string;
   };
   updatedAt?: string;
+  oemPoints?: {
+    oemPoint: string;
+    file?: File;
+  }[];
   information?: {
     contact?: {
       firstName: string;

@@ -185,7 +185,11 @@ export const ApiGetSpecificationsSpecificationId = async (specificationId: strin
 
 export const ApiPutSpecificationsSpecificationId = async (specificationId: string, specification: ApiPutSpecificationsSpecificationIdRequest): Promise<ApiPutSpecificationsSpecificationIdResponse> => {
   try {
-    const response = await httpClient.put(`/specifications/${specificationId}`, specification);
+    const response = await httpClient.put(`/specifications/${specificationId}`, specification, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Failed to update specification:', error);

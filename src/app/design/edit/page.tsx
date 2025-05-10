@@ -71,7 +71,7 @@ const EditDesignContent = observer(() => {
         case 5:
           return <>Carelabel</>
         case 6:
-          return <OEMPoint />
+          return <OEMPoint callBackUpdateState={() => {callBackUpdateState(7)}} />
         case 7:
           return <TShirtsSample callBackUpdateState={() => {callBackUpdateState(8)}} />
         case 8:
