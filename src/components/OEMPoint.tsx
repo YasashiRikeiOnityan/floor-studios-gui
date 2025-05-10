@@ -2,7 +2,6 @@ import { specificationStore } from "@/stores/specificationStore";
 import { PaperClipIcon, TrashIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react";
 import Button from "@/components/Button";
-import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
 import { fileToBase64 } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
 
@@ -14,14 +13,27 @@ const OEMPoint = observer((props: OEMPointProps) => {
   const [oemPoints, setOemPoints] = useState<{
     oemPoint: string;
     file?: File;
-  }[]>([...(specificationStore.currentSpecification.oemPoints || [])]);
+  }[]>(() => {
+    const initialPoints = specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }];
+    return initialPoints.map(point => ({
+      oemPoint: point.oemPoint || "",
+      file: point.file || undefined
+    }));
+  });
   const [previewFile, setPreviewFile] = useState<File | undefined>(undefined);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const newOemPoints = [...oemPoints];
-      newOemPoints[index].file = event.target.files[0];
+      const newOemPoints = oemPoints.map((point, i) => {
+        if (i === index) {
+          return {
+            ...point,
+            file: event.target.files![0]
+          };
+        }
+        return point;
+      });
       setOemPoints(newOemPoints);
     }
   };
@@ -42,8 +54,15 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleRemoveFile = (index: number) => {
-    const newOemPoints = [...oemPoints];
-    newOemPoints[index].file = undefined;
+    const newOemPoints = oemPoints.map((point, i) => {
+      if (i === index) {
+        return {
+          ...point,
+          file: undefined
+        };
+      }
+      return point;
+    });
     setOemPoints(newOemPoints);
   };
 
@@ -56,12 +75,15 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleCancel = () => {
-    console.log(specificationStore.currentSpecification.oemPoints);
-    setOemPoints(specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }]);
+    const initialPoints = specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }];
+    setOemPoints(initialPoints.map(point => ({
+      oemPoint: point.oemPoint || "",
+      file: point.file || undefined
+    })));
   };
 
   const handleSaveAndNext = async () => {
-    const request: ApiPutTShirtSpecificationRequest = {
+    specificationStore.putSpecification({
       progress: "SAMPLE",
       oem_points: await Promise.all(oemPoints.map(async (oemPoint) => {
         return oemPoint.file ? {
@@ -75,9 +97,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
           oem_point: oemPoint.oemPoint,
         }
       }))
-    };
-
-    specificationStore.putSpecification(request);
+    });
     specificationStore.currentSpecification = {
       ...specificationStore.currentSpecification,
       progress: "SAMPLE",
@@ -222,7 +242,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                     src={previewUrl}
                     alt="Preview"
                     className="mx-auto max-h-[70vh] w-auto object-contain"
-                    onError={handleClosePreview}
+                    // onError={handleClosePreview}
                   />
                 </div>
               </div>
