@@ -7,8 +7,9 @@ type ButtonProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
   loading?: boolean;
   disabled?: boolean;
-  text: string;
+  text?: string;
   loadingText?: string;
+  children?: React.ReactNode;
   fullWidth?: boolean
 };
 
@@ -31,7 +32,7 @@ const Button = (props: ButtonProps) => {
       onClick={props.onClick}
       style={{ cursor: props.disabled ? "not-allowed" : "pointer" }}
     >
-      {props.loading ? props.loadingText : props.text}
+      {props.loading ? props.loadingText : props.children || props.text}
     </button>
   );
 };

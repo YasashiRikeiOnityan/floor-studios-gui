@@ -1,5 +1,5 @@
 import { specificationStore } from "@/stores/specificationStore";
-import { PaperClipIcon, TrashIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { PaperClipIcon, TrashIcon, XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react";
 import Button from "@/components/Button";
 import { fileToBase64 } from "@/lib/utils";
@@ -162,7 +162,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
               />
             </div>
             <div className="flex justify-between pt-2">
-              <div className="flex items-center space-x-5">
+              <div className="flex items-center space-x-3">
                 <div className="flex items-center">
                   <input
                     type="file"
@@ -199,7 +199,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                   </div>
                 )}
               </div>
-              {oemPoints.length > 1 && (
+              {oemPoints.length > 0 && (
                 <button
                   type="button"
                   onClick={() => handleRemoveOemPoint(index)}
@@ -215,9 +215,14 @@ const OEMPoint = observer((props: OEMPointProps) => {
         <Button
           type="button"
           onClick={handleAddOemPoint}
-          text={"Add OEM Point"}
+          children={
+            <div className="flex items-center gap-x-2">
+              <PlusIcon className="size-5" />
+              <p>Add OEM Point</p>
+            </div>
+          }
           style={"text"}
-          fullWidth={false}
+          fullWidth={true}
         />
       </div>
 
