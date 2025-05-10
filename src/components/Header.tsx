@@ -62,11 +62,13 @@ const Header = observer((props: HeaderProps) => {
                 alt="Floor Studios"
                 src="/FloorStudios.png"
                 className="block h-4 w-auto lg:hidden"
+                onClick={() => router.push("/orders")}
               />
               <img
                 alt="Floor Studios"
                 src="/FloorStudios.png"
                 className="hidden h-4 w-auto lg:block"
+                onClick={() => router.push("/orders")}
               />
             </div>
             <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">

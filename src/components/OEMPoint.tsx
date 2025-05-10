@@ -147,7 +147,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
       {/* メインコンテンツ */}
       <div className="space-y-6 mt-6">
         {oemPoints.map((oemPoint, index) => (
-          <div key={index} className="min-w-0 flex-1">
+          <div key={index} className="min-w-0 flex-1 border-l-2 border-indigo-100 pl-4 py-2">
             <div className="border-b border-gray-200 pb-px focus-within:border-b-2 focus-within:border-indigo-600 focus-within:pb-0">
               <label htmlFor={`comment-${index}`} className="sr-only">
                 Enter the OEM Point...
@@ -213,18 +213,17 @@ const OEMPoint = observer((props: OEMPointProps) => {
           </div>
         ))}
 
-        <Button
+        {oemPoints.length < 3 && <Button
           type="button"
           onClick={handleAddOemPoint}
           style={"text"}
-          disabled={oemPoints.length >= 3}
           fullWidth={true}
         >
           <div className="flex items-center gap-x-2">
             <PlusIcon className="size-5" />
             <p>Add OEM Point</p>
           </div>
-        </Button>
+        </Button>}
       </div>
 
       {/* プレビューモーダル */}
