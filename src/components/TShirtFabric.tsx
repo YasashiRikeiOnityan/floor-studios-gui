@@ -130,7 +130,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     specificationStore.putSpecification({
       ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
-        materials: await Promise.all(materials.map(async (m, index) => ({
+        materials: await Promise.all(materials.map(async (m) => ({
           row_material: m.rowMaterial,
           thickness: m.thickness,
           description: {
@@ -146,7 +146,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             hex: m.colourway.hex,
           },
         }))),
-        sub_materials: await Promise.all(subMaterials.map(async (m, index) => ({
+        sub_materials: await Promise.all(subMaterials.map(async (m) => ({
           row_material: m.rowMaterial,
           description: {
             description: m.description.description,
@@ -166,7 +166,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     specificationStore.currentSpecification.tshirt = {
       ...specificationStore.currentSpecification.tshirt,
       fabric: {
-        materials: materials.map((m, index) => ({
+        materials: materials.map((m) => ({
           rowMaterial: m.rowMaterial,
           thickness: m.thickness,
           description: {
@@ -175,7 +175,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           },
           colourway: m.colourway,
         })),
-        subMaterials: subMaterials.map((m, index) => ({
+        subMaterials: subMaterials.map((m) => ({
           rowMaterial: m.rowMaterial,
           description: {
             description: m.description.description,
