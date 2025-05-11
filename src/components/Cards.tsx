@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import SpecificationMenu from "./SpecificationMenu";
 import { observer } from "mobx-react-lite";
 import Loading from "./Loading";
+import { useRouter } from "next/navigation";
 
 type CardsProps = {
   specificationGroupId: string;
@@ -14,6 +15,8 @@ type CardsProps = {
 }
 
 const Cards = observer((props: CardsProps) => {
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSpecifications = async () => {
@@ -29,7 +32,13 @@ const Cards = observer((props: CardsProps) => {
   return (
     <>
       {specificationStore.specifications.map((specification) => (
-        <div key={specification.specificationId} className="rounded-lg bg-white shadow-md">
+        <div
+          key={specification.specificationId}
+          className="rounded-lg bg-white shadow-md cursor-pointer"
+          onClick={() => {
+            router.push(`/design/edit?id=${specification.specificationId}`);
+          }}
+        >
           <div className="p-4">
             <div className="flex items-center justify-between">
               <div className="gap-1">
@@ -37,11 +46,11 @@ const Cards = observer((props: CardsProps) => {
                   {specification.productName}
                 </div>
                 <div className="text-xs text-gray-500">
-                  {specification.brandName}
+                  {specification.productCode}
                 </div>
               </div>
-              <div className="relative">
-                <SpecificationMenu specificationId={specification.specificationId} />
+              <div className="relative" onClick={(e) => e.stopPropagation()}>
+                <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
               </div>
             </div>
             <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">

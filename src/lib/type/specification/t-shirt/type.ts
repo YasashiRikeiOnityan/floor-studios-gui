@@ -21,6 +21,7 @@ export type TShirtFit = {
   neckRibLength: SizeValue;
   neckOpening: SizeValue;
   shoulderToShoulder: SizeValue;
+  description: string;
 };
 
 export type TShirtFabric = {
@@ -100,6 +101,7 @@ export type ApiGetTShirtSpecificationResponse = {
     neck_rib_length: SizeValue;
     neck_opening: SizeValue;
     shoulder_to_shoulder: SizeValue;
+    description: string;
   };
   fabric?: {
     materials: {
@@ -198,6 +200,7 @@ export type ApiPutTShirtSpecificationRequest = {
     neck_rib_length: SizeValue;
     neck_opening: SizeValue;
     shoulder_to_shoulder: SizeValue;
+    description: string;
   };
   fabric?: {
     materials: {

@@ -56,7 +56,7 @@ const EditDesignContent = observer(() => {
 
   const renderContent = () => {
     if (specificationStore.loading) {
-      return <Loading full={true} />;
+      return <Loading />;
     }
     if (specificationStore.currentSpecification.type === "T-SHIRT") {
       switch (currentStep) {

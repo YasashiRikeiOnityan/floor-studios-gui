@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const TShirtFit = observer((props: TShirtFitProps) => {
+
   const [totalLength, setTotalLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [chestWidth, setChestWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [bottomWidth, setBottomWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
@@ -19,7 +21,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
   const [neckRibLength, setNeckRibLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [neckOpening, setNeckOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-
+  const [description, setDescription] = useState<string>(specificationStore.currentSpecification.tshirt?.fit?.description || "");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
 
   useEffect(() => {
     const fetchSettingsFit = async () => {
+      await tenantStore.fetchTenantSettingsTShirtFit();
       if (mounted) {
         if (specificationStore.currentSpecification.tshirt?.fit) {
           setTotalLength(specificationStore.currentSpecification.tshirt.fit.totalLength);
@@ -40,7 +43,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           setNeckOpening(specificationStore.currentSpecification.tshirt.fit.neckOpening);
           setShoulderToShoulder(specificationStore.currentSpecification.tshirt.fit.shoulderToShoulder);
         } else {
-          await tenantStore.fetchTenantSettingsTShirtFit();
           setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
           setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[0].chestWidth);
           setBottomWidth(tenantStore.tenantSettingsTShirtFit.fits[0].bottomWidth);
@@ -119,9 +121,22 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     }));
   };
 
+  const handleCancel = () => {
+    setTotalLength(specificationStore.currentSpecification.tshirt?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setChestWidth(specificationStore.currentSpecification.tshirt?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setBottomWidth(specificationStore.currentSpecification.tshirt?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setSleeveLength(specificationStore.currentSpecification.tshirt?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setArmhole(specificationStore.currentSpecification.tshirt?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setSleeveOpening(specificationStore.currentSpecification.tshirt?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setNeckRibLength(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setNeckOpening(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setShoulderToShoulder(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setDescription(specificationStore.currentSpecification.tshirt?.fit?.description || "");
+  }
+
   const handleSaveAndNext = () => {
     specificationStore.putSpecification({
-      progress: "FIT",
+      ...(props.isUpdateProgress && { progress: "FIT" }),
       fit: {
         total_length: totalLength,
         chest_width: chestWidth,
@@ -132,10 +147,12 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         neck_rib_length: neckRibLength,
         neck_opening: neckOpening,
         shoulder_to_shoulder: shoulderToShoulder,
+        description: description,
       }
     });
     specificationStore.currentSpecification.tshirt = {
       ...specificationStore.currentSpecification.tshirt,
+      ...(props.isUpdateProgress && { progress: "FIT" }),
       fit: {
         totalLength: totalLength,
         chestWidth: chestWidth,
@@ -146,9 +163,26 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         neckRibLength: neckRibLength,
         neckOpening: neckOpening,
         shoulderToShoulder: shoulderToShoulder,
+        description: description,
       },
     };
     props.callBackUpdateState();
+  };
+
+  const handleFitChange = (index: number) => {
+    if (index === 0) {
+      return
+    } else {
+      setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[index - 1].totalLength);
+      setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[index - 1].chestWidth);
+      setBottomWidth(tenantStore.tenantSettingsTShirtFit.fits[index - 1].bottomWidth);
+      setSleeveLength(tenantStore.tenantSettingsTShirtFit.fits[index - 1].sleeveLength);
+      setArmhole(tenantStore.tenantSettingsTShirtFit.fits[index - 1].armhole);
+      setSleeveOpening(tenantStore.tenantSettingsTShirtFit.fits[index - 1].sleeveOpening);
+      setNeckRibLength(tenantStore.tenantSettingsTShirtFit.fits[index - 1].neckRibLength);
+      setNeckOpening(tenantStore.tenantSettingsTShirtFit.fits[index - 1].neckOpening);
+      setShoulderToShoulder(tenantStore.tenantSettingsTShirtFit.fits[index - 1].shoulderToShoulder);
+    }
   };
 
   return (
@@ -159,8 +193,39 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Fill in the size chart</h1>
       {/* メインコンテンツ */}
       <div className="flex gap-6">
+        {/* Fit List */}
+        <div className="w-2/10">
+          <div className="mt-6 space-y-6">
+            {[{ fitName: "Custom fit", ...specificationStore.currentSpecification.tshirt?.fit }, ...tenantStore.tenantSettingsTShirtFit.fits].map((fit, index) => (
+              <div key={fit.fitName + index} className="flex items-center">
+                <input
+                  defaultChecked={index === 0}
+                  id={fit.fitName}
+                  name="fit-name"
+                  type="radio"
+                  className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                  onChange={() => handleFitChange(index)}
+                />
+                <label htmlFor={fit.fitName} className="ml-3 block text-sm/6 font-medium text-gray-900">
+                  {fit.fitName}
+                </label>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6">
+            <textarea
+              id="comment"
+              name="comment"
+              rows={8}
+              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              placeholder="Special requests or comments"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+        </div>
         {/* サイズ表（7/10） */}
-        <div className="w-7/10">
+        <div className="w-6/10">
           <div className="space-y-6">
             <div>
               <div className="grid grid-cols-9 gap-2 mt-4 items-center">
@@ -681,7 +746,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         </div>
 
         {/* 画像（3/10） */}
-        <div className="w-3/10 mt-10">
+        <div className="w-2/10 mt-10">
           <img src="/tee_measures.png" alt="T-Shirt Measurements" className="w-full" />
         </div>
       </div>
@@ -690,7 +755,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       <div className="mt-6 flex flex-row gap-x-3 justify-end">
         <Button
           type={"button"}
-          onClick={() => { }}
+          onClick={handleCancel}
           text={"Cancel"}
           style={"text"}
           fullWidth={false}
