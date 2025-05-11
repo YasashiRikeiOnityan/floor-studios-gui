@@ -1,30 +1,24 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { observer } from 'mobx-react-lite';
 import { tenantStore } from '@/stores/tenantStore';
-import { Material } from '@/lib/type/specification/type';
+
 type TShirtFabricMaterials = {
-  currentMaterial: Material;
-  setCurrentMaterial: (material: Material) => void;
+  currentMaterial: {
+    rowMaterial: string;
+    thickness: string;
+  };
+  setCurrentMaterial: (material: {
+    rowMaterial: string;
+    thickness: string;
+  }) => void;
   fullWidth?: boolean;
 }
 
 const TShirtFabricMaterials = observer((props: TShirtFabricMaterials) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      tenantStore.fetchTenantSettingsTShirtFabric();
-    }
-  }, [mounted]);
 
   const materials = [...tenantStore.tenantSettingsTShirtFabric.materials];
 
