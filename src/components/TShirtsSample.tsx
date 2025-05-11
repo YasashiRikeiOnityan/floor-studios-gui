@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 
 type TShirtsSampleProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const TShirtsSample = (props: TShirtsSampleProps) => {
@@ -21,7 +22,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
 
   const handleSaveAndNext = () => {
     const body = sample ? {
-      progress: "MAINPRODUCTION",
+      ...(props.isUpdateProgress && { progress: "MAINPRODUCTION" }),
       sample: {
         sample: sample,
         quantity: {
@@ -35,7 +36,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
         }
       }
     } : {
-      progress: "MAINPRODUCTION",
+      ...(props.isUpdateProgress && { progress: "MAINPRODUCTION" }),
       sample: {
         sample: sample,
         can_send_sample: canSendSample,

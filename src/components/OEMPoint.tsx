@@ -7,6 +7,7 @@ import { observer } from "mobx-react-lite";
 
 type OEMPointProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const OEMPoint = observer((props: OEMPointProps) => {
@@ -85,7 +86,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
   const handleSaveAndNext = async () => {
     const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => !(oemPoint.oemPoint === "" && !oemPoint.file));
     specificationStore.putSpecification({
-      progress: "SAMPLE",
+      ...(props.isUpdateProgress && { progress: "SAMPLE" }),
       oem_points: await Promise.all(oemPointsWithoutEmpty.map(async (oemPoint) => {
         return oemPoint.file ? {
           oem_point: oemPoint.oemPoint,
@@ -101,7 +102,6 @@ const OEMPoint = observer((props: OEMPointProps) => {
     });
     specificationStore.currentSpecification = {
       ...specificationStore.currentSpecification,
-      progress: "SAMPLE",
       oemPoints: oemPointsWithoutEmpty,
     };
     props.callBackUpdateState();

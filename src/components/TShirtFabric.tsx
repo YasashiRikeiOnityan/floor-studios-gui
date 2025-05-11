@@ -9,6 +9,7 @@ import { Material, SubMaterial } from "@/lib/type/specification/type";
 
 type TShirtFabricProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const TShirtFabric = observer((props: TShirtFabricProps) => {
@@ -61,7 +62,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
 
   const handleSaveAndNext = () => {
     specificationStore.putSpecification({
-      progress: "TAG",
+      ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
         materials: selectedMaterials.map(m => ({
           row_material: m.rowMaterial,

@@ -5,7 +5,12 @@ import Button from "./Button";
 import { specificationStore } from "@/stores/specificationStore";
 import { useRouter } from "next/navigation";
 
-const Information = observer(() => {
+type InformationProps = {
+  callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
+};
+
+const Information = observer((props: InformationProps) => {
   const router = useRouter();
 
   const [contactFirstName, setContactFirstName] = useState(specificationStore.currentSpecification.information?.contact?.firstName || tenantStore.tenant.contact.firstName || "");
@@ -57,7 +62,7 @@ const Information = observer(() => {
 
   const handleSaveAndNext = () => {
     specificationStore.putSpecification({
-      progress: "INFORMATION",
+      ...(props.isUpdateProgress && { progress: "INFORMATION" }),
       information: {
         contact: {
           first_name: contactFirstName,
@@ -84,14 +89,15 @@ const Information = observer(() => {
         }
       }
     });
-    specificationStore.currentSpecification.progress = "INFORMATION";
-    specificationStore.currentSpecification.information = {
-      contact: {
-        firstName: contactFirstName,
-        lastName: contactLastName,
-        phoneNumber: contactPhoneNumber,
-        email: contactEmail,
-      },
+    specificationStore.currentSpecification = {
+      ...specificationStore.currentSpecification,
+      information: {
+        contact: {
+          firstName: contactFirstName,
+          lastName: contactLastName,
+          phoneNumber: contactPhoneNumber,
+          email: contactEmail,
+        },
       billingAddress: {
         addressLine1: billingAddressLine1,
         addressLine2: billingAddressLine2,
@@ -108,6 +114,7 @@ const Information = observer(() => {
         city: shippingCity,
         country: shippingCountry,
       },
+      }
     };
     // 完了画面に遷移させて、そこでステータスを変更させる。
     router.push("/orders");

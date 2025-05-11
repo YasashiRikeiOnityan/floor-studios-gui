@@ -6,6 +6,7 @@ import { specificationStore } from "@/stores/specificationStore";
 
 type SelectTypeProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const SelectType = observer((props: SelectTypeProps) => {
@@ -13,15 +14,12 @@ const SelectType = observer((props: SelectTypeProps) => {
 
   const handleSave = async () => {
     await specificationStore.putSpecification({
+      ...(props.isUpdateProgress && { progress: "TYPE" }),
       type: currentType,
-      progress: "TYPE"
     });
     specificationStore.updateSpecification({
       type: currentType,
-      progress: "TYPE"
     });
-    specificationStore.currentSpecification.progress = "TYPE";
-    specificationStore.currentSpecification.type = currentType;
     props.callBackUpdateState();
   }
 

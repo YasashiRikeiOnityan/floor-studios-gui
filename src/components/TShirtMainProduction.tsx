@@ -5,6 +5,7 @@ import Toggle from "@/components/Toggle";
 
 type TShirtMainProductionProps = {
   callBackUpdateState: () => void;
+  isUpdateProgress: boolean;
 };
 
 const TShirtMainProduction = (props: TShirtMainProductionProps) => {
@@ -28,7 +29,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
 
   const handleSaveAndNext = () => {
     specificationStore.putSpecification({
-      progress: "INFORMATION",
+      ...(props.isUpdateProgress && { progress: "INFORMATION" }),
       main_production: {
         quantity: {
           xxs: quantity.xxs,

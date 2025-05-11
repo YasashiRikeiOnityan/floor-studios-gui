@@ -152,7 +152,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     });
     specificationStore.currentSpecification.tshirt = {
       ...specificationStore.currentSpecification.tshirt,
-      ...(props.isUpdateProgress && { progress: "FIT" }),
       fit: {
         totalLength: totalLength,
         chestWidth: chestWidth,
