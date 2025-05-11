@@ -60,7 +60,7 @@ const NewDesign = observer(() => {
                         Brand Name
                       </label>
                       <div className="mt-2">
-                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-blue-600">
                           <input
                             id="brandname"
                             name="brandname"
@@ -80,7 +80,7 @@ const NewDesign = observer(() => {
                         Product Name
                       </label>
                       <div className="mt-2">
-                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-blue-600">
                           <input
                             id="productname"
                             name="productname"
@@ -100,7 +100,7 @@ const NewDesign = observer(() => {
                         Product Code
                       </label>
                       <div className="mt-2">
-                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-blue-600">
                           <input
                             id="productcode"
                             name="productcode"

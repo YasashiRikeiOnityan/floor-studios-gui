@@ -14,7 +14,7 @@ export default function Tabs(props: TabsProps) {
         <select
           defaultValue={props.tabs.find((tab) => tab === props.state)}
           aria-label="Select a tab"
-          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600"
           onChange={(e) => props.callBackUpdateState(e.target.value)}
         >
           {props.tabs.map((tab) => (
@@ -34,7 +34,7 @@ export default function Tabs(props: TabsProps) {
               key={tab}
               aria-current={tab === props.state ? 'page' : undefined}
               className={classNames(
-                tab === props.state ? 'bg-indigo-100 text-indigo-700' : 'text-gray-500 hover:text-gray-700',
+                tab === props.state ? 'bg-blue-100 text-blue-700' : 'text-gray-500 hover:text-gray-700',
                 'rounded-md px-3 py-2 text-sm font-medium hover:cursor-pointer',
               )}
               onClick={() => props.callBackUpdateState(tab)}

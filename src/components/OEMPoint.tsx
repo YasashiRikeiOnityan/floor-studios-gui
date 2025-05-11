@@ -153,8 +153,8 @@ const OEMPoint = observer((props: OEMPointProps) => {
       {/* メインコンテンツ */}
       <div className="space-y-6 mt-6">
         {oemPoints.map((oemPoint, index) => (
-          <div key={index} className="min-w-0 flex-1 border-l-2 border-indigo-100 pl-4 py-2">
-            <div className="border-b border-gray-200 pb-px focus-within:border-b-2 focus-within:border-indigo-600 focus-within:pb-0">
+          <div key={index} className="min-w-0 flex-1 border-l-2 border-blue-100 pl-4 py-2">
+            <div className="border-b border-gray-200 pb-px focus-within:border-b-2 focus-within:border-blue-600 focus-within:pb-0">
               <label htmlFor={`comment-${index}`} className="sr-only">
                 Enter the OEM Point...
               </label>
@@ -191,7 +191,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                     <button
                       type="button"
                       onClick={() => handleFilePreview(oemPoint.file!)}
-                      className="truncate max-w-[200px] text-indigo-600 hover:text-indigo-500"
+                      className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
                     >
                       {oemPoint.file.name}
                     </button>

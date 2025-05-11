@@ -162,7 +162,7 @@ const Information = observer((props: InformationProps) => {
                   name="firstName"
                   type="text"
                   placeholder="Floor"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactFirstName}
                   onChange={(e) => setContactFirstName(e.target.value)}
                 />
@@ -179,7 +179,7 @@ const Information = observer((props: InformationProps) => {
                   name="lastName"
                   type="text"
                   placeholder="Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactLastName}
                   onChange={(e) => setContactLastName(e.target.value)}
                 />
@@ -198,7 +198,7 @@ const Information = observer((props: InformationProps) => {
                   name="phoneNumber"
                   type="text"
                   placeholder="+81 90-1234-5678"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactPhoneNumber}
                   onChange={(e) => setContactPhoneNumber(e.target.value)}
                 />
@@ -217,7 +217,7 @@ const Information = observer((props: InformationProps) => {
                   name="email"
                   type="text"
                   placeholder="floor@floorstudios.com"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactEmail}
                   onChange={(e) => setContactEmail(e.target.value)}
                 />
@@ -241,7 +241,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingCountry"
                   type="text"
                   placeholder="Japan"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingCountry}
                   onChange={(e) => setBillingCountry(e.target.value)}
                 />
@@ -260,7 +260,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingState"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingState}
                   onChange={(e) => setBillingState(e.target.value)}
                 />
@@ -277,7 +277,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingCity"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingCity}
                   onChange={(e) => setBillingCity(e.target.value)}
                 />
@@ -296,7 +296,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingAddressLine1"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingAddressLine1}
                   onChange={(e) => setBillingAddressLine1(e.target.value)}
                 />
@@ -315,7 +315,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingAddressLine2"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingAddressLine2}
                   onChange={(e) => setBillingAddressLine2(e.target.value)}
                 />
@@ -334,7 +334,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingZipCode"
                   type="text"
                   placeholder="123-4567"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingZipCode}
                   onChange={(e) => setBillingZipCode(e.target.value)}
                 />
@@ -358,7 +358,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCountry"
                   type="text"
                   placeholder="Japan"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingCountry}
                   onChange={(e) => setShippingCountry(e.target.value)}
                 />
@@ -377,7 +377,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingState"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingState}
                   onChange={(e) => setShippingState(e.target.value)}
                 />
@@ -394,7 +394,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCity"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingCity}
                   onChange={(e) => setShippingCity(e.target.value)}
                 />
@@ -413,7 +413,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine1"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingAddressLine1}
                   onChange={(e) => setShippingAddressLine1(e.target.value)}
                 />
@@ -432,7 +432,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine2"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingAddressLine2}
                   onChange={(e) => setShippingAddressLine2(e.target.value)}
                 />
@@ -451,7 +451,7 @@ const Information = observer((props: InformationProps) => {
                   name="zipCode"
                   type="text"
                   placeholder="123-4567"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={shippingZipCode}
                   onChange={(e) => setShippingZipCode(e.target.value)}
                 />

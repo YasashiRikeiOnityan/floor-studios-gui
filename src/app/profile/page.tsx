@@ -126,7 +126,7 @@ const ProfileContent = observer(() => {
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                       className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateNameError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
                     />
                     {validateNameError && <div className="text-sm/6 text-red-500">{validateNameError}</div>}
                   </div>
@@ -158,7 +158,7 @@ const ProfileContent = observer(() => {
                       id="language"
                       name="language"
                       value={language || ""}
-                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
                       onChange={(e) => setLanguage(e.target.value)}
                     >
                       <option>English</option>
@@ -184,7 +184,7 @@ const ProfileContent = observer(() => {
                       id="timezone"
                       name="timezone"
                       value={timezone || ""}
-                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                      className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pl-3 pr-8 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
                       onChange={(e) => setTimeZone(e.target.value)}
                     >
                       <option>Pacific Standard Time</option>

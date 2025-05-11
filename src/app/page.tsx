@@ -197,7 +197,7 @@ const Home = observer(() => {
             <div>
               {/* <img
                 alt="Floor Studios"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=blue&shade=600"
                 className="h-10 w-auto"
               /> */}
               {isSignUp && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Create an account</h2>}
@@ -220,7 +220,7 @@ const Home = observer(() => {
                         autoComplete="email"
                         className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
                             validateEmailError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={isEmailSent}
                       />
@@ -241,7 +241,7 @@ const Home = observer(() => {
                         autoComplete="current-password"
                         className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
                           validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
                         onChange={(e) => setPassword(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && isSignIn) {
@@ -267,7 +267,7 @@ const Home = observer(() => {
                         autoComplete="current-password"
                         className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
                           validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
@@ -293,7 +293,7 @@ const Home = observer(() => {
                         autoComplete="verificationCode"
                         className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${
                             validateVerificationCodeError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}
+                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
                         onChange={(e) => setVerificationCode(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
@@ -315,7 +315,7 @@ const Home = observer(() => {
                             type="checkbox"
                             checked={rememberMe}
                             onChange={(e) => setRememberMe(e.target.checked)}
-                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-blue-600 checked:bg-blue-600 indeterminate:border-blue-600 indeterminate:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
                           />
                           <svg
                             fill="none"
@@ -345,7 +345,7 @@ const Home = observer(() => {
                     </div>
 
                     {isSignIn && <div className="text-sm/6">
-                      <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                      <a href="#" className="font-semibold text-blue-600 hover:text-blue-500">
                         Forgot password?
                       </a>
                     </div>}
@@ -355,7 +355,7 @@ const Home = observer(() => {
                   {isSignUp && !isEmailSent && <div>
                     <button
                       type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       disabled={loading}
                       onClick={handleSignUp}
                     >
@@ -367,7 +367,7 @@ const Home = observer(() => {
                   {isSignUp && isEmailSent && <div>
                     <button
                       type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       disabled={loading}
                       onClick={handleVerify}
                     >
@@ -379,7 +379,7 @@ const Home = observer(() => {
                   {isSignIn && <div>
                     <button
                       type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       disabled={loading}
                       onClick={handleSignIn}
                     >

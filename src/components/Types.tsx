@@ -25,7 +25,7 @@ const Types = (props: TypesProps) => {
       {types.map((type) => (
         <div
           key={type.id}
-          className={`rounded-sm ${props.currentType === type.id ? "bg-indigo-50 outline-2 -outline-offset-2 outline-indigo-600" : "bg-white"} shadow-md ${!props.disabled ? "cursor-pointer hover:bg-indigo-50 transition duration-200 ease-in-out" : ""}`}
+          className={`rounded-sm ${props.currentType === type.id ? "bg-blue-50 outline-2 -outline-offset-2 outline-blue-600" : "bg-white"} shadow-md ${!props.disabled ? "cursor-pointer hover:bg-blue-50 transition duration-200 ease-in-out" : ""}`}
           onClick={() => {
             if (!props.disabled) {
               props.callBackUpdateState(type.id)

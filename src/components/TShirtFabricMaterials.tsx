@@ -32,7 +32,7 @@ const TShirtFabricMaterials = observer((props: TShirtFabricMaterials) => {
 
   return (
     <Listbox value={props.currentMaterial} onChange={(value) => props.setCurrentMaterial(value)} as="div" className="relative">
-      <ListboxButton className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6`}>
+      <ListboxButton className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}>
         <span className="col-start-1 row-start-1 truncate pr-6">{currentMaterial?.rowMaterial}{currentMaterial ? ", " : ""}{currentMaterial?.thickness}</span>
         <ChevronUpDownIcon
           aria-hidden="true"
@@ -49,13 +49,13 @@ const TShirtFabricMaterials = observer((props: TShirtFabricMaterials) => {
           <ListboxOption
             key={material.rowMaterial}
             value={material}
-            className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white data-[focus]:outline-none"
+            className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-blue-600 data-[focus]:text-white data-[focus]:outline-none"
           >
             <div className="flex flex-col gap-2">
               <span className="block truncate font-normal group-data-[selected]:font-semibold">Material: {material.rowMaterial}</span>
               <span className="block truncate font-normal group-data-[selected]:font-semibold">Thickness: {material.thickness}</span>
             </div>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
+            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
               <CheckIcon aria-hidden="true" className="size-5" />
             </span>
           </ListboxOption>

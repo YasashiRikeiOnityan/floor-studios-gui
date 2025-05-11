@@ -19,19 +19,19 @@ const ProgressBar = (props: ProgressBarProps) => {
             {step.order < props.actualStep ? (
               <button
                 onClick={() => { props.setCurrentStep(step.order) }}
-                className="group flex flex-col w-full text-left border-l-4 border-indigo-600 py-2 pl-4 hover:border-indigo-800 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4 cursor-pointer"
+                className="group flex flex-col w-full text-left border-l-4 border-blue-600 py-2 pl-4 hover:border-blue-800 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4 cursor-pointer"
               >
-                {/* <span className="text-sm font-medium text-indigo-600 group-hover:text-indigo-800">{step.order}</span> */}
-                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-indigo-600" : "text-gray-500"}`}>{step.name}</span>
+                {/* <span className="text-sm font-medium text-blue-600 group-hover:text-blue-800">{step.order}</span> */}
+                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-blue-600" : "text-gray-500"}`}>{step.name}</span>
               </button>
             ) : step.order === props.actualStep ? (
               <button
                 onClick={() => { props.setCurrentStep(step.order) }}
                 aria-current="step"
-                className="flex flex-col w-full text-left border-l-4 border-indigo-600 py-2 pl-4 hover:border-indigo-800 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4 cursor-pointer"
+                className="flex flex-col w-full text-left border-l-4 border-blue-600 py-2 pl-4 hover:border-blue-800 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4 cursor-pointer"
               >
-                {/* <span className="text-sm font-medium text-indigo-600">{step.order}</span> */}
-                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-indigo-600" : "text-gray-500"}`}>{step.name}</span>
+                {/* <span className="text-sm font-medium text-blue-600">{step.order}</span> */}
+                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-blue-600" : "text-gray-500"}`}>{step.name}</span>
               </button>
             ) : (
               <button
@@ -40,7 +40,7 @@ const ProgressBar = (props: ProgressBarProps) => {
                 disabled={step.order > props.actualStep}
               >
                 {/* <span className="text-sm font-medium text-gray-500 group-hover:text-gray-700">{step.order}</span> */}
-                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-indigo-600" : "text-gray-500"}`}>{step.name}</span>
+                <span className={`text-sm font-medium ${step.order === props.currentStep ? "text-blue-600" : "text-gray-500"}`}>{step.name}</span>
               </button>
             )}
           </li>
@@ -63,10 +63,10 @@ const ProgressBar = (props: ProgressBarProps) => {
   //                   <span className="relative flex size-5 shrink-0 items-center justify-center">
   //                     <CheckCircleIcon
   //                       aria-hidden="true"
-  //                       className="size-full text-indigo-600 group-hover:text-indigo-800"
+  //                       className="size-full text-blue-600 group-hover:text-blue-800"
   //                     />
   //                   </span>
-  //                   <span className={`ml-3 text-sm font-medium ${step.order === props.currentStep ? "text-indigo-600" : "text-gray-500"} group-hover:text-gray-900`}>
+  //                   <span className={`ml-3 text-sm font-medium ${step.order === props.currentStep ? "text-blue-600" : "text-gray-500"} group-hover:text-gray-900`}>
   //                     {step.name}
   //                   </span>
   //                 </span>
@@ -78,10 +78,10 @@ const ProgressBar = (props: ProgressBarProps) => {
   //                 aria-current="step"
   //               >
   //                 <span aria-hidden="true" className="relative flex size-5 shrink-0 items-center justify-center">
-  //                   <span className="absolute size-4 rounded-full bg-indigo-200" />
-  //                   <span className="relative block size-2 rounded-full bg-indigo-600" />
+  //                   <span className="absolute size-4 rounded-full bg-blue-200" />
+  //                   <span className="relative block size-2 rounded-full bg-blue-600" />
   //                 </span>
-  //                 <span className={`ml-3 text-sm font-medium ${step.order === props.currentStep ? "text-indigo-600" : "text-gray-500"} group-hover:text-gray-900`}>
+  //                 <span className={`ml-3 text-sm font-medium ${step.order === props.currentStep ? "text-blue-600" : "text-gray-500"} group-hover:text-gray-900`}>
   //                   {step.name}
   //                 </span>
   //               </button>

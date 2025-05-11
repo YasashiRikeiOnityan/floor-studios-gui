@@ -20,9 +20,9 @@ const Button = (props: ButtonProps) => {
       className={clsx(
         "flex justify-center items-center rounded-sm px-6 py-0.5 text-sm/6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2",
         {
-          "shadow-sm bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600": props.style === "fill",
-          "shadow-sm border border-indigo-600 text-indigo-600 hover:bg-indigo-100 focus-visible:outline-indigo-600": props.style === "outline",
-          "text-indigo-600 hover:bg-indigo-100": props.style === "text",
+          "shadow-sm bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline-blue-600": props.style === "fill",
+          "shadow-sm border border-blue-600 text-blue-600 hover:bg-blue-100 focus-visible:outline-blue-600": props.style === "outline",
+          "text-blue-600 hover:bg-blue-100": props.style === "text",
         },
         {
           "w-full": props.fullWidth

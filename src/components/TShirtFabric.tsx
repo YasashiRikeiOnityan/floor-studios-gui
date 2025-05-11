@@ -123,7 +123,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="space-y-6">
               {materials.map((material, index) => (
-                <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-indigo-100 pl-4 py-2">
+                <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Material</p>
                     <TShirtFabricMaterials currentMaterial={material} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
@@ -134,7 +134,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                   <div className="flex flex-col col-span-2 gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Description</p>
                     <textarea
-                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm/6"
                       placeholder="Description"
                       value={material.description}
                       onChange={(e) => handleMaterialDescriptionChange(index, e.target.value)}
@@ -161,7 +161,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               <div className="space-y-6">
                 {subMaterials.map((subMaterial, index) => (
-                  <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-indigo-100 pl-4 py-2">
+                  <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                     <div className="flex flex-col gap-2">
                       <p className="block text-sm/6 font-medium text-gray-900">Sub Material</p>
                       <TShirtFabricSubMaterials currentSubMaterial={subMaterial} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
@@ -172,7 +172,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                     <div className="flex flex-col col-span-2 gap-2">
                       <p className="block text-sm/6 font-medium text-gray-900">Description</p>
                       <textarea
-                        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm/6"
                         placeholder="Description"
                       />
                     </div>
