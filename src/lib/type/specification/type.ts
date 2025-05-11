@@ -85,13 +85,19 @@ export type SizeValue = {
 export type Material = {
   rowMaterial: string;
   thickness: string;
-  description: string;
+  description: {
+    description: string;
+    file?: File;
+  };
   colourway: Colourway;
 }
 
 export type SubMaterial = {
   rowMaterial: string;
-  description: string;
+  description: {
+    description: string;
+    file?: File;
+  };
   colourway: Colourway;
 }
 

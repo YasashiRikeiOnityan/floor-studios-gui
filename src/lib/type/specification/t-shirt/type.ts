@@ -32,7 +32,10 @@ export type TShirtFabric = {
       pantone: string;
       hex: string;
     };
-    description: string;
+    description: {
+      description: string;
+      file?: File;
+    };
   }[];
   subMaterials: {
     rowMaterial: string;
@@ -40,7 +43,10 @@ export type TShirtFabric = {
       pantone: string;
       hex: string;
     };
-    description: string;
+    description: {
+      description: string;
+      file?: File;
+    };
   }[];
 };
 
@@ -111,7 +117,14 @@ export type ApiGetTShirtSpecificationResponse = {
         pantone: string;
         hex: string;
       };
-      description: string;
+      description: {
+        description: string;
+        file?: {
+          name: string;
+          content: string;
+          type: string;
+        };
+      };
     }[];
     sub_materials: {
       row_material: string;
@@ -119,7 +132,14 @@ export type ApiGetTShirtSpecificationResponse = {
         pantone: string;
         hex: string;
       };
-      description: string;
+      description: {
+        description: string;
+        file?: {
+          name: string;
+          content: string;
+          type: string;
+        };
+      };
     }[];
   };
   sample?: {
@@ -210,7 +230,14 @@ export type ApiPutTShirtSpecificationRequest = {
         pantone: string;
         hex: string;
       };
-      description: string;
+      description: {
+        description: string;
+        file?: {
+          name: string;
+          content: string;
+          type: string;
+        };
+      };
     }[];
     sub_materials: {
       row_material: string;
@@ -218,7 +245,14 @@ export type ApiPutTShirtSpecificationRequest = {
         pantone: string;
         hex: string;
       };
-      description: string;
+      description: {
+        description: string;
+        file?: {
+          name: string;
+          content: string;
+          type: string;
+        };
+      };
     }[];
   };
   sample?: {

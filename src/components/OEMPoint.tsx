@@ -2,7 +2,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { PaperClipIcon, TrashIcon, XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useState, useEffect } from "react";
 import Button from "@/components/Button";
-import { fileToBase64 } from "@/lib/utils";
+import { fileToBase64, formatFileSize } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
 
 type OEMPointProps = {
@@ -71,14 +71,6 @@ const OEMPoint = observer((props: OEMPointProps) => {
       return point;
     });
     setOemPoints(newOemPoints);
-  };
-
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   const handleCancel = () => {

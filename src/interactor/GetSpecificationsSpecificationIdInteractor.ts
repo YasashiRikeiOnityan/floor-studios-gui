@@ -46,8 +46,8 @@ const formatOemPoints = (oemPoints: ApiGetSpecificationsSpecificationIdResponse[
       try {
         // base64データをデコード
         const base64Data = oemPoint.file.content;
-        const isDataUrl = base64Data.startsWith('data:');
-        const base64String = isDataUrl ? base64Data.split(',')[1] : base64Data;
+        const isDataUrl = base64Data.startsWith("data:");
+        const base64String = isDataUrl ? base64Data.split(",")[1] : base64Data;
         
         // base64をバイナリデータに変換
         const binaryString = window.atob(base64String);
@@ -64,7 +64,7 @@ const formatOemPoints = (oemPoints: ApiGetSpecificationsSpecificationIdResponse[
         });
 
       } catch (error) {
-        console.error('Error converting base64 to File:', error);
+        console.error("Error converting base64 to File:", error);
       }
     }
     return {
@@ -116,23 +116,33 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       description: specification.fit?.description || "",
     } : undefined,
     fabric: {
-      materials: (specification.fabric?.materials || []).map((material) => ({
-        rowMaterial: material?.row_material || "",
-        thickness: material?.thickness || "",
-        colourway: {
-          pantone: material?.colourway?.pantone || "",
-          hex: material?.colourway?.hex || "",
-        },
-        description: material?.description || "",
-      })),
-      subMaterials: (specification.fabric?.sub_materials || []).map((subMaterial) => ({
-        rowMaterial: subMaterial.row_material || "",
-        colourway: {
-          pantone: subMaterial.colourway?.pantone || "",
-          hex: subMaterial.colourway?.hex || "",
-        },
-        description: subMaterial.description || "",
-      })),
+      materials: (specification.fabric?.materials || []).map((material) => {
+        return {
+          rowMaterial: material?.row_material || "",
+          thickness: material?.thickness || "",
+          colourway: {
+            pantone: material?.colourway?.pantone || "",
+            hex: material?.colourway?.hex || "",
+          },
+          description: {
+            description: material?.description?.description || "",
+            file: formatFile(material?.description?.file),
+          },
+        };
+      }),
+      subMaterials: (specification.fabric?.sub_materials || []).map((subMaterial) => {
+        return {
+          rowMaterial: subMaterial.row_material || "",
+          colourway: {
+            pantone: subMaterial.colourway?.pantone || "",
+            hex: subMaterial.colourway?.hex || "",
+          },
+          description: {
+            description: subMaterial.description?.description || "",
+            file: formatFile(subMaterial?.description?.file),
+          },
+        };
+      }),
     },
     sample: {
       sample: specification.sample?.sample || false,
@@ -160,4 +170,29 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       deliveryDate: specification.main_production?.delivery_date || "",
     },
   }
+}
+
+const formatFile = (file: { name: string; content: string; type: string } | undefined): File | undefined => {
+  if (!file) {
+    return undefined;
+  }
+
+  // base64データをデコード
+  const base64Data = file.content;
+  const isDataUrl = base64Data.startsWith("data:");
+  const base64String = isDataUrl ? base64Data.split(",")[1] : base64Data;
+  
+  // base64をバイナリデータに変換
+  const binaryString = window.atob(base64String);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  // BlobとFileオブジェクトを作成
+  const blob = new Blob([bytes], { type: file.type });
+  return new File([blob], file.name, {
+    type: file.type,
+    lastModified: new Date().getTime()
+  });
 }
