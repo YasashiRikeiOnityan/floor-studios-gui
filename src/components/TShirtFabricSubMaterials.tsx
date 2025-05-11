@@ -6,10 +6,10 @@ import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { observer } from 'mobx-react-lite';
 import { tenantStore } from '@/stores/tenantStore';
-
+import { SubMaterial } from '@/lib/type/specification/type';
 type TShirtFabricSubMaterials = {
-  currentSubMaterial: string;
-  setCurrentSubMaterial: (subMaterial: string) => void;
+  currentSubMaterial: SubMaterial;
+  setCurrentSubMaterial: (subMaterial: SubMaterial) => void;
   fullWidth?: boolean;
 }
 
@@ -28,7 +28,7 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
 
   const subMaterials = [...tenantStore.tenantSettingsTShirtFabric.subMaterials];
 
-  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial);
+  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial);
 
   return (
     <Listbox value={props.currentSubMaterial} onChange={props.setCurrentSubMaterial} as="div" className="relative">
@@ -48,7 +48,7 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
         {subMaterials.map((subMaterial) => (
           <ListboxOption
             key={subMaterial.rowMaterial}
-            value={subMaterial.rowMaterial}
+            value={subMaterial}
             className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white data-[focus]:outline-none"
           >
             <span className="block truncate font-normal group-data-[selected]:font-semibold">{subMaterial.rowMaterial}</span>

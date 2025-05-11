@@ -25,12 +25,18 @@ const OEMPoint = observer((props: OEMPointProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
 
   const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
+    // png, jpeg, jpgのみ許可する
+    const file = event.target.files && event.target.files[0];
+    if (file && !['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+      alert('Please select an image file (png, jpeg, jpg)');
+      return;
+    }
+    if (file) {
       const newOemPoints = oemPoints.map((point, i) => {
         if (i === index) {
           return {
             ...point,
-            file: event.target.files![0]
+            file: file
           };
         }
         return point;
