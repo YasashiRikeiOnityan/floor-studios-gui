@@ -122,6 +122,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             return;
           }
         } catch (error) {
+          console.error(error);
           console.log("Pre-signed URL expired, fetching new one");
         }
       }
@@ -193,6 +194,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
               }
             }
           } catch (error) {
+            console.error(error);
             console.log("Pre-signed URL expired or failed, getting new one");
           }
         }
@@ -295,6 +297,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             return;
           }
         } catch (error) {
+          console.error(error);
           console.log("Pre-signed URL expired, fetching new one");
         }
       }
@@ -366,6 +369,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
               }
             }
           } catch (error) {
+            console.error(error);
             console.log("Pre-signed URL expired or failed, getting new one");
           }
         }
