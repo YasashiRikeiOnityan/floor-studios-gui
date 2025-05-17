@@ -115,18 +115,20 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     try {
       // 既存のpre-signed URLが有効かチェック
       if (materials[index].description.file?.preSignedUrl?.get) {
-        try {
-          const response = await fetch(materials[index].description.file.preSignedUrl.get, {
-            method: "GET"
-          });
-          if (response.ok) {
-            setPreviewUrl(materials[index].description.file.preSignedUrl.get);
-            return;
-          }
-        } catch (error) {
-          console.error(error);
-          console.log("Pre-signed URL expired, fetching new one");
-        }
+        // try {
+        //   const response = await fetch(materials[index].description.file.preSignedUrl.get, {
+        //     method: "GET"
+        //   });
+        //   if (response.ok) {
+        //     setPreviewUrl(materials[index].description.file.preSignedUrl.get);
+        //     return;
+        //   }
+        // } catch (error) {
+        //   console.error(error);
+        //   console.log("Pre-signed URL expired, fetching new one");
+        // }
+        setPreviewUrl(materials[index].description.file.preSignedUrl.get);
+        return;
       }
 
       // 新しいpre-signed URLを取得
@@ -292,18 +294,20 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     try {
       // 既存のpre-signed URLが有効かチェック
       if (subMaterials[index].description.file?.preSignedUrl?.get) {
-        try {
-          const response = await fetch(subMaterials[index].description.file.preSignedUrl.get, {
-            method: "GET"
-          });
-          if (response.ok) {
-            setPreviewUrl(subMaterials[index].description.file.preSignedUrl.get);
-            return;
-          }
-        } catch (error) {
-          console.error(error);
-          console.log("Pre-signed URL expired, fetching new one");
-        }
+        // try {
+        //   const response = await fetch(subMaterials[index].description.file.preSignedUrl.get, {
+        //     method: "GET"
+        //   });
+        //   if (response.ok) {
+        //     setPreviewUrl(subMaterials[index].description.file.preSignedUrl.get);
+        //     return;
+        //   }
+        // } catch (error) {
+        //   console.error(error);
+        //   console.log("Pre-signed URL expired, fetching new one");
+        // }
+        setPreviewUrl(subMaterials[index].description.file.preSignedUrl.get);
+        return;
       }
 
       // 新しいpre-signed URLを取得
