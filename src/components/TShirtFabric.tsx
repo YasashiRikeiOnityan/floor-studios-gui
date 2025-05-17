@@ -116,7 +116,9 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       // 既存のpre-signed URLが有効かチェック
       if (materials[index].description.file?.preSignedUrl?.get) {
         try {
-          const response = await fetch(materials[index].description.file.preSignedUrl.get);
+          const response = await fetch(materials[index].description.file.preSignedUrl.get, {
+            method: "GET"
+          });
           if (response.ok) {
             setPreviewUrl(materials[index].description.file.preSignedUrl.get);
             return;
@@ -291,7 +293,9 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       // 既存のpre-signed URLが有効かチェック
       if (subMaterials[index].description.file?.preSignedUrl?.get) {
         try {
-          const response = await fetch(subMaterials[index].description.file.preSignedUrl.get);
+          const response = await fetch(subMaterials[index].description.file.preSignedUrl.get, {
+            method: "GET"
+          });
           if (response.ok) {
             setPreviewUrl(subMaterials[index].description.file.preSignedUrl.get);
             return;
