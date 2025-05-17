@@ -15,6 +15,7 @@ import TShirtFabric from "@/components/TShirtFabric";
 import ProgressBar from "@/components/ProgressBar";
 import TShirtsSample from "@/components/TShirtsSample";
 import OEMPoint from "@/components/OEMPoint";
+import AlertDialog from "@/components/AlertDialod";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -62,23 +63,23 @@ const EditDesignContent = observer(() => {
     if (specificationStore.currentSpecification.type === "T-SHIRT") {
       switch (currentStep) {
         case 1:
-          return <SelectType callBackUpdateState={() => {callBackUpdateState(2)}} isUpdateProgress={actualStep === 1} />
+          return <SelectType callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />
         case 2:
-            return <TShirtFit callBackUpdateState={() => {callBackUpdateState(3)}} isUpdateProgress={actualStep === 2} />
+          return <TShirtFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
         case 3:
-          return <TShirtFabric callBackUpdateState={() => {callBackUpdateState(4)}} isUpdateProgress={actualStep === 3} />
+          return <TShirtFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
           return <>Tag</>
         case 5:
           return <>Carelabel</>
         case 6:
-          return <OEMPoint callBackUpdateState={() => {callBackUpdateState(7)}} isUpdateProgress={actualStep === 6} />
+          return <OEMPoint callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
         case 7:
-          return <TShirtsSample callBackUpdateState={() => {callBackUpdateState(8)}} isUpdateProgress={actualStep === 7} />
+          return <TShirtsSample callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
         case 8:
-          return <TShirtMainProduction callBackUpdateState={() => {callBackUpdateState(9)}} isUpdateProgress={actualStep === 8} />
+          return <TShirtMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
         case 9:
-            return <Information callBackUpdateState={() => {callBackUpdateState(10)}} isUpdateProgress={actualStep === 9} />
+          return <Information callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         default:
           return <></>;
       }
@@ -90,17 +91,20 @@ const EditDesignContent = observer(() => {
   const steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
 
   return (
-    <div className="flex min-h-full">
-      <Header current="" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 mt-16 py-5 sm:py-10 w-full">
-        {/* プログレスバー */}
-        <ProgressBar steps={steps} actualStep={actualStep} currentStep={currentStep} setCurrentStep={setCurrentStep} />
-        {/* メインコンテンツ */}
-        <div className="flex-1 mt-4">
-          {renderContent()}
+    <>
+      <div className="flex min-h-full">
+        <Header current="" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 mt-16 py-5 sm:py-10 w-full">
+          {/* プログレスバー */}
+          <ProgressBar steps={steps} actualStep={actualStep} currentStep={currentStep} setCurrentStep={setCurrentStep} />
+          {/* メインコンテンツ */}
+          <div className="flex-1 mt-4">
+            {renderContent()}
+          </div>
         </div>
       </div>
-    </div>
+      <AlertDialog />
+    </>
   );
 });
 

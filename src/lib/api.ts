@@ -8,6 +8,8 @@ import {
 } from '@/lib/type/specification/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
+import { ApiPostImagesResponse } from './type/image/type';
+import { ApiPostImagesRequest } from './type/image/type';
 
 const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -224,5 +226,16 @@ export const ApiGetSpecificationGroups = async (): Promise<ApiGetSpecificationGr
   } catch (error) {
     console.error('Failed to fetch specification groups:', error);
     return [];
+  }
+};
+
+export const ApiPostImages = async (image: ApiPostImagesRequest): Promise<ApiPostImagesResponse> => {
+  try {
+    const response = await httpClient.post('/image', image);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to post images:', error);
+    return { pre_signed_url: "" };
   }
 };

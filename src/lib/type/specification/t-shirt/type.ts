@@ -34,7 +34,10 @@ export type TShirtFabric = {
     };
     description: {
       description: string;
-      file?: File;
+      file?: {
+        name: string;
+        key: string;
+      };
     };
   }[];
   subMaterials: {
@@ -45,7 +48,10 @@ export type TShirtFabric = {
     };
     description: {
       description: string;
-      file?: File;
+      file?: {
+        name: string;
+        key: string;
+      };
     };
   }[];
 };
@@ -121,8 +127,7 @@ export type ApiGetTShirtSpecificationResponse = {
         description: string;
         file?: {
           name: string;
-          content: string;
-          type: string;
+          key: string;
         };
       };
     }[];
@@ -136,8 +141,7 @@ export type ApiGetTShirtSpecificationResponse = {
         description: string;
         file?: {
           name: string;
-          content: string;
-          type: string;
+          key: string;
         };
       };
     }[];
@@ -234,8 +238,7 @@ export type ApiPutTShirtSpecificationRequest = {
         description: string;
         file?: {
           name: string;
-          content: string;
-          type: string;
+          key: string;
         };
       };
     }[];
@@ -249,8 +252,7 @@ export type ApiPutTShirtSpecificationRequest = {
         description: string;
         file?: {
           name: string;
-          content: string;
-          type: string;
+          key: string;
         };
       };
     }[];

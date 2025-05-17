@@ -126,7 +126,10 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
           },
           description: {
             description: material?.description?.description || "",
-            file: formatFile(material?.description?.file),
+            file: material?.description?.file ? {
+              name: material.description.file.name,
+              key: material.description.file.key,
+            } : undefined,
           },
         };
       }),
@@ -139,7 +142,10 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
           },
           description: {
             description: subMaterial.description?.description || "",
-            file: formatFile(subMaterial?.description?.file),
+            file: subMaterial?.description?.file ? {
+              name: subMaterial.description.file.name,
+              key: subMaterial.description.file.key,
+            } : undefined,
           },
         };
       }),
@@ -170,29 +176,4 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       deliveryDate: specification.main_production?.delivery_date || "",
     },
   }
-}
-
-const formatFile = (file: { name: string; content: string; type: string } | undefined): File | undefined => {
-  if (!file) {
-    return undefined;
-  }
-
-  // base64データをデコード
-  const base64Data = file.content;
-  const isDataUrl = base64Data.startsWith("data:");
-  const base64String = isDataUrl ? base64Data.split(",")[1] : base64Data;
-  
-  // base64をバイナリデータに変換
-  const binaryString = window.atob(base64String);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-
-  // BlobとFileオブジェクトを作成
-  const blob = new Blob([bytes], { type: file.type });
-  return new File([blob], file.name, {
-    type: file.type,
-    lastModified: new Date().getTime()
-  });
 }

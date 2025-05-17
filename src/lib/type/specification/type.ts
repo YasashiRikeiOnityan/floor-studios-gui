@@ -87,7 +87,15 @@ export type Material = {
   thickness: string;
   description: {
     description: string;
-    file?: File;
+    file?: {
+      name: string;
+      key: string;
+      preSignedUrl?: {
+        get?: string;
+        put?: string;
+        delete?: string;
+      };
+    };
   };
   colourway: Colourway;
 }
@@ -96,7 +104,15 @@ export type SubMaterial = {
   rowMaterial: string;
   description: {
     description: string;
-    file?: File;
+    file?: {
+      name: string;
+      key: string;
+      preSignedUrl?: {
+        get?: string;
+        put?: string;
+        delete?: string;
+      };
+    };
   };
   colourway: Colourway;
 }
