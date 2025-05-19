@@ -4,6 +4,10 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
+import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
+import { Description } from "@/lib/type/specification/type";
+import { dialogStore } from "@/stores/dialogStore";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
@@ -21,7 +25,20 @@ const TShirtFit = observer((props: TShirtFitProps) => {
   const [neckRibLength, setNeckRibLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [neckOpening, setNeckOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [description, setDescription] = useState<string>(specificationStore.currentSpecification.tshirt?.fit?.description || "");
+  const [description, setDescription] = useState<Description>(specificationStore.currentSpecification.tshirt?.fit?.description || {
+    description: "",
+    file: {
+      name: "",
+      key: "",
+      preSignedUrl: {
+        get: "",
+        put: "",
+        delete: "",
+      },
+    },
+  });
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
+  const [fileUploading, setFileUploading] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -131,7 +148,13 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     setNeckRibLength(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
     setNeckOpening(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
     setShoulderToShoulder(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setDescription(specificationStore.currentSpecification.tshirt?.fit?.description || "");
+    setDescription(specificationStore.currentSpecification.tshirt?.fit?.description || {
+      description: "",
+      file: {
+        name: "",
+        key: "",
+      },
+    });
   }
 
   const handleSaveAndNext = () => {
@@ -147,7 +170,15 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         neck_rib_length: neckRibLength,
         neck_opening: neckOpening,
         shoulder_to_shoulder: shoulderToShoulder,
-        description: description,
+        description: {
+          description: description.description,
+          ...(description.file && {
+            file: {
+              name: description.file.name,
+              key: description.file.key,
+            },
+          }),
+        },
       }
     });
     specificationStore.currentSpecification.tshirt = {
@@ -162,7 +193,15 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         neckRibLength: neckRibLength,
         neckOpening: neckOpening,
         shoulderToShoulder: shoulderToShoulder,
-        description: description,
+        description: {
+          description: description.description,
+          ...(description.file && {
+            file: {
+              name: description.file.name,
+              key: description.file.key,
+            },
+          }),
+        },
       },
     };
     props.callBackUpdateState();
@@ -182,6 +221,182 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       setNeckOpening(tenantStore.tenantSettingsTShirtFit.fits[index - 1].neckOpening);
       setShoulderToShoulder(tenantStore.tenantSettingsTShirtFit.fits[index - 1].shoulderToShoulder);
     }
+  };
+
+  const handleFitFilePreview = async (key: string) => {
+    if (!key) {
+      return;
+    }
+    try {
+      // 既存のpre-signed URLが有効かチェック
+      if (description.file?.preSignedUrl?.get) {
+        setPreviewUrl(description.file?.preSignedUrl?.get || "");
+        return;
+      }
+
+      // 新しいpre-signed URLを取得
+      const response = await PostImagesInteractor({
+        type: "specification",
+        specification_id: specificationStore.currentSpecification.specificationId,
+        key: key,
+        method: "get",
+      });
+
+      if (response.pre_signed_url) {
+        setPreviewUrl(response.pre_signed_url);
+        const newDescription = {
+          ...description,
+          file: {
+            name: description.file?.name || "",
+            key: description.file?.key || "",
+            preSignedUrl: {
+              get: response.pre_signed_url,
+              put: response.pre_signed_url,
+              delete: response.pre_signed_url,
+            },
+          },
+        };
+        setDescription(newDescription);
+      }
+    } catch (error) {
+      console.error("Error fetching image:", error);
+    }
+  };
+
+  const handleFitFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        setFileUploading(true);
+        const fileType = file.type.split('/')[1];
+        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : 'png';
+
+        // 既存のファイルがある場合は上書き更新
+        if (description.file?.key) {
+          try {
+            // 既存のPUT用URLが有効かチェック
+            if (description.file?.preSignedUrl?.put) {
+              const uploadResponse = await fetch(description.file.preSignedUrl.put, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": file.type,
+                },
+                body: file,
+              });
+              if (uploadResponse.ok) {
+                // アップロード成功後、PUT用のURLをセット
+                const newDescription = {
+                  ...description,
+                  file: {
+                    name: file.name,
+                    key: description.file.key,
+                    preSignedUrl: {
+                      ...description.file.preSignedUrl,
+                      put: description.file.preSignedUrl.put || "",
+                    },
+                  },
+                };
+                setDescription(newDescription);
+                setFileUploading(false);
+                return;
+              }
+            }
+          } catch (error) {
+            console.error(error);
+            console.log("Pre-signed URL expired or failed, getting new one");
+          }
+        }
+
+        // 新しいファイルのアップロード用URLを取得
+        const response = await PostImagesInteractor({
+          type: "specification",
+          specification_id: specificationStore.currentSpecification.specificationId,
+          ...(description.file?.key && { key: description.file?.key }),
+          image_type: imageType,
+          method: "put",
+        });
+
+        if (response.pre_signed_url) {
+          // ファイルをアップロード
+          const uploadResponse = await fetch(response.pre_signed_url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (uploadResponse.ok) {
+            // アップロード成功後、PUT用のURLをセット
+            const newDescription = {
+              ...description,
+              file: {
+                name: file.name,
+                key: response.key || file.name,
+                preSignedUrl: {
+                  ...description.file?.preSignedUrl,
+                  put: response.pre_signed_url || "",
+                },
+              },
+            };
+            setDescription(newDescription);
+            setFileUploading(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        dialogStore.openAlertDialog(
+          "Error",
+          "Failed to upload file. Please try again.",
+          "OK",
+          () => dialogStore.closeAlertDialog()
+        );
+        setFileUploading(false);
+      }
+    }
+  };
+
+  const handleRemoveFitFile = async () => {
+    if (!description.file?.key) {
+      return;
+    }
+    if (fileUploading) {
+      return;
+    }
+    dialogStore.openAlertDialog(
+      "Delete File",
+      "Are you sure you want to delete this file?",
+      "Delete",
+      async () => {
+        try {
+          setFileUploading(true);
+          const preSignedUrl = await PostImagesInteractor({
+            type: "specification",
+            specification_id: specificationStore.currentSpecification.specificationId,
+            key: description.file?.key || "",
+            method: "delete",
+          });
+          await fetch(preSignedUrl.pre_signed_url || "", {
+            method: "DELETE",
+          });
+          const newDescription = {
+            ...description,
+            file: undefined,
+          };
+          setDescription(newDescription);
+          dialogStore.closeAlertDialog();
+          setFileUploading(false);
+        } catch (error) {
+          console.error("Error deleting file:", error);
+          dialogStore.closeAlertDialog();
+          setFileUploading(false);
+        }
+      }
+    );
+  };
+
+  const handleClosePreview = () => {
+    setPreviewUrl(undefined);
   };
 
   return (
@@ -218,9 +433,51 @@ const TShirtFit = observer((props: TShirtFitProps) => {
               rows={8}
               className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
               placeholder="Special requests or comments"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={description.description}
+              onChange={(e) => setDescription({
+                ...description,
+                description: e.target.value,
+              })}
             />
+          </div>
+          <div className="mt-2">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center">
+                <input
+                  type="file"
+                  id={`fit-file-upload`}
+                  className="hidden"
+                  onChange={(e) => handleFitFileChange(e)}
+                  disabled={fileUploading}
+                />
+                <label
+                  htmlFor={`fit-file-upload`}
+                  className="inline-flex items-center gap-x-2 justify-center rounded-full text-gray-400 hover:text-gray-500 cursor-pointer"
+                >
+                  <PaperClipIcon aria-hidden="true" className="size-5" />
+                  <span className="sr-only">Attach a file</span>
+                  {!description.file && <p className="text-sm text-gray-500">Attach a file</p>}
+                </label>
+              </div>
+              {description.file && (
+                <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <button
+                    type="button"
+                    onClick={() => handleFitFilePreview(description.file?.key || "")}
+                    className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
+                  >
+                    {description.file.name}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFitFile()}
+                    className="text-gray-400 hover:text-gray-500"
+                  >
+                    <TrashIcon className="size-4" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/* サイズ表（7/10） */}
@@ -749,6 +1006,35 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           <img src="/tee_measures.png" alt="T-Shirt Measurements" className="w-full" />
         </div>
       </div>
+
+      {/* プレビューモーダル */}
+      {previewUrl && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+              <div className="absolute right-0 top-0 pr-4 pt-4">
+                <button
+                  type="button"
+                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                  onClick={handleClosePreview}
+                >
+                  <span className="sr-only">Close</span>
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </div>
+              <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                <div className="mt-2">
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    className="mx-auto max-h-[70vh] w-auto object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">

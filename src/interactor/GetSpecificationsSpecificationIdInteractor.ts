@@ -12,7 +12,6 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
 }
 
 const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse): Specification => {
-  console.log(formatOemPoints(specification.oem_points),);
   return {
     specificationId: specification.specification_id,
     brandName: specification.brand_name,
@@ -113,7 +112,13 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
       neckRibLength: specification.fit?.neck_rib_length || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       neckOpening: specification.fit?.neck_opening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
       shoulderToShoulder: specification.fit?.shoulder_to_shoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
-      description: specification.fit?.description || "",
+      description: {
+        description: specification.fit?.description?.description || "",
+        file: {
+          name: specification.fit?.description?.file?.name || "",
+          key: specification.fit?.description?.file?.key || "",
+        },
+      },
     } : undefined,
     fabric: {
       materials: (specification.fabric?.materials || []).map((material) => {

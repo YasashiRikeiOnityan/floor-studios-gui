@@ -85,39 +85,30 @@ export type SizeValue = {
 export type Material = {
   rowMaterial: string;
   thickness: string;
-  description: {
-    description: string;
-    file?: {
-      name: string;
-      key: string;
-      preSignedUrl?: {
-        get?: string;
-        put?: string;
-        delete?: string;
-      };
-    };
-  };
+  description: Description;
   colourway: Colourway;
 }
 
 export type SubMaterial = {
   rowMaterial: string;
-  description: {
-    description: string;
-    file?: {
-      name: string;
-      key: string;
-      preSignedUrl?: {
-        get?: string;
-        put?: string;
-        delete?: string;
-      };
-    };
-  };
+  description: Description;
   colourway: Colourway;
 }
 
 export type Colourway = {
   pantone: string;
   hex: string;
+}
+
+export type Description = {
+  description: string;
+  file?: {
+    name: string;
+    key: string;
+    preSignedUrl?: {
+      get?: string;
+      put?: string;
+      delete?: string;
+    };
+  };
 }
