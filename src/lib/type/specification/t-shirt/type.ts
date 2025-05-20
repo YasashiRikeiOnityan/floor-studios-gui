@@ -89,12 +89,6 @@ export type TShirtMainProduction = {
   deliveryDate: string;
 };
 
-export type TShirtInformation = {
-  description: string;
-  notes: string;
-  tags: string[];
-};
-
 export type ApiGetTShirtSpecificationResponse = {
   specification_id: string;
   brand_name: string;
@@ -157,6 +151,16 @@ export type ApiGetTShirtSpecificationResponse = {
         };
       };
     }[];
+  };
+  care_label?: {
+    has_brand_logo: boolean;
+    description: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
   };
   sample?: {
     sample: boolean;
@@ -274,6 +278,16 @@ export type ApiPutTShirtSpecificationRequest = {
         };
       };
     }[];
+  };
+  care_label?: {
+    has_brand_logo: boolean;
+    description: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
   };
   sample?: {
     sample: boolean;

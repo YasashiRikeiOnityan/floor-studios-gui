@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Floor Studios - Apparel Specification Management System",
+  title: "Floor Studios™",
   description: "Create, manage, and export apparel specifications with ease. A comprehensive web application for fashion industry professionals to streamline their specification workflow.",
   keywords: "apparel, specification, fashion, clothing, technical specification, garment, production, design, management, web application",
   authors: [{ name: "Floor Studios" }],

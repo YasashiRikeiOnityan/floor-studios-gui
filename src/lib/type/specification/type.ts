@@ -18,6 +18,10 @@ export type Specification = {
     userName: string;
   };
   updatedAt?: string;
+  careLabel?: {
+    hasBrandLogo: boolean;
+    description: Description;
+  };
   oemPoints?: {
     oemPoint: string;
     file?: File;

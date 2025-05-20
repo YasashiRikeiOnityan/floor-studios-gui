@@ -26,6 +26,7 @@ const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdR
     type: specification.type || undefined,
     progress: specification.progress || "",
     tshirt: specification.type === "T-SHIRT" ? formatTShirtSpecification(specification) : undefined,
+    careLabel: formatCareLabel(specification.care_label),
     oemPoints: formatOemPoints(specification.oem_points),
     information: formatInformation(specification.information),
   }
@@ -33,6 +34,19 @@ const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdR
 
 const formatSpecificationStatus = (status: string): SpecificationStatus => {
   return status === "DRAFT" ? "DRAFT" : status === "COMPLETE" ? "COMPLETE" : status === "SAMPLE" ? "SAMPLE" : status === "BULK" ? "BULK" : undefined;
+}
+
+const formatCareLabel = (careLabel: ApiGetSpecificationsSpecificationIdResponse["care_label"]) => {
+  return {
+    hasBrandLogo: careLabel?.has_brand_logo || false,
+    description: {
+      description: careLabel?.description?.description || "",
+      file: {
+        name: careLabel?.description?.file?.name || "",
+        key: careLabel?.description?.file?.key || "",
+      },
+    },
+  }
 }
 
 const formatOemPoints = (oemPoints: ApiGetSpecificationsSpecificationIdResponse["oem_points"]): {
