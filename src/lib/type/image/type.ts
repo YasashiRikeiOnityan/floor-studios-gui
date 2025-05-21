@@ -8,5 +8,5 @@ export type ApiPostImagesRequest = {
 
 export type ApiPostImagesResponse = {
   pre_signed_url: string;
-  key?: string;
+  key: string;
 }

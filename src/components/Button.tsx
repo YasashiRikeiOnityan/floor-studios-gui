@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 type ButtonProps = {
   type?: "submit" | "reset" | "button";
-  style?: "fill" | "outline" | "text";
+  style?: "fill" | "outline" | "text" | "alert" | "cancel";
   onClick: MouseEventHandler<HTMLButtonElement>;
   loading?: boolean;
   disabled?: boolean;
@@ -23,6 +23,8 @@ const Button = (props: ButtonProps) => {
           "shadow-sm bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline-blue-600": props.style === "fill",
           "shadow-sm border border-blue-600 text-blue-600 hover:bg-blue-100 focus-visible:outline-blue-600": props.style === "outline",
           "text-blue-600 hover:bg-blue-100": props.style === "text",
+          "shadow-sm bg-red-600 text-white hover:bg-red-500 focus-visible:outline-red-600": props.style === "alert",
+          "text-gray-600 hover:bg-gray-200": props.style === "cancel",
         },
         {
           "w-full": props.fullWidth

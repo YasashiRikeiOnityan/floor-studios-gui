@@ -69,10 +69,14 @@ class SpecificationStore {
     this.loading = false;
   }
 
-  async putSpecification(specification: ApiPutSpecificationsSpecificationIdRequest) {
-    this.loading = true;
+  async putSpecification(specification: ApiPutSpecificationsSpecificationIdRequest, noLoading: boolean = false) {
+    if (!noLoading) {
+      this.loading = true;
+    }
     await PutSpecificationsSpecificationIdInteractor(this.currentSpecification.specificationId, specification);
-    this.loading = false;
+    if (!noLoading) {
+      this.loading = false;
+    }
   }
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {

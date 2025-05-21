@@ -38,13 +38,18 @@ const formatSpecificationStatus = (status: string): SpecificationStatus => {
 
 const formatCareLabel = (careLabel: ApiGetSpecificationsSpecificationIdResponse["care_label"]) => {
   return {
-    hasBrandLogo: careLabel?.has_brand_logo || false,
+    hasLogo: careLabel?.has_logo || false,
+    defaultLogo: careLabel?.default_logo === undefined ? true : careLabel?.default_logo,
+    file: careLabel?.file ? {
+      name: careLabel?.file?.name || "",
+      key: careLabel?.file?.key || "",
+    } : undefined,
     description: {
       description: careLabel?.description?.description || "",
-      file: {
+      file: careLabel?.description?.file ? {
         name: careLabel?.description?.file?.name || "",
         key: careLabel?.description?.file?.key || "",
-      },
+      } : undefined,
     },
   }
 }

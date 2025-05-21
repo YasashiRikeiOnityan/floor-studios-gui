@@ -19,7 +19,17 @@ export type Specification = {
   };
   updatedAt?: string;
   careLabel?: {
-    hasBrandLogo: boolean;
+    hasLogo: boolean;
+    defaultLogo: boolean;
+    file?: {
+      name: string;
+      key: string;
+      preSignedUrl?: {
+        get?: string;
+        put?: string;
+        delete?: string;
+      };
+    };
     description: Description;
   };
   oemPoints?: {

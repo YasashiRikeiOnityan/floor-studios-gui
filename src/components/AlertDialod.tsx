@@ -24,7 +24,7 @@ const AlertDialog = observer(() => {
               <button
                 type="button"
                 onClick={() => dialogStore.closeAlertDialog()}
-                className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               >
                 <span className="sr-only">Close</span>
                 <XMarkIcon aria-hidden="true" className="size-6" />
@@ -49,7 +49,7 @@ const AlertDialog = observer(() => {
               <Button
                 type="button"
                 onClick={() => dialogStore.onClickButton()}
-                style="fill"
+                style="alert"
               >
                 {dialogStore.buttonText}
               </Button>
@@ -57,7 +57,7 @@ const AlertDialog = observer(() => {
                 type="button"
                 data-autofocus
                 onClick={() => dialogStore.closeAlertDialog()}
-                style="text"
+                style="cancel"
               >
                 Cancel
               </Button>

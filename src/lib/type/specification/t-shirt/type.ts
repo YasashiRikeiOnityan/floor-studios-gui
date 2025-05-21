@@ -1,7 +1,8 @@
 import { 
   SpecificationStatus,
   SpecificationType,
-  SizeValue
+  SizeValue,
+  Description
 } from "@/lib/type/specification/type";
 
 export type TShirtSpecification = {
@@ -21,13 +22,7 @@ export type TShirtFit = {
   neckRibLength: SizeValue;
   neckOpening: SizeValue;
   shoulderToShoulder: SizeValue;
-  description: {
-    description: string;
-    file?: {
-      name: string;
-      key: string;
-    };
-  };
+  description: Description;
 };
 
 export type TShirtFabric = {
@@ -153,14 +148,13 @@ export type ApiGetTShirtSpecificationResponse = {
     }[];
   };
   care_label?: {
-    has_brand_logo: boolean;
-    description: {
-      description: string;
-      file?: {
-        name: string;
-        key: string;
-      };
+    has_logo: boolean;
+    default_logo: boolean;
+    file?: {
+      name: string;
+      key: string;
     };
+    description: Description;
   };
   sample?: {
     sample: boolean;
@@ -280,14 +274,13 @@ export type ApiPutTShirtSpecificationRequest = {
     }[];
   };
   care_label?: {
-    has_brand_logo: boolean;
-    description: {
-      description: string;
-      file?: {
-        name: string;
-        key: string;
-      };
+    has_logo: boolean;
+    default_logo: boolean;
+    file?: {
+      name: string;
+      key: string;
     };
+    description: Description;
   };
   sample?: {
     sample: boolean;
