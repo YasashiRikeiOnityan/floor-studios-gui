@@ -236,6 +236,6 @@ export const ApiPostImages = async (image: ApiPostImagesRequest): Promise<ApiPos
     return response.data;
   } catch (error) {
     console.error('Failed to post images:', error);
-    return { pre_signed_url: "" };
+    return { pre_signed_url: "", key: "" };
   }
 };
