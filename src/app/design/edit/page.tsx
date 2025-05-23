@@ -17,6 +17,7 @@ import TShirtsSample from "@/components/TShirtsSample";
 import OEMPoint from "@/components/OEMPoint";
 import AlertDialog from "@/components/AlertDialod";
 import CareLabel from "@/components/CareLabel";
+import Tag from "@/components/Tag";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -70,7 +71,7 @@ const EditDesignContent = observer(() => {
         case 3:
           return <TShirtFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
-          return <>Tag</>
+          return <Tag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
         case 5:
           return <CareLabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
         case 6:

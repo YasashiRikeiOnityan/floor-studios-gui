@@ -67,7 +67,7 @@ const Orders = observer(() => {
                   fullWidth={false}
                 />
               </div>
-              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <Cards specificationGroupId={specificationGroupId} status={status} />
               </div>
             </div>
