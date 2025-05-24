@@ -62,7 +62,7 @@ const Tag = observer((props: TagProps) => {
   const [isCustom, setIsCustom] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isCustom || false);
   const [description, setDescription] = useState<Description | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
   const [material, setMaterial] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
-  const [selectedColor, setSelectedColor] = useState<{title: string, hex: string} | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
+  const [selectedColor, setSelectedColor] = useState<{ title: string, hex: string } | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
   const [labelStyle, setLabelStyle] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
@@ -112,27 +112,30 @@ const Tag = observer((props: TagProps) => {
       specificationStore.putSpecification({
         ...(props.isUpdateProgress && { progress: "TAG" }),
         tag: {
-        is_label: isLabel,
-        send_labels: sendLabels,
-        is_custom: isCustom,
-        ...(isLabel && !sendLabels && { material: material ? material : "" }),
-        ...(isLabel && !sendLabels && selectedColor && { color: {
-          title: selectedColor.title,
-          hex: selectedColor.hex,
-        }}),
-        ...(labelStyle && { label_style: labelStyle }),
-        ...(description && {
-          description: {
-            description: description?.description || "",
-            ...(description?.file && {
-            file: {
-              name: description?.file?.name || "",
-                key: description?.file?.key || "",
-              },
-            }),
-          },
-        }),
-      }});
+          is_label: isLabel,
+          send_labels: sendLabels,
+          is_custom: isCustom,
+          ...(isLabel && !sendLabels && { material: material ? material : "" }),
+          ...(isLabel && !sendLabels && selectedColor && {
+            color: {
+              title: selectedColor.title,
+              hex: selectedColor.hex,
+            }
+          }),
+          ...(labelStyle && { label_style: labelStyle }),
+          ...(description && {
+            description: {
+              description: description?.description || "",
+              ...(description?.file && {
+                file: {
+                  name: description?.file?.name || "",
+                  key: description?.file?.key || "",
+                },
+              }),
+            },
+          }),
+        }
+      });
     }
     specificationStore.currentSpecification.tshirt = {
       ...specificationStore.currentSpecification.tshirt,
@@ -355,6 +358,7 @@ const Tag = observer((props: TagProps) => {
                       setSendLabels(labelOption.id === "i-will-send-labels");
                       setIsCustom(labelOption.id === "custom-label");
                       if (labelOption.id === "no-label" || labelOption.id === "i-will-send-labels") {
+                        setMaterial("Woven label");
                         setSelectedColor(undefined);
                       }
                     }}
@@ -394,8 +398,8 @@ const Tag = observer((props: TagProps) => {
           {isLabel && !sendLabels &&
             <fieldset>
               <legend className="text-sm/6 font-semibold text-gray-900">Choose the label color</legend>
-              <RadioGroup 
-                value={selectedColor?.title || ""} 
+              <RadioGroup
+                value={selectedColor?.title || ""}
                 onChange={(value) => {
                   const option = labelColorOptions.find(opt => opt.title === value);
                   if (option) {
@@ -404,7 +408,7 @@ const Tag = observer((props: TagProps) => {
                       hex: option.clourway.hex
                     });
                   }
-                }} 
+                }}
                 className="mt-4 flex flex-wrap gap-3"
               >
                 {labelColorOptions
@@ -437,28 +441,38 @@ const Tag = observer((props: TagProps) => {
         </div>
         <div className="w-7/10">
           {isLabel && !sendLabels &&
-            <fieldset className="mb-8">
-              <legend className="text-sm/6 font-semibold text-gray-900">Select a label option</legend>
-              <div className="mt-4 space-y-2">
-                {labelStyleOptions.map((labelStyleOption) => (
-                  <div key={labelStyleOption.id} className="flex items-center">
-                    <input
-                      defaultChecked={(labelStyle || "Inseam loop label") === labelStyleOption.title}
-                      id={labelStyleOption.id}
-                      name="label-style-option"
-                      type="radio"
-                    className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-                      onChange={() => {
-                        setLabelStyle(labelStyleOption.title);
-                      }}
-                    />
-                    <label htmlFor={labelStyleOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">
-                      {labelStyleOption.title}
-                    </label>
-                  </div>
-                ))}
+            <>
+              <fieldset className="mb-8">
+                <legend className="text-sm/6 font-semibold text-gray-900">Select a label option</legend>
+                <div className="mt-4 space-y-2">
+                  {labelStyleOptions.map((labelStyleOption) => (
+                    <div key={labelStyleOption.id} className="flex items-center">
+                      <input
+                        defaultChecked={(labelStyle || "Inseam loop label") === labelStyleOption.title}
+                        id={labelStyleOption.id}
+                        name="label-style-option"
+                        type="radio"
+                        className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                        onChange={() => {
+                          setLabelStyle(labelStyleOption.title);
+                        }}
+                      />
+                      <label htmlFor={labelStyleOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">
+                        {labelStyleOption.title}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="flex items-center gap-6 mb-8">
+                <div className="w-1/2 flex justify-center">
+                  <img src="/t-shirt_tag.png" />
+                </div>
+                <div className="w-1/2 flex justify-center">
+                  <img src="/tag_size.svg" />
+                </div>
               </div>
-            </fieldset>
+            </>
           }
           <textarea
             id="comment"
