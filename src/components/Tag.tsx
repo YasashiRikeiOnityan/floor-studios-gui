@@ -464,7 +464,7 @@ const Tag = observer((props: TagProps) => {
                   ))}
                 </div>
               </fieldset>
-              <div className="flex items-center gap-6 mb-8">
+              <div className="flex items-start gap-6 mb-8">
                 {labelStyle === "Inseam loop label" && <div className="w-1/2 flex justify-center">
                   <img src="/t-shirt_tag.png" />
                 </div>}
