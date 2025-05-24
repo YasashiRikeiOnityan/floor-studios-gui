@@ -59,6 +59,7 @@ const labelStyleOptions = [
 const Tag = observer((props: TagProps) => {
   const [isLabel, setIsLabel] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
   const [sendLabels, setSendLabels] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.sendLabels || false);
+  const [isCustom, setIsCustom] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isCustom || false);
   const [description, setDescription] = useState<Description | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
   const [material, setMaterial] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
   const [selectedColor, setSelectedColor] = useState<{title: string, hex: string} | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
@@ -83,6 +84,7 @@ const Tag = observer((props: TagProps) => {
         tag: {
           is_label: isLabel,
           send_labels: sendLabels,
+          is_custom: isCustom,
           ...(description && {
             description: {
               description: description?.description || "",
@@ -111,12 +113,13 @@ const Tag = observer((props: TagProps) => {
         ...(props.isUpdateProgress && { progress: "TAG" }),
         tag: {
         is_label: isLabel,
+        send_labels: sendLabels,
+        is_custom: isCustom,
         ...(isLabel && !sendLabels && { material: material ? material : "" }),
         ...(isLabel && !sendLabels && selectedColor && { color: {
           title: selectedColor.title,
           hex: selectedColor.hex,
         }}),
-        send_labels: sendLabels,
         ...(labelStyle && { label_style: labelStyle }),
         ...(description && {
           description: {
@@ -136,6 +139,7 @@ const Tag = observer((props: TagProps) => {
       tag: {
         isLabel: isLabel,
         sendLabels: sendLabels,
+        isCustom: isCustom,
         material: material,
         color: selectedColor,
         labelStyle: labelStyle,
@@ -325,6 +329,8 @@ const Tag = observer((props: TagProps) => {
     setPreviewUrl(undefined);
   };
 
+  const labelOptionId = !isLabel ? "no-label" : sendLabels ? "i-will-send-labels" : !isCustom ? "standard" : "custom";
+
   return (
     <>
       <p className="text-sm text-gray-500">
@@ -339,7 +345,7 @@ const Tag = observer((props: TagProps) => {
               {labelOptions.map((labelOption) => (
                 <div key={labelOption.id} className="flex items-center">
                   <input
-                    defaultChecked={labelOption.id === "no-label"}
+                    defaultChecked={labelOptionId === labelOption.id}
                     id={labelOption.id}
                     name="label-option"
                     type="radio"
@@ -347,6 +353,10 @@ const Tag = observer((props: TagProps) => {
                     onChange={() => {
                       setIsLabel(labelOption.id !== "no-label");
                       setSendLabels(labelOption.id === "i-will-send-labels");
+                      setIsCustom(labelOption.id === "custom-label");
+                      if (labelOption.id === "no-label" || labelOption.id === "i-will-send-labels") {
+                        setSelectedColor(undefined);
+                      }
                     }}
                   />
                   <label htmlFor={labelOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">

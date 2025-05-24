@@ -60,12 +60,13 @@ export type TShirtFabric = {
 
 export type TShirtTag = {
   isLabel: boolean;
+  sendLabels: boolean;
+  isCustom: boolean;
   material?: string;
   color?: {
     title: string;
     hex: string;
   },
-  sendLabels: boolean;
   labelStyle?: string;
   description?: Description;
 }
@@ -177,12 +178,13 @@ export type ApiGetTShirtSpecificationResponse = {
   };
   tag?: {
     is_label: boolean;
+    send_labels: boolean;
+    is_custom: boolean;
     material?: string;
     color?: {
       title: string;
       hex: string;
     };
-    send_labels: boolean;
     label_style?: string;
     description?: {
       description: string;
@@ -326,12 +328,13 @@ export type ApiPutTShirtSpecificationRequest = {
   };
   tag?: {
     is_label: boolean;
+    send_labels: boolean;
+    is_custom: boolean;
     material?: string;
     color?: {
       title: string;
       hex: string;
     };
-    send_labels: boolean;
     label_style?: string;
     description?: {
       description: string;
