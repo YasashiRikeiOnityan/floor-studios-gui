@@ -174,6 +174,23 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
         };
       }),
     },
+    tag: {
+      isLabel: specification.tag?.is_label || false,
+      material: specification.tag?.material || "Woven label",
+      color: specification.tag?.color ? {
+        title: specification.tag?.color?.title,
+        hex: specification.tag?.color?.hex,
+      } : undefined,
+      sendLabels: specification.tag?.send_labels || false,
+      labelStyle: specification.tag?.label_style || "Inseam loop label",
+      description: {
+        description: specification.tag?.description?.description || "",
+        file: specification.tag?.description?.file ? {
+          name: specification.tag?.description?.file?.name || "",
+          key: specification.tag?.description?.file?.key || "",
+        } : undefined,
+      },
+    },
     sample: {
       sample: specification.sample?.sample || false,
       quantity: {

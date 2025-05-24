@@ -222,6 +222,7 @@ const CareLabel = (props: CareLabelProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -279,6 +280,7 @@ const CareLabel = (props: CareLabelProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);
@@ -480,6 +482,7 @@ const CareLabel = (props: CareLabelProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -535,6 +538,7 @@ const CareLabel = (props: CareLabelProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);

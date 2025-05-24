@@ -8,6 +8,7 @@ import {
 export type TShirtSpecification = {
   fit?: TShirtFit;
   fabric?: TShirtFabric;
+  tag?: TShirtTag;
   sample?: TShirtSample;
   mainProduction?: TShirtMainProduction;
 };
@@ -56,6 +57,18 @@ export type TShirtFabric = {
     };
   }[];
 };
+
+export type TShirtTag = {
+  isLabel: boolean;
+  material?: string;
+  color?: {
+    title: string;
+    hex: string;
+  },
+  sendLabels: boolean;
+  labelStyle?: string;
+  description?: Description;
+}
 
 export type TShirtSample = {
   sample: boolean;
@@ -154,8 +167,31 @@ export type ApiGetTShirtSpecificationResponse = {
       name: string;
       key: string;
     };
-    description: Description;
+    description: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
   };
+  tag?: {
+    is_label: boolean;
+    material?: string;
+    color?: {
+      title: string;
+      hex: string;
+    };
+    send_labels: boolean;
+    label_style?: string;
+    description?: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
+  };  
   sample?: {
     sample: boolean;
     quantity?: {
@@ -280,7 +316,30 @@ export type ApiPutTShirtSpecificationRequest = {
       name: string;
       key: string;
     };
-    description: Description;
+    description: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
+  };
+  tag?: {
+    is_label: boolean;
+    material?: string;
+    color?: {
+      title: string;
+      hex: string;
+    };
+    send_labels: boolean;
+    label_style?: string;
+    description?: {
+      description: string;
+      file?: {
+        name: string;
+        key: string;
+      };
+    };
   };
   sample?: {
     sample: boolean;

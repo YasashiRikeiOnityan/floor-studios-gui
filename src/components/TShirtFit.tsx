@@ -349,6 +349,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -367,6 +368,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);

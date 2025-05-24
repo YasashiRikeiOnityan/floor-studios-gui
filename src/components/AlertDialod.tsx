@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { dialogStore } from '@/stores/dialogStore';
-import { observer } from 'mobx-react-lite';
-import Button from '@/components/Button';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
+import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { dialogStore } from "@/stores/dialogStore";
+import { observer } from "mobx-react-lite";
+import Button from "@/components/Button";
 
 const AlertDialog = observer(() => {
   return (
@@ -53,14 +53,16 @@ const AlertDialog = observer(() => {
               >
                 {dialogStore.buttonText}
               </Button>
-              <Button
-                type="button"
-                data-autofocus
-                onClick={() => dialogStore.closeAlertDialog()}
-                style="cancel"
-              >
-                Cancel
-              </Button>
+              {!dialogStore.noCancelButton &&
+                <Button
+                  type="button"
+                  data-autofocus
+                  onClick={() => dialogStore.closeAlertDialog()}
+                  style="cancel"
+                  >
+                  Cancel
+                </Button>
+              }
             </div>
           </DialogPanel>
         </div>

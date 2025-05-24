@@ -5,7 +5,7 @@ import { useState } from "react";
 import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { Radio } from "@headlessui/react";
 import { RadioGroup } from "@headlessui/react";
 
@@ -28,7 +28,7 @@ const materialOptions = [
 ]
 
 const labelColorOptions = [
-  { id: "lemon-chome", title: "Lemon Chome", clourway: { hex: "#ffc300", pantone: "13-0859 TCX" }, material: "Woven label" },
+  { id: "lemon-chrome", title: "Lemon Chrome", clourway: { hex: "#ffc300", pantone: "13-0859 TCX" }, material: "Woven label" },
   { id: "exotic-orange", title: "Exotic Orange", clourway: { hex: "#fa6632", pantone: "16-1453 TCX" }, material: "Woven label" },
   { id: "red-alert", title: "Red Alert", clourway: { hex: "#d0342c", pantone: "18-1559 TCX" }, material: "Woven label" },
   { id: "phlox", title: "Phlox", clourway: { hex: "#692d5d", pantone: "19-2820 TCX" }, material: "Woven label" },
@@ -51,22 +51,97 @@ const labelColorOptions = [
   { id: "mojave-desert", title: "Mojave Desert", clourway: { hex: "#c7b595", pantone: "15-1217 TCX" }, material: "Cotton Canvas" },
 ]
 
+const labelStyleOptions = [
+  { id: "inseam-loop-label", title: "Inseam loop label" },
+  { id: "label-on-the-back", title: "Label on the back" },
+]
+
 const Tag = observer((props: TagProps) => {
-  const [isLabel, setIsLabel] = useState<boolean>(false);
-  const [sendLabels, setSendLabels] = useState<boolean>(false);
-  const [description, setDescription] = useState<Description>({ description: "" });
-  const [material, setMaterial] = useState<string>("Woven label");
-  const [selectedColor, setSelectedColor] = useState<string>("Pink");
+  const [isLabel, setIsLabel] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
+  const [sendLabels, setSendLabels] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.sendLabels || false);
+  const [description, setDescription] = useState<Description | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
+  const [material, setMaterial] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
+  const [selectedColor, setSelectedColor] = useState<{title: string, hex: string} | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
+  const [labelStyle, setLabelStyle] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
 
   const handleCancel = () => {
-    console.log("Cancel");
-    console.log(material);
+    setIsLabel(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
+    setSendLabels(specificationStore.currentSpecification?.tshirt?.tag?.sendLabels || false);
+    setDescription(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
+    setMaterial(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
+    setSelectedColor(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
+    setLabelStyle(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
+    setPreviewUrl(undefined);
   };
 
   const handleSaveAndNext = () => {
-    console.log("Save and Next");
+    if (!isLabel || sendLabels) {
+      specificationStore.putSpecification({
+        ...(props.isUpdateProgress && { progress: "TAG" }),
+        tag: {
+          is_label: isLabel,
+          send_labels: sendLabels,
+          ...(description && {
+            description: {
+              description: description?.description || "",
+              ...(description?.file && {
+                file: {
+                  name: description?.file?.name || "",
+                  key: description?.file?.key || "",
+                },
+              }),
+            },
+          }),
+        },
+      });
+    } else {
+      if (!selectedColor) {
+        dialogStore.openAlertDialog(
+          "Error",
+          "Please select a material and color",
+          "OK",
+          true,
+          () => dialogStore.closeAlertDialog()
+        );
+        return;
+      }
+      specificationStore.putSpecification({
+        ...(props.isUpdateProgress && { progress: "TAG" }),
+        tag: {
+        is_label: isLabel,
+        ...(isLabel && !sendLabels && { material: material ? material : "" }),
+        ...(isLabel && !sendLabels && selectedColor && { color: {
+          title: selectedColor.title,
+          hex: selectedColor.hex,
+        }}),
+        send_labels: sendLabels,
+        ...(labelStyle && { label_style: labelStyle }),
+        ...(description && {
+          description: {
+            description: description?.description || "",
+            ...(description?.file && {
+            file: {
+              name: description?.file?.name || "",
+                key: description?.file?.key || "",
+              },
+            }),
+          },
+        }),
+      }});
+    }
+    specificationStore.currentSpecification.tshirt = {
+      ...specificationStore.currentSpecification.tshirt,
+      tag: {
+        isLabel: isLabel,
+        sendLabels: sendLabels,
+        material: material,
+        color: selectedColor,
+        labelStyle: labelStyle,
+        description: description,
+      },
+    };
     props.callBackUpdateState();
   };
 
@@ -76,7 +151,7 @@ const Tag = observer((props: TagProps) => {
     }
     try {
       // 既存のpre-signed URLが有効かチェック
-      if (description.file?.preSignedUrl?.get) {
+      if (description?.file?.preSignedUrl?.get) {
         setPreviewUrl(description.file?.preSignedUrl?.get || "");
         return;
       }
@@ -94,14 +169,15 @@ const Tag = observer((props: TagProps) => {
         const newDescription = {
           ...description,
           file: {
-            name: description.file?.name || "",
-            key: description.file?.key || "",
+            name: description?.file?.name || "",
+            key: description?.file?.key || "",
             preSignedUrl: {
               get: response.pre_signed_url,
               put: response.pre_signed_url,
               delete: response.pre_signed_url,
             },
           },
+          description: description?.description || "",
         };
         setDescription(newDescription);
       }
@@ -119,11 +195,11 @@ const Tag = observer((props: TagProps) => {
         const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : 'png';
 
         // 既存のファイルがある場合は上書き更新
-        if (description.file?.key) {
+        if (description?.file?.key) {
           try {
             // 既存のPUT用URLが有効かチェック
-            if (description.file?.preSignedUrl?.put) {
-              const uploadResponse = await fetch(description.file.preSignedUrl.put, {
+            if (description?.file?.preSignedUrl?.put) {
+              const uploadResponse = await fetch(description?.file?.preSignedUrl?.put, {
                 method: "PUT",
                 headers: {
                   "Content-Type": file.type,
@@ -136,10 +212,10 @@ const Tag = observer((props: TagProps) => {
                   ...description,
                   file: {
                     name: file.name,
-                    key: description.file.key,
+                    key: description?.file?.key || "",
                     preSignedUrl: {
-                      ...description.file.preSignedUrl,
-                      put: description.file.preSignedUrl.put || "",
+                      ...description?.file?.preSignedUrl,
+                      put: description?.file?.preSignedUrl?.put || "",
                     },
                   },
                 };
@@ -158,7 +234,7 @@ const Tag = observer((props: TagProps) => {
         const response = await PostImagesInteractor({
           type: "specification",
           specification_id: specificationStore.currentSpecification.specificationId,
-          ...(description.file?.key && { key: description.file?.key }),
+          ...(description?.file?.key && { key: description?.file?.key }),
           image_type: imageType,
           method: "put",
         });
@@ -181,10 +257,11 @@ const Tag = observer((props: TagProps) => {
                 name: file.name,
                 key: response.key || file.name,
                 preSignedUrl: {
-                  ...description.file?.preSignedUrl,
+                  ...description?.file?.preSignedUrl,
                   put: response.pre_signed_url || "",
                 },
               },
+              description: description?.description || "",
             };
             setDescription(newDescription);
             setFileUploading(false);
@@ -196,6 +273,7 @@ const Tag = observer((props: TagProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -204,7 +282,7 @@ const Tag = observer((props: TagProps) => {
   };
 
   const handleRemoveTagFile = async () => {
-    if (!description.file?.key) {
+    if (!description?.file?.key) {
       return;
     }
     if (fileUploading) {
@@ -214,13 +292,14 @@ const Tag = observer((props: TagProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
             specification_id: specificationStore.currentSpecification.specificationId,
-            key: description.file?.key || "",
+            key: description?.file?.key || "",
             method: "delete",
           });
           await fetch(preSignedUrl.pre_signed_url || "", {
@@ -254,9 +333,9 @@ const Tag = observer((props: TagProps) => {
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Select name tag and size tag</h1>
       <div className="flex gap-6 mt-6">
         <div className="w-3/10 flex flex-col gap-y-8">
-          <fieldset className="pb-8 border-b border-gray-200">
+          <fieldset className={`${isLabel && !sendLabels ? "pb-8 border-b border-gray-200" : ""}`}>
             <legend className="text-sm/6 font-semibold text-gray-900">Select a label option</legend>
-            <div className="mt-2 space-y-4">
+            <div className="mt-4 space-y-2">
               {labelOptions.map((labelOption) => (
                 <div key={labelOption.id} className="flex items-center">
                   <input
@@ -280,7 +359,7 @@ const Tag = observer((props: TagProps) => {
           {isLabel && !sendLabels &&
             <fieldset className="pb-8 border-b border-gray-200">
               <legend className="text-sm/6 font-semibold text-gray-900">Choose the material</legend>
-              <div className="mt-2 space-y-4">
+              <div className="mt-4 space-y-2">
                 {materialOptions.map((materialOption) => (
                   <div key={materialOption.id} className="flex items-center">
                     <input
@@ -291,6 +370,7 @@ const Tag = observer((props: TagProps) => {
                       className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
                       onChange={() => {
                         setMaterial(materialOption.title);
+                        setSelectedColor(undefined);
                       }}
                     />
                     <label htmlFor={materialOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">
@@ -304,22 +384,34 @@ const Tag = observer((props: TagProps) => {
           {isLabel && !sendLabels &&
             <fieldset>
               <legend className="text-sm/6 font-semibold text-gray-900">Choose the label color</legend>
-              <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-3 flex flex-wrap gap-3">
+              <RadioGroup 
+                value={selectedColor?.title || ""} 
+                onChange={(value) => {
+                  const option = labelColorOptions.find(opt => opt.title === value);
+                  if (option) {
+                    setSelectedColor({
+                      title: option.title,
+                      hex: option.clourway.hex
+                    });
+                  }
+                }} 
+                className="mt-4 flex flex-wrap gap-3"
+              >
                 {labelColorOptions
-                  .filter(option => option.material === material)
+                  .filter(option => option.material === (material || "Woven label"))
                   .map((option) => (
                     <Radio
                       key={option.id}
-                      value={option.id}
+                      value={option.title}
                       aria-label={option.title}
                       className="group relative"
                     >
                       <div className="relative group">
-                        <span 
-                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.id === selectedColor ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
-                          style={{ 
+                        <span
+                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.title === selectedColor?.title ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
+                          style={{
                             backgroundColor: option.clourway.hex,
-                            "--tw-ring-color": option.clourway.hex
+                            "--tw-ring-color": option.id === "white" ? "#6b7280" : option.clourway.hex
                           } as React.CSSProperties}
                         />
                         <div className="absolute z-10 top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-blue-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
@@ -334,13 +426,37 @@ const Tag = observer((props: TagProps) => {
           }
         </div>
         <div className="w-7/10">
+          {isLabel && !sendLabels &&
+            <fieldset className="mb-8">
+              <legend className="text-sm/6 font-semibold text-gray-900">Select a label option</legend>
+              <div className="mt-4 space-y-2">
+                {labelStyleOptions.map((labelStyleOption) => (
+                  <div key={labelStyleOption.id} className="flex items-center">
+                    <input
+                      defaultChecked={(labelStyle || "Inseam loop label") === labelStyleOption.title}
+                      id={labelStyleOption.id}
+                      name="label-style-option"
+                      type="radio"
+                    className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                      onChange={() => {
+                        setLabelStyle(labelStyleOption.title);
+                      }}
+                    />
+                    <label htmlFor={labelStyleOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">
+                      {labelStyleOption.title}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </fieldset>
+          }
           <textarea
             id="comment"
             name="comment"
             rows={8}
             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
             placeholder="Special requests or comments"
-            value={description.description}
+            value={description?.description}
             onChange={(e) => setDescription({
               ...description,
               description: e.target.value,
@@ -362,10 +478,10 @@ const Tag = observer((props: TagProps) => {
                 >
                   <PaperClipIcon aria-hidden="true" className="size-5" />
                   <span className="sr-only">Attach a file</span>
-                  {!description.file && <p className="text-sm text-gray-500">Attach a file</p>}
+                  {!description?.file && <p className="text-sm text-gray-500">Attach a file</p>}
                 </label>
               </div>
-              {description.file && (
+              {description?.file && (
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <button
                     type="button"

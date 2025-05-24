@@ -1,15 +1,16 @@
-import { specificationStore } from "@/stores/specificationStore";
+
 import { observer } from "mobx-react-lite";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import { tenantStore } from "@/stores/tenantStore";
-import TShirtFabricMaterials from "./TShirtFabricMaterials";
-import TShirtFabricSubMaterials from "./TShirtFabricSubMaterials";
+import TShirtFabricMaterials from "@/components/TShirtFabricMaterials";
+import TShirtFabricSubMaterials from "@/components/TShirtFabricSubMaterials";
 import { Colourway, Material, SubMaterial } from "@/lib/type/specification/type";
 import { PlusIcon, TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import TShirtFabricColourway from "./TShirtFabricColourway";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
+import { specificationStore } from "@/stores/specificationStore";
 
 type TShirtFabricProps = {
   callBackUpdateState: () => void;
@@ -243,6 +244,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -261,6 +263,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);
@@ -422,6 +425,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           "Error",
           "Failed to upload file. Please try again.",
           "OK",
+          false,
           () => dialogStore.closeAlertDialog()
         );
         setFileUploading(false);
@@ -440,6 +444,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       "Delete File",
       "Are you sure you want to delete this file?",
       "Delete",
+      false,
       async () => {
         try {
           setFileUploading(true);

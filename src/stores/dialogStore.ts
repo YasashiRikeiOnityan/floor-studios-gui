@@ -5,6 +5,7 @@ class DialogStore {
   title: string = "";
   message: string = "";
   buttonText: string = "";
+  noCancelButton: boolean = false;
   onClickButton: () => void = () => {};
 
   constructor() {
@@ -14,11 +15,12 @@ class DialogStore {
     });
   }
 
-  openAlertDialog(title: string, message: string, buttonText: string, onClickButton: () => void) {
+  openAlertDialog(title: string, message: string, buttonText: string, noCancelButton: boolean, onClickButton: () => void) {
     this.isOpenAlertDialog = true;
     this.title = title;
     this.message = message;
     this.buttonText = buttonText;
+    this.noCancelButton = noCancelButton;
     this.onClickButton = onClickButton;
   }
 
@@ -27,6 +29,7 @@ class DialogStore {
     this.title = "";
     this.message = "";
     this.buttonText = "";
+    this.noCancelButton = false;
     this.onClickButton = () => {};
   }
 }
