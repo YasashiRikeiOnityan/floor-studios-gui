@@ -147,7 +147,7 @@ const Information = observer((props: InformationProps) => {
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Confirm your information</h1>
       <dl className="divide-y divide-gray-100">
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Contact</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Contact</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
               <div className="relative">
@@ -226,7 +226,7 @@ const Information = observer((props: InformationProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Billing Address</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Billing Address</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
               <div className="relative">
@@ -343,7 +343,7 @@ const Information = observer((props: InformationProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Shipping Address</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Address</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
               <div className="relative">

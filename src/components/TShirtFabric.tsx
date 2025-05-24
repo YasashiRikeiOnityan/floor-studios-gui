@@ -587,7 +587,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Choose your fabric</h1>
       <dl className="divide-y divide-gray-100">
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Material</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Material</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="space-y-6">
               {materials.map((material, index) => (
@@ -672,7 +672,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 text-gray-900">Sub Material</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Sub Material</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="space-y-6">
               {subMaterials.map((subMaterial, index) => (
