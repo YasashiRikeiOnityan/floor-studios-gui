@@ -6,6 +6,8 @@ import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
 import Button from "./Button";
+import { Radio } from "@headlessui/react";
+import { RadioGroup } from "@headlessui/react";
 
 type TagProps = {
   callBackUpdateState: () => void;
@@ -25,11 +27,36 @@ const materialOptions = [
   { id: "cotton", title: "Cotton Canvas" },
 ]
 
+const labelColorOptions = [
+  { id: "lemon-chome", title: "Lemon Chome", clourway: { hex: "#ffc300", pantone: "13-0859 TCX" }, material: "Woven label" },
+  { id: "exotic-orange", title: "Exotic Orange", clourway: { hex: "#fa6632", pantone: "16-1453 TCX" }, material: "Woven label" },
+  { id: "red-alert", title: "Red Alert", clourway: { hex: "#d0342c", pantone: "18-1559 TCX" }, material: "Woven label" },
+  { id: "phlox", title: "Phlox", clourway: { hex: "#692d5d", pantone: "19-2820 TCX" }, material: "Woven label" },
+  { id: "green-jacket", title: "Green Jacket", clourway: { hex: "#005d43", pantone: "19-6027 TCX" }, material: "Woven label" },
+  { id: "willow-bough", title: "Willow Bough", clourway: { hex: "#59754d", pantone: "18-0119 TCX" }, material: "Woven label" },
+  { id: "super-sonic", title: "Super Sonic", clourway: { hex: "#3073b7", pantone: "18-4143 TCX" }, material: "Woven label" },
+  { id: "royal-blue", title: "Royal Blue", clourway: { hex: "#3e428b", pantone: "19-3955 TCX" }, material: "Woven label" },
+  { id: "poseidon", title: "Poseidon", clourway: { hex: "#304561", pantone: "19-4033 TCX" }, material: "Woven label" },
+  { id: "gray-blue", title: "Gray Blue", clourway: { hex: "#4e597b", pantone: "18-3917 TCX" }, material: "Woven label" },
+  { id: "gray-flannel", title: "Gray Flannel", clourway: { hex: "#898586", pantone: "17-4016 TCX" }, material: "Woven label" },
+  { id: "volcanic-glass", title: "Volcanic Glass", clourway: { hex: "#686368", pantone: "18-3908 TCX" }, material: "Woven label" },
+  { id: "blue-blush", title: "Blue Blush", clourway: { hex: "#d6dbd9", pantone: "12-4705 TCX" }, material: "Woven label" },
+  { id: "lambs-wool", title: "Lamb's Wool", clourway: { hex: "#ead4b3", pantone: "12-0910 TCX" }, material: "Woven label" },
+  { id: "argon-oil", title: "Argon Oil", clourway: { hex: "#91624d", pantone: "17-1142 TCX" }, material: "Woven label" },
+  { id: "downtown-brown", title: "Downtown Brown", clourway: { hex: "#5e3f32", pantone: "19-1223 TCX" }, material: "Woven label" },
+  { id: "white", title: "White", clourway: { hex: "#ffffff", pantone: "White" }, material: "Woven label" },
+  { id: "black", title: "Black", clourway: { hex: "#000000", pantone: "Black" }, material: "Woven label" },
+  { id: "white", title: "White", clourway: { hex: "#ffffff", pantone: "White" }, material: "Polyester" },
+  { id: "black", title: "Black", clourway: { hex: "#000000", pantone: "Black" }, material: "Polyester" },
+  { id: "mojave-desert", title: "Mojave Desert", clourway: { hex: "#c7b595", pantone: "15-1217 TCX" }, material: "Cotton Canvas" },
+]
+
 const Tag = observer((props: TagProps) => {
   const [isLabel, setIsLabel] = useState<boolean>(false);
   const [sendLabels, setSendLabels] = useState<boolean>(false);
   const [description, setDescription] = useState<Description>({ description: "" });
   const [material, setMaterial] = useState<string>("Woven label");
+  const [selectedColor, setSelectedColor] = useState<string>("Pink");
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
 
@@ -226,8 +253,8 @@ const Tag = observer((props: TagProps) => {
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Select name tag and size tag</h1>
       <div className="flex gap-6 mt-6">
-        <div className="w-3/10 flex flex-col gap-y-6">
-          <fieldset>
+        <div className="w-3/10 flex flex-col gap-y-8">
+          <fieldset className="pb-8 border-b border-gray-200">
             <legend className="text-sm/6 font-semibold text-gray-900">Select a label option</legend>
             <div className="mt-2 space-y-4">
               {labelOptions.map((labelOption) => (
@@ -251,7 +278,7 @@ const Tag = observer((props: TagProps) => {
             </div>
           </fieldset>
           {isLabel && !sendLabels &&
-            <fieldset>
+            <fieldset className="pb-8 border-b border-gray-200">
               <legend className="text-sm/6 font-semibold text-gray-900">Choose the material</legend>
               <div className="mt-2 space-y-4">
                 {materialOptions.map((materialOption) => (
@@ -272,6 +299,37 @@ const Tag = observer((props: TagProps) => {
                   </div>
                 ))}
               </div>
+            </fieldset>
+          }
+          {isLabel && !sendLabels &&
+            <fieldset>
+              <legend className="text-sm/6 font-semibold text-gray-900">Choose the label color</legend>
+              <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-3 flex flex-wrap gap-3">
+                {labelColorOptions
+                  .filter(option => option.material === material)
+                  .map((option) => (
+                    <Radio
+                      key={option.id}
+                      value={option.id}
+                      aria-label={option.title}
+                      className="group relative"
+                    >
+                      <div className="relative group">
+                        <span 
+                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.id === selectedColor ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
+                          style={{ 
+                            backgroundColor: option.clourway.hex,
+                            "--tw-ring-color": option.clourway.hex
+                          } as React.CSSProperties}
+                        />
+                        <div className="absolute z-10 top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-blue-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                          <div>{option.title}</div>
+                          <div>{option.clourway.pantone}</div>
+                        </div>
+                      </div>
+                    </Radio>
+                  ))}
+              </RadioGroup>
             </fieldset>
           }
         </div>
