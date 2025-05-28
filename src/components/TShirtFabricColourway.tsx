@@ -7,6 +7,18 @@ import { observer } from 'mobx-react-lite';
 import { tenantStore } from '@/stores/tenantStore';
 import { Colourway } from '@/lib/type/specification/type';
 
+const hexToRgb = (hex: string): string => {
+  // Remove the # if present
+  hex = hex.replace('#', '');
+  
+  // Convert hex to RGB
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  return `${r}, ${g}, ${b}`;
+};
+
 type TShirtFabricColourway = {
   currentColourway: Colourway;
   setCurrentColourway: (colourway: Colourway) => void;
@@ -42,17 +54,23 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
           <ListboxOption
             key={colourway.pantone}
             value={colourway}
-            className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:outline-none"
+            className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:outline-none hover:bg-transparent"
+            style={{ 
+              '--hover-bg-color': colourway.hex || 'white',
+              '--selected-bg-color': colourway.pantone === props.currentColourway.pantone ? `rgba(${hexToRgb(colourway.hex || 'white')}, 0.1)` : 'transparent',
+              backgroundColor: colourway.pantone === props.currentColourway.pantone && colourway.pantone !== props.currentColourway.pantone ? `rgba(${hexToRgb(colourway.hex || 'white')}, 0.1)` : 'transparent'
+            } as React.CSSProperties}
           >
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2 relative z-10">
               <div className="w-5 h-5 rounded-full" style={{ backgroundColor: colourway.hex || 'white' }}></div>
               <span className="block truncate font-normal group-data-[selected]:font-semibold">{colourway.pantone}</span>
             </div>
             {colourway.pantone === props.currentColourway.pantone && (
-              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-data-[focus]:text-white">
+              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 z-10">
                 <CheckIcon aria-hidden="true" className="size-5" />
               </span>
             )}
+            <div className="absolute inset-0 bg-[var(--hover-bg-color)] opacity-0 group-hover:opacity-10 -z-10"></div>
           </ListboxOption>
         ))}
       </ListboxOptions>
