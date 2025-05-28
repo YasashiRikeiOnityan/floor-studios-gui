@@ -48,10 +48,11 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
               <div className="w-5 h-5 rounded-full" style={{ backgroundColor: colourway.hex || 'white' }}></div>
               <span className="block truncate font-normal group-data-[selected]:font-semibold">{colourway.pantone}</span>
             </div>
-
-            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-blue">
-              <CheckIcon aria-hidden="true" className="size-5" />
-            </span>
+            {colourway.pantone === props.currentColourway.pantone && (
+              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-data-[focus]:text-white">
+                <CheckIcon aria-hidden="true" className="size-5" />
+              </span>
+            )}
           </ListboxOption>
         ))}
       </ListboxOptions>

@@ -41,13 +41,15 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
           <ListboxOption
             key={subMaterial.rowMaterial}
             value={subMaterial}
-            className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-blue-600 data-[focus]:text-white data-[focus]:outline-none"
+            className={`group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-blue-600 data-[focus]:text-white data-[focus]:outline-none
+              ${subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial ? 'bg-blue-50' : ''}`}
           >
             <span className="block truncate font-normal group-data-[selected]:font-semibold">{subMaterial.rowMaterial}</span>
-
-            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-[&:not([data-selected])]:hidden group-data-[focus]:text-white">
-              <CheckIcon aria-hidden="true" className="size-5" />
-            </span>
+            {subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial && (
+              <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-data-[focus]:text-white">
+                <CheckIcon aria-hidden="true" className="size-5" />
+              </span>
+            )}
           </ListboxOption>
         ))}
       </ListboxOptions>

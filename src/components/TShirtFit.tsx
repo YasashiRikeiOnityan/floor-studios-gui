@@ -8,6 +8,8 @@ import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { Description } from "@/lib/type/specification/type";
 import { dialogStore } from "@/stores/dialogStore";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
@@ -1039,21 +1041,29 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       )}
 
       {/* ボタン */}
-      <div className="mt-6 flex flex-row gap-x-3 justify-end">
-        <Button
-          type={"button"}
-          onClick={handleCancel}
-          text={"Cancel"}
-          style={"text"}
-          fullWidth={false}
-        />
-        <Button
-          type={"button"}
-          onClick={handleSaveAndNext}
-          text={"Save and Next"}
-          style={"fill"}
-          fullWidth={false}
-        />
+      <div className="mt-6 flex flex-row justify-between">
+        <Link href="https://floor-studios.com/orders" className="text-sm text-blue-600 flex flex-row items-center gap-x-2">
+          <span className="text-blue-600">
+            <ArrowLeftIcon className="w-4 h-4" />
+          </span>
+          Back to Orders
+        </Link>
+        <div className="flex flex-row gap-x-3">
+          <Button
+            type={"button"}
+            onClick={handleCancel}
+            text={"Cancel"}
+            style={"text"}
+            fullWidth={false}
+          />
+          <Button
+            type={"button"}
+            onClick={handleSaveAndNext}
+            text={"Save and Next"}
+            style={"fill"}
+            fullWidth={false}
+          />
+        </div>
       </div>
     </>
   );
