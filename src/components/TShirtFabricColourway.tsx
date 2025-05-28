@@ -1,21 +1,17 @@
 "use client";
 
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
-import { ChevronUpDownIcon } from '@heroicons/react/16/solid';
-import { CheckIcon } from '@heroicons/react/20/solid';
-import { observer } from 'mobx-react-lite';
-import { tenantStore } from '@/stores/tenantStore';
-import { Colourway } from '@/lib/type/specification/type';
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { observer } from "mobx-react-lite";
+import { tenantStore } from "@/stores/tenantStore";
+import { Colourway } from "@/lib/type/specification/type";
 
 const hexToRgb = (hex: string): string => {
-  // Remove the # if present
-  hex = hex.replace('#', '');
-  
-  // Convert hex to RGB
+  hex = hex.replace("#", "");
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
-  
   return `${r}, ${g}, ${b}`;
 };
 
@@ -37,7 +33,7 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
         className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
       >
         <div className="flex items-center gap-x-2 col-start-1 row-start-1 truncate pr-6">
-          <div className="w-5 h-5 rounded-full" style={{ backgroundColor: currentColourway?.hex || 'white' }}></div>
+          <div className="w-5 h-5 rounded-full" style={{ backgroundColor: currentColourway?.hex || "white" }}></div>
           <span>{currentColourway?.pantone}</span>
         </div>
         <ChevronUpDownIcon
@@ -56,13 +52,12 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
             value={colourway}
             className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:outline-none hover:bg-transparent"
             style={{ 
-              '--hover-bg-color': colourway.hex || 'white',
-              '--selected-bg-color': colourway.pantone === props.currentColourway.pantone ? `rgba(${hexToRgb(colourway.hex || 'white')}, 0.1)` : 'transparent',
-              backgroundColor: colourway.pantone === props.currentColourway.pantone && colourway.pantone !== props.currentColourway.pantone ? `rgba(${hexToRgb(colourway.hex || 'white')}, 0.1)` : 'transparent'
+              "--hover-bg-color": `${colourway.pantone !== props.currentColourway.pantone ? colourway.hex : "white"}`,
+              backgroundColor: colourway.pantone === props.currentColourway.pantone ? `rgba(${hexToRgb(colourway.hex || "white")}, 0.1)` : "transparent"
             } as React.CSSProperties}
           >
             <div className="flex items-center gap-x-2 relative z-10">
-              <div className="w-5 h-5 rounded-full" style={{ backgroundColor: colourway.hex || 'white' }}></div>
+              <div className="w-5 h-5 rounded-full" style={{ backgroundColor: colourway.hex || "white" }}></div>
               <span className="block truncate font-normal group-data-[selected]:font-semibold">{colourway.pantone}</span>
             </div>
             {colourway.pantone === props.currentColourway.pantone && (
