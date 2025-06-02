@@ -95,7 +95,7 @@ export type TShirtMainProduction = {
     xl: number;
     xxl: number;
   };
-  deliveryDate: string;
+  deliveryDate?: string;
 };
 
 export type ApiGetTShirtSpecificationResponse = {
@@ -225,7 +225,7 @@ export type ApiGetTShirtSpecificationResponse = {
       xl: number;
       xxl: number;
     };
-    delivery_date: string;
+    delivery_date?: string;
   };
   information?: {
     contact?: {
@@ -375,7 +375,7 @@ export type ApiPutTShirtSpecificationRequest = {
       xl: number;
       xxl: number;
     };
-    delivery_date: string;
+    delivery_date?: string;
   };
   information?: {
     contact?: {

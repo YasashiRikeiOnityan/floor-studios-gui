@@ -40,7 +40,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
           xl: quantity.xl,
           xxl: quantity.xxl,
         },
-        delivery_date: deliveryDate,
+        ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
       },
     });
     specificationStore.currentSpecification.tshirt = {
@@ -55,7 +55,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
           xl: quantity.xl,
           xxl: quantity.xxl,
         },
-        deliveryDate: deliveryDate,
+        ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
       },
     };
     props.callBackUpdateState();
