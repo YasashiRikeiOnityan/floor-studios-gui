@@ -83,19 +83,6 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
           <div className="mt-6 space-y-6">
             <div className="flex items-center">
               <input
-                checked={sample}
-                id="yes"
-                name="sample"
-                type="radio"
-                onChange={() => setSample(true)}
-                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-blue-600 checked:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
-              />
-              <label htmlFor="yes" className="ml-3 block text-sm/6 font-medium text-gray-900">
-                Yes, I want a sample first.
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
                 checked={!sample}
                 id="no"
                 name="sample"
@@ -104,7 +91,20 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
                 className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-blue-600 checked:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
               />
               <label htmlFor="no" className="ml-3 block text-sm/6 font-medium text-gray-900">
-                No, I don&apos;t want a sample.
+                No
+              </label>
+            </div>
+            <div className="flex items-center">
+              <input
+                checked={sample}
+                id="yes"
+                name="sample"
+                type="radio"
+                onChange={() => setSample(true)}
+                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-blue-600 checked:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+              />
+              <label htmlFor="yes" className="ml-3 block text-sm/6 font-medium text-gray-900">
+                Physical sample
               </label>
             </div>
           </div>

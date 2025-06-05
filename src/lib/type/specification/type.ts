@@ -34,7 +34,15 @@ export type Specification = {
   };
   oemPoints?: {
     oemPoint: string;
-    file?: File;
+    file?: {
+      name: string;
+      key: string;
+      preSignedUrl?: {
+        get?: string;
+        put?: string;
+        delete?: string;
+      };
+    };
   }[];
   information?: {
     contact?: {

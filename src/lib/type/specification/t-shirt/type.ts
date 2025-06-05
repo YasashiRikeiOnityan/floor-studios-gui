@@ -211,8 +211,7 @@ export type ApiGetTShirtSpecificationResponse = {
     oem_point: string;
     file?: {
       name: string;
-      content: string;
-      type: string;
+      key: string;
     };
   }[];
   main_production?: {
@@ -361,8 +360,7 @@ export type ApiPutTShirtSpecificationRequest = {
     oem_point: string;
     file?: {
       name: string;
-      content: string;
-      type: string;
+      key: string;
     };
   }[];
   main_production?: {

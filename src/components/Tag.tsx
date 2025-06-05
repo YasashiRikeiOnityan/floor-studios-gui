@@ -199,7 +199,19 @@ const Tag = observer((props: TagProps) => {
       try {
         setFileUploading(true);
         const fileType = file.type.split('/')[1];
-        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : 'png';
+        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : undefined;
+
+        if (!imageType) {
+          dialogStore.openAlertDialog(
+            "Error",
+            "Only PNG, JPG, and JPEG files are supported.",
+            "OK",
+            false,
+            () => dialogStore.closeAlertDialog()
+          );
+          setFileUploading(false);
+          return;
+        }
 
         // 既存のファイルがある場合は上書き更新
         if (description?.file?.key) {

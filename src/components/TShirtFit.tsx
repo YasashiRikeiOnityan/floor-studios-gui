@@ -271,7 +271,19 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       try {
         setFileUploading(true);
         const fileType = file.type.split('/')[1];
-        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : 'png';
+        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : undefined;
+
+        if (!imageType) {
+          dialogStore.openAlertDialog(
+            "Error",
+            "Only PNG, JPG, and JPEG files are supported.",
+            "OK",
+            false,
+            () => dialogStore.closeAlertDialog()
+          );
+          setFileUploading(false);
+          return;
+        }
 
         // 既存のファイルがある場合は上書き更新
         if (description.file?.key) {
@@ -460,10 +472,10 @@ const TShirtFit = observer((props: TShirtFitProps) => {
                 >
                   <PaperClipIcon aria-hidden="true" className="size-5" />
                   <span className="sr-only">Attach a file</span>
-                  {!description.file && <p className="text-sm text-gray-500">Attach a file</p>}
+                  {!description.file?.name && <p className="text-sm text-gray-500">Attach a file</p>}
                 </label>
               </div>
-              {description.file && (
+              {description.file?.name && (
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <button
                     type="button"

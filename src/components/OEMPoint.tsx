@@ -1,9 +1,10 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { PaperClipIcon, TrashIcon, XMarkIcon, PlusIcon } from "@heroicons/react/20/solid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "@/components/Button";
-import { fileToBase64, formatFileSize } from "@/lib/utils";
 import { observer } from "mobx-react-lite";
+import { dialogStore } from "@/stores/dialogStore";
+import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 
 type OEMPointProps = {
   callBackUpdateState: () => void;
@@ -11,37 +12,111 @@ type OEMPointProps = {
 };
 
 const OEMPoint = observer((props: OEMPointProps) => {
-  const [oemPoints, setOemPoints] = useState<{
-    oemPoint: string;
-    file?: File;
-  }[]>(() => {
-    const initialPoints = specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }];
-    return initialPoints.map(point => ({
-      oemPoint: point.oemPoint || "",
-      file: point.file || undefined
-    }));
-  });
-  const [previewFile, setPreviewFile] = useState<File | undefined>(undefined);
+  const [oemPoints, setOemPoints] = useState(specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }]);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
+  const [fileUploading, setFileUploading] = useState(false);
 
-  const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    // png, jpeg, jpgのみ許可する
-    const file = event.target.files && event.target.files[0];
-    if (file && !['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
-      alert('Please select an image file (png, jpeg, jpg)');
-      return;
-    }
+  const handleOEMPointFileChange = async (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      const newOemPoints = oemPoints.map((point, i) => {
-        if (i === index) {
-          return {
-            ...point,
-            file: file
-          };
+      try {
+        setFileUploading(true);
+        const fileType = file.type.split('/')[1];
+        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : undefined;
+
+        if (!imageType) {
+          dialogStore.openAlertDialog(
+            "Error",
+            "Only PNG, JPG, and JPEG files are supported.",
+            "OK",
+            false,
+            () => dialogStore.closeAlertDialog()
+          );
+          setFileUploading(false);
+          return;
         }
-        return point;
-      });
-      setOemPoints(newOemPoints);
+
+        // 既存のファイルがある場合は上書き更新
+        if (oemPoints[index].file?.key) {
+          try {
+            // 既存のPUT用URLが有効かチェック
+            if (oemPoints[index].file?.preSignedUrl?.put) {
+              const uploadResponse = await fetch(oemPoints[index].file.preSignedUrl.put, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": file.type,
+                },
+                body: file,
+              });
+              if (uploadResponse.ok) {
+                // アップロード成功後、PUT用のURLをセット
+                const newOemPoints = [...oemPoints];
+                if (newOemPoints[index].file) {
+                  newOemPoints[index].file = {
+                    name: file.name,
+                    key: newOemPoints[index].file.key,
+                    preSignedUrl: {
+                      ...newOemPoints[index].file.preSignedUrl,
+                      put: oemPoints[index].file.preSignedUrl.put || "",
+                    },
+                  };
+                  setOemPoints(newOemPoints);
+                  setFileUploading(false);
+                  return;
+                }
+              }
+            }
+          } catch (error) {
+            console.error(error);
+            console.log("Pre-signed URL expired or failed, getting new one");
+          }
+        }
+
+        // 新しいファイルのアップロード用URLを取得
+        const response = await PostImagesInteractor({
+          type: "specification",
+          specification_id: specificationStore.currentSpecification.specificationId,
+          ...(oemPoints[index].file?.key && { key: oemPoints[index].file?.key }),
+          image_type: imageType,
+          method: "put",
+        });
+
+        if (response.pre_signed_url) {
+          // ファイルをアップロード
+          const uploadResponse = await fetch(response.pre_signed_url, {
+            method: "PUT",
+            headers: {
+              "Content-Type": file.type,
+            },
+            body: file,
+          });
+
+          if (uploadResponse.ok) {
+            // アップロード成功後、PUT用のURLをセット
+            const newOemPoints = [...oemPoints];
+            newOemPoints[index].file = {
+              name: file.name,
+              key: response.key || file.name,
+              preSignedUrl: {
+                ...newOemPoints[index].file?.preSignedUrl,
+                put: response.pre_signed_url || "",
+              },
+            };
+            setOemPoints(newOemPoints);
+            setFileUploading(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+        dialogStore.openAlertDialog(
+          "Error",
+          "Failed to upload file. Please try again.",
+          "OK",
+          false,
+          () => dialogStore.closeAlertDialog()
+        );
+        setFileUploading(false);
+      }
     }
   };
 
@@ -60,19 +135,6 @@ const OEMPoint = observer((props: OEMPointProps) => {
     setOemPoints(newOemPoints);
   };
 
-  const handleRemoveFile = (index: number) => {
-    const newOemPoints = oemPoints.map((point, i) => {
-      if (i === index) {
-        return {
-          ...point,
-          file: undefined
-        };
-      }
-      return point;
-    });
-    setOemPoints(newOemPoints);
-  };
-
   const handleCancel = () => {
     const initialPoints = specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }];
     setOemPoints(initialPoints.map(point => ({
@@ -82,57 +144,133 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleSaveAndNext = async () => {
-    const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => !(oemPoint.oemPoint === "" && !oemPoint.file));
+    const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => oemPoint.oemPoint !== "" || oemPoint.file?.key);
     specificationStore.putSpecification({
       ...(props.isUpdateProgress && { progress: "SAMPLE" }),
-      oem_points: await Promise.all(oemPointsWithoutEmpty.map(async (oemPoint) => {
-        return oemPoint.file ? {
-          oem_point: oemPoint.oemPoint,
+      oem_points: oemPointsWithoutEmpty.map(oemPoint => ({
+        oem_point: oemPoint.oemPoint,
+        ...(oemPoint.file && {
           file: {
             name: oemPoint.file.name,
-            content: await fileToBase64(oemPoint.file),
-            type: oemPoint.file.type,
+            key: oemPoint.file.key,
           }
-        } : {
-          oem_point: oemPoint.oemPoint,
-        }
+        })
       }))
     });
     specificationStore.currentSpecification = {
       ...specificationStore.currentSpecification,
-      oemPoints: oemPointsWithoutEmpty,
+      oemPoints: oemPointsWithoutEmpty.map(oemPoint => ({
+        oemPoint: oemPoint.oemPoint,
+        ...(oemPoint.file && {
+          file: {
+            name: oemPoint.file.name,
+            key: oemPoint.file.key,
+          }
+        })
+      })),
     };
     props.callBackUpdateState();
   };
 
-  const handleFilePreview = (file: File) => {
-    if (!file || file.size === 0 || !file.type.startsWith('image/')) {
+  const handleOEMPointFilePreview = async (index: number, key: string) => {
+    if (!key) {
       return;
     }
-    setPreviewFile(file);
+    try {
+      // 既存のpre-signed URLが有効かチェック
+      if (oemPoints[index].file?.preSignedUrl?.get) {
+        setPreviewUrl(oemPoints[index].file?.preSignedUrl?.get || "");
+        return;
+      }
+
+      // 新しいpre-signed URLを取得
+      const response = await PostImagesInteractor({
+        type: "specification",
+        specification_id: specificationStore.currentSpecification.specificationId,
+        key: key,
+        method: "get",
+      });
+
+      if (response.pre_signed_url) {
+        setPreviewUrl(response.pre_signed_url);
+        const newOemPoints = [...oemPoints];
+        if (newOemPoints[index].file) {
+          newOemPoints[index].file = {
+            name: newOemPoints[index].file.name,
+            key: newOemPoints[index].file.key,
+            preSignedUrl: {
+              ...newOemPoints[index].file.preSignedUrl,
+              get: response.pre_signed_url,
+            },
+          };
+          setOemPoints(newOemPoints);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching image:", error);
+    }
   };
 
-  // プレビューURLの管理
-  useEffect(() => {
-    let url: string | undefined;
-
-    if (previewFile) {
-      url = URL.createObjectURL(previewFile);
-      setPreviewUrl(url);
+  const handleRemoveOEMPointFile = (index: number) => {
+    if (!oemPoints[index].file?.key) {
+      return;
     }
-
-    return () => {
-      if (url) {
-        URL.revokeObjectURL(url);
+    if (fileUploading) {
+      return;
+    }
+    dialogStore.openAlertDialog(
+      "Delete File",
+      "Are you sure you want to delete this file?",
+      "Delete",
+      false,
+      async () => {
+        try {
+          setFileUploading(true);
+          const preSignedUrl = await PostImagesInteractor({
+            type: "specification",
+            specification_id: specificationStore.currentSpecification.specificationId,
+            key: oemPoints[index].file?.key || "",
+            method: "delete",
+          });
+          await fetch(preSignedUrl.pre_signed_url || "", {
+            method: "DELETE",
+          });
+          const newOemPoints = [...oemPoints];
+          newOemPoints[index].file = undefined;
+          setOemPoints(newOemPoints);
+          // 仕様書の更新 - ファイル削除時はファイル情報を含めない
+          specificationStore.putSpecification({
+            oem_points: newOemPoints.map(oemPoint => ({
+              oem_point: oemPoint.oemPoint,
+              ...(oemPoint.file && {
+                file: {
+                  name: oemPoint.file.name,
+                  key: oemPoint.file.key,
+                }
+              })
+            }))
+          }, true);
+          specificationStore.currentSpecification.oemPoints = newOemPoints.map(oemPoint => ({
+            oemPoint: oemPoint.oemPoint,
+            ...(oemPoint.file && {
+              file: {
+                name: oemPoint.file.name,
+                key: oemPoint.file.key,
+              }
+            })
+          }));
+          dialogStore.closeAlertDialog();
+          setFileUploading(false);
+        } catch (error) {
+          console.error("Error deleting file:", error);
+          dialogStore.closeAlertDialog();
+          setFileUploading(false);
+        }
       }
-    };
-  }, [previewFile]);
+    );
+  };
 
   const handleClosePreview = () => {
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
-    setPreviewFile(undefined);
     setPreviewUrl(undefined);
   };
 
@@ -167,7 +305,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                     type="file"
                     id={`file-upload-${index}`}
                     className="hidden"
-                    onChange={(e) => handleFileChange(index, e)}
+                    onChange={(e) => handleOEMPointFileChange(index, e)}
                   />
                   <label
                     htmlFor={`file-upload-${index}`}
@@ -182,15 +320,14 @@ const OEMPoint = observer((props: OEMPointProps) => {
                   <div className="flex items-center space-x-2 text-sm text-gray-500">
                     <button
                       type="button"
-                      onClick={() => handleFilePreview(oemPoint.file!)}
+                      onClick={() => handleOEMPointFilePreview(index, oemPoint.file?.key || "")}
                       className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
                     >
                       {oemPoint.file.name}
                     </button>
-                    <span className="whitespace-nowrap">({formatFileSize(oemPoint.file.size)})</span>
                     <button
                       type="button"
-                      onClick={() => handleRemoveFile(index)}
+                      onClick={() => handleRemoveOEMPointFile(index)}
                       className="text-gray-400 hover:text-gray-500"
                     >
                       <TrashIcon className="size-4" />
@@ -225,7 +362,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
       </div>
 
       {/* プレビューモーダル */}
-      {previewFile && previewUrl && (
+      {previewUrl && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
