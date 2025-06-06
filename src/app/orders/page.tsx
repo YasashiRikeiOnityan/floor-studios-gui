@@ -11,6 +11,7 @@ import { SpecificationStatus } from "@/lib/type";
 import AlertDialog from "@/components/AlertDialod";
 import { observer } from "mobx-react-lite";
 import SpecificationGroups from "@/components/SpecificationGroups";
+import AddNewCollection from "@/components/AddNewCollection";
 
 const Orders = observer(() => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const Orders = observer(() => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [specificationGroupId, setSpecificationGroupId] = useState<string>("NO_GROUP");
   const [status, setStatus] = useState<SpecificationStatus>("DRAFT");
+  const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -47,14 +49,25 @@ const Orders = observer(() => {
                     <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
                   </div>
                 </div>
-                <div className="hidden lg:block">
-                  <Button
-                    type={"button"}
-                    onClick={handleStartNewDesign}
-                    text={"Start new design"}
-                    style={"outline"}
-                    fullWidth={false}
-                  />
+                <div className="flex items-center gap-x-8">
+                  <div className="hidden lg:block">
+                    <Button
+                      type={"button"}
+                      onClick={handleStartNewDesign}
+                      text={"Start new design"}
+                      style={"outline"}
+                      fullWidth={false}
+                    />
+                  </div>
+                  <div className="hidden lg:block">
+                    <Button
+                      type={"button"}
+                      onClick={() => setIsOpenAddNewCollection(true)}
+                      text={"Add new collection"}
+                      style={"outline"}
+                      fullWidth={false}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="lg:hidden flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-3">
@@ -74,6 +87,7 @@ const Orders = observer(() => {
           </main>
         </div>
         <AlertDialog />
+        <AddNewCollection isOpen={isOpenAddNewCollection} close={() => setIsOpenAddNewCollection(false)} />
       </div>
     </>
   )
