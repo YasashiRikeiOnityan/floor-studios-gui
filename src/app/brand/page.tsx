@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import PageTitle from "@/components/PageTitle";
 import AlertDialog from "@/components/AlertDialod";
+import Notification from "@/components/Notification";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button";
@@ -583,6 +584,7 @@ const Brand = observer(() => {
           </main>
         </div>
         <AlertDialog />
+        <Notification />
       </div>
     </>
   )

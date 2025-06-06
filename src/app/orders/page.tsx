@@ -9,6 +9,7 @@ import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
 import { SpecificationStatus } from "@/lib/type";
 import AlertDialog from "@/components/AlertDialod";
+import Notification from "@/components/Notification";
 import { observer } from "mobx-react-lite";
 import SpecificationGroups from "@/components/SpecificationGroups";
 
@@ -74,6 +75,7 @@ const Orders = observer(() => {
           </main>
         </div>
         <AlertDialog />
+        <Notification />
       </div>
     </>
   )
