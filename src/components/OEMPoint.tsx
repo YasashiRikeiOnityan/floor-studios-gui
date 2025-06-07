@@ -5,7 +5,6 @@ import Button from "@/components/Button";
 import { observer } from "mobx-react-lite";
 import { dialogStore } from "@/stores/dialogStore";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
-import { notificationStore } from "@/stores/notificationStore";
 
 type OEMPointProps = {
   callBackUpdateState: () => void;
@@ -170,7 +169,6 @@ const OEMPoint = observer((props: OEMPointProps) => {
         })
       })),
     };
-    notificationStore.openNotification("Success", "OEM points saved successfully", "success");
     props.callBackUpdateState();
   };
 

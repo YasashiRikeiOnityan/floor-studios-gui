@@ -36,7 +36,7 @@ class SpecificationGroupsStore {
       const response = await PostSpecificationGroupsInteractor({
         specification_group_name: specificationGroupName 
       });
-      notificationStore.openNotification("Success", "Specification group created successfully", "success");
+      notificationStore.addNotification("Success", "Specification group created successfully", "success");
       runInAction(() => {
         this.specificationGroups.push({
           specificationGroupId: response.specification_group_id,
@@ -45,7 +45,7 @@ class SpecificationGroupsStore {
         this.loading = false;
       });
     } catch {
-      notificationStore.openNotification("Error", "Failed to create specification group", "error");
+      notificationStore.addNotification("Error", "Failed to create specification group", "error");
       runInAction(() => {
         this.loading = false;
       });

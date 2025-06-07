@@ -16,7 +16,7 @@ import AddNewCollection from "@/components/AddNewCollection";
 
 const Orders = observer(() => {
   const router = useRouter();
-  const tabs = ["Drafts", "Completes", "Samples", "Bulks"]
+  const tabs = ["Drafts", "Completes"]
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [specificationGroupId, setSpecificationGroupId] = useState<string>("NO_GROUP");
   const [status, setStatus] = useState<SpecificationStatus>("DRAFT");

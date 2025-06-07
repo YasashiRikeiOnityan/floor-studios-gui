@@ -8,7 +8,6 @@ import { dialogStore } from "@/stores/dialogStore";
 import Button from "@/components/Button";
 import { Radio } from "@headlessui/react";
 import { RadioGroup } from "@headlessui/react";
-import { notificationStore } from "@/stores/notificationStore";
 
 type TagProps = {
   callBackUpdateState: () => void;
@@ -150,7 +149,6 @@ const Tag = observer((props: TagProps) => {
         description: description,
       },
     };
-    notificationStore.openNotification("Success", "T-shirt tag saved successfully", "success");
     props.callBackUpdateState();
   };
 
