@@ -113,7 +113,7 @@ const Home = observer(() => {
       }
 
       // 古いユーザー情報をクリア
-      authStore.clear();
+      authStore.clearAuth();
       signInUserStore.clear();
 
       // 検証
@@ -153,7 +153,7 @@ const Home = observer(() => {
       }
 
       // 古いユーザー情報をクリア
-      authStore.clear();
+      authStore.clearAuth();
       signInUserStore.clear();
 
       // サインイン
@@ -378,8 +378,7 @@ const Home = observer(() => {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                     disabled={loading}
-                    // onClick={handleSignIn}
-                    onClick={() => notificationStore.addNotification("You pushed", "This feature is not implemented yet.", "success", 5000)}
+                    onClick={handleSignIn}
                   >
                     {loading ? "Signing in..." : "Sign in"}
                   </button>

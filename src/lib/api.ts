@@ -18,6 +18,7 @@ import {
   ApiPutSpecificationGroupsSpecificationGroupIdResponse,
   ApiDeleteSpecificationGroupsSpecificationGroupIdResponse,
 } from './type/specification_group/type';
+import { notificationStore } from '@/stores/notificationStore';
 
 const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -59,10 +60,10 @@ httpClient.interceptors.response.use(
         // 新しいトークンでリクエストを再試行
         originalRequest.headers.Authorization = `Bearer ${idToken}`;
         return httpClient(originalRequest);
-      } catch (refreshError) {
-        console.error('Failed to refresh token:', refreshError);
-        // リフレッシュトークンも無効な場合は認証エラーをスロー
-        throw new Error('Authentication failed');
+      } catch {
+        notificationStore.addNotification("Error", "Authentication failed", "error");
+        // リフレッシュトークンも無効な場合はログイン画面にリダイレクト
+        window.location.href = '/';
       }
     }
 

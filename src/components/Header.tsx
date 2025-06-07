@@ -34,7 +34,7 @@ const Header = observer((props: HeaderProps) => {
       await signOut(signInUserStore.getUser().email || "");
 
       // ストアのクリア
-      authStore.clear();
+      authStore.clearAuth();
       signInUserStore.clear();
       tenantStore.clear();
 
@@ -43,7 +43,7 @@ const Header = observer((props: HeaderProps) => {
     } catch (error) {
       console.error('Failed to sign out:', error);
       // エラーが発生してもストアをクリア
-      authStore.clear();
+      authStore.clearAuth();
       signInUserStore.clear();
       tenantStore.clear();
 

@@ -27,24 +27,17 @@ class AuthStore {
   }
 
   setAuth(idToken: string, refreshToken: string, rememberMe: boolean) {
-    if (typeof window === 'undefined') return;
+    this.idToken = idToken;
+    this.refreshToken = refreshToken;
+    this.rememberMe = rememberMe;
     if (rememberMe) {
-      localStorage.setItem("rememberMe", "true");
-      localStorage.setItem("idToken", idToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      this.rememberMe = true;
-      this.idToken = idToken;
-      this.refreshToken = refreshToken;
+      localStorage.setItem('idToken', idToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('rememberMe', 'true');
     } else {
-      localStorage.removeItem("rememberMe");
-      localStorage.removeItem("idToken");
-      localStorage.removeItem("refreshToken");
-      sessionStorage.setItem("rememberMe", "false");
-      sessionStorage.setItem("idToken", idToken);
-      sessionStorage.setItem("refreshToken", refreshToken);
-      this.rememberMe = false;
-      this.idToken = idToken;
-      this.refreshToken = refreshToken;
+      sessionStorage.setItem('idToken', idToken);
+      sessionStorage.setItem('refreshToken', refreshToken);
+      sessionStorage.setItem('rememberMe', 'false');
     }
   }
 
@@ -74,24 +67,16 @@ class AuthStore {
     return this.refreshToken;
   }
 
-  clear() {
-    this.idToken = "";
-    this.refreshToken = "";
+  clearAuth() {
+    this.idToken = '';
+    this.refreshToken = '';
     this.rememberMe = false;
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem("rememberMe");
-      localStorage.removeItem("idToken");
-      localStorage.removeItem("refreshToken");
-      sessionStorage.removeItem("rememberMe");
-      sessionStorage.removeItem("idToken");
-      sessionStorage.removeItem("refreshToken");
-      // ローカルストレージからCognitoIdentityServiceProviderを削除
-      Object.keys(localStorage).forEach((key) => {
-        if (key.startsWith("CognitoIdentityServiceProvider")) {
-            localStorage.removeItem(key);
-          }
-      });
-    }
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('rememberMe');
+    sessionStorage.removeItem('idToken');
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('rememberMe');
   }
 }
 

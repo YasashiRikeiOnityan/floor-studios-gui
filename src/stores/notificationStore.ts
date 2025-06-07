@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 export type NotificationType = "success" | "error" | "info";
 
-export interface Notification {
+export type Notification = {
   id: string;
   title: string;
   message: string;
