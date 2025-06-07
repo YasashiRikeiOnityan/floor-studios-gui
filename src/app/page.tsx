@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { signInUserStore } from "@/stores/signInUserStore";
 import Tabs from "@/components/Tabs";
 import Notification from "@/components/Notification";
-import { notificationStore } from "@/stores/notificationStore";
 
 const Home = observer(() => {
   const router = useRouter();
