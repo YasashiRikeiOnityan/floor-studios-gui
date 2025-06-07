@@ -379,7 +379,7 @@ const Home = observer(() => {
                     className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                     disabled={loading}
                     // onClick={handleSignIn}
-                    onClick={() => notificationStore.openNotification("You pushed", "This feature is not implemented yet.", "success", 5000)}
+                    onClick={() => notificationStore.addNotification("You pushed", "This feature is not implemented yet.", "success", 5000)}
                   >
                     {loading ? "Signing in..." : "Sign in"}
                   </button>

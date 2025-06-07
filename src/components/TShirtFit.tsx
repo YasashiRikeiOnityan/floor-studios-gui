@@ -10,7 +10,6 @@ import { Description } from "@/lib/type/specification/type";
 import { dialogStore } from "@/stores/dialogStore";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { notificationStore } from "@/stores/notificationStore";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
@@ -207,7 +206,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         },
       },
     };
-    notificationStore.openNotification("Success", "T-shirt fit saved successfully", "success");
     props.callBackUpdateState();
   };
 

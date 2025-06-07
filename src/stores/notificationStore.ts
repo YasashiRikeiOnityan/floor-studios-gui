@@ -1,42 +1,51 @@
-import { makeAutoObservable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 
-type NotificationType = "success" | "error" | "info";
+export type NotificationType = "success" | "error" | "info";
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  type: NotificationType;
+  timeout: number;
+}
 
 class NotificationStore {
-  isOpenNotification: boolean = false;
-  title: string = "";
-  message: string = "";
-  type: NotificationType = "info";
+  notifications: Notification[] = [];
+  maxVisibleNotifications = 2;
 
   constructor() {
-    makeAutoObservable(this, {
-      openNotification: action,
-      closeNotification: action
-    });
+    makeAutoObservable(this);
   }
 
-  openNotification(title: string, message: string, type: NotificationType, timeout: number = 5000) {
-    // Close any existing notification before opening a new one
-    this.closeNotification();
-     // Ensure minimum timeout of 1 second
-    if (timeout < 1000) {
-      timeout = 1000;
-    }
-    // Ensure maximum timeout of 10 seconds
-    if (timeout > 10000) {
-      timeout = 10000; 
-    }
+  addNotification(title: string, message: string, type: NotificationType, timeout: number = 5000) {
+    // タイムアウトの制限
+    if (timeout < 1000) timeout = 1000;
+    if (timeout > 10000) timeout = 10000;
+
+    const id = Math.random().toString(36).substring(7);
+    const notification: Notification = {
+      id,
+      title,
+      message,
+      type,
+      timeout
+    };
+
+    this.notifications.push(notification);
+
+    // タイムアウトの設定
     setTimeout(() => {
-      this.closeNotification();
+      this.removeNotification(id);
     }, timeout);
-    this.isOpenNotification = true;
-    this.title = title;
-    this.message = message;
-    this.type = type;
   }
 
-  closeNotification() {
-    this.isOpenNotification = false;
+  removeNotification(id: string) {
+    this.notifications = this.notifications.filter(n => n.id !== id);
+  }
+
+  get visibleNotifications() {
+    return this.notifications.slice(0, this.maxVisibleNotifications);
   }
 }
 

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Button from "./Button";
 import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
-import { notificationStore } from "@/stores/notificationStore";
 
 type CareLabelProps = {
   isUpdateProgress: boolean;
@@ -56,7 +55,6 @@ const CareLabel = (props: CareLabelProps) => {
         } })
       }
     }
-    notificationStore.openNotification("Success", "Care label saved successfully", "success");
     props.callBackUpdateState();
   }
 
