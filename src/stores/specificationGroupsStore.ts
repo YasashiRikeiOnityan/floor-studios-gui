@@ -44,7 +44,7 @@ class SpecificationGroupsStore {
         });
         this.loading = false;
       });
-    } catch (error) {
+    } catch {
       notificationStore.openNotification("Error", "Failed to create specification group", "error");
       runInAction(() => {
         this.loading = false;
