@@ -9,7 +9,6 @@ import { signInUserStore } from "@/stores/signInUserStore";
 import Tabs from "@/components/Tabs";
 import Notification from "@/components/Notification";
 import { notificationStore } from "@/stores/notificationStore";
-import { title } from "process";
 
 const Home = observer(() => {
   const router = useRouter();
