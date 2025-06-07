@@ -16,7 +16,6 @@ import {
   ApiGetSpecificationGroupsSpecificationGroupIdResponse,
   ApiPutSpecificationGroupsSpecificationGroupIdRequest,
   ApiPutSpecificationGroupsSpecificationGroupIdResponse,
-  ApiDeleteSpecificationGroupsSpecificationGroupIdRequest,
   ApiDeleteSpecificationGroupsSpecificationGroupIdResponse,
 } from './type/specification_group/type';
 

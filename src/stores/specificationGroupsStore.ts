@@ -1,7 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { GetSpecificationGroupsInteractor } from "@/interactor/GetSpecificationGroupsInteractor";
 import { SpecificationGroup } from "@/lib/type";
-import { ApiPostSpecificationGroupsRequest } from "@/lib/type/specification_group/type";
 import { PostSpecificationGroupsInteractor } from "@/interactor/PostSpecificationGroupsInteractor";
 import { notificationStore } from "./notificationStore";
 
