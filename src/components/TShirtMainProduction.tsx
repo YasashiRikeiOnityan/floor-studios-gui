@@ -2,6 +2,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { useState } from "react";
 import Button from "@/components/Button";
 import Toggle from "@/components/Toggle";
+import { notificationStore } from "@/stores/notificationStore";
 
 type TShirtMainProductionProps = {
   callBackUpdateState: () => void;
@@ -58,6 +59,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
         ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
       },
     };
+    notificationStore.openNotification("Success", "T-shirt main production saved successfully", "success");
     props.callBackUpdateState();
   }
 

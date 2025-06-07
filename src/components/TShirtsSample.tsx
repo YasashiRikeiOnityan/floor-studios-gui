@@ -1,6 +1,7 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { notificationStore } from "@/stores/notificationStore";
 
 type TShirtsSampleProps = {
   callBackUpdateState: () => void;
@@ -61,6 +62,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
         canSendSample: canSendSample,
       },
     };
+    notificationStore.openNotification("Success", "T-shirt sample saved successfully", "success");
     props.callBackUpdateState();
   }
 

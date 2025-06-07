@@ -4,6 +4,7 @@ import { tenantStore } from "@/stores/tenantStore";
 import Button from "./Button";
 import { specificationStore } from "@/stores/specificationStore";
 import { useRouter } from "next/navigation";
+import { notificationStore } from "@/stores/notificationStore";
 
 type InformationProps = {
   callBackUpdateState: () => void;
@@ -116,6 +117,7 @@ const Information = observer((props: InformationProps) => {
       },
       }
     };
+    notificationStore.openNotification("Success", "Information saved successfully", "success");
     // 完了画面に遷移させて、そこでステータスを変更させる。
     router.push("/orders");
   }

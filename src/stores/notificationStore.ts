@@ -3,10 +3,10 @@ import { makeAutoObservable, action } from "mobx";
 type NotificationType = "success" | "error" | "info";
 
 class NotificationStore {
-  isOpenNotification: boolean = true;
-  title: string = "Successfully saved";
-  message: string = "This is a notification message.";
-  type: NotificationType = "error";
+  isOpenNotification: boolean = false;
+  title: string = "";
+  message: string = "";
+  type: NotificationType = "info";
 
   constructor() {
     makeAutoObservable(this, {

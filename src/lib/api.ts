@@ -10,6 +10,15 @@ import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
 import { ApiPostImagesResponse } from './type/image/type';
 import { ApiPostImagesRequest } from './type/image/type';
+import {
+  ApiPostSpecificationGroupsRequest,
+  ApiPostSpecificationGroupsResponse,
+  ApiGetSpecificationGroupsSpecificationGroupIdResponse,
+  ApiPutSpecificationGroupsSpecificationGroupIdRequest,
+  ApiPutSpecificationGroupsSpecificationGroupIdResponse,
+  ApiDeleteSpecificationGroupsSpecificationGroupIdRequest,
+  ApiDeleteSpecificationGroupsSpecificationGroupIdResponse,
+} from './type/specification_group/type';
 
 const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -219,16 +228,6 @@ export const ApiGetSpecificationsSpecificationIdDownload = async (specificationI
   }
 };
 
-export const ApiGetSpecificationGroups = async (): Promise<ApiGetSpecificationGroupsResponse[]> => {
-  try {
-    const response = await httpClient.get('/specificationgroups');
-    return response.data;
-  } catch (error) {
-    console.error('Failed to fetch specification groups:', error);
-    return [];
-  }
-};
-
 export const ApiPostImages = async (image: ApiPostImagesRequest): Promise<ApiPostImagesResponse> => {
   try {
     const response = await httpClient.post('/image', image);
@@ -239,3 +238,53 @@ export const ApiPostImages = async (image: ApiPostImagesRequest): Promise<ApiPos
     return { pre_signed_url: "", key: "" };
   }
 };
+
+export const ApiGetSpecificationGroups = async (): Promise<ApiGetSpecificationGroupsResponse[]> => {
+  try {
+    const response = await httpClient.get('/specificationgroups');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch specification groups:', error);
+    return [];
+  }
+};
+
+export const ApiPostSpecificationGroups = async (specificationGroup: ApiPostSpecificationGroupsRequest): Promise<ApiPostSpecificationGroupsResponse> => {
+  try {
+    const response = await httpClient.post('/specificationgroups', specificationGroup);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to post specification groups:', error);
+    throw error;
+  }
+}
+
+export const ApiGetSpecificationGroupsSpecificationGroupId = async (specificationGroupId: string): Promise<ApiGetSpecificationGroupsSpecificationGroupIdResponse> => {
+  try {
+    const response = await httpClient.get(`/specificationgroups/${specificationGroupId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch specification groups:', error);
+    throw error;
+  }
+};
+
+export const ApiPutSpecificationGroupsSpecificationGroupId = async (specificationGroupId: string, specificationGroup: ApiPutSpecificationGroupsSpecificationGroupIdRequest): Promise<ApiPutSpecificationGroupsSpecificationGroupIdResponse> => {
+  try {
+    const response = await httpClient.put(`/specificationgroups/${specificationGroupId}`, specificationGroup);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update specification groups:', error);
+    throw error;
+  }
+}
+
+export const ApiDeleteSpecificationGroupsSpecificationGroupId = async (specificationGroupId: string): Promise<ApiDeleteSpecificationGroupsSpecificationGroupIdResponse> => {
+  try {
+    const response = await httpClient.delete(`/specificationgroups/${specificationGroupId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to delete specification groups:', error);
+    throw error;
+  }
+}

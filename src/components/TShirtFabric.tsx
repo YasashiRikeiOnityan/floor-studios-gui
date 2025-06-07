@@ -13,6 +13,7 @@ import { dialogStore } from "@/stores/dialogStore";
 import { specificationStore } from "@/stores/specificationStore";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { notificationStore } from "@/stores/notificationStore";
 
 type TShirtFabricProps = {
   callBackUpdateState: () => void;
@@ -598,6 +599,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         })),
       },
     };
+    notificationStore.openNotification("Success", "T-shirt fabric saved successfully", "success");
     props.callBackUpdateState();
   };
 

@@ -18,6 +18,7 @@ import OEMPoint from "@/components/OEMPoint";
 import AlertDialog from "@/components/AlertDialod";
 import CareLabel from "@/components/CareLabel";
 import Tag from "@/components/Tag";
+import Notification from "@/components/Notification";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -106,6 +107,7 @@ const EditDesignContent = observer(() => {
         </div>
       </div>
       <AlertDialog />
+      <Notification />
     </>
   );
 });

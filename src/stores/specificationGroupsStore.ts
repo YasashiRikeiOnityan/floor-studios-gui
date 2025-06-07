@@ -1,6 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { GetSpecificationGroupsInteractor } from "@/interactor/GetSpecificationGroupsInteractor";
 import { SpecificationGroup } from "@/lib/type";
+import { ApiPostSpecificationGroupsRequest } from "@/lib/type/specification_group/type";
+import { PostSpecificationGroupsInteractor } from "@/interactor/PostSpecificationGroupsInteractor";
+import { notificationStore } from "./notificationStore";
 
 class SpecificationGroupsStore {
   specificationGroups: SpecificationGroup[] = [];
@@ -24,6 +27,30 @@ class SpecificationGroupsStore {
       this.ifFetched = true;
       this.loading = false;
     });
+  }
+
+  async postSpecificationGroups(specificationGroupName: string) {
+    runInAction(() => {
+      this.loading = true;
+    });
+    try {
+      const response = await PostSpecificationGroupsInteractor({
+        specification_group_name: specificationGroupName 
+      });
+      notificationStore.openNotification("Success", "Specification group created successfully", "success");
+      runInAction(() => {
+        this.specificationGroups.push({
+          specificationGroupId: response.specification_group_id,
+          specificationGroupName: specificationGroupName,
+        });
+        this.loading = false;
+      });
+    } catch (error) {
+      notificationStore.openNotification("Error", "Failed to create specification group", "error");
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
   }
 
 }
