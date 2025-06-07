@@ -57,7 +57,7 @@ const AddNewCollection = (props: AddNewCollectionProps) => {
               </button>
             </div>
             <div className="sm:flex sm:items-start">
-              <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
+              <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                 <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
                   Name your collection
                 </DialogTitle>
