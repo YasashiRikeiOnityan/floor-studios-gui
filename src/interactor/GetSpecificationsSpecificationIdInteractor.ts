@@ -56,38 +56,18 @@ const formatCareLabel = (careLabel: ApiGetSpecificationsSpecificationIdResponse[
 
 const formatOemPoints = (oemPoints: ApiGetSpecificationsSpecificationIdResponse["oem_points"]): {
   oemPoint: string;
-  file?: File;
+  file?: {
+    name: string;
+    key: string;
+  } | undefined;
 }[] => {
   return oemPoints?.map((oemPoint) => {
-    let file: File | undefined = undefined;
-    if (oemPoint.file?.content) {
-      try {
-        // base64データをデコード
-        const base64Data = oemPoint.file.content;
-        const isDataUrl = base64Data.startsWith("data:");
-        const base64String = isDataUrl ? base64Data.split(",")[1] : base64Data;
-        
-        // base64をバイナリデータに変換
-        const binaryString = window.atob(base64String);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-        
-        // BlobとFileオブジェクトを作成
-        const blob = new Blob([bytes], { type: oemPoint.file.type });
-        file = new File([blob], oemPoint.file.name, {
-          type: oemPoint.file.type,
-          lastModified: new Date().getTime()
-        });
-
-      } catch (error) {
-        console.error("Error converting base64 to File:", error);
-      }
-    }
     return {
       oemPoint: oemPoint.oem_point,
-      file: file,
+      file: oemPoint.file ? {
+        name: oemPoint.file.name,
+        key: oemPoint.file.key,
+      } : undefined,
     };
   }) || [];
 }
