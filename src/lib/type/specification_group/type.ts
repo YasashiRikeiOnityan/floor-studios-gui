@@ -13,6 +13,7 @@ export type ApiPostSpecificationGroupsRequest = {
 
 export type ApiPostSpecificationGroupsResponse = {
   specification_group_id: string;
+  specification_group_name: string;
 };
 
 export type ApiGetSpecificationGroupsSpecificationGroupIdResponse = {
@@ -26,6 +27,7 @@ export type ApiPutSpecificationGroupsSpecificationGroupIdRequest = {
 
 export type ApiPutSpecificationGroupsSpecificationGroupIdResponse = {
   specification_group_id: string;
+  specification_group_name: string;
 };
 
 export type ApiDeleteSpecificationGroupsSpecificationGroupIdRequest = {

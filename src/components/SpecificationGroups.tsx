@@ -22,7 +22,7 @@ const SpecificationGroups = observer((props: SpecificationGroup) => {
 
   useEffect(() => {
     if (mounted) {
-      specificationGroupsStore.fetchSpecificationGroups();
+      specificationGroupsStore.getSpecificationGroups();
     }
   }, [mounted]);
 

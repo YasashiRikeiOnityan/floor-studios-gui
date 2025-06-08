@@ -70,7 +70,7 @@ const Notification = observer(() => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             as="div"
-            className="w-full sm:w-auto"
+            className="w-full sm:w-[360px]"
           >
             <NotificationItem notification={notification} />
           </Transition>

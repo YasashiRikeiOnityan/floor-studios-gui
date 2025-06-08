@@ -26,10 +26,6 @@ class DialogStore {
 
   closeAlertDialog() {
     this.isOpenAlertDialog = false;
-    this.title = "";
-    this.message = "";
-    this.buttonText = "";
-    this.noCancelButton = false;
     this.onClickButton = () => {};
   }
 }
