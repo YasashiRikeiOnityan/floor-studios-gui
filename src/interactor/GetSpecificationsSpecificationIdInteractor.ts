@@ -164,6 +164,8 @@ const formatTShirtSpecification = (specification: ApiGetSpecificationsSpecificat
         hex: specification.tag?.color?.hex,
       } : undefined,
       labelStyle: specification.tag?.label_style || "Inseam loop label",
+      labelWidth: specification.tag?.label_width,
+      labelHeight: specification.tag?.label_height,
       description: {
         description: specification.tag?.description?.description || "",
         file: specification.tag?.description?.file ? {

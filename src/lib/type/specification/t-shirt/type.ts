@@ -69,6 +69,8 @@ export type TShirtTag = {
   },
   labelStyle?: string;
   description?: Description;
+  labelWidth?: number;
+  labelHeight?: number;
 }
 
 export type TShirtSample = {
@@ -186,6 +188,8 @@ export type ApiGetTShirtSpecificationResponse = {
       hex: string;
     };
     label_style?: string;
+    label_width?: number;
+    label_height?: number;
     description?: {
       description: string;
       file?: {
@@ -335,6 +339,8 @@ export type ApiPutTShirtSpecificationRequest = {
       hex: string;
     };
     label_style?: string;
+    label_width?: number;
+    label_height?: number;
     description?: {
       description: string;
       file?: {

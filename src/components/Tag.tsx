@@ -66,6 +66,8 @@ const Tag = observer((props: TagProps) => {
   const [labelStyle, setLabelStyle] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
+  const [labelWidth, setLabelWidth] = useState<number | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelWidth || (specificationStore.currentSpecification?.tshirt?.tag?.labelStyle === "Inseam loop label" ? 3 : 4));
+  const [labelHeight, setLabelHeight] = useState<number | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelHeight || (specificationStore.currentSpecification?.tshirt?.tag?.labelStyle === "Inseam loop label" ? 6 : 3));
 
   const handleCancel = () => {
     setIsLabel(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
@@ -123,6 +125,8 @@ const Tag = observer((props: TagProps) => {
             }
           }),
           ...(labelStyle && { label_style: labelStyle }),
+          ...(isCustom && { label_width: labelWidth }),
+          ...(isCustom && { label_height: labelHeight }),
           ...(description && {
             description: {
               description: description?.description || "",
@@ -147,6 +151,8 @@ const Tag = observer((props: TagProps) => {
         color: selectedColor,
         labelStyle: labelStyle,
         description: description,
+        labelWidth: labelWidth,
+        labelHeight: labelHeight,
       },
     };
     props.callBackUpdateState();
@@ -368,10 +374,14 @@ const Tag = observer((props: TagProps) => {
                     onChange={() => {
                       setIsLabel(labelOption.id !== "no-label");
                       setSendLabels(labelOption.id === "i-will-send-labels");
-                      setIsCustom(labelOption.id === "custom-label");
+                      setIsCustom(labelOption.id === "custom");
                       if (labelOption.id === "no-label" || labelOption.id === "i-will-send-labels") {
                         setMaterial("Woven label");
                         setSelectedColor(undefined);
+                      }
+                      if (labelOption.id !== "custom") {
+                        setLabelWidth(3);
+                        setLabelHeight(6);
                       }
                     }}
                   />
@@ -467,6 +477,13 @@ const Tag = observer((props: TagProps) => {
                         className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
                         onChange={() => {
                           setLabelStyle(labelStyleOption.title);
+                          if (labelStyleOption.title === "Inseam loop label") {
+                            setLabelWidth(3);
+                            setLabelHeight(6);
+                          } else if (labelStyleOption.title === "Label on the back") {
+                            setLabelWidth(4);
+                            setLabelHeight(3);
+                          }
                         }}
                       />
                       <label htmlFor={labelStyleOption.id} className="ml-3 block text-sm/6 font-medium text-gray-900">
@@ -478,24 +495,80 @@ const Tag = observer((props: TagProps) => {
               </fieldset>
               <div className="flex items-start gap-6 mb-8">
                 {labelStyle === "Inseam loop label" && <div className="w-1/2 flex justify-center">
-                  <img src="/t-shirt_tag.png" />
+                  <div className="relative">
+                    <img src="/t-shirt_tag.png" />
+                  </div>
                 </div>}
                 {labelStyle === "Label on the back" && <div className="w-1/2 flex justify-center">
-                  <img src="/t-shirt_tag_horizontal.png" />
+                  <div className="relative">
+                    <img src="/t-shirt_tag_horizontal.png" />
+                  </div>
                 </div>}
                 {labelStyle === "Inseam loop label" && <div className="w-1/2 flex justify-center">
-                  <img src="/tag_size.svg" />
+                  <div className="relative">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[calc(100%+2px)] flex items-center gap-2">
+                      <input
+                        // type="number"
+                        // min="1"
+                        // max="9"
+                        value={labelWidth || ""}
+                        onChange={(e) => setLabelWidth(Number(e.target.value))}
+                        className={"w-12 rounded-md bg-white px-2 py-1 text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500 text-center"}
+                        disabled={!isCustom}
+                      />
+                      <span className="text-sm">cm</span>
+                    </div>
+                    <div className="absolute top-1/2 right-0 transform translate-x-[calc(100%+2px)] -translate-y-1/2 flex items-center gap-2">
+                      <input
+                        // type="number"
+                        // min="1"
+                        // max="9"
+                        value={labelHeight || ""}
+                        onChange={(e) => setLabelHeight(Number(e.target.value))}
+                        className={"w-12 rounded-md bg-white px-2 py-1 text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500 text-center"}
+                        disabled={!isCustom}
+                      />
+                      <span className="text-sm">cm</span>
+                    </div>
+                    <img src="/tag_size.svg" />
+                  </div>
                 </div>}
                 {labelStyle === "Label on the back" && <div className="w-1/2 flex justify-center">
-                  <img src="/tag_size_horizontal.svg" />
-                </div>}                
+                  <div className="relative">
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-[calc(100%+2px)] flex items-center gap-2">
+                      <input
+                        // type="number"
+                        // min="1"
+                        // max="9"
+                        value={labelWidth || ""}
+                        onChange={(e) => setLabelWidth(Number(e.target.value))}
+                        className={"w-12 rounded-md bg-white px-2 py-1 text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500 text-center"}
+                        disabled={!isCustom}
+                      />
+                      <span className="text-sm">cm</span>
+                    </div>
+                    <div className="absolute top-1/2 right-0 transform translate-x-[calc(100%+2px)] -translate-y-1/2 flex items-center gap-2">
+                      <input
+                        // type="number"
+                        // min="1"
+                        // max="9"
+                        value={labelHeight || ""}
+                        onChange={(e) => setLabelHeight(Number(e.target.value))}
+                        className={"w-12 rounded-md bg-white px-2 py-1 text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500 text-center"}
+                        disabled={!isCustom}
+                      />
+                      <span className="text-sm">cm</span>
+                    </div>
+                    <img src="/tag_size_horizontal.svg" />
+                  </div>
+                </div>}
               </div>
             </>
           }
           <textarea
             id="comment"
             name="comment"
-            rows={8}
+            rows={3}
             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
             placeholder="Special requests or comments"
             value={description?.description}
