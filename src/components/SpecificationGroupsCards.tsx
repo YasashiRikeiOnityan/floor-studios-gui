@@ -8,6 +8,7 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import AlertDialog from "@/components/AlertDialod";
 import { dialogStore } from "@/stores/dialogStore";
 import Button from "@/components/Button";
+import SaveIcon from "@/components/SaveIcon";
 
 const SpecificationGroupsCards = observer(() => {
   const [mounted, setMounted] = useState(false);
@@ -83,46 +84,54 @@ const SpecificationGroupsCards = observer(() => {
             ) : (
               specificationGroup.specificationGroupName
             )}
-            <div className="flex items-center justify-between gap-2">
-              {editingId === specificationGroup.specificationGroupId ?
-                (savingId === specificationGroup.specificationGroupId ?
-                  <Loading /> :
-                  <Button
-                    type={"button"}
-                    style={"fill"}
-                    text={"Save"}
-                    onClick={() => handleEditSave(specificationGroup.specificationGroupId)}
-                  />) :
-                <div></div>}
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-end gap-2">
+              {editingId === specificationGroup.specificationGroupId && savingId !== specificationGroup.specificationGroupId && 
                 <button
-                  className="p-1 rounded hover:bg-gray-100"
-                  onClick={() => {
-                    if (editingId === specificationGroup.specificationGroupId) {
-                      setEditingId(undefined);
-                    } else {
-                      setEditingId(specificationGroup.specificationGroupId);
-                      setEditValue(specificationGroup.specificationGroupName);
-                      setValidateSpecificationGroupName(false);
-                    }
-                  }}
+                  className="relative group p-1 rounded hover:bg-gray-100"
+                  onClick={() => handleEditSave(specificationGroup.specificationGroupId)}
                   aria-label="Edit"
                 >
-                  <PencilSquareIcon className="h-5 w-5 text-gray-500" />
-                </button>
-                <button
-                  className="p-1 rounded hover:bg-red-100"
-                  onClick={() => handleDelete(specificationGroup.specificationGroupId)}
-                  aria-label="Delete"
-                  disabled={deletingId === specificationGroup.specificationGroupId}
-                >
-                  {deletingId === specificationGroup.specificationGroupId ? (
-                    <Loading />
-                  ) : (
+                  <SaveIcon className="h-5 w-5 text-gray-500" />
+                  <span className="w-[48px] py-1 invisible rounded text-[12px] font-bold text-white bg-gray-700 -top-8 -left-2.5 group-hover:visible hover:opacity-100 absolute">
+                    Save
+                  </span>
+                </button>}
+              {editingId === specificationGroup.specificationGroupId && savingId === specificationGroup.specificationGroupId && 
+                <Loading />}
+              <button
+                className="relative group p-1 rounded hover:bg-gray-100"
+                onClick={() => {
+                  if (editingId === specificationGroup.specificationGroupId) {
+                    setEditingId(undefined);
+                  } else {
+                    setEditingId(specificationGroup.specificationGroupId);
+                    setEditValue(specificationGroup.specificationGroupName);
+                    setValidateSpecificationGroupName(false);
+                  }
+                }}
+              >
+                <PencilSquareIcon className="h-5 w-5 text-gray-500" />
+                <span className="w-[48px] py-1 invisible rounded text-[12px] font-bold text-white bg-gray-700 -top-8 -left-2.5 group-hover:visible hover:opacity-100 absolute">
+                  Edit
+                </span>
+              </button>
+              <button
+                className="relative group p-1 rounded hover:bg-red-100"
+                onClick={() => handleDelete(specificationGroup.specificationGroupId)}
+                aria-label="Delete"
+                disabled={deletingId === specificationGroup.specificationGroupId}
+              >
+                {deletingId === specificationGroup.specificationGroupId ? (
+                  <Loading />
+                ) : (
+                  <>
                     <TrashIcon className="h-5 w-5 text-red-500" />
-                  )}
-                </button>
-              </div>
+                    <span className="w-[48px] py-1 invisible rounded text-[12px] font-bold text-white bg-red-700 -top-8 -left-2.5 group-hover:visible hover:opacity-100 absolute">
+                      Delete
+                    </span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
