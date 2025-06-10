@@ -7,7 +7,6 @@ import { specificationGroupsStore } from "@/stores/specificationGroupsStore";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import AlertDialog from "@/components/AlertDialod";
 import { dialogStore } from "@/stores/dialogStore";
-import Button from "@/components/Button";
 import SaveIcon from "@/components/SaveIcon";
 
 const SpecificationGroupsCards = observer(() => {
