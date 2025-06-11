@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { tenantStore } from "@/stores/tenantStore";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 const Brand = observer(() => {
   const [isEditing, setIsEditing] = useState(false);
@@ -147,16 +148,18 @@ const Brand = observer(() => {
           <main>
             <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
               <div className="flex flex-col gap-y-3 items-end">
-                <Button
-                  type={"button"}
-                  onClick={handleEdit}
-                  text={"Edit"}
-                  style={"text"}
-                  fullWidth={false}
-                  disabled={tenantStore.loading}
-                />
+                <button
+                  className="relative group p-1 rounded hover:bg-gray-100"
+                  onClick={() => handleEdit()}
+                  aria-label="Edit"
+                >
+                  <PencilSquareIcon className={`h-5 w-5 ${isEditing ? "text-blue-500" : "text-gray-500"}`} />
+                  <span className="w-[48px] py-1 invisible rounded text-[12px] font-bold text-white bg-gray-700 -top-8 -left-2.5 group-hover:visible hover:opacity-100 absolute">
+                    Edit
+                  </span>
+                </button>
               </div>
-              <div className="mt-2 border-t border-gray-100">
+              <div className="mt-2">
                 <dl className="divide-y divide-gray-100">
                   {/* ブランド名 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -187,6 +190,34 @@ const Brand = observer(() => {
                       </div>
                       {validateNameError && <div className="text-sm/6 text-red-500">{validateNameError}</div>}
                     </div>
+                  </div>}
+                  {/* ブランドロゴ */}
+                  {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {tenantStore.loading ? <Loading /> : "No logo uploaded"}
+                    </dd>
+                  </div>}
+                  {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
+                    <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
+                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <div className="flex items-center gap-x-8">
+                        <img
+                          alt=""
+                          src="/FloorStudios.png"
+                          className="max-w-36 flex-none object-cover"
+                        />
+                        <div>
+                          <button
+                            type="button"
+                            className="rounded-md bg-white/10 px-3 py-2 text-sm text-gray-700 shadow-sm hover:bg-white/20"
+                          >
+                            Change logo
+                          </button>
+                          <p className="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+                        </div>
+                      </div>
+                    </dd>
                   </div>}
                   {/* 連絡先 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
