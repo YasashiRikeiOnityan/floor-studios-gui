@@ -15,6 +15,7 @@ const SpecificationGroupsCards = observer(() => {
   const [editingId, setEditingId] = useState<string | undefined>(undefined);
   const [editValue, setEditValue] = useState<string>("");
   const [validateSpecificationGroupName, setValidateSpecificationGroupName] = useState(false);
+  const [validateSpecificationGroupNameMessage, setValidateSpecificationGroupNameMessage] = useState<string>("");
   const [savingId, setSavingId] = useState<string | undefined>(undefined);
   const [deletingId, setDeletingId] = useState<string | undefined>(undefined);
 
@@ -34,6 +35,10 @@ const SpecificationGroupsCards = observer(() => {
   }, [mounted]);
 
   const handleEditSave = async (id: string) => {
+    if (!handleValidateSpecificationGroupName(editValue)) {
+      setValidateSpecificationGroupName(true);
+      return;
+    }
     setSavingId(id);
     await specificationGroupsStore.putSpecificationGroupName(id, editValue);
     setSavingId(undefined);
@@ -55,6 +60,19 @@ const SpecificationGroupsCards = observer(() => {
     )
   };
 
+  const handleValidateSpecificationGroupName = (value: string) => {
+    if (value.length < 1) {
+      setValidateSpecificationGroupNameMessage("Collection Name is required");
+      return false;
+    } else if (value.length > 20) {
+      setValidateSpecificationGroupNameMessage("Collection Name must be less than 20 characters");
+      return false;
+    } else {
+      setValidateSpecificationGroupNameMessage("");
+      return true;
+    }
+  }
+
   if (loading) {
     return <Loading />;
   }
@@ -68,23 +86,28 @@ const SpecificationGroupsCards = observer(() => {
         >
           <div className="p-4 flex flex-col justify-between h-full">
             {editingId === specificationGroup.specificationGroupId ? (
-              <input
-                className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateSpecificationGroupName ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                  } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                value={editValue}
-                onChange={(e) => setEditValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleEditSave(specificationGroup.specificationGroupId);
-                  }
-                }}
-                autoFocus
-              />
+              <>
+                <input
+                  className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateSpecificationGroupName ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleEditSave(specificationGroup.specificationGroupId);
+                    }
+                  }}
+                  autoFocus
+                />
+                <div className="text-red-500 text-sm">
+                  {validateSpecificationGroupNameMessage}
+                </div>
+              </>
             ) : (
               specificationGroup.specificationGroupName
             )}
             <div className="flex items-center justify-end gap-2">
-              {editingId === specificationGroup.specificationGroupId && savingId !== specificationGroup.specificationGroupId && 
+              {editingId === specificationGroup.specificationGroupId && savingId !== specificationGroup.specificationGroupId &&
                 <button
                   className="relative group p-1 rounded hover:bg-gray-100"
                   onClick={() => handleEditSave(specificationGroup.specificationGroupId)}
@@ -95,7 +118,7 @@ const SpecificationGroupsCards = observer(() => {
                     Save
                   </span>
                 </button>}
-              {editingId === specificationGroup.specificationGroupId && savingId === specificationGroup.specificationGroupId && 
+              {editingId === specificationGroup.specificationGroupId && savingId === specificationGroup.specificationGroupId &&
                 <Loading />}
               <button
                 className="relative group p-1 rounded hover:bg-gray-100"

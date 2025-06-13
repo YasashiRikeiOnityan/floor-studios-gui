@@ -8,10 +8,18 @@ class DialogStore {
   noCancelButton: boolean = false;
   onClickButton: () => void = () => {};
 
+  isOpenSuccessDialog: boolean = false;
+  successDialogTitle: string = "";
+  successDialogMessage: string = "";
+  successDialogButtonText: string = "";
+  successDialogOnClick: () => void = () => {};
+
   constructor() {
     makeAutoObservable(this, {
       openAlertDialog: action,
-      closeAlertDialog: action
+      closeAlertDialog: action,
+      openSuccessDialog: action,
+      closeSuccessDialog: action,
     });
   }
 
@@ -27,6 +35,19 @@ class DialogStore {
   closeAlertDialog() {
     this.isOpenAlertDialog = false;
     this.onClickButton = () => {};
+  }
+
+  openSuccessDialog(title: string, message: string, buttonText: string, onClick: () => void) {
+    this.isOpenSuccessDialog = true;
+    this.successDialogTitle = title;
+    this.successDialogMessage = message;
+    this.successDialogButtonText = buttonText;
+    this.successDialogOnClick = onClick;
+  }
+
+  closeSuccessDialog() {
+    this.isOpenSuccessDialog = false;
+    this.successDialogOnClick = () => {};
   }
 }
 

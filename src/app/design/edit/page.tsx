@@ -19,6 +19,7 @@ import AlertDialog from "@/components/AlertDialod";
 import CareLabel from "@/components/CareLabel";
 import Tag from "@/components/Tag";
 import Notification from "@/components/Notification";
+import SuccessDialog from "@/components/SuccessDialog";
 
 const EditDesignContent = observer(() => {
   // const router = useRouter();
@@ -108,6 +109,7 @@ const EditDesignContent = observer(() => {
       </div>
       <AlertDialog />
       <Notification />
+      <SuccessDialog />
     </>
   );
 });

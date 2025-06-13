@@ -4,6 +4,8 @@ import { tenantStore } from "@/stores/tenantStore";
 import Button from "./Button";
 import { specificationStore } from "@/stores/specificationStore";
 import { useRouter } from "next/navigation";
+import { dialogStore } from "@/stores/dialogStore";
+import SuccessDialog from "@/components/SuccessDialog";
 
 type InformationProps = {
   callBackUpdateState: () => void;
@@ -99,26 +101,34 @@ const Information = observer((props: InformationProps) => {
           phoneNumber: contactPhoneNumber,
           email: contactEmail,
         },
-      billingAddress: {
-        addressLine1: billingAddressLine1,
-        addressLine2: billingAddressLine2,
-        zipCode: billingZipCode,
-        state: billingState,
-        city: billingCity,
-        country: billingCountry,
-      },
-      shippingAddress: {
-        addressLine1: shippingAddressLine1,
-        addressLine2: shippingAddressLine2,
-        zipCode: shippingZipCode,
-        state: shippingState,
-        city: shippingCity,
-        country: shippingCountry,
-      },
+        billingAddress: {
+          addressLine1: billingAddressLine1,
+          addressLine2: billingAddressLine2,
+          zipCode: billingZipCode,
+          state: billingState,
+          city: billingCity,
+          country: billingCountry,
+        },
+        shippingAddress: {
+          addressLine1: shippingAddressLine1,
+          addressLine2: shippingAddressLine2,
+          zipCode: shippingZipCode,
+          state: shippingState,
+          city: shippingCity,
+          country: shippingCountry,
+        },
       }
     };
-    // 完了画面に遷移させて、そこでステータスを変更させる。
-    router.push("/orders");
+    // 成功ダイアログを表示
+    dialogStore.openSuccessDialog(
+      "Complete",
+      "Specification has been created.",
+      "OK",
+      () => {
+        dialogStore.closeSuccessDialog();
+        router.push(`/orders?status=COMPLETE&collection=${specificationStore.currentSpecification.specificationGroupId || 'NO_GROUP'}`);
+      }
+    );
   }
 
   const handleCancel = () => {

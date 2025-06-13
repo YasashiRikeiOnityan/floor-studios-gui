@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
 import { SpecificationStatus } from "@/lib/type";
@@ -17,14 +17,28 @@ import AddNewCollection from "@/components/AddNewCollection";
 const Orders = observer(() => {
   const router = useRouter();
   const tabs = ["Drafts", "Completes"]
-  const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [specificationGroupId, setSpecificationGroupId] = useState<string>("NO_GROUP");
-  const [status, setStatus] = useState<SpecificationStatus>("DRAFT");
+  const searchParams = useSearchParams();
+  // クエリパラメータ取得
+  const statusParam = searchParams.get("status");
+  const collectionParam = searchParams.get("collection");
+  // statusパラメータをタブ名に変換
+  const statusToTab = (status: string | null) => {
+    if (status === "DRAFT" || status === "DRAFTS") return "Drafts";
+    if (status === "COMPLETE" || status === "COMPLETES") return "Completes";
+    return "Drafts";
+  };
+  const initialTab = statusToTab(statusParam);
+  const initialGroupId = collectionParam || "NO_GROUP";
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [specificationGroupId, setSpecificationGroupId] = useState<string>(initialGroupId);
+  const [status, setStatus] = useState<SpecificationStatus>(initialTab === "Drafts" ? "DRAFT" : "COMPLETE");
   const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     setStatus(tab === "Drafts" ? "DRAFT" : tab === "Completes" ? "COMPLETE" : tab === "Samples" ? "SAMPLE" : "BULK");
+    // URLも同期したい場合は下記を有効化
+    // router.replace(`/orders?status=${tab === "Drafts" ? "DRAFT" : "COMPLETE"}&collection=${specificationGroupId}`);
   };
 
   const handleStartNewDesign = () => {
