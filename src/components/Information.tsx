@@ -5,7 +5,6 @@ import Button from "./Button";
 import { specificationStore } from "@/stores/specificationStore";
 import { useRouter } from "next/navigation";
 import { dialogStore } from "@/stores/dialogStore";
-import SuccessDialog from "@/components/SuccessDialog";
 
 type InformationProps = {
   callBackUpdateState: () => void;

@@ -3,7 +3,7 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Button from "@/components/Button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { specificationGroupsStore } from "@/stores/specificationGroupsStore";
 
 type AddNewCollectionProps = {
