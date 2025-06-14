@@ -1,12 +1,11 @@
 "use client";
 
-import { SpecificationStatus } from "@/lib/type";
+import { SpecificationStatus } from "@/lib/type/specification/type";
 import { formatRelativeTime } from "@/lib/utils";
 import { specificationStore } from "@/stores/specificationStore";
 import { useEffect } from "react";
-import SpecificationMenu from "./SpecificationMenu";
+import SpecificationMenu from "@/components/SpecificationMenu";
 import { observer } from "mobx-react-lite";
-import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 
 type CardsProps = {
@@ -25,8 +24,12 @@ const Cards = observer((props: CardsProps) => {
     fetchSpecifications();
   }, [props.specificationGroupId, props.status]);
 
-  if (specificationStore.loading) {
-    return <Loading full={true} />;
+  if (specificationStore.specifications.length === 0) {
+    return <div className="flex justify-center items-center h-full">
+      <div className="text-gray-500">
+        No specifications found
+      </div>
+    </div>;
   }
 
   return (
