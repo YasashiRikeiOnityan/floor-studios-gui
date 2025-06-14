@@ -4,7 +4,7 @@ import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
 import Loading from './Loading';
 import { useRouter } from 'next/navigation';
-import { SpecificationStatus } from '@/lib/type';
+import { SpecificationStatus } from '@/lib/type/specification/type';
 
 type SpecificationMenuProps = {
   specificationId: string;
