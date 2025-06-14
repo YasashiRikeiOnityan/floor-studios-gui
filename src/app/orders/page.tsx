@@ -13,8 +13,10 @@ import Notification from "@/components/Notification";
 import { observer } from "mobx-react-lite";
 import SpecificationGroups from "@/components/SpecificationGroups";
 import AddNewCollection from "@/components/AddNewCollection";
+import { Suspense } from "react";
+import Loading from "@/components/Loading";
 
-const Orders = observer(() => {
+const OrdersContent = observer(() => {
   const router = useRouter();
   const tabs = ["Drafts", "Completes"]
   const searchParams = useSearchParams();
@@ -108,5 +110,13 @@ const Orders = observer(() => {
     </>
   )
 });
+
+const Orders = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <OrdersContent />
+    </Suspense>
+  );
+};
 
 export default Orders;
