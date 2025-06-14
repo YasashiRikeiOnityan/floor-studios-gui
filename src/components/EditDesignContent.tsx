@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { specificationStore } from "@/stores/specificationStore";
 import Header from "@/components/Header";
-import Loading from "@/components/Loading";
 import { TShirtEditSteps } from "@/lib/type/specification/t-shirt/type";
 import TShirtFit from "@/components/TShirtFit";
 import Information from "@/components/Information";
@@ -32,6 +31,9 @@ const EditDesignContent = observer(() => {
   }, []);
 
   useEffect(() => {
+    if (!mounted) {
+      return;
+    }
     if (specificationId) {
       const fetchSpecification = async () => {
         try {
@@ -52,7 +54,7 @@ const EditDesignContent = observer(() => {
       };
       fetchSpecification();
     }
-  }, [specificationId]);
+  }, [mounted, specificationId]);
 
   const callBackUpdateState = (step: number) => {
     if (step < actualStep) {

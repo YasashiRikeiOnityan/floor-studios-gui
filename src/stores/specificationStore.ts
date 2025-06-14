@@ -1,13 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { SpecificationStatus } from "@/lib/type";
-import { Specification, ApiPostSpecificationsRequest, Specifications, SpecificationType } from "@/lib/type/specification/type";
+import { Specification, ApiPostSpecificationsRequest, Specifications, SpecificationStatus } from "@/lib/type/specification/type";
 import { GetSpecificationsInteractor } from "@/interactor/specifications/get";
 import { PostSpecificationsInteractor } from "@/interactor/specifications/post";
 import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/get";
 import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/put";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/delete";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
-import { ApiPutTShirtSpecificationRequest, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
+import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
 
 class SpecificationStore {
 

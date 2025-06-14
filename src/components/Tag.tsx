@@ -1,4 +1,4 @@
-import { Description } from "@/lib/type/specification/type";
+import { Description, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { dialogStore } from "@/stores/dialogStore";
 import Button from "@/components/Button";
 import { Radio } from "@headlessui/react";
 import { RadioGroup } from "@headlessui/react";
+import { DescriptionWithFile } from "./DescriptionWithFile";
 
 type TagProps = {
   callBackUpdateState: () => void;
@@ -57,92 +58,58 @@ const labelStyleOptions = [
 ]
 
 const Tag = observer((props: TagProps) => {
-  const [isLabel, setIsLabel] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
-  const [sendLabels, setSendLabels] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.sendLabels || false);
-  const [isCustom, setIsCustom] = useState<boolean>(specificationStore.currentSpecification?.tshirt?.tag?.isCustom || false);
-  const [description, setDescription] = useState<Description | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
-  const [material, setMaterial] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
-  const [selectedColor, setSelectedColor] = useState<{ title: string, hex: string } | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
-  const [labelStyle, setLabelStyle] = useState<string | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
-  const [fileUploading, setFileUploading] = useState<boolean>(false);
-  const [labelWidth, setLabelWidth] = useState<number | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelWidth || (specificationStore.currentSpecification?.tshirt?.tag?.labelStyle === "Inseam loop label" ? 3 : 4));
-  const [labelHeight, setLabelHeight] = useState<number | undefined>(specificationStore.currentSpecification?.tshirt?.tag?.labelHeight || (specificationStore.currentSpecification?.tshirt?.tag?.labelStyle === "Inseam loop label" ? 6 : 3));
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [isLabel, setIsLabel] = useState<boolean>(currentSpecification?.tag?.isLabel || false);
+  const [sendLabels, setSendLabels] = useState<boolean>(currentSpecification?.tag?.sendLabels || false);
+  const [isCustom, setIsCustom] = useState<boolean>(currentSpecification?.tag?.isCustom || false);
+  const [description, setDescription] = useState<Description | undefined>(currentSpecification?.tag?.description || undefined);
+  const [material, setMaterial] = useState<string | undefined>(currentSpecification?.tag?.material || "Woven label");
+  const [selectedColor, setSelectedColor] = useState<{ pantone: string, hex: string } | undefined>(currentSpecification?.tag?.color || undefined);
+  const [labelStyle, setLabelStyle] = useState<string | undefined>(currentSpecification?.tag?.labelStyle || "Inseam loop label");
+  const [labelWidth, setLabelWidth] = useState<number | undefined>(currentSpecification?.tag?.labelWidth || (currentSpecification?.tag?.labelStyle === "Inseam loop label" ? 3 : 4));
+  const [labelHeight, setLabelHeight] = useState<number | undefined>(currentSpecification?.tag?.labelHeight || (currentSpecification?.tag?.labelStyle === "Inseam loop label" ? 6 : 3));
 
   const handleCancel = () => {
-    setIsLabel(specificationStore.currentSpecification?.tshirt?.tag?.isLabel || false);
-    setSendLabels(specificationStore.currentSpecification?.tshirt?.tag?.sendLabels || false);
-    setDescription(specificationStore.currentSpecification?.tshirt?.tag?.description || undefined);
-    setMaterial(specificationStore.currentSpecification?.tshirt?.tag?.material || "Woven label");
-    setSelectedColor(specificationStore.currentSpecification?.tshirt?.tag?.color || undefined);
-    setLabelStyle(specificationStore.currentSpecification?.tshirt?.tag?.labelStyle || "Inseam loop label");
-    setPreviewUrl(undefined);
+    setIsLabel(currentSpecification?.tag?.isLabel || false);
+    setSendLabels(currentSpecification?.tag?.sendLabels || false);
+    setDescription(currentSpecification?.tag?.description || undefined);
+    setMaterial(currentSpecification?.tag?.material || "Woven label");
+    setSelectedColor(currentSpecification?.tag?.color || undefined);
+    setLabelStyle(currentSpecification?.tag?.labelStyle || "Inseam loop label");
   };
 
   const handleSaveAndNext = () => {
-    if (!isLabel || sendLabels) {
-      specificationStore.putSpecification({
-        ...(props.isUpdateProgress && { progress: "TAG" }),
-        tag: {
-          is_label: isLabel,
-          send_labels: sendLabels,
-          is_custom: isCustom,
-          ...(description && {
-            description: {
-              description: description?.description || "",
-              ...(description?.file && {
-                file: {
-                  name: description?.file?.name || "",
-                  key: description?.file?.key || "",
-                },
-              }),
-            },
-          }),
-        },
-      });
-    } else {
-      if (!selectedColor) {
-        dialogStore.openAlertDialog(
-          "Error",
-          "Please select a material and color",
-          "OK",
-          true,
-          () => dialogStore.closeAlertDialog()
-        );
-        return;
+    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+      ...(props.isUpdateProgress && { progress: "TAG" }),
+      tag: {
+        is_label: isLabel,
+        send_labels: sendLabels,
+        is_custom: isCustom,
+        ...(isLabel && !sendLabels && { material: material ? material : "" }),
+        ...(isLabel && !sendLabels && selectedColor && {
+          color: {
+            pantone: selectedColor?.pantone || "",
+            hex: selectedColor?.hex || "",
+          }
+        }),
+        ...(labelStyle && { label_style: labelStyle }),
+        ...(isCustom && { label_width: labelWidth }),
+        ...(isCustom && { label_height: labelHeight }),
+        ...(description && {
+          description: {
+            description: description?.description || "",
+            ...(description?.file && {
+              file: {
+                name: description?.file?.name || "",
+                key: description?.file?.key || "",
+              },
+            }),
+          },
+        }),
       }
-      specificationStore.putSpecification({
-        ...(props.isUpdateProgress && { progress: "TAG" }),
-        tag: {
-          is_label: isLabel,
-          send_labels: sendLabels,
-          is_custom: isCustom,
-          ...(isLabel && !sendLabels && { material: material ? material : "" }),
-          ...(isLabel && !sendLabels && selectedColor && {
-            color: {
-              title: selectedColor.title,
-              hex: selectedColor.hex,
-            }
-          }),
-          ...(labelStyle && { label_style: labelStyle }),
-          ...(isCustom && { label_width: labelWidth }),
-          ...(isCustom && { label_height: labelHeight }),
-          ...(description && {
-            description: {
-              description: description?.description || "",
-              ...(description?.file && {
-                file: {
-                  name: description?.file?.name || "",
-                  key: description?.file?.key || "",
-                },
-              }),
-            },
-          }),
-        }
-      });
-    }
-    specificationStore.currentSpecification.tshirt = {
-      ...specificationStore.currentSpecification.tshirt,
+    });
+    specificationStore.updateSpecification({
+      ...currentSpecification,
       tag: {
         isLabel: isLabel,
         sendLabels: sendLabels,
@@ -154,200 +121,8 @@ const Tag = observer((props: TagProps) => {
         labelWidth: labelWidth,
         labelHeight: labelHeight,
       },
-    };
+    });
     props.callBackUpdateState();
-  };
-
-  const handleTagFilePreview = async (key: string) => {
-    if (!key) {
-      return;
-    }
-    try {
-      // 既存のpre-signed URLが有効かチェック
-      if (description?.file?.preSignedUrl?.get) {
-        setPreviewUrl(description.file?.preSignedUrl?.get || "");
-        return;
-      }
-
-      // 新しいpre-signed URLを取得
-      const response = await PostImagesInteractor({
-        type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
-        key: key,
-        method: "get",
-      });
-
-      if (response.pre_signed_url) {
-        setPreviewUrl(response.pre_signed_url);
-        const newDescription = {
-          ...description,
-          file: {
-            name: description?.file?.name || "",
-            key: description?.file?.key || "",
-            preSignedUrl: {
-              get: response.pre_signed_url,
-              put: response.pre_signed_url,
-              delete: response.pre_signed_url,
-            },
-          },
-          description: description?.description || "",
-        };
-        setDescription(newDescription);
-      }
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    }
-  };
-
-  const handleTagFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      try {
-        setFileUploading(true);
-        const fileType = file.type.split('/')[1];
-        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : undefined;
-
-        if (!imageType) {
-          dialogStore.openAlertDialog(
-            "Error",
-            "Only PNG, JPG, and JPEG files are supported.",
-            "OK",
-            false,
-            () => dialogStore.closeAlertDialog()
-          );
-          setFileUploading(false);
-          return;
-        }
-
-        // 既存のファイルがある場合は上書き更新
-        if (description?.file?.key) {
-          try {
-            // 既存のPUT用URLが有効かチェック
-            if (description?.file?.preSignedUrl?.put) {
-              const uploadResponse = await fetch(description?.file?.preSignedUrl?.put, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": file.type,
-                },
-                body: file,
-              });
-              if (uploadResponse.ok) {
-                // アップロード成功後、PUT用のURLをセット
-                const newDescription = {
-                  ...description,
-                  file: {
-                    name: file.name,
-                    key: description?.file?.key || "",
-                    preSignedUrl: {
-                      ...description?.file?.preSignedUrl,
-                      put: description?.file?.preSignedUrl?.put || "",
-                    },
-                  },
-                };
-                setDescription(newDescription);
-                setFileUploading(false);
-                return;
-              }
-            }
-          } catch (error) {
-            console.error(error);
-            console.log("Pre-signed URL expired or failed, getting new one");
-          }
-        }
-
-        // 新しいファイルのアップロード用URLを取得
-        const response = await PostImagesInteractor({
-          type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
-          ...(description?.file?.key && { key: description?.file?.key }),
-          image_type: imageType,
-          method: "put",
-        });
-
-        if (response.pre_signed_url) {
-          // ファイルをアップロード
-          const uploadResponse = await fetch(response.pre_signed_url, {
-            method: "PUT",
-            headers: {
-              "Content-Type": file.type,
-            },
-            body: file,
-          });
-
-          if (uploadResponse.ok) {
-            // アップロード成功後、PUT用のURLをセット
-            const newDescription = {
-              ...description,
-              file: {
-                name: file.name,
-                key: response.key || file.name,
-                preSignedUrl: {
-                  ...description?.file?.preSignedUrl,
-                  put: response.pre_signed_url || "",
-                },
-              },
-              description: description?.description || "",
-            };
-            setDescription(newDescription);
-            setFileUploading(false);
-          }
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        dialogStore.openAlertDialog(
-          "Error",
-          "Failed to upload file. Please try again.",
-          "OK",
-          false,
-          () => dialogStore.closeAlertDialog()
-        );
-        setFileUploading(false);
-      }
-    }
-  };
-
-  const handleRemoveTagFile = async () => {
-    if (!description?.file?.key) {
-      return;
-    }
-    if (fileUploading) {
-      return;
-    }
-    dialogStore.openAlertDialog(
-      "Delete File",
-      "Are you sure you want to delete this file?",
-      "Delete",
-      false,
-      async () => {
-        try {
-          setFileUploading(true);
-          const preSignedUrl = await PostImagesInteractor({
-            type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
-            key: description?.file?.key || "",
-            method: "delete",
-          });
-          await fetch(preSignedUrl.pre_signed_url || "", {
-            method: "DELETE",
-          });
-          const newDescription = {
-            ...description,
-            file: undefined,
-          };
-          setDescription(newDescription);
-          dialogStore.closeAlertDialog();
-          setFileUploading(false);
-        } catch (error) {
-          console.error("Error deleting file:", error);
-          dialogStore.closeAlertDialog();
-          setFileUploading(false);
-        }
-      }
-    );
-  };
-
-  const handleClosePreview = () => {
-    setPreviewUrl(undefined);
   };
 
   const labelOptionId = !isLabel ? "no-label" : sendLabels ? "i-will-send-labels" : !isCustom ? "standard" : "custom";
@@ -355,7 +130,7 @@ const Tag = observer((props: TagProps) => {
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification.productCode} - {currentSpecification.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Select name tag and size tag</h1>
       <div className="flex gap-6 mt-6">
@@ -421,12 +196,12 @@ const Tag = observer((props: TagProps) => {
             <fieldset>
               <legend className="text-sm/6 font-semibold text-gray-900">Choose the label color</legend>
               <RadioGroup
-                value={selectedColor?.title || ""}
+                value={selectedColor?.pantone || ""}
                 onChange={(value) => {
-                  const option = labelColorOptions.find(opt => opt.title === value);
+                  const option = labelColorOptions.find(opt => opt.clourway.pantone === value);
                   if (option) {
                     setSelectedColor({
-                      title: option.title,
+                      pantone: option.clourway.pantone,
                       hex: option.clourway.hex
                     });
                   }
@@ -444,7 +219,7 @@ const Tag = observer((props: TagProps) => {
                     >
                       <div className="relative group">
                         <span
-                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.title === selectedColor?.title ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
+                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.clourway.pantone === selectedColor?.pantone ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
                           style={{
                             backgroundColor: option.clourway.hex,
                             "--tw-ring-color": option.id === "white" ? "#6b7280" : option.clourway.hex
@@ -565,88 +340,14 @@ const Tag = observer((props: TagProps) => {
               </div>
             </>
           }
-          <textarea
-            id="comment"
-            name="comment"
-            rows={3}
-            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-            placeholder="Special requests or comments"
-            value={description?.description}
-            onChange={(e) => setDescription({
-              ...description,
-              description: e.target.value,
-            })}
+          <DescriptionWithFile
+            specificationId={currentSpecification?.specificationId || ""}
+            description={description || { description: "", file: undefined }}
+            onDescriptionChange={setDescription}
+            onSave={() => { }}
           />
-          <div className="mt-2">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center">
-                <input
-                  type="file"
-                  id={`tag-file-upload`}
-                  className="hidden"
-                  onChange={(e) => handleTagFileChange(e)}
-                  disabled={fileUploading}
-                />
-                <label
-                  htmlFor={`tag-file-upload`}
-                  className="inline-flex items-center gap-x-2 justify-center rounded-full text-gray-400 hover:text-gray-500 cursor-pointer"
-                >
-                  <PaperClipIcon aria-hidden="true" className="size-5" />
-                  <span className="sr-only">Attach a file</span>
-                  {!description?.file && <p className="text-sm text-gray-500">Attach a file</p>}
-                </label>
-              </div>
-              {description?.file && (
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <button
-                    type="button"
-                    onClick={() => handleTagFilePreview(description.file?.key || "")}
-                    className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
-                  >
-                    {description.file.name}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTagFile()}
-                    className="text-gray-400 hover:text-gray-500"
-                  >
-                    <TrashIcon className="size-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       </div>
-
-      {/* プレビューモーダル */}
-      {previewUrl && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-              <div className="absolute right-0 top-0 pr-4 pt-4">
-                <button
-                  type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  onClick={handleClosePreview}
-                >
-                  <span className="sr-only">Close</span>
-                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-3 text-center sm:mt-0 sm:text-left">
-                <div className="mt-2">
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className="mx-auto max-h-[70vh] w-auto object-contain"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">

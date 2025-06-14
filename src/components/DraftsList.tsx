@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Specification } from "@/lib/type";
+import { Specification } from "@/lib/type/specification/type";
 import { format, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
 import Loading from "@/components/Loading";
@@ -11,7 +11,7 @@ type DraftsListProps = {
 
 const DraftsList = observer(({ specifications }: DraftsListProps) => {
   const formatDate = (dateString: string) => {
-    const date = parseISO(dateString+"Z");
+    const date = parseISO(dateString + "Z");
     return format(date, "yyyy/MM/dd HH:mm", { locale: ja });
   };
 
@@ -35,33 +35,26 @@ const DraftsList = observer(({ specifications }: DraftsListProps) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 bg-white">
-          {specificationStore.loading ? (
-            <tr>
-              <td colSpan={5} className="relative h-32">
-                <Loading full={true} />
+          {specifications.map((specification) => (
+            <tr key={specification.specificationId}>
+              <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                <div className="text-gray-900">{specification.productCode}</div>
+              </td>
+              <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                <div className="text-gray-900">{specification.productName}</div>
+                <div className="mt-1 text-gray-500">{specification.brandName}</div>
+              </td>
+              <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                {specification.updatedAt ? formatDate(specification.updatedAt) : ""}
+              </td>
+              <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                <a href="#" className="text-blue-600 hover:text-blue-900">
+                  Edit
+                </a>
               </td>
             </tr>
-          ) : (
-            specifications.map((specification) => (
-              <tr key={specification.specificationId}>
-                <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                  <div className="text-gray-900">{specification.productCode}</div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div className="text-gray-900">{specification.productName}</div>
-                  <div className="mt-1 text-gray-500">{specification.brandName}</div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  {specification.updatedAt ? formatDate(specification.updatedAt) : ""}
-                </td>
-                <td className="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                  <a href="#" className="text-blue-600 hover:text-blue-900">
-                    Edit
-                  </a>
-                </td>
-              </tr>
-            ))
-          )}
+          ))
+          }
         </tbody>
       </table>
     </div>

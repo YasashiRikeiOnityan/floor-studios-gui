@@ -2,6 +2,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { useState } from "react";
 import Button from "@/components/Button";
 import Toggle from "@/components/Toggle";
+import { TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 
 type TShirtMainProductionProps = {
   callBackUpdateState: () => void;
@@ -9,9 +10,10 @@ type TShirtMainProductionProps = {
 };
 
 const TShirtMainProduction = (props: TShirtMainProductionProps) => {
-  const [quantity, setQuantity] = useState<{ [key: string]: number }>(specificationStore.currentSpecification.tshirt?.mainProduction?.quantity || {});
-  const [deliveryDateEnabled, setDeliveryDateEnabled] = useState<boolean>(specificationStore.currentSpecification.tshirt?.mainProduction?.deliveryDate ? true : false);
-  const [deliveryDate, setDeliveryDate] = useState<string>(specificationStore.currentSpecification.tshirt?.mainProduction?.deliveryDate || "");
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [quantity, setQuantity] = useState<{ [key: string]: number }>(currentSpecification?.mainProduction?.quantity || {});
+  const [deliveryDateEnabled, setDeliveryDateEnabled] = useState<boolean>(currentSpecification?.mainProduction?.deliveryDate ? true : false);
+  const [deliveryDate, setDeliveryDate] = useState<string>(currentSpecification?.mainProduction?.deliveryDate || "");
 
   const handleQuantityChange = (size: string, value: string) => {
     if (parseInt(value) > 0) {
@@ -22,13 +24,13 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
   }
 
   const handleCancel = () => {
-    setQuantity(specificationStore.currentSpecification.tshirt?.mainProduction?.quantity || {});
-    setDeliveryDate(specificationStore.currentSpecification.tshirt?.mainProduction?.deliveryDate || "");
-    setDeliveryDateEnabled(specificationStore.currentSpecification.tshirt?.mainProduction?.deliveryDate ? true : false);
+    setQuantity(currentSpecification?.mainProduction?.quantity || {});
+    setDeliveryDate(currentSpecification?.mainProduction?.deliveryDate || "");
+    setDeliveryDateEnabled(currentSpecification?.mainProduction?.deliveryDate ? true : false);
   }
 
   const handleSaveAndNext = () => {
-    specificationStore.putSpecification({
+    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "INFORMATION" }),
       main_production: {
         quantity: {
@@ -43,8 +45,8 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
         ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
       },
     });
-    specificationStore.currentSpecification.tshirt = {
-      ...specificationStore.currentSpecification.tshirt,
+    specificationStore.updateSpecification({
+      ...currentSpecification,
       mainProduction: {
         quantity: {
           xxs: quantity.xxs,
@@ -57,14 +59,14 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
         },
         ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
       },
-    };
+    });
     props.callBackUpdateState();
   }
 
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification.productCode} - {currentSpecification.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">How many items would you like to produce?</h1>
       {/* メインコンテンツ */}

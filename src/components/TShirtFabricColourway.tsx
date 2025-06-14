@@ -5,7 +5,7 @@ import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { observer } from "mobx-react-lite";
 import { tenantStore } from "@/stores/tenantStore";
-import { Colourway } from "@/lib/type/specification/type";
+import { Colourway } from "@/lib/type/specification/t-shirt/type";
 
 const hexToRgb = (hex: string): string => {
   hex = hex.replace("#", "");

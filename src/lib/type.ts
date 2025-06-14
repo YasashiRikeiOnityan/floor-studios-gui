@@ -25,6 +25,16 @@ export type Tenant = {
   };
 }
 
+type SizeValue = {
+  xxs: number;
+  xs: number;
+  s: number;
+  m: number;
+  l: number;
+  xl: number;
+  xxl: number;
+}
+
 export type TenantSettingsTShirtFit = {
   fits: {
     fitName: string;
@@ -211,190 +221,6 @@ export type ApiPutUsersUserIdResponse = {
   image_url?: string;
 }
 
-export type ApiPostSpecificationsRequest = {
-  brand_name: string;
-  product_name: string;
-  product_code: string;
-  specification_group_id: string;
-}
-
-export type Specification = {
-  specificationId: string;
-  brandName: string;
-  productName: string;
-  productCode: string;
-  updatedBy?: {
-    userId: string;
-    userName: string;
-  };
-  updatedAt?: string;
-  specificationGroupId?: string;
-  status?: SpecificationStatus;
-  progress?: string;
-  type?: SpecificationType;
-  fit?: TShirtFit;
-  fabric?: TShirtFabric;
-  mainProduction?: TShirtMainProduction;
-  information?: {
-    contact?: {
-      firstName: string;
-      lastName: string;
-      phoneNumber: string;
-      email: string;
-    };
-    billingAddress?: {
-      addressLine1: string;
-      addressLine2: string;
-      zipCode: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-    shippingAddress?: {
-      addressLine1: string;
-      addressLine2: string;
-      zipCode: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-  };
-}
-
-export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
-
-export type SpecificationType = "T-SHIRT" | "SHORTS" | undefined;
-
-export type ApiGetSpecificationsResponse = {
-  specification_id: string;
-  brand_name: string;
-  product_name: string;
-  product_code: string;
-  updated_by: {
-    user_id: string;
-    user_name: string;
-  };
-  updated_at: string;
-  type?: string;
-}
-
-export type ApiPostSpecificationsResponse = {
-  specification_id: string;
-}
-
-export type ApiGetSpecificationsSpecificationIdResponse = {
-  specification_id: string;
-  brand_name: string;
-  product_name: string;
-  product_code: string;
-  updated_by?: {
-    user_id: string;
-    user_name: string;
-  };
-  updated_at?: string;
-  status?: SpecificationStatus;
-  progress?: string;
-  specification_group_id: string;
-  type?: string;
-  fit?: {
-    [key: string]: SizeValue;
-  };
-  fabric?: {
-    materials: {
-      row_material: string;
-      thickness: string;
-      description: string;
-      colourway: Colourway;
-    }[];
-    sub_materials: {
-      row_material: string;
-      description: string;
-      colourway: Colourway;
-    }[];
-  };
-  main_production?: {
-    quantity: {
-      [key: string]: number;
-    };
-    delivery_date: string;
-  };
-  information?: {
-    contact?: {
-      first_name: string;
-      last_name: string;
-      phone_number: string;
-      email: string;
-    };
-    billing_address?: {
-      address_line_1: string;
-      address_line_2: string;
-      zip_code: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-    shipping_address?: {
-      address_line_1: string;
-      address_line_2: string;
-      zip_code: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-  };
-}
-
-export type ApiPutSpecificationsSpecificationIdRequest = {
-  brand_name?: string;
-  product_name?: string;
-  product_code?: string;
-  specification_group_id?: string;
-  type?: string;
-  status?: SpecificationStatus;
-  progress?: string;
-  fit?: {
-    [key: string]: SizeValue;
-  };
-  main_production?: {
-    quantity: {
-      [key: string]: number;
-    };
-    delivery_date: string;
-  };
-  information?: {
-    contact?: {
-      first_name: string;
-      last_name: string;
-      phone_number: string;
-      email: string;
-    };
-    billing_address?: {
-      address_line_1: string;
-      address_line_2: string;
-      zip_code: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-    shipping_address?: {
-      address_line_1: string;
-      address_line_2: string;
-      zip_code: string;
-      state: string;
-      city: string;
-      country: string;
-    };
-  };
-}
-
-export type ApiPutSpecificationsSpecificationIdResponse = {
-  specification_id: string;
-}
-
-export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
-  url: string;
-}
-
 export type SpecificationGroup = {
   specificationGroupId: string;
   specificationGroupName: string;
@@ -404,44 +230,4 @@ export type ApiGetSpecificationGroupsResponse = {
   specification_group_id: string;
   tenant_id: string;
   specification_group_name: string;
-}
-
-export type SizeValue = {
-  xxs: number;
-  xs: number;
-  s: number;
-  m: number;
-  l: number;
-  xl: number;
-  xxl: number;
-}
-
-export type TShirtFit = {
-  totalLength: SizeValue;
-  chestWidth: SizeValue;
-  bottomWidth: SizeValue;
-  sleeveLength: SizeValue;
-  armhole: SizeValue;
-  sleeveOpening: SizeValue;
-  neckRibLength: SizeValue;
-  neckOpening: SizeValue;
-  shoulderToShoulder: SizeValue;
-}
-
-export type TShirtFabric = {
-  materials: Material[];
-  subMaterials: SubMaterial[];
-}
-
-export type TShirtMainProduction = {
-  quantity: {
-    xxs: number;
-    xs: number;
-    s: number;
-    m: number;
-    l: number;
-    xl: number;
-    xxl: number;
-  };
-  deliveryDate: string;
 }

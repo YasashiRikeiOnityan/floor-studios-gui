@@ -185,7 +185,21 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
 
   return (
     <>
-      <div className="flex items-center space-x-3">
+      <div className="mt-6">
+        <textarea
+          id="comment"
+          name="comment"
+          rows={8}
+          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+          placeholder="Special requests or comments"
+          value={props.description.description}
+          onChange={(e) => props.onDescriptionChange({
+            ...props.description,
+            description: e.target.value,
+          })}
+        />
+      </div>
+      <div className="flex items-center space-x-3 mt-2">
         <div className="flex items-center">
           <input
             type="file"

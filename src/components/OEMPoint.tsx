@@ -5,6 +5,7 @@ import Button from "@/components/Button";
 import { observer } from "mobx-react-lite";
 import { dialogStore } from "@/stores/dialogStore";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
+import { TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 
 type OEMPointProps = {
   callBackUpdateState: () => void;
@@ -12,7 +13,8 @@ type OEMPointProps = {
 };
 
 const OEMPoint = observer((props: OEMPointProps) => {
-  const [oemPoints, setOemPoints] = useState(specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }]);
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [oemPoints, setOemPoints] = useState(currentSpecification.oemPoints || [{ description: "", file: undefined }]);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState(false);
 
@@ -75,7 +77,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
         // 新しいファイルのアップロード用URLを取得
         const response = await PostImagesInteractor({
           type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
+          specification_id: currentSpecification.specificationId,
           ...(oemPoints[index].file?.key && { key: oemPoints[index].file?.key }),
           image_type: imageType,
           method: "put",
@@ -122,12 +124,12 @@ const OEMPoint = observer((props: OEMPointProps) => {
 
   const handleOemPointChange = (index: number, value: string) => {
     const newOemPoints = [...oemPoints];
-    newOemPoints[index].oemPoint = value;
+    newOemPoints[index].description = value;
     setOemPoints(newOemPoints);
   };
 
   const handleAddOemPoint = () => {
-    setOemPoints([...oemPoints, { oemPoint: "", file: undefined }]);
+    setOemPoints([...oemPoints, { description: "", file: undefined }]);
   };
 
   const handleRemoveOemPoint = (index: number) => {
@@ -136,19 +138,19 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleCancel = () => {
-    const initialPoints = specificationStore.currentSpecification.oemPoints || [{ oemPoint: "", file: undefined }];
+    const initialPoints = currentSpecification.oemPoints || [{ description: "", file: undefined }];
     setOemPoints(initialPoints.map(point => ({
-      oemPoint: point.oemPoint || "",
+      description: point.description || "",
       file: point.file || undefined
     })));
   };
 
   const handleSaveAndNext = async () => {
-    const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => oemPoint.oemPoint !== "" || oemPoint.file?.key);
-    specificationStore.putSpecification({
+    const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => oemPoint.description !== "" || oemPoint.file?.key);
+    specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
       ...(props.isUpdateProgress && { progress: "SAMPLE" }),
       oem_points: oemPointsWithoutEmpty.map(oemPoint => ({
-        oem_point: oemPoint.oemPoint,
+        description: oemPoint.description,
         ...(oemPoint.file && {
           file: {
             name: oemPoint.file.name,
@@ -157,10 +159,9 @@ const OEMPoint = observer((props: OEMPointProps) => {
         })
       }))
     });
-    specificationStore.currentSpecification = {
-      ...specificationStore.currentSpecification,
+    specificationStore.updateSpecification({
       oemPoints: oemPointsWithoutEmpty.map(oemPoint => ({
-        oemPoint: oemPoint.oemPoint,
+        description: oemPoint.description,
         ...(oemPoint.file && {
           file: {
             name: oemPoint.file.name,
@@ -168,7 +169,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
           }
         })
       })),
-    };
+    });
     props.callBackUpdateState();
   };
 
@@ -186,7 +187,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
       // 新しいpre-signed URLを取得
       const response = await PostImagesInteractor({
         type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
+        specification_id: currentSpecification.specificationId,
         key: key,
         method: "get",
       });
@@ -228,7 +229,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
+            specification_id: currentSpecification.specificationId,
             key: oemPoints[index].file?.key || "",
             method: "delete",
           });
@@ -239,9 +240,9 @@ const OEMPoint = observer((props: OEMPointProps) => {
           newOemPoints[index].file = undefined;
           setOemPoints(newOemPoints);
           // 仕様書の更新 - ファイル削除時はファイル情報を含めない
-          specificationStore.putSpecification({
+          specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
             oem_points: newOemPoints.map(oemPoint => ({
-              oem_point: oemPoint.oemPoint,
+              description: oemPoint.description,
               ...(oemPoint.file && {
                 file: {
                   name: oemPoint.file.name,
@@ -249,16 +250,18 @@ const OEMPoint = observer((props: OEMPointProps) => {
                 }
               })
             }))
-          }, true);
-          specificationStore.currentSpecification.oemPoints = newOemPoints.map(oemPoint => ({
-            oemPoint: oemPoint.oemPoint,
-            ...(oemPoint.file && {
-              file: {
-                name: oemPoint.file.name,
-                key: oemPoint.file.key,
-              }
-            })
-          }));
+          });
+          specificationStore.updateSpecification({
+            oemPoints: newOemPoints.map(oemPoint => ({
+              description: oemPoint.description,
+              ...(oemPoint.file && {
+                file: {
+                  name: oemPoint.file.name,
+                  key: oemPoint.file.key,
+                }
+              })
+            }))
+          });
           dialogStore.closeAlertDialog();
           setFileUploading(false);
         } catch (error) {
@@ -277,7 +280,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification.productCode} - {currentSpecification.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">OEM Point</h1>
       {/* メインコンテンツ */}
@@ -294,7 +297,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                 rows={3}
                 placeholder="Enter the OEM Point..."
                 className="block w-full resize-none text-base text-gray-900 placeholder:text-gray-400 focus:outline-0 sm:text-sm/6"
-                value={oemPoint.oemPoint}
+                value={oemPoint.description}
                 onChange={(e) => handleOemPointChange(index, e.target.value)}
               />
             </div>
@@ -382,7 +385,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                     src={previewUrl}
                     alt="Preview"
                     className="mx-auto max-h-[70vh] w-auto object-contain"
-                    // onError={handleClosePreview}
+                  // onError={handleClosePreview}
                   />
                 </div>
               </div>

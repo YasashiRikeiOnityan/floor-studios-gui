@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
-import { SpecificationStatus } from "@/lib/type";
+import { SpecificationStatus } from "@/lib/type/specification/type";
 import AlertDialog from "@/components/AlertDialod";
 import Notification from "@/components/Notification";
 import { observer } from "mobx-react-lite";

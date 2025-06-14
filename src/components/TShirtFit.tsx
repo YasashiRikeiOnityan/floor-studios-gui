@@ -233,21 +233,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
               </div>
             ))}
           </div>
-          <div className="mt-6">
-            <textarea
-              id="comment"
-              name="comment"
-              rows={8}
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-              placeholder="Special requests or comments"
-              value={description.description}
-              onChange={(e) => setDescription({
-                ...description,
-                description: e.target.value,
-              })}
-            />
-          </div>
-          <div className="mt-2">
             <DescriptionWithFile
               specificationId={currentSpecification?.specificationId || ""}
               description={description}
@@ -296,7 +281,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
                 }
               }}
             />
-          </div>
         </div>
         {/* サイズ表（7/10） */}
         <div className="w-6/10">

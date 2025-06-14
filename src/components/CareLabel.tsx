@@ -1,7 +1,7 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { dialogStore } from "@/stores/dialogStore";
 import { useState } from "react";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { observer } from "mobx-react-lite";
