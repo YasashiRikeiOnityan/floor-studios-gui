@@ -1,6 +1,7 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { useState } from "react";
 import Button from "@/components/Button";
+import { TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 
 type TShirtsSampleProps = {
   callBackUpdateState: () => void;
@@ -8,9 +9,10 @@ type TShirtsSampleProps = {
 };
 
 const TShirtsSample = (props: TShirtsSampleProps) => {
-  const [sample, setSample] = useState<boolean>(specificationStore.currentSpecification.tshirt?.sample?.sample || false);
-  const [quantity, setQuantity] = useState<{ [key: string]: number }>(specificationStore.currentSpecification.tshirt?.sample?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [canSendSample, setCanSendSample] = useState<boolean>(specificationStore.currentSpecification.tshirt?.sample?.canSendSample || false);
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [sample, setSample] = useState<boolean>(currentSpecification?.sample?.sample || false);
+  const [quantity, setQuantity] = useState<{ [key: string]: number }>(currentSpecification?.sample?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [canSendSample, setCanSendSample] = useState<boolean>(currentSpecification?.sample?.canSendSample || false);
 
   const handleQuantityChange = (size: string, value: string) => {
     if (parseInt(value) > 0) {
@@ -42,9 +44,8 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
         can_send_sample: canSendSample,
       }
     }
-    specificationStore.putSpecification(body);
-    specificationStore.currentSpecification.tshirt = {
-      ...specificationStore.currentSpecification.tshirt,
+    specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, body);
+    specificationStore.updateSpecification({
       sample: sample ? {
         sample: sample,
         quantity: {
@@ -60,20 +61,20 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
         sample: sample,
         canSendSample: canSendSample,
       },
-    };
+    });
     props.callBackUpdateState();
   }
 
   const handleCancel = () => {
-    setSample(specificationStore.currentSpecification.tshirt?.sample?.sample || false);
-    setQuantity(specificationStore.currentSpecification.tshirt?.sample?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setCanSendSample(specificationStore.currentSpecification.tshirt?.sample?.canSendSample || false);
+    setSample(currentSpecification.sample?.sample || false);
+    setQuantity(currentSpecification.sample?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setCanSendSample(currentSpecification.sample?.canSendSample || false);
   }
 
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification.productCode} - {currentSpecification.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Do you want a sample first?</h1>
       {/* メインコンテンツ */}
