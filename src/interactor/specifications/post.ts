@@ -9,8 +9,8 @@ export const PostSpecificationsInteractor = async (specification: ApiPostSpecifi
   try {
     const response = await ApiPostSpecifications(specification);
     return response;
-  } catch (error) {
-    notificationStore.addNotification("Error", "Failed to post specifications", "error");
+  } catch {
+    notificationStore.addNotification("Error", "Failed to create specification", "error");
     return undefined;
   }
-}
+};

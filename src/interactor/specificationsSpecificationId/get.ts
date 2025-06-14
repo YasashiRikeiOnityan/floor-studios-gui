@@ -15,7 +15,7 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
   try {
     const response = await ApiGetSpecificationsSpecificationId(specificationId);
     return formatSpecification(response);
-  } catch (error) {
+  } catch {
     notificationStore.addNotification("Error", "Failed to get specification", "error");
     return undefined;
   }

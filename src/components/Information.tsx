@@ -41,26 +41,31 @@ const Information = observer((props: InformationProps) => {
     const fetchTenant = async () => {
       if (mounted) {
         await tenantStore.fetchTenant();
-        setContactFirstName(currentSpecification?.information?.contact?.firstName || tenantStore.tenant.contact.firstName || "");
-        setContactLastName(currentSpecification?.information?.contact?.lastName || tenantStore.tenant.contact.lastName || "");
-        setContactPhoneNumber(currentSpecification?.information?.contact?.phoneNumber || tenantStore.tenant.contact.phoneNumber || "");
-        setContactEmail(currentSpecification?.information?.contact?.email || tenantStore.tenant.contact.email || "");
-        setBillingAddressLine1(currentSpecification?.information?.billingAddress?.addressLine1 || tenantStore.tenant.billingAddress.addressLine1 || "");
-        setBillingAddressLine2(currentSpecification?.information?.billingAddress?.addressLine2 || tenantStore.tenant.billingAddress.addressLine2 || "");
-        setBillingZipCode(currentSpecification?.information?.billingAddress?.zipCode || tenantStore.tenant.billingAddress.zipCode || "");
-        setBillingState(currentSpecification?.information?.billingAddress?.state || tenantStore.tenant.billingAddress.state || "");
-        setBillingCity(currentSpecification?.information?.billingAddress?.city || tenantStore.tenant.billingAddress.city || "");
-        setBillingCountry(currentSpecification?.information?.billingAddress?.country || tenantStore.tenant.billingAddress.country || "");
-        setShippingAddressLine1(currentSpecification?.information?.shippingAddress?.addressLine1 || tenantStore.tenant.shippingAddress.addressLine1 || "");
-        setShippingAddressLine2(currentSpecification?.information?.shippingAddress?.addressLine2 || tenantStore.tenant.shippingAddress.addressLine2 || "");
-        setShippingZipCode(currentSpecification?.information?.shippingAddress?.zipCode || tenantStore.tenant.shippingAddress.zipCode || "");
-        setShippingState(currentSpecification?.information?.shippingAddress?.state || tenantStore.tenant.shippingAddress.state || "");
-        setShippingCity(currentSpecification?.information?.shippingAddress?.city || tenantStore.tenant.shippingAddress.city || "");
-        setShippingCountry(currentSpecification?.information?.shippingAddress?.country || tenantStore.tenant.shippingAddress.country || "");
       }
     };
     fetchTenant();
   }, [mounted]);
+
+  useEffect(() => {
+    if (mounted) {
+      setContactFirstName(currentSpecification?.information?.contact?.firstName || tenantStore.tenant.contact.firstName || "");
+      setContactLastName(currentSpecification?.information?.contact?.lastName || tenantStore.tenant.contact.lastName || "");
+      setContactPhoneNumber(currentSpecification?.information?.contact?.phoneNumber || tenantStore.tenant.contact.phoneNumber || "");
+      setContactEmail(currentSpecification?.information?.contact?.email || tenantStore.tenant.contact.email || "");
+      setBillingAddressLine1(currentSpecification?.information?.billingAddress?.addressLine1 || tenantStore.tenant.billingAddress.addressLine1 || "");
+      setBillingAddressLine2(currentSpecification?.information?.billingAddress?.addressLine2 || tenantStore.tenant.billingAddress.addressLine2 || "");
+      setBillingZipCode(currentSpecification?.information?.billingAddress?.zipCode || tenantStore.tenant.billingAddress.zipCode || "");
+      setBillingState(currentSpecification?.information?.billingAddress?.state || tenantStore.tenant.billingAddress.state || "");
+      setBillingCity(currentSpecification?.information?.billingAddress?.city || tenantStore.tenant.billingAddress.city || "");
+      setBillingCountry(currentSpecification?.information?.billingAddress?.country || tenantStore.tenant.billingAddress.country || "");
+      setShippingAddressLine1(currentSpecification?.information?.shippingAddress?.addressLine1 || tenantStore.tenant.shippingAddress.addressLine1 || "");
+      setShippingAddressLine2(currentSpecification?.information?.shippingAddress?.addressLine2 || tenantStore.tenant.shippingAddress.addressLine2 || "");
+      setShippingZipCode(currentSpecification?.information?.shippingAddress?.zipCode || tenantStore.tenant.shippingAddress.zipCode || "");
+      setShippingState(currentSpecification?.information?.shippingAddress?.state || tenantStore.tenant.shippingAddress.state || "");
+      setShippingCity(currentSpecification?.information?.shippingAddress?.city || tenantStore.tenant.shippingAddress.city || "");
+      setShippingCountry(currentSpecification?.information?.shippingAddress?.country || tenantStore.tenant.shippingAddress.country || "");
+    }
+  }, [mounted, currentSpecification, tenantStore.tenant]);
 
   const handleSaveAndNext = () => {
     specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {

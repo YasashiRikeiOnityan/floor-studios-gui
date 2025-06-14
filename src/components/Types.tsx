@@ -1,4 +1,4 @@
-import { SpecificationType } from "@/lib/type";
+import { SpecificationType } from "@/lib/type/specification/type";
 
 type TypesProps = {
   currentType: SpecificationType;

@@ -2,8 +2,6 @@ import { observer } from "mobx-react-lite";
 import { Specification } from "@/lib/type/specification/type";
 import { format, parseISO } from "date-fns";
 import { ja } from "date-fns/locale";
-import Loading from "@/components/Loading";
-import { specificationStore } from "@/stores/specificationStore";
 
 type DraftsListProps = {
   specifications: Specification[];

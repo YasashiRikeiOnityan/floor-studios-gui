@@ -10,7 +10,7 @@ export const GetSpecificationsInteractor = async (specificationGroupId: string, 
   try {
     const response = await ApiGetSpecifications(specificationGroupId, status);
     return mapSpecifications(response);
-  } catch (error) {
+  } catch {
     notificationStore.addNotification("Error", "Failed to get specifications", "error");
     return undefined;
   }

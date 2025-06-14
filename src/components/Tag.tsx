@@ -2,9 +2,6 @@ import { Description, TShirtSpecification } from "@/lib/type/specification/t-shi
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
-import { dialogStore } from "@/stores/dialogStore";
 import Button from "@/components/Button";
 import { Radio } from "@headlessui/react";
 import { RadioGroup } from "@headlessui/react";
