@@ -32,21 +32,27 @@ const EditDesignContent = observer(() => {
   }, []);
 
   useEffect(() => {
-    const fetchSpecification = async () => {
-      if (mounted && specificationId) {
-        await specificationStore.getSpecificationsSpecificationId(specificationId);
-        const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
-        if (currentStepIndex <= 0) {
-          setActualStep(1);
-          setCurrentStep(1);
-        } else {
-          setActualStep(currentStepIndex);
-          setCurrentStep(currentStepIndex);
+    if (specificationId) {
+      const fetchSpecification = async () => {
+        try {
+          await specificationStore.getSpecificationsSpecificationId(specificationId);
+          if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+            const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
+            if (currentStepIndex <= 0) {
+              setActualStep(1);
+              setCurrentStep(1);
+            } else {
+              setCurrentStep(currentStepIndex + 1);
+              setActualStep(currentStepIndex + 1);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch specification:", error);
         }
-      }
-    };
-    fetchSpecification();
-  }, [specificationId, mounted]);
+      };
+      fetchSpecification();
+    }
+  }, [specificationId]);
 
   const callBackUpdateState = (step: number) => {
     if (step < actualStep) {
@@ -58,9 +64,6 @@ const EditDesignContent = observer(() => {
   }
 
   const renderContent = () => {
-    if (specificationStore.loading) {
-      return <Loading />;
-    }
     if (specificationStore.currentSpecification?.type === "T-SHIRT") {
       switch (currentStep) {
         case 1:
@@ -104,8 +107,8 @@ const EditDesignContent = observer(() => {
           </div>
         </div>
       </div>
-      <AlertDialog />
       <Notification />
+      <AlertDialog />
       <SuccessDialog />
     </>
   );

@@ -1,17 +1,62 @@
 import { 
   SpecificationStatus,
   SpecificationType,
-  SizeValue,
-  Description
+  BaseSpecification,
 } from "@/lib/type/specification/type";
 
-export type TShirtSpecification = {
+export type TShirtSpecification = BaseSpecification & {
+  type: SpecificationType;
   fit?: TShirtFit;
   fabric?: TShirtFabric;
   tag?: TShirtTag;
+  careLabel?: TShirtCareLabel;
+  oemPoints?: TShirtOemPoints;
   sample?: TShirtSample;
   mainProduction?: TShirtMainProduction;
+  information?: TShirtInformation;
 };
+
+
+export type SizeValue = {
+  xxs: number;
+  xs: number;
+  s: number;
+  m: number;
+  l: number;
+  xl: number;
+  xxl: number;
+};
+
+export type Material = {
+  rowMaterial: string;
+  thickness: string;
+  description: Description;
+  colourway: Colourway;
+}
+
+export type SubMaterial = {
+  rowMaterial: string;
+  description: Description;
+  colourway: Colourway;
+}
+
+export type Colourway = {
+  pantone: string;
+  hex: string;
+}
+
+export type Description = {
+  description: string;
+  file?: {
+    name: string;
+    key: string;
+    preSignedUrl?: {
+      get?: string;
+      put?: string;
+      delete?: string;
+    };
+  };
+}
 
 export type TShirtFit = {
   totalLength: SizeValue;
@@ -27,35 +72,8 @@ export type TShirtFit = {
 };
 
 export type TShirtFabric = {
-  materials: {
-    rowMaterial: string;
-    thickness: string;
-    colourway: {
-      pantone: string;
-      hex: string;
-    };
-    description: {
-      description: string;
-      file?: {
-        name: string;
-        key: string;
-      };
-    };
-  }[];
-  subMaterials: {
-    rowMaterial: string;
-    colourway: {
-      pantone: string;
-      hex: string;
-    };
-    description: {
-      description: string;
-      file?: {
-        name: string;
-        key: string;
-      };
-    };
-  }[];
+  materials: Material[];
+  subMaterials: SubMaterial[];
 };
 
 export type TShirtTag = {
@@ -63,41 +81,64 @@ export type TShirtTag = {
   sendLabels: boolean;
   isCustom: boolean;
   material?: string;
-  color?: {
-    title: string;
-    hex: string;
-  },
+  color?: Colourway,
   labelStyle?: string;
   description?: Description;
   labelWidth?: number;
   labelHeight?: number;
 }
 
+export type TShirtCareLabel = {
+  hasLogo: boolean;
+  defaultLogo: boolean;
+  file?: {
+    name: string;
+    key: string;
+    preSignedUrl?: {
+      get?: string;
+      put?: string;
+      delete?: string;
+    };
+  };
+  description: Description;
+};
+
+export type TShirtOemPoints = Description[];
+
 export type TShirtSample = {
   sample: boolean;
-  quantity?: {
-    xxs: number;
-    xs: number;
-    s: number;
-    m: number;
-    l: number;
-    xl: number;
-    xxl: number;
-  };
+  quantity?: SizeValue;
   canSendSample?: boolean;
 };
 
 export type TShirtMainProduction = {
-  quantity: {
-    xxs: number;
-    xs: number;
-    s: number;
-    m: number;
-    l: number;
-    xl: number;
-    xxl: number;
-  };
+  quantity: SizeValue;
   deliveryDate?: string;
+};
+
+export type TShirtInformation = {
+  contact?: {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+  };
+  billingAddress?: {
+    addressLine1: string;
+    addressLine2: string;
+    zipCode: string;
+    state: string;
+    city: string;
+    country: string;
+  };
+  shippingAddress?: {
+    addressLine1: string;
+    addressLine2: string;
+    zipCode: string;
+    state: string;
+    city: string;
+    country: string;
+  };
 };
 
 export type ApiGetTShirtSpecificationResponse = {
@@ -184,7 +225,7 @@ export type ApiGetTShirtSpecificationResponse = {
     is_custom: boolean;
     material?: string;
     color?: {
-      title: string;
+      pantone: string;
       hex: string;
     };
     label_style?: string;
@@ -212,7 +253,7 @@ export type ApiGetTShirtSpecificationResponse = {
     can_send_sample: boolean;
   };
   oem_points?: {
-    oem_point: string;
+    description: string;
     file?: {
       name: string;
       key: string;
@@ -335,7 +376,7 @@ export type ApiPutTShirtSpecificationRequest = {
     is_custom: boolean;
     material?: string;
     color?: {
-      title: string;
+      pantone: string;
       hex: string;
     };
     label_style?: string;
@@ -363,7 +404,7 @@ export type ApiPutTShirtSpecificationRequest = {
     can_send_sample?: boolean;
   };
   oem_points?: {
-    oem_point: string;
+    description: string;
     file?: {
       name: string;
       key: string;
@@ -425,4 +466,3 @@ export const TShirtEditSteps = [
   {order: 9, name: "Information", progress: "INFORMATION"},
   {order: 10, name: "", progress: "COMPLETE"}
 ]
-

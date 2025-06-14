@@ -366,7 +366,11 @@ const Home = observer(() => {
                         onChange={(e) => setVerificationCode(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
-                            isForgotPassword ? handleConfirmForgotPassword() : handleVerify();
+                            if (isForgotPassword) {
+                              handleConfirmForgotPassword();
+                            } else {
+                              handleVerify();
+                            }
                           }
                         }}
                       />

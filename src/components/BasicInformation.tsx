@@ -10,6 +10,7 @@ interface BasicInformationProps {
 }
 
 const BasicInformation = observer((props: BasicInformationProps) => {
+  const [mounted, setMounted] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [localBrandName, setLocalBrandName] = useState("");
   const [localProductName, setLocalProductName] = useState("");
@@ -20,13 +21,20 @@ const BasicInformation = observer((props: BasicInformationProps) => {
   const [localValidateProductCodeError, setLocalValidateProductCodeError] = useState("");
 
   useEffect(() => {
-    if (specificationStore.currentSpecification) {
-      setLocalBrandName(specificationStore.currentSpecification.brandName || "");
-      setLocalProductName(specificationStore.currentSpecification.productName || "");
-      setLocalProductCode(specificationStore.currentSpecification.productCode || "");
-      setLocalSpecificationGroupId(specificationStore.currentSpecification.specificationGroupId || "");
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
     }
-  }, [specificationStore.currentSpecification]);
+    if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+      setLocalBrandName(specificationStore.currentSpecification?.brandName || "");
+      setLocalProductName(specificationStore.currentSpecification?.productName || "");
+      setLocalProductCode(specificationStore.currentSpecification?.productCode || "");
+      setLocalSpecificationGroupId(specificationStore.currentSpecification?.specificationGroupId || "");
+    }
+  }, [mounted]);
 
   const handleValidate = () => {
     let isValid = true;

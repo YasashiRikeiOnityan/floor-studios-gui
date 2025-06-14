@@ -1,69 +1,60 @@
-import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
-import { action, makeAutoObservable, runInAction } from "mobx";
-import { ApiPutSpecificationsSpecificationIdRequest, SpecificationStatus } from "@/lib/type";
-import { Specification } from "@/lib/type/specification/type";
-import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
-import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
+import { makeAutoObservable, runInAction } from "mobx";
+import { SpecificationStatus } from "@/lib/type";
+import { Specification, ApiPostSpecificationsRequest, Specifications, SpecificationType } from "@/lib/type/specification/type";
+import { GetSpecificationsInteractor } from "@/interactor/specifications/get";
+import { PostSpecificationsInteractor } from "@/interactor/specifications/post";
+import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/get";
+import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/put";
+import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/delete";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
-import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/GetSpecificationsSpecificationIdInteractor";
-import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/PutSpecificationsSpecificationIdInteractor";
-import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
+import { ApiPutTShirtSpecificationRequest, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 
 class SpecificationStore {
+
   constructor() {
-    makeAutoObservable(this, {
-      setCurrentSpecification: action,
-      postSpecifications: action,
-      deleteSpecificationsSpecificationsId: action,
-      clear: action,
-      getSpecifications: action,
-    });
+    makeAutoObservable(this);
   }
 
   currentSpecification: Specification | undefined = undefined;
-  specifications: Specification[] = [];
-  loading: boolean = false;
-
-  setCurrentSpecification(specification: Specification) {
-    this.currentSpecification = specification;
-  }
+  specifications: Specifications = [];
 
   async getSpecifications(specificationGroupId: string, status: SpecificationStatus) {
     const response = await GetSpecificationsInteractor(specificationGroupId, status);
-    response.sort((a, b) => {
-      return new Date(b.updatedAt || "").getTime() - new Date(a.updatedAt || "").getTime();
-    });
+    if (!response) {
+      return;
+    }
     runInAction(() => {
       this.specifications = response;
     });
   }
 
-  async postSpecifications(brandName: string, productName: string, productCode: string, specificationGroupId: string) {
-    this.loading = true;
-    // リクエストを送信
-    const response = await PostSpecificationsInteractor(brandName, productName, productCode, specificationGroupId);
-    // ストアにセットする
-    this.setCurrentSpecification({
-      specificationId: response.specificationId,
-      brandName: brandName,
-      productName: productName,
-      productCode: productCode,
-      specificationGroupId: specificationGroupId,
+  async postSpecifications(specification: ApiPostSpecificationsRequest) {
+    const response = await PostSpecificationsInteractor(specification);
+    if (!response) {
+      return;
+    }
+    runInAction(() => {
+      this.currentSpecification = {
+        specificationId: response.specification_id,
+        brandName: specification.brand_name,
+        productName: specification.product_name,
+        productCode: specification.product_code,
+        specificationGroupId: specification.specification_group_id,
+        type: specification.type,
+        status: specification.status,
+        progress: specification.progress,
+      };
     });
-    this.loading = false;
-    return response.specificationId;
+    return response.specification_id;
   }
 
   async getSpecificationsSpecificationId(specificationId: string) {
-    this.loading = true;
     const response = await GetSpecificationsSpecificationIdInteractor(specificationId);
     if (!response) {
-      this.loading = false;
       return;
     }
     runInAction(() => {
       this.currentSpecification = response;
-      this.loading = false;
     });
   }
 
@@ -76,7 +67,9 @@ class SpecificationStore {
 
   async deleteSpecificationsSpecificationsId(specificationId: string) {
     await DeleteSpecificationsSpecificationIdInteractor(specificationId);
-    this.specifications = this.specifications.filter(spec => spec.specificationId !== specificationId);
+    this.specifications = this.specifications.filter(spec => {
+      return spec.specificationId !== specificationId;
+    });
   }
 
   async getSpecificationsSpecificationIdDownload(specificationId: string) {
@@ -85,16 +78,15 @@ class SpecificationStore {
   }
 
   updateSpecification(specification: Partial<Specification>) {
-    if (this.currentSpecification) {
-      this.currentSpecification = {
-        ...this.currentSpecification,
-        ...specification,
-      };
-    }
+    this.currentSpecification = {
+      ...this.currentSpecification,
+      ...specification,
+    } as Specification;
   }
 
   clear() {
     this.currentSpecification = undefined;
+    this.specifications = [];
   }
 }
 

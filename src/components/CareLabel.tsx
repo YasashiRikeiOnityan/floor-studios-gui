@@ -4,69 +4,85 @@ import { useState } from "react";
 import Button from "./Button";
 import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
+import { observer } from "mobx-react-lite";
+import { ReactElement } from "react";
+import { TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 
 type CareLabelProps = {
   isUpdateProgress: boolean;
   callBackUpdateState: () => void;
 };
 
-const CareLabel = (props: CareLabelProps) => {
-  const [hasLogo, setHasLogo] = useState(specificationStore.currentSpecification.careLabel?.hasLogo || false);
-  const [defaultLogo, setDefaultLogo] = useState(specificationStore.currentSpecification.careLabel?.defaultLogo || false);
-  const [file, setFile] = useState(specificationStore.currentSpecification.careLabel?.file || undefined);
-  const [description, setDescription] = useState(specificationStore.currentSpecification.careLabel?.description || {
+const CareLabel = observer((props: CareLabelProps): ReactElement => {
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [hasLogo, setHasLogo] = useState(currentSpecification?.careLabel?.hasLogo || false);
+  const [defaultLogo, setDefaultLogo] = useState(currentSpecification?.careLabel?.defaultLogo || false);
+  const [file, setFile] = useState(currentSpecification?.careLabel?.file || undefined);
+  const [description, setDescription] = useState(currentSpecification?.careLabel?.description || {
     description: "",
     file: undefined,
   });
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState(false);
 
+  const handleCancel = () => {
+    setHasLogo(currentSpecification?.careLabel?.hasLogo || false);
+    setDefaultLogo(currentSpecification?.careLabel?.defaultLogo || false);
+    setFile(currentSpecification?.careLabel?.file || undefined);
+    setDescription({
+      description: currentSpecification?.careLabel?.description?.description || "",
+      file: currentSpecification?.careLabel?.description?.file || undefined,
+    });
+  };
+
   const handleSaveAndNext = () => {
-    specificationStore.putSpecification({
+    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
       care_label: {
         has_logo: hasLogo,
         default_logo: defaultLogo,
-        ...(file && { file: {
-          name: file.name,
-          key: file.key,
-        } }),
+        ...(file && {
+          file: {
+            name: file.name,
+            key: file.key,
+          }
+        }),
         description: {
           description: description.description,
-          ...(description.file && { file: {
-            name: description.file.name,
-            key: description.file.key,
-          } })
+          ...(description.file && {
+            file: {
+              name: description.file.name,
+              key: description.file.key,
+            }
+          })
         }
       }
     });
-    specificationStore.currentSpecification.careLabel = {
-      hasLogo: hasLogo,
-      defaultLogo: defaultLogo,
-      ...(file && { file: {
-        name: file.name,
-        key: file.key,
-      } }),
-      description: {
-        description: description.description,
-        ...(file && { file: {
-          name: file.name,
-          key: file.key,
-        } })
-      }
+    if (currentSpecification) {
+      specificationStore.updateSpecification({
+        careLabel: {
+          hasLogo: hasLogo,
+          defaultLogo: defaultLogo,
+          ...(file && {
+            file: {
+              name: file.name,
+              key: file.key,
+            }
+          }),
+          description: {
+            description: description.description,
+            ...(file && {
+              file: {
+                name: file.name,
+                key: file.key,
+              }
+            })
+          }
+        }
+      });
+      props.callBackUpdateState();
     }
-    props.callBackUpdateState();
-  }
-
-  const handleCancel = () => {
-    setHasLogo(specificationStore.currentSpecification.careLabel?.hasLogo || false);
-    setDefaultLogo(specificationStore.currentSpecification.careLabel?.defaultLogo || false);
-    setFile(specificationStore.currentSpecification.careLabel?.file || undefined);
-    setDescription({
-      description: specificationStore.currentSpecification.careLabel?.description?.description || "",
-      file: specificationStore.currentSpecification.careLabel?.description?.file || undefined,
-    });
-  }
+  };
 
   const handleCareLabelDescriptionFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadFile = event.target.files?.[0];
@@ -115,15 +131,17 @@ const CareLabel = (props: CareLabelProps) => {
                 };
                 setDescription(newDescription);
                 // 仕様書の更新 - ファイル更新時
-                specificationStore.putSpecification({
+                specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
                   ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
                   care_label: {
                     has_logo: hasLogo,
                     default_logo: defaultLogo,
-                    ...(description.file && { file: {
-                      name: description.file.name,
-                      key: description.file.key,
-                    } }),
+                    ...(description.file && {
+                      file: {
+                        name: description.file.name,
+                        key: description.file.key,
+                      }
+                    }),
                     description: {
                       description: description.description,
                       file: {
@@ -132,22 +150,28 @@ const CareLabel = (props: CareLabelProps) => {
                       }
                     }
                   }
-                }, true);
-                specificationStore.currentSpecification.careLabel = {
-                  hasLogo: hasLogo,
-                  defaultLogo: defaultLogo,
-                  ...(file && { file: {
-                    name: file.name,
-                    key: file.key,
-                  } }),
-                  description: {
-                    description: description.description,
-                    file: {
-                      name: uploadFile.name,
-                      key: description.file.key
+                });
+                if (currentSpecification) {
+                  specificationStore.updateSpecification({
+                    careLabel: {
+                      hasLogo: hasLogo,
+                      defaultLogo: defaultLogo,
+                      ...(file && {
+                        file: {
+                          name: file.name,
+                          key: file.key,
+                        }
+                      }),
+                      description: {
+                        description: description.description,
+                        file: {
+                          name: uploadFile.name,
+                          key: description.file.key
+                        }
+                      }
                     }
-                  }
-                };
+                  });
+                }
                 setFileUploading(false);
                 return;
               }
@@ -161,7 +185,7 @@ const CareLabel = (props: CareLabelProps) => {
         // 新しいファイルのアップロード用URLを取得
         const response = await PostImagesInteractor({
           type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
+          specification_id: currentSpecification?.specificationId || "",
           key: description.file?.key || "",
           image_type: imageType,
           method: "put",
@@ -192,15 +216,17 @@ const CareLabel = (props: CareLabelProps) => {
             };
             setDescription(newDescription);
             // 仕様書の更新 - 新規ファイルアップロード時
-            specificationStore.putSpecification({
+            specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
               ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
               care_label: {
                 has_logo: hasLogo,
                 default_logo: defaultLogo,
-                ...(file && { file: {
-                  name: file.name,
-                  key: file.key,
-                } }),
+                ...(file && {
+                  file: {
+                    name: file.name,
+                    key: file.key,
+                  }
+                }),
                 description: {
                   description: description.description,
                   file: {
@@ -209,22 +235,28 @@ const CareLabel = (props: CareLabelProps) => {
                   }
                 }
               }
-            }, true);
-            specificationStore.currentSpecification.careLabel = {
-              hasLogo: hasLogo,
-              defaultLogo: defaultLogo,
-              ...(file && { file: {
-                name: file.name,
-                key: file.key,
-              } }),
-              description: {
-                description: description.description,
-                file: {
-                  name: uploadFile.name,
-                  key: response.key,
+            });
+            if (currentSpecification) {
+              specificationStore.updateSpecification({
+                careLabel: {
+                  hasLogo: hasLogo,
+                  defaultLogo: defaultLogo,
+                  ...(file && {
+                    file: {
+                      name: file.name,
+                      key: file.key,
+                    }
+                  }),
+                  description: {
+                    description: description.description,
+                    file: {
+                      name: uploadFile.name,
+                      key: response.key,
+                    }
+                  }
                 }
-              }
-            };
+              });
+            }
             setFileUploading(false);
           }
         }
@@ -256,7 +288,7 @@ const CareLabel = (props: CareLabelProps) => {
       // 新しいpre-signed URLを取得
       const response = await PostImagesInteractor({
         type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
+        specification_id: currentSpecification?.specificationId || "",
         key: key,
         method: "get",
       });
@@ -298,7 +330,7 @@ const CareLabel = (props: CareLabelProps) => {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
+            specification_id: currentSpecification?.specificationId || "",
             key: description.file?.key,
             method: "delete",
           });
@@ -311,31 +343,39 @@ const CareLabel = (props: CareLabelProps) => {
           };
           setDescription(newDescription);
           // 仕様書の更新 - ファイル削除時はファイル情報を含めない
-          specificationStore.putSpecification({
+          specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
             ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
             care_label: {
               has_logo: hasLogo,
               default_logo: defaultLogo,
-              ...(file && { file: {
-                name: file.name,
-                key: file.key,
-              } }),
+              ...(file && {
+                file: {
+                  name: file.name,
+                  key: file.key,
+                }
+              }),
               description: {
                 description: description.description
               }
             }
-          }, true);
-          specificationStore.currentSpecification.careLabel = {
-            hasLogo: hasLogo,
-            defaultLogo: defaultLogo,
-            ...(file && { file: {
-              name: file.name,
-              key: file.key,
-            } }),
-            description: {
-              description: description.description
-            }
-          };
+          });
+          if (specificationStore.currentSpecification) {
+            specificationStore.updateSpecification({
+              careLabel: {
+                hasLogo: hasLogo,
+                defaultLogo: defaultLogo,
+                ...(file && {
+                  file: {
+                    name: file.name,
+                    key: file.key,
+                  }
+                }),
+                description: {
+                  description: description.description
+                }
+              }
+            });
+          }
           dialogStore.closeAlertDialog();
           setFileUploading(false);
         } catch (error) {
@@ -379,7 +419,7 @@ const CareLabel = (props: CareLabelProps) => {
                 };
                 setFile(newFile);
                 // 仕様書の更新 - ファイル更新時
-                specificationStore.putSpecification({
+                specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
                   ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
                   care_label: {
                     has_logo: hasLogo,
@@ -390,28 +430,36 @@ const CareLabel = (props: CareLabelProps) => {
                     },
                     description: {
                       description: description.description,
-                      ...(description.file && { file: {
-                        name: description.file.name,
-                        key: description.file.key,
-                      }})
+                      ...(description.file && {
+                        file: {
+                          name: description.file.name,
+                          key: description.file.key,
+                        }
+                      })
                     }
                   }
-                }, true);
-                specificationStore.currentSpecification.careLabel = {
-                  hasLogo: hasLogo,
-                  defaultLogo: defaultLogo,
-                  file: {
-                    name: uploadFile.name,
-                    key: file.key,
-                  },
-                  description: {
-                    description: description.description,
-                    ...(description.file && { file: {
-                      name: description.file.name,
-                      key: description.file.key,
-                    }})
-                  }
-                };
+                });
+                if (currentSpecification) {
+                  specificationStore.updateSpecification({
+                    careLabel: {
+                      hasLogo: hasLogo,
+                      defaultLogo: defaultLogo,
+                      file: {
+                        name: uploadFile.name,
+                        key: file.key,
+                      },
+                      description: {
+                        description: description.description,
+                        ...(description.file && {
+                          file: {
+                            name: description.file.name,
+                            key: description.file.key,
+                          }
+                        })
+                      }
+                    }
+                  });
+                }
                 setFileUploading(false);
                 return;
               }
@@ -425,7 +473,7 @@ const CareLabel = (props: CareLabelProps) => {
         // 新しいファイルのアップロード用URLを取得
         const response = await PostImagesInteractor({
           type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
+          specification_id: currentSpecification?.specificationId || "",
           image_type: imageType,
           method: "put",
         });
@@ -452,7 +500,7 @@ const CareLabel = (props: CareLabelProps) => {
             };
             setFile(newFile);
             // 仕様書の更新 - 新規ファイルアップロード時
-            specificationStore.putSpecification({
+            specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
               ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
               care_label: {
                 has_logo: hasLogo,
@@ -463,28 +511,36 @@ const CareLabel = (props: CareLabelProps) => {
                 },
                 description: {
                   description: description.description,
-                  ...(description.file && { file: {
-                    name: description.file.name,
-                    key: description.file.key,
-                  }})
+                  ...(description.file && {
+                    file: {
+                      name: description.file.name,
+                      key: description.file.key,
+                    }
+                  })
                 }
               }
-            }, true);
-            specificationStore.currentSpecification.careLabel = {
-              hasLogo: hasLogo,
-              defaultLogo: defaultLogo,
-              file: {
-                name: uploadFile.name,
-                key: response.key,
-              },
-              description: {
-                description: description.description,
-                ...(description.file && { file: {
-                  name: description.file.name,
-                  key: description.file.key,
-                }})
-              }
-            };
+            });
+            if (currentSpecification) {
+              specificationStore.updateSpecification({
+                careLabel: {
+                  hasLogo: hasLogo,
+                  defaultLogo: defaultLogo,
+                  file: {
+                    name: uploadFile.name,
+                    key: response.key,
+                  },
+                  description: {
+                    description: description.description,
+                    ...(description.file && {
+                      file: {
+                        name: description.file.name,
+                        key: description.file.key,
+                      }
+                    })
+                  }
+                }
+              });
+            }
             setFileUploading(false);
           }
         }
@@ -516,7 +572,7 @@ const CareLabel = (props: CareLabelProps) => {
       // 新しいpre-signed URLを取得
       const response = await PostImagesInteractor({
         type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
+        specification_id: currentSpecification?.specificationId || "",
         key: key,
         method: "get",
       });
@@ -556,7 +612,7 @@ const CareLabel = (props: CareLabelProps) => {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
+            specification_id: currentSpecification?.specificationId || "",
             key: file?.key || "",
             method: "delete",
           });
@@ -565,30 +621,38 @@ const CareLabel = (props: CareLabelProps) => {
           });
           setFile(undefined);
           // 仕様書の更新 - ファイル削除時はファイル情報を含めない
-          specificationStore.putSpecification({
+          specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
             care_label: {
               has_logo: hasLogo,
               default_logo: defaultLogo,
               description: {
                 description: description.description,
-                ...(description.file && { file: {
-                  name: description.file.name,
-                  key: description.file.key,
-                }})
+                ...(description.file && {
+                  file: {
+                    name: description.file.name,
+                    key: description.file.key,
+                  }
+                })
               }
             }
-          }, true);
-          specificationStore.currentSpecification.careLabel = {
-            hasLogo: hasLogo,
-            defaultLogo: defaultLogo,
-            description: {
-              description: description.description,
-              ...(description.file && { file: {
-                name: description.file.name,
-                key: description.file.key,
-              }})
-            }
-          };
+          });
+          if (currentSpecification) {
+            specificationStore.updateSpecification({
+              careLabel: {
+                hasLogo: hasLogo,
+                defaultLogo: defaultLogo,
+                description: {
+                  description: description.description,
+                  ...(description.file && {
+                    file: {
+                      name: description.file.name,
+                      key: description.file.key,
+                    }
+                  })
+                }
+              }
+            });
+          }
           dialogStore.closeAlertDialog();
           setFileUploading(false);
         } catch (error) {
@@ -607,7 +671,7 @@ const CareLabel = (props: CareLabelProps) => {
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification?.productCode} - {currentSpecification?.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Select your care label option</h1>
       <div className="mt-6 items-center md:grid md:grid-cols-3 md:gap-4">
@@ -808,6 +872,6 @@ const CareLabel = (props: CareLabelProps) => {
       </div>
     </>
   );
-};
+});
 
 export default CareLabel;

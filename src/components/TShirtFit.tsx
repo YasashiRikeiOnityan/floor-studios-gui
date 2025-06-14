@@ -1,15 +1,13 @@
 import Button from "@/components/Button";
-import { SizeValue } from "@/lib/type";
 import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
-import { Description } from "@/lib/type/specification/type";
-import { dialogStore } from "@/stores/dialogStore";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { SizeValue, Description, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
+import { DescriptionWithFile } from "@/components/DescriptionWithFile";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
@@ -17,30 +15,20 @@ type TShirtFitProps = {
 };
 
 const TShirtFit = observer((props: TShirtFitProps) => {
-
-  const [totalLength, setTotalLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [chestWidth, setChestWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [bottomWidth, setBottomWidth] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [sleeveLength, setSleeveLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [armhole, setArmhole] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [sleeveOpening, setSleeveOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [neckRibLength, setNeckRibLength] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [neckOpening, setNeckOpening] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-  const [description, setDescription] = useState<Description>(specificationStore.currentSpecification.tshirt?.fit?.description || {
-    description: "",
-    file: {
-      name: "",
-      key: "",
-      preSignedUrl: {
-        get: "",
-        put: "",
-        delete: "",
-      },
-    },
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [totalLength, setTotalLength] = useState<SizeValue>(currentSpecification?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [chestWidth, setChestWidth] = useState<SizeValue>(currentSpecification?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [bottomWidth, setBottomWidth] = useState<SizeValue>(currentSpecification?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [sleeveLength, setSleeveLength] = useState<SizeValue>(currentSpecification?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [armhole, setArmhole] = useState<SizeValue>(currentSpecification?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [sleeveOpening, setSleeveOpening] = useState<SizeValue>(currentSpecification?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [neckRibLength, setNeckRibLength] = useState<SizeValue>(currentSpecification?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [neckOpening, setNeckOpening] = useState<SizeValue>(currentSpecification?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [shoulderToShoulder, setShoulderToShoulder] = useState<SizeValue>(currentSpecification?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+  const [description, setDescription] = useState<Description>({
+    description: currentSpecification?.fit?.description?.description || "",
+    file: currentSpecification?.fit?.description?.file,
   });
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
-  const [fileUploading, setFileUploading] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -51,16 +39,16 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     const fetchSettingsFit = async () => {
       await tenantStore.fetchTenantSettingsTShirtFit();
       if (mounted) {
-        if (specificationStore.currentSpecification.tshirt?.fit) {
-          setTotalLength(specificationStore.currentSpecification.tshirt.fit.totalLength);
-          setChestWidth(specificationStore.currentSpecification.tshirt.fit.chestWidth);
-          setBottomWidth(specificationStore.currentSpecification.tshirt.fit.bottomWidth);
-          setSleeveLength(specificationStore.currentSpecification.tshirt.fit.sleeveLength);
-          setArmhole(specificationStore.currentSpecification.tshirt.fit.armhole);
-          setSleeveOpening(specificationStore.currentSpecification.tshirt.fit.sleeveOpening);
-          setNeckRibLength(specificationStore.currentSpecification.tshirt.fit.neckRibLength);
-          setNeckOpening(specificationStore.currentSpecification.tshirt.fit.neckOpening);
-          setShoulderToShoulder(specificationStore.currentSpecification.tshirt.fit.shoulderToShoulder);
+        if (currentSpecification?.fit) {
+          setTotalLength(currentSpecification.fit.totalLength);
+          setChestWidth(currentSpecification.fit.chestWidth);
+          setBottomWidth(currentSpecification.fit.bottomWidth);
+          setSleeveLength(currentSpecification.fit.sleeveLength);
+          setArmhole(currentSpecification.fit.armhole);
+          setSleeveOpening(currentSpecification.fit.sleeveOpening);
+          setNeckRibLength(currentSpecification.fit.neckRibLength);
+          setNeckOpening(currentSpecification.fit.neckOpening);
+          setShoulderToShoulder(currentSpecification.fit.shoulderToShoulder);
         } else {
           setTotalLength(tenantStore.tenantSettingsTShirtFit.fits[0].totalLength);
           setChestWidth(tenantStore.tenantSettingsTShirtFit.fits[0].chestWidth);
@@ -141,26 +129,23 @@ const TShirtFit = observer((props: TShirtFitProps) => {
   };
 
   const handleCancel = () => {
-    setTotalLength(specificationStore.currentSpecification.tshirt?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setChestWidth(specificationStore.currentSpecification.tshirt?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setBottomWidth(specificationStore.currentSpecification.tshirt?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setSleeveLength(specificationStore.currentSpecification.tshirt?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setArmhole(specificationStore.currentSpecification.tshirt?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setSleeveOpening(specificationStore.currentSpecification.tshirt?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setNeckRibLength(specificationStore.currentSpecification.tshirt?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setNeckOpening(specificationStore.currentSpecification.tshirt?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setShoulderToShoulder(specificationStore.currentSpecification.tshirt?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
-    setDescription(specificationStore.currentSpecification.tshirt?.fit?.description || {
-      description: "",
-      file: {
-        name: "",
-        key: "",
-      },
+    setTotalLength(currentSpecification?.fit?.totalLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setChestWidth(currentSpecification?.fit?.chestWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setBottomWidth(currentSpecification?.fit?.bottomWidth || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setSleeveLength(currentSpecification?.fit?.sleeveLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setArmhole(currentSpecification?.fit?.armhole || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setSleeveOpening(currentSpecification?.fit?.sleeveOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setNeckRibLength(currentSpecification?.fit?.neckRibLength || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setNeckOpening(currentSpecification?.fit?.neckOpening || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setShoulderToShoulder(currentSpecification?.fit?.shoulderToShoulder || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
+    setDescription({
+      description: currentSpecification?.fit?.description?.description || "",
+      file: currentSpecification?.fit?.description?.file,
     });
-  }
+  };
 
   const handleSaveAndNext = () => {
-    specificationStore.putSpecification({
+    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "FIT" }),
       fit: {
         total_length: totalLength,
@@ -183,29 +168,25 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         },
       }
     });
-    specificationStore.currentSpecification.tshirt = {
-      ...specificationStore.currentSpecification.tshirt,
-      fit: {
-        totalLength: totalLength,
-        chestWidth: chestWidth,
-        bottomWidth: bottomWidth,
-        sleeveLength: sleeveLength,
-        armhole: armhole,
-        sleeveOpening: sleeveOpening,
-        neckRibLength: neckRibLength,
-        neckOpening: neckOpening,
-        shoulderToShoulder: shoulderToShoulder,
-        description: {
-          description: description.description,
-          ...(description.file && {
-            file: {
-              name: description.file.name,
-              key: description.file.key,
-            },
-          }),
-        },
-      },
-    };
+    if (specificationStore.currentSpecification) {
+      specificationStore.updateSpecification({
+        fit: {
+          totalLength,
+          chestWidth,
+          bottomWidth,
+          sleeveLength,
+          armhole,
+          sleeveOpening,
+          neckRibLength,
+          neckOpening,
+          shoulderToShoulder,
+          description: {
+            description: description.description,
+            file: description.file,
+          }
+        }
+      });
+    }
     props.callBackUpdateState();
   };
 
@@ -225,200 +206,10 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     }
   };
 
-  const handleFitFilePreview = async (key: string) => {
-    if (!key) {
-      return;
-    }
-    try {
-      // 既存のpre-signed URLが有効かチェック
-      if (description.file?.preSignedUrl?.get) {
-        setPreviewUrl(description.file?.preSignedUrl?.get || "");
-        return;
-      }
-
-      // 新しいpre-signed URLを取得
-      const response = await PostImagesInteractor({
-        type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
-        key: key,
-        method: "get",
-      });
-
-      if (response.pre_signed_url) {
-        setPreviewUrl(response.pre_signed_url);
-        const newDescription = {
-          ...description,
-          file: {
-            name: description.file?.name || "",
-            key: description.file?.key || "",
-            preSignedUrl: {
-              get: response.pre_signed_url,
-              put: response.pre_signed_url,
-              delete: response.pre_signed_url,
-            },
-          },
-        };
-        setDescription(newDescription);
-      }
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    }
-  };
-
-  const handleFitFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      try {
-        setFileUploading(true);
-        const fileType = file.type.split('/')[1];
-        const imageType = fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' ? fileType : undefined;
-
-        if (!imageType) {
-          dialogStore.openAlertDialog(
-            "Error",
-            "Only PNG, JPG, and JPEG files are supported.",
-            "OK",
-            false,
-            () => dialogStore.closeAlertDialog()
-          );
-          setFileUploading(false);
-          return;
-        }
-
-        // 既存のファイルがある場合は上書き更新
-        if (description.file?.key) {
-          try {
-            // 既存のPUT用URLが有効かチェック
-            if (description.file?.preSignedUrl?.put) {
-              const uploadResponse = await fetch(description.file.preSignedUrl.put, {
-                method: "PUT",
-                headers: {
-                  "Content-Type": file.type,
-                },
-                body: file,
-              });
-              if (uploadResponse.ok) {
-                // アップロード成功後、PUT用のURLをセット
-                const newDescription = {
-                  ...description,
-                  file: {
-                    name: file.name,
-                    key: description.file.key,
-                    preSignedUrl: {
-                      ...description.file.preSignedUrl,
-                      put: description.file.preSignedUrl.put || "",
-                    },
-                  },
-                };
-                setDescription(newDescription);
-                setFileUploading(false);
-                return;
-              }
-            }
-          } catch (error) {
-            console.error(error);
-            console.log("Pre-signed URL expired or failed, getting new one");
-          }
-        }
-
-        // 新しいファイルのアップロード用URLを取得
-        const response = await PostImagesInteractor({
-          type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
-          ...(description.file?.key && { key: description.file?.key }),
-          image_type: imageType,
-          method: "put",
-        });
-
-        if (response.pre_signed_url) {
-          // ファイルをアップロード
-          const uploadResponse = await fetch(response.pre_signed_url, {
-            method: "PUT",
-            headers: {
-              "Content-Type": file.type,
-            },
-            body: file,
-          });
-
-          if (uploadResponse.ok) {
-            // アップロード成功後、PUT用のURLをセット
-            const newDescription = {
-              ...description,
-              file: {
-                name: file.name,
-                key: response.key || file.name,
-                preSignedUrl: {
-                  ...description.file?.preSignedUrl,
-                  put: response.pre_signed_url || "",
-                },
-              },
-            };
-            setDescription(newDescription);
-            setFileUploading(false);
-          }
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-        dialogStore.openAlertDialog(
-          "Error",
-          "Failed to upload file. Please try again.",
-          "OK",
-          false,
-          () => dialogStore.closeAlertDialog()
-        );
-        setFileUploading(false);
-      }
-    }
-  };
-
-  const handleRemoveFitFile = async () => {
-    if (!description.file?.key) {
-      return;
-    }
-    if (fileUploading) {
-      return;
-    }
-    dialogStore.openAlertDialog(
-      "Delete File",
-      "Are you sure you want to delete this file?",
-      "Delete",
-      false,
-      async () => {
-        try {
-          setFileUploading(true);
-          const preSignedUrl = await PostImagesInteractor({
-            type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
-            key: description.file?.key || "",
-            method: "delete",
-          });
-          await fetch(preSignedUrl.pre_signed_url || "", {
-            method: "DELETE",
-          });
-          const newDescription = {
-            ...description,
-            file: undefined,
-          };
-          setDescription(newDescription);
-          dialogStore.closeAlertDialog();
-          setFileUploading(false);
-        } catch (error) {
-          console.error("Error deleting file:", error);
-          dialogStore.closeAlertDialog();
-          setFileUploading(false);
-        }
-      }
-    );
-  };
-
-  const handleClosePreview = () => {
-    setPreviewUrl(undefined);
-  };
-
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {specificationStore.currentSpecification?.productCode} - {specificationStore.currentSpecification?.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Fill in the size chart</h1>
       {/* メインコンテンツ */}
@@ -426,7 +217,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
         {/* Fit List */}
         <div className="w-2/10">
           <div className="mt-6 space-y-6">
-            {[{ fitName: "Custom fit", ...specificationStore.currentSpecification.tshirt?.fit }, ...tenantStore.tenantSettingsTShirtFit.fits].map((fit, index) => (
+            {[{ fitName: "Custom fit", ...currentSpecification?.fit }, ...tenantStore.tenantSettingsTShirtFit.fits].map((fit, index) => (
               <div key={fit.fitName + index} className="flex items-center">
                 <input
                   defaultChecked={index === 0}
@@ -457,43 +248,54 @@ const TShirtFit = observer((props: TShirtFitProps) => {
             />
           </div>
           <div className="mt-2">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center">
-                <input
-                  type="file"
-                  id={`fit-file-upload`}
-                  className="hidden"
-                  onChange={(e) => handleFitFileChange(e)}
-                  disabled={fileUploading}
-                />
-                <label
-                  htmlFor={`fit-file-upload`}
-                  className="inline-flex items-center gap-x-2 justify-center rounded-full text-gray-400 hover:text-gray-500 cursor-pointer"
-                >
-                  <PaperClipIcon aria-hidden="true" className="size-5" />
-                  <span className="sr-only">Attach a file</span>
-                  {!description.file?.name && <p className="text-sm text-gray-500">Attach a file</p>}
-                </label>
-              </div>
-              {description.file?.name && (
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <button
-                    type="button"
-                    onClick={() => handleFitFilePreview(description.file?.key || "")}
-                    className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
-                  >
-                    {description.file.name}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveFitFile()}
-                    className="text-gray-400 hover:text-gray-500"
-                  >
-                    <TrashIcon className="size-4" />
-                  </button>
-                </div>
-              )}
-            </div>
+            <DescriptionWithFile
+              specificationId={currentSpecification?.specificationId || ""}
+              description={description}
+              onDescriptionChange={setDescription}
+              onSave={() => {
+                specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+                  fit: {
+                    total_length: totalLength,
+                    chest_width: chestWidth,
+                    bottom_width: bottomWidth,
+                    sleeve_length: sleeveLength,
+                    armhole: armhole,
+                    sleeve_opening: sleeveOpening,
+                    neck_rib_length: neckRibLength,
+                    neck_opening: neckOpening,
+                    shoulder_to_shoulder: shoulderToShoulder,
+                    description: {
+                      description: description.description,
+                      ...(description.file && {
+                        file: {
+                          name: description.file.name,
+                          key: description.file.key,
+                        },
+                      }),
+                    },
+                  }
+                });
+                if (specificationStore.currentSpecification) {
+                  specificationStore.updateSpecification({
+                    fit: {
+                      totalLength,
+                      chestWidth,
+                      bottomWidth,
+                      sleeveLength,
+                      armhole,
+                      sleeveOpening,
+                      neckRibLength,
+                      neckOpening,
+                      shoulderToShoulder,
+                      description: {
+                        description: description.description,
+                        file: description.file,
+                      }
+                    }
+                  });
+                }
+              }}
+            />
           </div>
         </div>
         {/* サイズ表（7/10） */}
@@ -1022,35 +824,6 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           <img src="/tee_measures.png" alt="T-Shirt Measurements" className="w-full" />
         </div>
       </div>
-
-      {/* プレビューモーダル */}
-      {previewUrl && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-              <div className="absolute right-0 top-0 pr-4 pt-4">
-                <button
-                  type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
-                  onClick={handleClosePreview}
-                >
-                  <span className="sr-only">Close</span>
-                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-3 text-center sm:mt-0 sm:text-left">
-                <div className="mt-2">
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className="mx-auto max-h-[70vh] w-auto object-contain"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ボタン */}
       <div className="mt-6 flex flex-row justify-between">

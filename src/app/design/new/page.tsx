@@ -27,7 +27,15 @@ const NewDesign = observer(() => {
     if (!handleValidate()) {
       return;
     } else {
-      const id = await specificationStore.postSpecifications(brandName, productName, productCode, specificationGroupId);
+      const id = await specificationStore.postSpecifications({
+        brand_name: brandName,
+        product_name: productName,
+        product_code: productCode,
+        specification_group_id: specificationGroupId,
+        type: currentType,
+        status: "DRAFT",
+        progress: "DRAFT",
+      });
       router.push(`/design/edit?id=${id}`);
     }
   };
@@ -170,7 +178,7 @@ const NewDesign = observer(() => {
                 text={"Cancel"}
                 style={"text"}
                 fullWidth={false}
-                disabled={specificationStore.loading}
+                disabled={false}
               />
               <Button
                 type="button"
@@ -178,7 +186,7 @@ const NewDesign = observer(() => {
                 text={"Create and Next"}
                 style={"fill"}
                 fullWidth={false}
-                disabled={specificationStore.loading}
+                disabled={false}
               />
             </div>
           </main>

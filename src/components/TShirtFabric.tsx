@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { tenantStore } from "@/stores/tenantStore";
 import TShirtFabricMaterials from "@/components/TShirtFabricMaterials";
 import TShirtFabricSubMaterials from "@/components/TShirtFabricSubMaterials";
-import { Colourway, Material, SubMaterial } from "@/lib/type/specification/type";
+import { Colourway, Material, SubMaterial, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 import { PlusIcon, TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import TShirtFabricColourway from "./TShirtFabricColourway";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
@@ -20,9 +20,9 @@ type TShirtFabricProps = {
 };
 
 const TShirtFabric = observer((props: TShirtFabricProps) => {
-
-  const [materials, setMaterials] = useState<Material[]>(specificationStore.currentSpecification.tshirt?.fabric?.materials || []);
-  const [subMaterials, setSubMaterials] = useState<SubMaterial[]>(specificationStore.currentSpecification.tshirt?.fabric?.subMaterials || []);
+  const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  const [materials, setMaterials] = useState<Material[]>(currentSpecification?.fabric?.materials || []);
+  const [subMaterials, setSubMaterials] = useState<SubMaterial[]>(currentSpecification?.fabric?.subMaterials || []);
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
@@ -137,7 +137,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       // 新しいpre-signed URLを取得
       const response = await PostImagesInteractor({
         type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
+        specification_id: specificationStore.currentSpecification?.specificationId || "",
         key: key,
         method: "get",
       });
@@ -221,7 +221,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         // 新しいファイルのアップロード用URLを取得
         const response = await PostImagesInteractor({
           type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
+          specification_id: specificationStore.currentSpecification?.specificationId || "",
           ...(materials[index].description.file?.key && { key: materials[index].description.file?.key }),
           image_type: imageType,
           method: "put",
@@ -283,7 +283,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
+            specification_id: specificationStore.currentSpecification?.specificationId || "",
             key: materials[index].description.file?.key || "",
             method: "delete",
           });
@@ -330,7 +330,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       // 新しいpre-signed URLを取得
       const response = await PostImagesInteractor({
         type: "specification",
-        specification_id: specificationStore.currentSpecification.specificationId,
+        specification_id: specificationStore.currentSpecification?.specificationId || "",
         key: key,
         method: "get",
       });
@@ -414,7 +414,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         // 新しいファイルのアップロード用URLを取得
         const response = await PostImagesInteractor({
           type: "specification",
-          specification_id: specificationStore.currentSpecification.specificationId,
+          specification_id: specificationStore.currentSpecification?.specificationId || "",
           ...(subMaterials[index].description.file?.key && { key: subMaterials[index].description.file?.key }),
           image_type: imageType,
           method: "put",
@@ -476,7 +476,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
           setFileUploading(true);
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
-            specification_id: specificationStore.currentSpecification.specificationId,
+            specification_id: specificationStore.currentSpecification?.specificationId || "",
             key: subMaterials[index].description.file?.key || "",
             method: "delete",
           });
@@ -502,7 +502,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       rowMaterial: "",
       thickness: "",
       description: {
-      description: "",
+        description: "",
         file: undefined,
       },
       colourway: {
@@ -516,7 +516,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     setSubMaterials([...subMaterials, {
       rowMaterial: "",
       description: {
-      description: "",
+        description: "",
         file: undefined,
       },
       colourway: {
@@ -537,12 +537,12 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   };
 
   const handleCancel = () => {
-    setMaterials(specificationStore.currentSpecification.tshirt?.fabric?.materials || []);
-    setSubMaterials(specificationStore.currentSpecification.tshirt?.fabric?.subMaterials || []);
+    setMaterials(currentSpecification?.fabric?.materials || []);
+    setSubMaterials(currentSpecification?.fabric?.subMaterials || []);
   };
 
   const handleSaveAndNext = async () => {
-    specificationStore.putSpecification({
+    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
         materials: await Promise.all(materials.map(async (m) => ({
@@ -576,28 +576,29 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         }))),
       },
     });
-    specificationStore.currentSpecification.tshirt = {
-      ...specificationStore.currentSpecification.tshirt,
-      fabric: {
-        materials: materials.map((m) => ({
-          rowMaterial: m.rowMaterial,
-          thickness: m.thickness,
-          description: {
-            description: m.description.description,
-            file: m.description.file,
-          },
-          colourway: m.colourway,
-        })),
-        subMaterials: subMaterials.map((m) => ({
-          rowMaterial: m.rowMaterial,
-          description: {
-            description: m.description.description,
-            file: m.description.file,
-          },
-          colourway: m.colourway,
-        })),
-      },
-    };
+    if (currentSpecification) {
+      specificationStore.updateSpecification({
+        fabric: {
+          materials: materials.map((m) => ({
+            rowMaterial: m.rowMaterial,
+            thickness: m.thickness,
+            description: {
+              description: m.description.description,
+              file: m.description.file,
+            },
+            colourway: m.colourway,
+          })),
+          subMaterials: subMaterials.map((m) => ({
+            rowMaterial: m.rowMaterial,
+            description: {
+              description: m.description.description,
+              file: m.description.file,
+            },
+            colourway: m.colourway,
+          })),
+        },
+      })
+    }
     props.callBackUpdateState();
   };
 
@@ -608,7 +609,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   return (
     <>
       <p className="text-sm text-gray-500">
-        {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
+        {currentSpecification?.productCode} - {currentSpecification?.productName}
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Choose your fabric</h1>
       <dl className="divide-y divide-gray-100">
@@ -620,7 +621,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                 <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Material</p>
-                    <TShirtFabricMaterials currentMaterial={{rowMaterial: material.rowMaterial, thickness: material.thickness}} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
+                    <TShirtFabricMaterials currentMaterial={{ rowMaterial: material.rowMaterial, thickness: material.thickness }} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>
@@ -705,7 +706,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                 <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Sub Material</p>
-                    <TShirtFabricSubMaterials currentSubMaterial={{rowMaterial: subMaterial.rowMaterial}} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
+                    <TShirtFabricSubMaterials currentSubMaterial={{ rowMaterial: subMaterial.rowMaterial }} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>

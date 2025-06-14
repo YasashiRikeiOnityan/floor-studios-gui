@@ -1,8 +1,22 @@
 import axios from 'axios';
 import { authStore } from '@/stores/authStore';
-import { ApiGetSpecificationGroupsResponse, ApiGetSpecificationsResponse, ApiGetSpecificationsSpecificationIdDownloadResponse, ApiGetTenantResponse, ApiGetTenantSettingsTShirtFabricResponse, ApiGetTenantSettingsTShirtFitResponse, ApiGetUsersUserIdResponse, ApiPostSpecificationsRequest, ApiPutTenantRequest, ApiPutTenantResponse, ApiPutUsersUserIdRequest, SpecificationStatus } from '@/lib/type';
+import {
+  ApiGetSpecificationGroupsResponse,
+  ApiGetSpecificationsSpecificationIdDownloadResponse,
+  ApiGetTenantResponse,
+  ApiGetTenantSettingsTShirtFabricResponse,
+  ApiGetTenantSettingsTShirtFitResponse,
+  ApiGetUsersUserIdResponse,
+  ApiPostSpecificationsResponse,
+  ApiPutTenantRequest,
+  ApiPutTenantResponse,
+  ApiPutUsersUserIdRequest,
+  SpecificationStatus,
+} from '@/lib/type';
 import {
   ApiGetSpecificationsSpecificationIdResponse,
+  ApiGetSpecificationsResponse,
+  ApiPostSpecificationsRequest,
   ApiPutSpecificationsSpecificationIdRequest,
   ApiPutSpecificationsSpecificationIdResponse,
 } from '@/lib/type/specification/type';
@@ -21,7 +35,7 @@ import {
 import { notificationStore } from '@/stores/notificationStore';
 
 const httpClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "",
 });
 
 // リクエストインターセプター
@@ -43,11 +57,9 @@ httpClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    // 401エラーで、まだリトライしていない場合
+    // 401エラーでまだリトライしていない場合
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
         // リフレッシュトークンを使用して新しいIDトークンを取得
         const refreshTokenValue = new CognitoRefreshToken({
@@ -66,7 +78,6 @@ httpClient.interceptors.response.use(
         window.location.href = '/';
       }
     }
-
     return Promise.reject(error);
   }
 );
@@ -160,7 +171,7 @@ export const ApiDeleteUsersUserId = async (userId: string) => {
   }
 };
 
-export const ApiGetSpecifications = async (specificationGroupId: string, status: SpecificationStatus): Promise<ApiGetSpecificationsResponse[]> => {
+export const ApiGetSpecifications = async (specificationGroupId: string, status: SpecificationStatus): Promise<ApiGetSpecificationsResponse> => {
   try {
     const queryParams = {
       specification_group_id: specificationGroupId,
@@ -174,7 +185,7 @@ export const ApiGetSpecifications = async (specificationGroupId: string, status:
   }
 };
 
-export const ApiPostSpecifications = async (specifications: ApiPostSpecificationsRequest) => {
+export const ApiPostSpecifications = async (specifications: ApiPostSpecificationsRequest): Promise<ApiPostSpecificationsResponse> => {
   try {
     const response = await httpClient.post('/specifications', specifications);
     return response.data;
