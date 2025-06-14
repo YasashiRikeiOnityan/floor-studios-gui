@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+全体的なリファクタリングを行います。ここにリファクタリングの方針を明記します。
+
+[1]
+---
+
+src/lib/type/specification/type.ts
+
+```ts
+export type Specification = {
+    type: "T-SHIRT",
+    specification: TShirtSpecification
+} | {
+    type: "SOMETING",
+    specification: SomethingSpecification
+}
+export type SpecificationStatus = "DRAFT" | "COMPLETE" | undefined;
+export type SpecificationType = "T-SHIRT" | undefined;
+```
+
+はこのような型のみの定義にしたい。現状は `T-SHIRT` のみなので `SOMETHING` の部分はスルーしてください。
+
+[2]
+---
+
+src/lib/type/specification/t-shirt/type.ts
+
+現状は `information` などは共通の項目としていましたが、それぞれの `type.ts` で定義するようにします。
+冗長かもしれませんが、そちらの方がわかりやすいのでそうします。
+
+[3]
+---
+
+src/lib/api.ts
+
+```ts
+export const ApiPutSpecificationsSpecificationId = async (specificationId: string, specification: ApiPutSpecificationsSpecificationIdRequest): Promise<ApiPutSpecificationsSpecificationIdResponse> => {
+  try {
+    const response = await httpClient.put(`/specifications/${specificationId}`, specification, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to update specification:', error);
+    throw error;
+  }
+};
+```
+
+現状はこのようにリクエストしていますが、パスパラメータで `?type=T-SHIRT` のように仕様書のtypeを指定するようにします。
+
+[4]
+---
+
+src/interactor
+
+現状一つにまとめていますが、以下のように分割します。
+
+src/interactor/user/
+src/interactor/specification/
+src/interactor/tenant/
+src/interactor/image/
+src/interactor/specificationGroup/
+
+specificationに関しては、
+soecification/t-shirt/
+のようにさらに細分化します。
+
+[5]
+---
+
+インタラクタと同様にapi.tsもそのようにします。
+
+apiフォルダを新しく作り、
+api/users/
+api/users/userId/
+api/specifications/
+api/specifications/specificationId
+...
+というよに分割します。
+

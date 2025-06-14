@@ -1,12 +1,13 @@
 import { PostSpecificationsInteractor } from "@/interactor/PostSpecificationsInteractor";
-import { action, makeAutoObservable } from "mobx";
-import { SpecificationStatus } from "@/lib/type";
-import { Specification, ApiPutSpecificationsSpecificationIdRequest } from "@/lib/type/specification/type";
+import { action, makeAutoObservable, runInAction } from "mobx";
+import { ApiPutSpecificationsSpecificationIdRequest, SpecificationStatus } from "@/lib/type";
+import { Specification } from "@/lib/type/specification/type";
 import { GetSpecificationsInteractor } from "@/interactor/GetSpecificationsInteractor";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/DeleteSpecificationsSpecificationIdInteractor";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
 import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/GetSpecificationsSpecificationIdInteractor";
 import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/PutSpecificationsSpecificationIdInteractor";
+import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
 
 class SpecificationStore {
   constructor() {
@@ -19,16 +20,7 @@ class SpecificationStore {
     });
   }
 
-  currentSpecification: Specification = {
-    specificationId: "",
-    brandName: "",
-    productName: "",
-    productCode: "",
-    specificationGroupId: "",
-    status: undefined,
-    type: undefined,
-    tshirt: undefined,
-  }
+  currentSpecification: Specification | undefined = undefined;
   specifications: Specification[] = [];
   loading: boolean = false;
 
@@ -37,13 +29,13 @@ class SpecificationStore {
   }
 
   async getSpecifications(specificationGroupId: string, status: SpecificationStatus) {
-    this.loading = true;
     const response = await GetSpecificationsInteractor(specificationGroupId, status);
     response.sort((a, b) => {
       return new Date(b.updatedAt || "").getTime() - new Date(a.updatedAt || "").getTime();
     });
-    this.specifications = response;
-    this.loading = false;
+    runInAction(() => {
+      this.specifications = response;
+    });
   }
 
   async postSpecifications(brandName: string, productName: string, productCode: string, specificationGroupId: string) {
@@ -65,17 +57,20 @@ class SpecificationStore {
   async getSpecificationsSpecificationId(specificationId: string) {
     this.loading = true;
     const response = await GetSpecificationsSpecificationIdInteractor(specificationId);
-    this.setCurrentSpecification(response);
-    this.loading = false;
+    if (!response) {
+      this.loading = false;
+      return;
+    }
+    runInAction(() => {
+      this.currentSpecification = response;
+      this.loading = false;
+    });
   }
 
-  async putSpecification(specification: ApiPutSpecificationsSpecificationIdRequest, noLoading: boolean = false) {
-    if (!noLoading) {
-      this.loading = true;
-    }
-    await PutSpecificationsSpecificationIdInteractor(this.currentSpecification.specificationId, specification);
-    if (!noLoading) {
-      this.loading = false;
+  async putSpecificationsSpecificationId(specificationId: string, data: ApiPutTShirtSpecificationRequest) {
+    const response = await PutSpecificationsSpecificationIdInteractor(specificationId, data);
+    if (!response) {
+      return;
     }
   }
 
@@ -90,30 +85,17 @@ class SpecificationStore {
   }
 
   updateSpecification(specification: Partial<Specification>) {
-    this.currentSpecification = {
-      ...this.currentSpecification,
-      ...specification,
-    };
+    if (this.currentSpecification) {
+      this.currentSpecification = {
+        ...this.currentSpecification,
+        ...specification,
+      };
+    }
   }
 
   clear() {
-    this.currentSpecification = {
-      specificationId: "",
-      brandName: "",
-      productName: "",
-      productCode: "",
-      specificationGroupId: "",
-      updatedBy: {
-        userId: "",
-        userName: "",
-      },
-      updatedAt: "",
-      status: undefined,
-      type: undefined,
-      tshirt: undefined,
-    };
+    this.currentSpecification = undefined;
   }
-
 }
 
 export const specificationStore = new SpecificationStore();

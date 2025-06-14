@@ -414,7 +414,7 @@ export type ApiPutTShirtSpecificationResponse = {
 
 export const TShirtEditSteps = [
   {order: 0, name: "", progress: "INITIAL"},
-  {order: 1, name: "Type", progress: "TYPE"},
+  {order: 1, name: "Basic Information", progress: "BASICINFORMATION"},
   {order: 2, name: "Fit", progress: "FIT"},
   {order: 3, name: "Fabric", progress: "FABRIC"},
   {order: 4, name: "Tag", progress: "TAG"},
