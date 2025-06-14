@@ -7,12 +7,8 @@ export const DeleteSpecificationGroupsSpecificationGroupId = async (specificatio
     const response = await ApiDeleteSpecificationGroupsSpecificationGroupId(specificationGroupId);
     notificationStore.addNotification("Success", "Collection deleted successfully", "success");
     return response;
-  } catch (error: any) {
-    if (error.response?.status === 409) {
-      notificationStore.addNotification("Error", "Cannot delete collection because it contains specifications. Please remove all specifications from this collection first.", "error");
-    } else {
-      notificationStore.addNotification("Error", "Failed to delete collection", "error");
-    }
+  } catch {
+    notificationStore.addNotification("Error", "Failed to delete collection", "error");
     return undefined;
   }
 };

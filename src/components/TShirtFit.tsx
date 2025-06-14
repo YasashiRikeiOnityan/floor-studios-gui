@@ -3,7 +3,6 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { TrashIcon, PaperClipIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { SizeValue, Description, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";

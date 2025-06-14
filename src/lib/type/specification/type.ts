@@ -73,3 +73,7 @@ export type ApiPutSpecificationsSpecificationIdRequest =
 export type ApiPutSpecificationsSpecificationIdResponse = {
   specification_id: string;
 }
+
+export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
+  url: string;
+}

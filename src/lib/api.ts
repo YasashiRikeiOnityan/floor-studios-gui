@@ -2,16 +2,13 @@ import axios from 'axios';
 import { authStore } from '@/stores/authStore';
 import {
   ApiGetSpecificationGroupsResponse,
-  ApiGetSpecificationsSpecificationIdDownloadResponse,
   ApiGetTenantResponse,
   ApiGetTenantSettingsTShirtFabricResponse,
   ApiGetTenantSettingsTShirtFitResponse,
   ApiGetUsersUserIdResponse,
-  ApiPostSpecificationsResponse,
   ApiPutTenantRequest,
   ApiPutTenantResponse,
   ApiPutUsersUserIdRequest,
-  SpecificationStatus,
 } from '@/lib/type';
 import {
   ApiGetSpecificationsSpecificationIdResponse,
@@ -19,6 +16,9 @@ import {
   ApiPostSpecificationsRequest,
   ApiPutSpecificationsSpecificationIdRequest,
   ApiPutSpecificationsSpecificationIdResponse,
+  SpecificationStatus,
+  ApiPostSpecificationsResponse,
+  ApiGetSpecificationsSpecificationIdDownloadResponse
 } from '@/lib/type/specification/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
