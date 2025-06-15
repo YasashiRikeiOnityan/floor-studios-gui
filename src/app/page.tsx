@@ -3,7 +3,7 @@
 import { observer } from "mobx-react-lite";
 import { authStore } from "@/stores/authStore";
 import { confirmSignUp, signIn, signUp, forgotPassword, confirmForgotPassword } from "@/lib/cognito";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInUserStore } from "@/stores/signInUserStore";
 import Tabs from "@/components/Tabs";
@@ -27,6 +27,39 @@ const Home = observer(() => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+  // ローカルストレージのトークンを使用して自動ログインを試みる
+  useEffect(() => {
+    const tryAutoLogin = async () => {
+      try {
+        const idToken = localStorage.getItem('idToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+        const rememberMe = localStorage.getItem('rememberMe') === 'true';
+
+        if (idToken && refreshToken && rememberMe) {
+          // トークンをストアに設定
+          authStore.setAuth(idToken, refreshToken, rememberMe);
+
+          // JWTからユーザーIDを取得
+          const payload = JSON.parse(atob(idToken.split(".")[1]));
+          const userId = payload.sub;
+
+          // ストアに保存
+          signInUserStore.setUserId(userId);
+
+          // ホームページへ遷移
+          router.push("/orders");
+        }
+      } catch (err) {
+        console.error('Auto login failed:', err);
+        // 自動ログインに失敗した場合は、ローカルストレージをクリア
+        authStore.clearAuth();
+        signInUserStore.clear();
+      }
+    };
+
+    tryAutoLogin();
+  }, [router]);
 
   // エラーをリセット
   const resetErrors = () => {
