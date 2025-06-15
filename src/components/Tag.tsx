@@ -26,27 +26,27 @@ const materialOptions = [
 ]
 
 const labelColorOptions = [
-  { id: "lemon-chrome", title: "Lemon Chrome", clourway: { hex: "#ffc300", pantone: "13-0859 TCX" }, material: "Woven label" },
-  { id: "exotic-orange", title: "Exotic Orange", clourway: { hex: "#fa6632", pantone: "16-1453 TCX" }, material: "Woven label" },
-  { id: "red-alert", title: "Red Alert", clourway: { hex: "#d0342c", pantone: "18-1559 TCX" }, material: "Woven label" },
-  { id: "phlox", title: "Phlox", clourway: { hex: "#692d5d", pantone: "19-2820 TCX" }, material: "Woven label" },
-  { id: "green-jacket", title: "Green Jacket", clourway: { hex: "#005d43", pantone: "19-6027 TCX" }, material: "Woven label" },
-  { id: "willow-bough", title: "Willow Bough", clourway: { hex: "#59754d", pantone: "18-0119 TCX" }, material: "Woven label" },
-  { id: "super-sonic", title: "Super Sonic", clourway: { hex: "#3073b7", pantone: "18-4143 TCX" }, material: "Woven label" },
-  { id: "royal-blue", title: "Royal Blue", clourway: { hex: "#3e428b", pantone: "19-3955 TCX" }, material: "Woven label" },
-  { id: "poseidon", title: "Poseidon", clourway: { hex: "#304561", pantone: "19-4033 TCX" }, material: "Woven label" },
-  { id: "gray-blue", title: "Gray Blue", clourway: { hex: "#4e597b", pantone: "18-3917 TCX" }, material: "Woven label" },
-  { id: "gray-flannel", title: "Gray Flannel", clourway: { hex: "#898586", pantone: "17-4016 TCX" }, material: "Woven label" },
-  { id: "volcanic-glass", title: "Volcanic Glass", clourway: { hex: "#686368", pantone: "18-3908 TCX" }, material: "Woven label" },
-  { id: "blue-blush", title: "Blue Blush", clourway: { hex: "#d6dbd9", pantone: "12-4705 TCX" }, material: "Woven label" },
-  { id: "lambs-wool", title: "Lamb's Wool", clourway: { hex: "#ead4b3", pantone: "12-0910 TCX" }, material: "Woven label" },
-  { id: "argon-oil", title: "Argon Oil", clourway: { hex: "#91624d", pantone: "17-1142 TCX" }, material: "Woven label" },
-  { id: "downtown-brown", title: "Downtown Brown", clourway: { hex: "#5e3f32", pantone: "19-1223 TCX" }, material: "Woven label" },
-  { id: "white", title: "White", clourway: { hex: "#ffffff", pantone: "White" }, material: "Woven label" },
-  { id: "black", title: "Black", clourway: { hex: "#000000", pantone: "Black" }, material: "Woven label" },
-  { id: "white", title: "White", clourway: { hex: "#ffffff", pantone: "White" }, material: "Polyester" },
-  { id: "black", title: "Black", clourway: { hex: "#000000", pantone: "Black" }, material: "Polyester" },
-  { id: "mojave-desert", title: "Mojave Desert", clourway: { hex: "#c7b595", pantone: "15-1217 TCX" }, material: "Cotton Canvas" },
+  { id: "lemon-chrome", title: "Lemon Chrome", colourway: { hex: "#ffc300", pantone: "13-0859 TCX" }, material: "Woven label" },
+  { id: "exotic-orange", title: "Exotic Orange", colourway: { hex: "#fa6632", pantone: "16-1453 TCX" }, material: "Woven label" },
+  { id: "red-alert", title: "Red Alert", colourway: { hex: "#d0342c", pantone: "18-1559 TCX" }, material: "Woven label" },
+  { id: "phlox", title: "Phlox", colourway: { hex: "#692d5d", pantone: "19-2820 TCX" }, material: "Woven label" },
+  { id: "green-jacket", title: "Green Jacket", colourway: { hex: "#005d43", pantone: "19-6027 TCX" }, material: "Woven label" },
+  { id: "willow-bough", title: "Willow Bough", colourway: { hex: "#59754d", pantone: "18-0119 TCX" }, material: "Woven label" },
+  { id: "super-sonic", title: "Super Sonic", colourway: { hex: "#3073b7", pantone: "18-4143 TCX" }, material: "Woven label" },
+  { id: "royal-blue", title: "Royal Blue", colourway: { hex: "#3e428b", pantone: "19-3955 TCX" }, material: "Woven label" },
+  { id: "poseidon", title: "Poseidon", colourway: { hex: "#304561", pantone: "19-4033 TCX" }, material: "Woven label" },
+  { id: "gray-blue", title: "Gray Blue", colourway: { hex: "#4e597b", pantone: "18-3917 TCX" }, material: "Woven label" },
+  { id: "gray-flannel", title: "Gray Flannel", colourway: { hex: "#898586", pantone: "17-4016 TCX" }, material: "Woven label" },
+  { id: "volcanic-glass", title: "Volcanic Glass", colourway: { hex: "#686368", pantone: "18-3908 TCX" }, material: "Woven label" },
+  { id: "blue-blush", title: "Blue Blush", colourway: { hex: "#d6dbd9", pantone: "12-4705 TCX" }, material: "Woven label" },
+  { id: "lambs-wool", title: "Lamb's Wool", colourway: { hex: "#ead4b3", pantone: "12-0910 TCX" }, material: "Woven label" },
+  { id: "argon-oil", title: "Argon Oil", colourway: { hex: "#91624d", pantone: "17-1142 TCX" }, material: "Woven label" },
+  { id: "downtown-brown", title: "Downtown Brown", colourway: { hex: "#5e3f32", pantone: "19-1223 TCX" }, material: "Woven label" },
+  { id: "white", title: "White", colourway: { hex: "#ffffff", pantone: "White" }, material: "Woven label" },
+  { id: "black", title: "Black", colourway: { hex: "#000000", pantone: "Black" }, material: "Woven label" },
+  { id: "white", title: "White", colourway: { hex: "#ffffff", pantone: "White" }, material: "Polyester" },
+  { id: "black", title: "Black", colourway: { hex: "#000000", pantone: "Black" }, material: "Polyester" },
+  { id: "mojave-desert", title: "Mojave Desert", colourway: { hex: "#c7b595", pantone: "15-1217 TCX" }, material: "Cotton Canvas" },
 ]
 
 const labelStyleOptions = [
@@ -171,8 +171,8 @@ const Tag = observer((props: TagProps) => {
                 {materialOptions.map((materialOption) => (
                   <div key={materialOption.id} className="flex items-center">
                     <input
-                      defaultChecked={materialOption.id === "woven"}
                       id={materialOption.id}
+                      checked={materialOption.title === material}
                       name="material-option"
                       type="radio"
                       className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
@@ -195,11 +195,11 @@ const Tag = observer((props: TagProps) => {
               <RadioGroup
                 value={selectedColor?.pantone || ""}
                 onChange={(value) => {
-                  const option = labelColorOptions.find(opt => opt.clourway.pantone === value);
+                  const option = labelColorOptions.find(opt => opt.title === value);
                   if (option) {
                     setSelectedColor({
-                      pantone: option.clourway.pantone,
-                      hex: option.clourway.hex
+                      pantone: option.colourway.pantone,
+                      hex: option.colourway.hex
                     });
                   }
                 }}
@@ -216,15 +216,15 @@ const Tag = observer((props: TagProps) => {
                     >
                       <div className="relative group">
                         <span
-                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.clourway.pantone === selectedColor?.pantone ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
+                          className={`block size-8 rounded-full border border-black/20 cursor-pointer ${option.colourway.pantone === selectedColor?.pantone ? "ring-2 ring-offset-2 data-[state=checked]:ring-2 data-[state=checked]:ring-offset-2" : "ring-0"}`}
                           style={{
-                            backgroundColor: option.clourway.hex,
-                            "--tw-ring-color": option.id === "white" ? "#6b7280" : option.clourway.hex
+                            backgroundColor: option.colourway.hex,
+                            "--tw-ring-color": option.id === "white" ? "#6b7280" : option.colourway.hex
                           } as React.CSSProperties}
                         />
                         <div className="absolute z-10 top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 bg-blue-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                           <div>{option.title}</div>
-                          <div>{option.clourway.pantone}</div>
+                          <div>{option.colourway.pantone}</div>
                         </div>
                       </div>
                     </Radio>
