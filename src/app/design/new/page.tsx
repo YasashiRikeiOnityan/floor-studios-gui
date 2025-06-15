@@ -34,7 +34,7 @@ const NewDesign = observer(() => {
         specification_group_id: specificationGroupId,
         type: currentType,
         status: "DRAFT",
-        progress: "DRAFT",
+        progress: "BASICINFORMATION",
       });
       router.push(`/design/edit?id=${id}`);
     }

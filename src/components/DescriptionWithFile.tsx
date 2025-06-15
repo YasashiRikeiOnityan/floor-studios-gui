@@ -2,9 +2,11 @@ import { useState } from "react";
 import { PaperClipIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
+import Loading from "./Loading";
 
 type DescriptionWithFileProps = {
   specificationId: string;
+  id?: string;
   description: {
     description: string;
     file?: {
@@ -140,10 +142,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
   };
 
   const handleRemoveFile = async () => {
-    setLoading(true);
-
     if (!props.description.file?.key) {
-      setLoading(false);
       return;
     }
 
@@ -151,9 +150,11 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
       "Remove File",
       "Are you sure you want to remove this file?",
       "Remove",
-      true,
+      false,
       async () => {
         try {
+          setLoading(true);
+          dialogStore.closeAlertDialog();
           const preSignedUrl = await PostImagesInteractor({
             type: "specification",
             specification_id: props.specificationId,
@@ -189,6 +190,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
         }
       }
     );
+    setLoading(false);
   };
 
   const handleClosePreview = () => {
@@ -198,9 +200,9 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
   return (
     <>
       <textarea
-        id="comment"
-        name="comment"
-        rows={8}
+        id={`comment-${props.id || ""}`}
+        name={`comment-${props.id || ""}`}
+        rows={3}
         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
         placeholder="Special requests or comments"
         value={props.description.description}
@@ -213,33 +215,34 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
         <div className="flex items-center">
           <input
             type="file"
-            id="file-upload"
+            id={`file-upload-${props.id || ""}`}
             className="hidden"
             onChange={handleFileChange}
             disabled={loading}
           />
           <label
-            htmlFor="file-upload"
+            htmlFor={`file-upload-${props.id || ""}`}
             className="inline-flex items-center gap-x-2 justify-center rounded-full text-gray-400 hover:text-gray-500 cursor-pointer"
           >
             <PaperClipIcon aria-hidden="true" className="size-5" />
             <span className="sr-only">Attach a file</span>
-            {!props.description.file?.name && <p className="text-sm text-gray-500">Attach a file</p>}
+            {!props.description.file?.name && !loading && <p className="text-sm text-gray-500">Attach a file</p>}
+            {loading && <Loading />}
           </label>
         </div>
-        {props.description.file?.name && (
+        {props.description.file?.name && !loading && (
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <button
               type="button"
               onClick={() => handleFilePreview(props.description.file?.key || "")}
-              className="truncate max-w-[200px] text-blue-600 hover:text-blue-500"
+              className="truncate max-w-[200px] text-blue-600 hover:text-blue-500 cursor-pointer"
             >
               {props.description.file.name}
             </button>
             <button
               type="button"
               onClick={handleRemoveFile}
-              className="text-gray-400 hover:text-gray-500"
+              className="text-gray-400 hover:text-gray-500 cursor-pointer"
             >
               <TrashIcon className="size-4" />
             </button>
@@ -254,7 +257,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
               <div className="absolute right-0 top-0 pr-4 pt-4">
                 <button
                   type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none cursor-pointer"
                   onClick={handleClosePreview}
                 >
                   <span className="sr-only">Close</span>

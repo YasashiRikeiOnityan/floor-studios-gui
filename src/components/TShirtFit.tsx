@@ -7,6 +7,7 @@ import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { SizeValue, Description, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 import { DescriptionWithFile } from "@/components/DescriptionWithFile";
+import Loading from "@/components/Loading";
 
 type TShirtFitProps = {
   callBackUpdateState: () => void;
@@ -28,6 +29,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     description: currentSpecification?.fit?.description?.description || "",
     file: currentSpecification?.fit?.description?.file,
   });
+  const [tenantSettingsFetched, setTenantSettingsFetched] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -36,8 +38,8 @@ const TShirtFit = observer((props: TShirtFitProps) => {
 
   useEffect(() => {
     const fetchSettingsFit = async () => {
-      await tenantStore.fetchTenantSettingsTShirtFit();
       if (mounted) {
+        await tenantStore.fetchTenantSettingsTShirtFit();
         if (currentSpecification?.fit) {
           setTotalLength(currentSpecification.fit.totalLength);
           setChestWidth(currentSpecification.fit.chestWidth);
@@ -59,6 +61,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
           setNeckOpening(tenantStore.tenantSettingsTShirtFit.fits[0].neckOpening);
           setShoulderToShoulder(tenantStore.tenantSettingsTShirtFit.fits[0].shoulderToShoulder);
         }
+        setTenantSettingsFetched(true);
       }
     };
     fetchSettingsFit();
@@ -231,7 +234,9 @@ const TShirtFit = observer((props: TShirtFitProps) => {
                 </label>
               </div>
             ))}
+            {!tenantSettingsFetched && <Loading />}
           </div>
+          <div className="mt-6">
             <DescriptionWithFile
               specificationId={currentSpecification?.specificationId || ""}
               description={description}
@@ -272,6 +277,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
                 }
               }}
             />
+          </div>
         </div>
         {/* サイズ表（7/10） */}
         <div className="w-6/10">

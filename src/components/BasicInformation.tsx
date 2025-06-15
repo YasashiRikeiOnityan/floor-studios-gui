@@ -11,7 +11,6 @@ interface BasicInformationProps {
 
 const BasicInformation = observer((props: BasicInformationProps) => {
   const [mounted, setMounted] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [localBrandName, setLocalBrandName] = useState("");
   const [localProductName, setLocalProductName] = useState("");
   const [localProductCode, setLocalProductCode] = useState("");
@@ -73,20 +72,14 @@ const BasicInformation = observer((props: BasicInformationProps) => {
       product_code: localProductCode,
       specification_group_id: localSpecificationGroupId
     });
-    setIsEditing(false);
   }
 
-  const handleCancel = () => {
-    if (specificationStore.currentSpecification) {
-      setLocalBrandName(specificationStore.currentSpecification.brandName || "");
-      setLocalProductName(specificationStore.currentSpecification.productName || "");
-      setLocalProductCode(specificationStore.currentSpecification.productCode || "");
-      setLocalSpecificationGroupId(specificationStore.currentSpecification.specificationGroupId || "");
+  const handleSaveAndNext = async () => {
+    if (!handleValidate() || !specificationStore.currentSpecification) {
+      return;
     }
-    setLocalValidateBrandNameError("");
-    setLocalValidateProductNameError("");
-    setLocalValidateProductCodeError("");
-    setIsEditing(false);
+    await handleSave();
+    props.callBackUpdateState(3);
   }
 
   if (!specificationStore.currentSpecification) {
@@ -116,10 +109,9 @@ const BasicInformation = observer((props: BasicInformationProps) => {
                   name="brandname"
                   type="text"
                   placeholder=""
-                  disabled={!isEditing}
                   className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${localValidateBrandNameError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500`}
-                  value={isEditing ? localBrandName : (specificationStore.currentSpecification?.brandName || "")}
+                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                  value={localBrandName}
                   onChange={(e) => setLocalBrandName(e.target.value)}
                 />
                 {localValidateBrandNameError && <div className="text-sm/6 text-red-500">{localValidateBrandNameError}</div>}
@@ -133,7 +125,7 @@ const BasicInformation = observer((props: BasicInformationProps) => {
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-1 sm:mt-0">
             <div className="mt-2 sm:mt-0">
               <SpecificationGroups
-                currentSpecificationGroupId={isEditing ? localSpecificationGroupId : (specificationStore.currentSpecification?.specificationGroupId || "")}
+                currentSpecificationGroupId={localSpecificationGroupId}
                 setCurrentSpecificationGroupId={setLocalSpecificationGroupId}
                 fullWidth={true}
               />
@@ -157,10 +149,9 @@ const BasicInformation = observer((props: BasicInformationProps) => {
                   name="productname"
                   type="text"
                   placeholder=""
-                  disabled={!isEditing}
                   className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${localValidateProductNameError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500`}
-                  value={isEditing ? localProductName : (specificationStore.currentSpecification?.productName || "")}
+                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                  value={localProductName}
                   onChange={(e) => setLocalProductName(e.target.value)}
                 />
                 {localValidateProductNameError && <div className="text-sm/6 text-red-500">{localValidateProductNameError}</div>}
@@ -177,10 +168,9 @@ const BasicInformation = observer((props: BasicInformationProps) => {
                   name="productcode"
                   type="text"
                   placeholder=""
-                  disabled={!isEditing}
                   className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${localValidateProductCodeError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 disabled:bg-gray-100 disabled:text-gray-500`}
-                  value={isEditing ? localProductCode : (specificationStore.currentSpecification?.productCode || "")}
+                    } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                  value={localProductCode}
                   onChange={(e) => setLocalProductCode(e.target.value)}
                 />
                 {localValidateProductCodeError && <div className="text-sm/6 text-red-500">{localValidateProductCodeError}</div>}
@@ -192,36 +182,10 @@ const BasicInformation = observer((props: BasicInformationProps) => {
 
       {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">
-        {!isEditing ? (
-          <Button
-            type={"button"}
-            onClick={() => setIsEditing(true)}
-            text={"Edit"}
-            style={"text"}
-            fullWidth={false}
-          />
-        ) : (
-          <>
-            <Button
-              type={"button"}
-              onClick={handleCancel}
-              text={"Cancel"}
-              style={"text"}
-              fullWidth={false}
-            />
-            <Button
-              type={"button"}
-              onClick={handleSave}
-              text={"Save"}
-              style={"fill"}
-              fullWidth={false}
-            />
-          </>
-        )}
         <Button
           type={"button"}
-          onClick={() => props.callBackUpdateState(3)}
-          text={"Next"}
+          onClick={handleSaveAndNext}
+          text={"Save and Next"}
           style={"fill"}
           fullWidth={false}
         />
