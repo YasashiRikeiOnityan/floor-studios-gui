@@ -236,7 +236,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
               specificationId={currentSpecification?.specificationId || ""}
               description={description}
               onDescriptionChange={setDescription}
-              onSave={() => {
+              onSave={(description) => {
                 specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
                   fit: {
                     total_length: totalLength,
@@ -248,15 +248,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
                     neck_rib_length: neckRibLength,
                     neck_opening: neckOpening,
                     shoulder_to_shoulder: shoulderToShoulder,
-                    description: {
-                      description: description.description,
-                      ...(description.file && {
-                        file: {
-                          name: description.file.name,
-                          key: description.file.key,
-                        },
-                      }),
-                    },
+                    description: description,
                   }
                 });
                 if (specificationStore.currentSpecification) {

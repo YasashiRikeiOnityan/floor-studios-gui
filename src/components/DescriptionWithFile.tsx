@@ -17,8 +17,8 @@ type DescriptionWithFileProps = {
       };
     };
   };
-  onDescriptionChange: (newDescription: { description: string; file?: { name: string; key: string } }) => void;
-  onSave: () => void;
+  onDescriptionChange: (newDescription: { description: string; file?: { name: string; key: string, preSignedUrl?: { get?: string; put?: string; delete?: string; } } }) => void;
+  onSave: (description: { description: string; file?: { name: string; key: string } }) => void;
 };
 
 export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
@@ -78,7 +78,17 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
           },
         };
         props.onDescriptionChange(newDescription);
-        props.onSave();
+        props.onSave(
+          {
+            description: newDescription.description,
+            ...(newDescription.file && {
+              file: {
+                name: newDescription.file.name,
+                key: newDescription.file.key,
+              }
+            })
+          }
+        );
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -161,7 +171,9 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
               file: undefined,
             };
             props.onDescriptionChange(newDescription);
-            props.onSave();
+            props.onSave({
+              description: newDescription.description,
+            });
           }
         } catch (error) {
           console.error("Error removing file:", error);
@@ -180,25 +192,23 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
   };
 
   const handleClosePreview = () => {
-    // setPreviewUrl(undefined);
+    setPreviewUrl(undefined);
   };
 
   return (
     <>
-      <div className="mt-6">
-        <textarea
-          id="comment"
-          name="comment"
-          rows={8}
-          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-          placeholder="Special requests or comments"
-          value={props.description.description}
-          onChange={(e) => props.onDescriptionChange({
-            ...props.description,
-            description: e.target.value,
-          })}
-        />
-      </div>
+      <textarea
+        id="comment"
+        name="comment"
+        rows={8}
+        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+        placeholder="Special requests or comments"
+        value={props.description.description}
+        onChange={(e) => props.onDescriptionChange({
+          ...props.description,
+          description: e.target.value,
+        })}
+      />
       <div className="flex items-center space-x-3 mt-2">
         <div className="flex items-center">
           <input
