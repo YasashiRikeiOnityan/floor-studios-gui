@@ -1,4 +1,5 @@
-// import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 type ProgressBarProps = {
   steps: {
@@ -14,6 +15,12 @@ const ProgressBar = (props: ProgressBarProps) => {
   return (
     <nav aria-label="Progress">
       <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
+        <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/orders`} className="text-sm text-blue-600 flex flex-row items-center gap-x-2">
+          <span className="text-blue-600">
+            <ArrowLeftIcon className="w-4 h-4" />
+          </span>
+          Back to Orders
+        </Link>
         {props.steps.map((step) => (
           <li key={step.name} className="md:flex-1">
             {step.order < props.actualStep ? (

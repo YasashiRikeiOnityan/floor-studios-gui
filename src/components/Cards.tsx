@@ -3,10 +3,11 @@
 import { SpecificationStatus } from "@/lib/type/specification/type";
 import { formatRelativeTime } from "@/lib/utils";
 import { specificationStore } from "@/stores/specificationStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SpecificationMenu from "@/components/SpecificationMenu";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
 type CardsProps = {
   specificationGroupId: string;
@@ -17,12 +18,20 @@ const Cards = observer((props: CardsProps) => {
 
   const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchSpecifications = async () => {
+      setIsLoading(true);
       await specificationStore.getSpecifications(props.specificationGroupId, props.status);
+      setIsLoading(false);
     };
     fetchSpecifications();
   }, [props.specificationGroupId, props.status]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (specificationStore.specifications.length === 0) {
     return <div className="flex justify-center items-center h-full">

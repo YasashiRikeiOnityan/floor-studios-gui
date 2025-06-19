@@ -17,12 +17,14 @@ import Tag from "@/components/Tag";
 import Notification from "@/components/Notification";
 import SuccessDialog from "@/components/SuccessDialog";
 import BasicInformation from "@/components/BasicInformation";
+import Loading from "@/components/Loading";
 
 const EditDesignContent = observer(() => {
   const searchParams = useSearchParams();
   const specificationId = searchParams.get("id") || "";
 
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [actualStep, setActualStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -37,19 +39,17 @@ const EditDesignContent = observer(() => {
     if (specificationId) {
       const fetchSpecification = async () => {
         try {
+          setIsLoading(true);
           await specificationStore.getSpecificationsSpecificationId(specificationId);
           if (specificationStore.currentSpecification?.type === "T-SHIRT") {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
-            if (currentStepIndex <= 0) {
-              setActualStep(1);
-              setCurrentStep(1);
-            } else {
-              setCurrentStep(currentStepIndex + 1);
-              setActualStep(currentStepIndex + 1);
-            }
+            setCurrentStep(currentStepIndex + 1);
+            setActualStep(currentStepIndex + 1);
           }
         } catch (error) {
           console.error("Failed to fetch specification:", error);
+        } finally {
+          setIsLoading(false);
         }
       };
       fetchSpecification();
@@ -58,7 +58,7 @@ const EditDesignContent = observer(() => {
 
   const callBackUpdateState = (step: number) => {
     if (step < actualStep) {
-      setCurrentStep(actualStep);
+      setCurrentStep(step);
     } else {
       setCurrentStep(step);
       setActualStep(step);
@@ -87,7 +87,7 @@ const EditDesignContent = observer(() => {
         case 9:
           return <Information callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         default:
-          return <></>;
+          return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
     } else {
       return <>{specificationStore.currentSpecification?.type} is not supported</>
@@ -105,7 +105,7 @@ const EditDesignContent = observer(() => {
           <ProgressBar steps={steps} actualStep={actualStep} currentStep={currentStep} setCurrentStep={setCurrentStep} />
           {/* メインコンテンツ */}
           <div className="flex-1 mt-4">
-            {renderContent()}
+            {isLoading ? <Loading /> : renderContent()}
           </div>
         </div>
       </div>
