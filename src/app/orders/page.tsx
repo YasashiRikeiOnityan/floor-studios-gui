@@ -49,7 +49,7 @@ const OrdersContent = observer(() => {
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="min-h-full bg-gray-50">
         <Header current="Orders" />
         <div className="mt-16 py-5 sm:py-10">
           <PageTitle title="Orders" />
