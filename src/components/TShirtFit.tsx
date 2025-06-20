@@ -30,6 +30,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     file: currentSpecification?.fit?.description?.file,
   });
   const [tenantSettingsFetched, setTenantSettingsFetched] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -146,8 +147,9 @@ const TShirtFit = observer((props: TShirtFitProps) => {
     });
   };
 
-  const handleSaveAndNext = () => {
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "FIT" }),
       fit: {
         total_length: totalLength,
@@ -190,6 +192,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       });
     }
     props.callBackUpdateState();
+    setIsSaving(false);
   };
 
   const handleFitChange = (index: number) => {
@@ -826,6 +829,8 @@ const TShirtFit = observer((props: TShirtFitProps) => {
             type={"button"}
             onClick={handleSaveAndNext}
             text={"Save and Next"}
+            loadingText={"Saving..."}
+            loading={isSaving}
             style={"fill"}
             fullWidth={false}
           />

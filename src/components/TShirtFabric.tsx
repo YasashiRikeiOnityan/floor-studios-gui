@@ -26,6 +26,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -542,6 +543,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   };
 
   const handleSaveAndNext = async () => {
+    setIsSaving(true);
     specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
@@ -600,6 +602,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       })
     }
     props.callBackUpdateState();
+    setIsSaving(false);
   };
 
   const handleClosePreview = () => {
@@ -833,6 +836,8 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             type={"button"}
             onClick={handleSaveAndNext}
             text={"Save and Next"}
+            loadingText={"Saving..."}
+            loading={isSaving}
             style={"fill"}
             fullWidth={false}
           />

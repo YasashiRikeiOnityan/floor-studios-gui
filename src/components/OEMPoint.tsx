@@ -16,6 +16,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
   const [oemPoints, setOemPoints] = useState(currentSpecification.oemPoints || [{ description: "", file: undefined }]);
   const [deleteFiles, setDeleteFiles] = useState<string[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleOemPointChange = (index: number, newDescription: Description) => {
     const newOemPoints = [...oemPoints];
@@ -51,6 +52,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
   };
 
   const handleSaveAndNext = async () => {
+    setIsSaving(true);
     if (deleteFiles.length > 0) {
       for (const key of deleteFiles) {
         const response = await PostImagesInteractor({
@@ -92,6 +94,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
       })),
     });
     props.callBackUpdateState();
+    setIsSaving(false);
   };
 
   return (
@@ -178,6 +181,8 @@ const OEMPoint = observer((props: OEMPointProps) => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText={"Saving..."}
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />
