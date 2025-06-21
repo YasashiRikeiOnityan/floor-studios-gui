@@ -306,7 +306,7 @@ const Information = observer((props: InformationProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 font-semibold text-gray-900">Billing Address</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Billing Information</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
               <div className="relative">
@@ -514,7 +514,7 @@ const Information = observer((props: InformationProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Address</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Information</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             {/* 請求先情報と同じにするトグル */}
             <div className="mt-2 sm:mt-0 mb-6">

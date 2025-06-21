@@ -18,6 +18,7 @@ const ProfileContent = () => {
 
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User>();
+  const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [userName, setUserName] = useState("");
   const [validateNameError, setValidateNameError] = useState("");
@@ -29,8 +30,10 @@ const ProfileContent = () => {
   useEffect(() => {
     const getUser = async () => {
       if (mounted && userId) {
+        setIsLoading(true);
         const user = await signInUserStore.fetchUser(userId);
         setUser(user);
+        setIsLoading(false);
         setUserName(user.userName || "");
       }
     };
@@ -98,7 +101,7 @@ const ProfileContent = () => {
                 {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                   <dt className="text-sm/6 font-medium text-gray-900">User Name</dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {signInUserStore.isLoading ? <Loading /> : user?.userName || ""}
+                    {isLoading ? <Loading /> : user?.userName || ""}
                   </dd>
                 </div>}
                 {isEditing && <div className="py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4">
@@ -118,7 +121,7 @@ const ProfileContent = () => {
                 {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                   <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
                   <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {signInUserStore.isLoading ? <Loading /> : user?.email || ""}
+                    {isLoading ? <Loading /> : user?.email || ""}
                   </dd>
                 </div>}
                 {isEditing && <div className="py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4">

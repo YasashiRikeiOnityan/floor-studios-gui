@@ -12,7 +12,9 @@ import { tenantStore } from "@/stores/tenantStore";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 const Brand = observer(() => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [tenantName, setTenantName] = useState("");
   const [validateNameError, setValidateNameError] = useState("");
   const [contactFirstName, setContactFirstName] = useState("");
@@ -43,7 +45,6 @@ const Brand = observer(() => {
   const [shippingEmail, setShippingEmail] = useState("");
   const [sameAsBillingInformation, setSameAsBillingInformation] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -52,6 +53,7 @@ const Brand = observer(() => {
   useEffect(() => {
     const fetchTenant = async () => {
       if (mounted) {
+        setIsLoading(true);
         await tenantStore.fetchTenant();
         setTenantName(tenantStore.tenant?.tenantName || "");
         setContactFirstName(tenantStore.tenant?.contact?.firstName || "");
@@ -81,6 +83,7 @@ const Brand = observer(() => {
         setShippingPhoneNumber(tenantStore.tenant?.shippingInformation?.phoneNumber || "");
         setShippingEmail(tenantStore.tenant?.shippingInformation?.email || "");
         setSameAsBillingInformation(tenantStore.tenant?.shippingInformation?.sameAsBillingInformation || false);
+        setIsLoading(false);
       }
     }
     fetchTenant();
@@ -201,7 +204,7 @@ const Brand = observer(() => {
 
   return (
     <>
-      <div className="min-h-full">
+      <div className="min-h-full bg-gray-50">
         <Header current="Brand" />
         <div className="mt-16 py-5 sm:py-10">
           <PageTitle title="Brand" />
@@ -224,9 +227,9 @@ const Brand = observer(() => {
                   {/* ブランド名 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Brand Name</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {tenantStore.loading ? <Loading /> : tenantStore?.tenant?.tenantName || ""}
-                    </dd>
+                    {!isLoading ? <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {tenantStore?.tenant?.tenantName || ""}
+                    </dd> : <Loading />}
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Brand Name</dt>
@@ -254,9 +257,11 @@ const Brand = observer(() => {
                   {/* ブランドロゴ */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {tenantStore.loading ? <Loading /> : "No logo uploaded"}
-                    </dd>
+                    {isLoading ? <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <Loading />
+                    </dd> : <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      No logo uploaded
+                    </dd>}
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
@@ -283,16 +288,19 @@ const Brand = observer(() => {
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Contact</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : contactFirstName}</div>
-                        <div>{tenantStore.loading ? <Loading /> : contactLastName}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : contactPhoneNumber}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : contactEmail}</div>
-                      </div>
+                      {!isLoading ? 
+                        <>
+                          <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+                            <div>{contactFirstName}</div>
+                            <div>{contactLastName}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{contactPhoneNumber}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{contactEmail}</div>
+                          </div>
+                        </> : <Loading />}
                     </dd>
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
@@ -374,28 +382,44 @@ const Brand = observer(() => {
                   </div>}
                   {/* 請求先住所 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Billing Address</dt>
+                    <dt className="text-sm/6 font-bold text-gray-900">Billing Information</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : billingCountry}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : billingState}</div>
-                        <div>{tenantStore.loading ? <Loading /> : billingCity}</div>
-                      </div>
-                      <div className="mt-2 col-span-2">
-                        <div>{tenantStore.loading ? <Loading /> : billingAddressLine1}</div>
-                      </div>
-                      <div className="mt-2 col-span-2">
-                        <div>{tenantStore.loading ? <Loading /> : billingAddressLine2}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : billingZipCode}</div>
-                      </div>
+                      {!isLoading ?
+                        <>
+                          <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+                            <div>{billingCompanyName}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{billingFirstName}</div>
+                            <div>{billingLastName}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{billingPhoneNumber}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{billingEmail}</div>
+                          </div>
+                          <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+                            <div>{billingCountry}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{billingState}</div>
+                            <div>{billingCity}</div>
+                          </div>
+                          <div className="mt-2 col-span-2">
+                            <div>{billingAddressLine1}</div>
+                          </div>
+                          <div className="mt-2 col-span-2">
+                            <div>{billingAddressLine2}</div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-2 gap-4">
+                            <div>{billingZipCode}</div>
+                          </div>
+                        </> : <Loading />}
                     </dd>
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Billing Address</dt>
+                    <dt className="text-sm/6 font-bold text-gray-900">Billing Information</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                       <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
                         <div className="relative">
@@ -606,22 +630,38 @@ const Brand = observer(() => {
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Shipping Address</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : shippingCountry}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : shippingState}</div>
-                        <div>{tenantStore.loading ? <Loading /> : shippingCity}</div>
-                      </div>
-                      <div className="mt-2 col-span-2">
-                        <div>{tenantStore.loading ? <Loading /> : shippingAddressLine1}</div>
-                      </div>
-                      <div className="mt-2 col-span-2">
-                        <div>{tenantStore.loading ? <Loading /> : shippingAddressLine2}</div>
-                      </div>
-                      <div className="mt-2 grid grid-cols-2 gap-4">
-                        <div>{tenantStore.loading ? <Loading /> : shippingZipCode}</div>
-                      </div>
+                    {!isLoading ?
+                      <>
+                        <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+                          <div>{shippingCompanyName}</div>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                          <div>{shippingFirstName}</div>
+                          <div>{shippingLastName}</div>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                          <div>{shippingPhoneNumber}</div>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                          <div>{shippingEmail}</div>
+                        </div>
+                        <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+                          <div>{shippingCountry}</div>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                          <div>{shippingState}</div>
+                          <div>{shippingCity}</div>
+                        </div>
+                        <div className="mt-2 col-span-2">
+                          <div>{shippingAddressLine1}</div>
+                        </div>
+                        <div className="mt-2 col-span-2">
+                          <div>{shippingAddressLine2}</div>
+                        </div>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                          <div>{shippingZipCode}</div>
+                        </div>
+                      </> : <Loading />}
                     </dd>
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
