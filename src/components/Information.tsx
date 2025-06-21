@@ -235,7 +235,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="firstName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   First Name
                 </label>
@@ -244,7 +244,7 @@ const Information = observer((props: InformationProps) => {
                   name="firstName"
                   type="text"
                   placeholder="Floor"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactFirstName}
                   onChange={(e) => setContactFirstName(e.target.value)}
                 />
@@ -252,7 +252,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="lastName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Last Name
                 </label>
@@ -261,7 +261,7 @@ const Information = observer((props: InformationProps) => {
                   name="lastName"
                   type="text"
                   placeholder="Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactLastName}
                   onChange={(e) => setContactLastName(e.target.value)}
                 />
@@ -271,7 +271,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="phoneNumber"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Phone Number
                 </label>
@@ -280,7 +280,7 @@ const Information = observer((props: InformationProps) => {
                   name="phoneNumber"
                   type="text"
                   placeholder="+81 90-1234-5678"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactPhoneNumber}
                   onChange={(e) => setContactPhoneNumber(e.target.value)}
                 />
@@ -288,7 +288,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="email"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Email
                 </label>
@@ -297,7 +297,7 @@ const Information = observer((props: InformationProps) => {
                   name="email"
                   type="text"
                   placeholder="floor@floorstudios.com"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={contactEmail}
                   onChange={(e) => setContactEmail(e.target.value)}
                 />
@@ -312,7 +312,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingCompanyName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Company Name
                 </label>
@@ -321,7 +321,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingCompanyName"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingCompanyName}
                   onChange={(e) => setBillingCompanyName(e.target.value)}
                 />
@@ -331,7 +331,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingFirstName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   First Name
                 </label>
@@ -340,7 +340,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingFirstName"
                   type="text"
                   placeholder="Floor"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingFirstName}
                   onChange={(e) => setBillingFirstName(e.target.value)}
                 />
@@ -348,7 +348,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingLastName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Last Name
                 </label>
@@ -357,7 +357,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingLastName"
                   type="text"
                   placeholder="Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingLastName}
                   onChange={(e) => setBillingLastName(e.target.value)}
                 />
@@ -367,7 +367,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingPhoneNumber"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Phone Number
                 </label>
@@ -376,7 +376,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingPhoneNumber"
                   type="text"
                   placeholder="+81 90-1234-5678"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingPhoneNumber}
                   onChange={(e) => setBillingPhoneNumber(e.target.value)}
                 />
@@ -384,7 +384,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingEmail"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Email
                 </label>
@@ -393,7 +393,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingEmail"
                   type="text"
                   placeholder="floor@floorstudios.com"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingEmail}
                   onChange={(e) => setBillingEmail(e.target.value)}
                 />
@@ -403,7 +403,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingCountry"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Country
                 </label>
@@ -412,7 +412,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingCountry"
                   type="text"
                   placeholder="Japan"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingCountry}
                   onChange={(e) => setBillingCountry(e.target.value)}
                 />
@@ -422,7 +422,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingState"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   State
                 </label>
@@ -431,7 +431,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingState"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingState}
                   onChange={(e) => setBillingState(e.target.value)}
                 />
@@ -439,7 +439,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingCity"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   City
                 </label>
@@ -448,7 +448,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingCity"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingCity}
                   onChange={(e) => setBillingCity(e.target.value)}
                 />
@@ -458,7 +458,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingAddressLine1"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Address Line 1
                 </label>
@@ -467,7 +467,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingAddressLine1"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingAddressLine1}
                   onChange={(e) => setBillingAddressLine1(e.target.value)}
                 />
@@ -477,7 +477,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingAddressLine2"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Address Line 2
                 </label>
@@ -486,7 +486,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingAddressLine2"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingAddressLine2}
                   onChange={(e) => setBillingAddressLine2(e.target.value)}
                 />
@@ -496,7 +496,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="billingZipCode"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Zip Code
                 </label>
@@ -505,7 +505,7 @@ const Information = observer((props: InformationProps) => {
                   name="billingZipCode"
                   type="text"
                   placeholder="123-4567"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className="block w-full rounded-md bg-gray-50 px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                   value={billingZipCode}
                   onChange={(e) => setBillingZipCode(e.target.value)}
                 />
@@ -536,7 +536,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingCompanyName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Company Name
                 </label>
@@ -545,7 +545,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCompanyName"
                   type="text"
                   placeholder="Floor Studios"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingCompanyName}
                   onChange={(e) => setShippingCompanyName(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -556,7 +556,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingFirstName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   First Name
                 </label>
@@ -565,7 +565,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingFirstName"
                   type="text"
                   placeholder="Floor"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingFirstName}
                   onChange={(e) => setShippingFirstName(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -574,7 +574,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingLastName"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Last Name
                 </label>
@@ -583,7 +583,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingLastName"
                   type="text"
                   placeholder="Studios"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingLastName}
                   onChange={(e) => setShippingLastName(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -594,7 +594,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingPhoneNumber"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Phone Number
                 </label>
@@ -603,7 +603,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingPhoneNumber"
                   type="text"
                   placeholder="+81 90-1234-5678"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingPhoneNumber}
                   onChange={(e) => setShippingPhoneNumber(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -612,7 +612,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingEmail"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Email
                 </label>
@@ -621,7 +621,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingEmail"
                   type="text"
                   placeholder="floor@floorstudios.com"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingEmail}
                   onChange={(e) => setShippingEmail(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -632,7 +632,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingCountry"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Country
                 </label>
@@ -641,7 +641,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCountry"
                   type="text"
                   placeholder="Japan"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingCountry}
                   onChange={(e) => setShippingCountry(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -652,7 +652,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingState"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   State
                 </label>
@@ -661,7 +661,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingState"
                   type="text"
                   placeholder="Tokyo"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingState}
                   onChange={(e) => setShippingState(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -670,7 +670,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingCity"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   City
                 </label>
@@ -679,7 +679,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCity"
                   type="text"
                   placeholder="Tokyo"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingCity}
                   onChange={(e) => setShippingCity(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -690,7 +690,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingAddressLine1"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Address Line 1
                 </label>
@@ -699,7 +699,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine1"
                   type="text"
                   placeholder="Floor Studios"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingAddressLine1}
                   onChange={(e) => setShippingAddressLine1(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -710,7 +710,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingAddressLine2"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Address Line 2
                 </label>
@@ -719,7 +719,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine2"
                   type="text"
                   placeholder="Floor Studios"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingAddressLine2}
                   onChange={(e) => setShippingAddressLine2(e.target.value)}
                   disabled={sameAsBillingInformation}
@@ -730,7 +730,7 @@ const Information = observer((props: InformationProps) => {
               <div className="relative">
                 <label
                   htmlFor="shippingZipCode"
-                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-gray-50 px-1 text-xs font-medium text-gray-500"
                 >
                   Zip Code
                 </label>
@@ -739,7 +739,7 @@ const Information = observer((props: InformationProps) => {
                   name="shippingZipCode"
                   type="text"
                   placeholder="123-4567"
-                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-gray-50 text-gray-900'}`}
                   value={shippingZipCode}
                   onChange={(e) => setShippingZipCode(e.target.value)}
                   disabled={sameAsBillingInformation}

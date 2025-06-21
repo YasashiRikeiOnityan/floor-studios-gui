@@ -98,7 +98,7 @@ const EditDesignContent = observer(() => {
 
   return (
     <>
-      <div className="flex min-h-full">
+      <div className="flex min-h-full bg-gray-50">
         <Header current="" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 mt-16 py-5 sm:py-10 w-full">
           {/* プログレスバー */}
