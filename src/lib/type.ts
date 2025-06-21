@@ -6,22 +6,32 @@ export type Tenant = {
     phoneNumber: string;
     email: string;
   };
-  billingAddress: {
+  billingInformation: {
     addressLine1: string;
     addressLine2: string;
     zipCode: string;
     state: string;
     city: string;
     country: string;
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
   };
-  shippingAddress: {
-    sameAsBillingAddress: boolean;
+  shippingInformation: {
+    sameAsBillingInformation: boolean;
     addressLine1: string;
     addressLine2: string;
     zipCode: string;
     state: string;
     city: string;
     country: string;
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
   };
 }
 
@@ -90,22 +100,32 @@ export type ApiGetTenantResponse = {
     phone_number: string;
     email: string;
   };
-  billing_address?: {
+  billing_information?: {
     address_line_1: string;
     address_line_2: string;
     zip_code: string;
     state: string;
     city: string;
     country: string;
+    company_name: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
   };
-  shipping_address?: {
-    same_as_billing_address: boolean;
+  shipping_information?: {
+    same_as_billing_information: boolean;
     address_line_1: string;
     address_line_2: string;
     zip_code: string;
     state: string;
     city: string;
     country: string;
+    company_name: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
   };
 }
 
@@ -117,51 +137,37 @@ export type ApiPutTenantRequest = {
     phone_number: string;
     email: string;
   };
-  billing_address: {
+  billing_information: {
     address_line_1: string;
     address_line_2: string;
     zip_code: string;
     state: string;
     city: string;
     country: string;
-  };
-  shipping_address: {
-    same_as_billing_address: boolean;
-    address_line_1: string;
-    address_line_2: string;
-    zip_code: string;
-    state: string;
-    city: string;
-    country: string;
-  };
-}
-
-export type ApiPutTenantResponse = {
-  tenant_id: string;
-  tenant_name: string;
-  contact?: {
+    company_name: string;
     first_name: string;
     last_name: string;
     phone_number: string;
     email: string;
   };
-  billing_address?: {
+  shipping_information: {
+    same_as_billing_information: boolean;
     address_line_1: string;
     address_line_2: string;
     zip_code: string;
     state: string;
     city: string;
     country: string;
+    company_name: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    email: string;
   };
-  shipping_address?: {
-    same_as_billing_address: boolean;
-    address_line_1: string;
-    address_line_2: string;
-    zip_code: string;
-    state: string;
-    city: string;
-    country: string;
-  };
+}
+
+export type ApiPutTenantResponse = {
+  tenant_name: string;
 }
 
 export type ApiGetTenantSettingsTShirtFitResponse = {

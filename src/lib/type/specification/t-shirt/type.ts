@@ -123,21 +123,32 @@ export type TShirtInformation = {
     phoneNumber: string;
     email: string;
   };
-  billingAddress?: {
+  billingInformation?: {
     addressLine1: string;
     addressLine2: string;
     zipCode: string;
     state: string;
     city: string;
     country: string;
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
   };
-  shippingAddress?: {
+  shippingInformation?: {
+    sameAsBillingInformation: boolean;
     addressLine1: string;
     addressLine2: string;
     zipCode: string;
     state: string;
     city: string;
     country: string;
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
   };
 };
 
@@ -278,22 +289,32 @@ export type ApiGetTShirtSpecificationResponse = {
       phone_number: string;
       email: string;
     };
-    billing_address?: {
+    billing_information?: {
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
       state: string;
       city: string;
       country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
     };
-    shipping_address?: {
-      same_as_billing_address: boolean;
+    shipping_information?: {
+      same_as_billing_information: boolean;
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
       state: string;
       city: string;
       country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
     };
   };
 };
@@ -429,22 +450,32 @@ export type ApiPutTShirtSpecificationRequest = {
       phone_number: string;
       email: string;
     };
-    billing_address?: {
+    billing_information?: {
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
       state: string;
       city: string;
       country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
     };
-    shipping_address?: {
-      same_as_billing_address: boolean;
+    shipping_information?: {
+      same_as_billing_information: boolean;
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
       state: string;
       city: string;
       country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
     };
   };
 };

@@ -14,22 +14,32 @@ class TenantStore {
       phoneNumber: "",
       email: "",
     },
-    billingAddress: {
+    billingInformation: {
       addressLine1: "",
       addressLine2: "",
       zipCode: "",
       state: "",
       city: "",
       country: "",
+      companyName: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
     },
-    shippingAddress: {
-      sameAsBillingAddress: false,
+    shippingInformation: {
+      sameAsBillingInformation: false,
       addressLine1: "",
       addressLine2: "",
       zipCode: "",
       state: "",
       city: "",
       country: "",
+      companyName: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
     },
   };
   tenantSettingsTShirtFit: TenantSettingsTShirtFit = {
@@ -114,22 +124,32 @@ class TenantStore {
         phoneNumber: "",
         email: "",
       },
-      billingAddress: {
+      billingInformation: {
         addressLine1: "",
         addressLine2: "",
         zipCode: "",
         state: "",
         city: "",
         country: "",
+        companyName: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
       },
-      shippingAddress: {
-        sameAsBillingAddress: false,
+      shippingInformation: {
+        sameAsBillingInformation: false,
         addressLine1: "",
         addressLine2: "",
         zipCode: "",
         state: "",
         city: "",
         country: "",
+        companyName: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
       },
     };
     this.loading = false;

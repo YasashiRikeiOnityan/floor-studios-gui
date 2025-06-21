@@ -3,8 +3,6 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { SizeValue, Description, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
 import { DescriptionWithFile } from "@/components/DescriptionWithFile";
 import Loading from "@/components/Loading";
@@ -810,13 +808,7 @@ const TShirtFit = observer((props: TShirtFitProps) => {
       </div>
 
       {/* ボタン */}
-      <div className="mt-6 flex flex-row justify-between">
-        <Link href="https://floor-studios.com/orders" className="text-sm text-blue-600 flex flex-row items-center gap-x-2">
-          <span className="text-blue-600">
-            <ArrowLeftIcon className="w-4 h-4" />
-          </span>
-          Back to Orders
-        </Link>
+      <div className="mt-6 flex flex-row justify-end">
         <div className="flex flex-row gap-x-3">
           <Button
             type={"button"}

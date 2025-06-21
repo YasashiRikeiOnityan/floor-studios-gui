@@ -15,22 +15,33 @@ type InformationProps = {
 const Information = observer((props: InformationProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
   const router = useRouter();
-  const [contactFirstName, setContactFirstName] = useState(currentSpecification?.information?.contact?.firstName || tenantStore.tenant.contact.firstName || "");
-  const [contactLastName, setContactLastName] = useState(currentSpecification?.information?.contact?.lastName || tenantStore.tenant.contact.lastName || "");
-  const [contactPhoneNumber, setContactPhoneNumber] = useState(currentSpecification?.information?.contact?.phoneNumber || tenantStore.tenant.contact.phoneNumber || "");
-  const [contactEmail, setContactEmail] = useState(currentSpecification?.information?.contact?.email || tenantStore.tenant.contact.email || "");
-  const [billingAddressLine1, setBillingAddressLine1] = useState(currentSpecification?.information?.billingAddress?.addressLine1 || tenantStore.tenant.billingAddress.addressLine1 || "");
-  const [billingAddressLine2, setBillingAddressLine2] = useState(currentSpecification?.information?.billingAddress?.addressLine2 || tenantStore.tenant.billingAddress.addressLine2 || "");
-  const [billingZipCode, setBillingZipCode] = useState(currentSpecification?.information?.billingAddress?.zipCode || tenantStore.tenant.billingAddress.zipCode || "");
-  const [billingState, setBillingState] = useState(currentSpecification?.information?.billingAddress?.state || tenantStore.tenant.billingAddress.state || "");
-  const [billingCity, setBillingCity] = useState(currentSpecification?.information?.billingAddress?.city || tenantStore.tenant.billingAddress.city || "");
-  const [billingCountry, setBillingCountry] = useState(currentSpecification?.information?.billingAddress?.country || tenantStore.tenant.billingAddress.country || "");
-  const [shippingAddressLine1, setShippingAddressLine1] = useState(currentSpecification?.information?.shippingAddress?.addressLine1 || tenantStore.tenant.shippingAddress.addressLine1 || "");
-  const [shippingAddressLine2, setShippingAddressLine2] = useState(currentSpecification?.information?.shippingAddress?.addressLine2 || tenantStore.tenant.shippingAddress.addressLine2 || "");
-  const [shippingZipCode, setShippingZipCode] = useState(currentSpecification?.information?.shippingAddress?.zipCode || tenantStore.tenant.shippingAddress.zipCode || "");
-  const [shippingState, setShippingState] = useState(currentSpecification?.information?.shippingAddress?.state || tenantStore.tenant.shippingAddress.state || "");
-  const [shippingCity, setShippingCity] = useState(currentSpecification?.information?.shippingAddress?.city || tenantStore.tenant.shippingAddress.city || "");
-  const [shippingCountry, setShippingCountry] = useState(currentSpecification?.information?.shippingAddress?.country || tenantStore.tenant.shippingAddress.country || "");
+  const [contactFirstName, setContactFirstName] = useState("");
+  const [contactLastName, setContactLastName] = useState("");
+  const [contactPhoneNumber, setContactPhoneNumber] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [billingAddressLine1, setBillingAddressLine1] = useState("");
+  const [billingAddressLine2, setBillingAddressLine2] = useState("");
+  const [billingZipCode, setBillingZipCode] = useState("");
+  const [billingState, setBillingState] = useState("");
+  const [billingCity, setBillingCity] = useState("");
+  const [billingCountry, setBillingCountry] = useState("");
+  const [billingCompanyName, setBillingCompanyName] = useState("");
+  const [billingFirstName, setBillingFirstName] = useState("");
+  const [billingLastName, setBillingLastName] = useState("");
+  const [billingPhoneNumber, setBillingPhoneNumber] = useState("");
+  const [billingEmail, setBillingEmail] = useState("");
+  const [sameAsBillingInformation, setSameAsBillingInformation] = useState(false);
+  const [shippingAddressLine1, setShippingAddressLine1] = useState("");
+  const [shippingAddressLine2, setShippingAddressLine2] = useState("");
+  const [shippingZipCode, setShippingZipCode] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingCountry, setShippingCountry] = useState("");
+  const [shippingCompanyName, setShippingCompanyName] = useState("");
+  const [shippingFirstName, setShippingFirstName] = useState("");
+  const [shippingLastName, setShippingLastName] = useState("");
+  const [shippingPhoneNumber, setShippingPhoneNumber] = useState("");
+  const [shippingEmail, setShippingEmail] = useState("");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -41,31 +52,54 @@ const Information = observer((props: InformationProps) => {
     const fetchTenant = async () => {
       if (mounted) {
         await tenantStore.fetchTenant();
+        setContactFirstName(currentSpecification?.information?.contact?.firstName || tenantStore.tenant?.contact?.firstName || "");
+        setContactLastName(currentSpecification?.information?.contact?.lastName || tenantStore.tenant?.contact?.lastName || "");
+        setContactPhoneNumber(currentSpecification?.information?.contact?.phoneNumber || tenantStore.tenant?.contact?.phoneNumber || "");
+        setContactEmail(currentSpecification?.information?.contact?.email || tenantStore.tenant?.contact?.email || "");
+        setBillingAddressLine1(currentSpecification?.information?.billingInformation?.addressLine1 || tenantStore.tenant?.billingInformation?.addressLine1 || "");
+        setBillingAddressLine2(currentSpecification?.information?.billingInformation?.addressLine2 || tenantStore.tenant?.billingInformation?.addressLine2 || "");
+        setBillingZipCode(currentSpecification?.information?.billingInformation?.zipCode || tenantStore.tenant?.billingInformation?.zipCode || "");
+        setBillingState(currentSpecification?.information?.billingInformation?.state || tenantStore.tenant?.billingInformation?.state || "");
+        setBillingCity(currentSpecification?.information?.billingInformation?.city || tenantStore.tenant?.billingInformation?.city || "");
+        setBillingCountry(currentSpecification?.information?.billingInformation?.country || tenantStore.tenant?.billingInformation?.country || "");
+        setBillingCompanyName(currentSpecification?.information?.billingInformation?.companyName || tenantStore.tenant?.billingInformation?.companyName || "");
+        setBillingFirstName(currentSpecification?.information?.billingInformation?.firstName || tenantStore.tenant?.billingInformation?.firstName || "");
+        setBillingLastName(currentSpecification?.information?.billingInformation?.lastName || tenantStore.tenant?.billingInformation?.lastName || "");
+        setBillingPhoneNumber(currentSpecification?.information?.billingInformation?.phoneNumber || tenantStore.tenant?.billingInformation?.phoneNumber || "");
+        setBillingEmail(currentSpecification?.information?.billingInformation?.email || tenantStore.tenant?.billingInformation?.email || "");
+        setSameAsBillingInformation(currentSpecification?.information?.shippingInformation?.sameAsBillingInformation || false);
+        setShippingAddressLine1(currentSpecification?.information?.shippingInformation?.addressLine1 || tenantStore.tenant?.shippingInformation?.addressLine1 || "");
+        setShippingAddressLine2(currentSpecification?.information?.shippingInformation?.addressLine2 || tenantStore.tenant?.shippingInformation?.addressLine2 || "");
+        setShippingZipCode(currentSpecification?.information?.shippingInformation?.zipCode || tenantStore.tenant?.shippingInformation?.zipCode || "");
+        setShippingState(currentSpecification?.information?.shippingInformation?.state || tenantStore.tenant?.shippingInformation?.state || "");
+        setShippingCity(currentSpecification?.information?.shippingInformation?.city || tenantStore.tenant?.shippingInformation?.city || "");
+        setShippingCountry(currentSpecification?.information?.shippingInformation?.country || tenantStore.tenant?.shippingInformation?.country || "");
+        setShippingCompanyName(currentSpecification?.information?.shippingInformation?.companyName || tenantStore.tenant?.shippingInformation?.companyName || "");
+        setShippingFirstName(currentSpecification?.information?.shippingInformation?.firstName || tenantStore.tenant?.shippingInformation?.firstName || "");
+        setShippingLastName(currentSpecification?.information?.shippingInformation?.lastName || tenantStore.tenant?.shippingInformation?.lastName || "");
+        setShippingPhoneNumber(currentSpecification?.information?.shippingInformation?.phoneNumber || tenantStore.tenant?.shippingInformation?.phoneNumber || "");
+        setShippingEmail(currentSpecification?.information?.shippingInformation?.email || tenantStore.tenant?.shippingInformation?.email || "");
       }
     };
     fetchTenant();
   }, [mounted]);
 
+  // 請求先情報と同じにするトグルが変更された時の処理
   useEffect(() => {
-    if (mounted) {
-      setContactFirstName(currentSpecification?.information?.contact?.firstName || tenantStore.tenant.contact.firstName || "");
-      setContactLastName(currentSpecification?.information?.contact?.lastName || tenantStore.tenant.contact.lastName || "");
-      setContactPhoneNumber(currentSpecification?.information?.contact?.phoneNumber || tenantStore.tenant.contact.phoneNumber || "");
-      setContactEmail(currentSpecification?.information?.contact?.email || tenantStore.tenant.contact.email || "");
-      setBillingAddressLine1(currentSpecification?.information?.billingAddress?.addressLine1 || tenantStore.tenant.billingAddress.addressLine1 || "");
-      setBillingAddressLine2(currentSpecification?.information?.billingAddress?.addressLine2 || tenantStore.tenant.billingAddress.addressLine2 || "");
-      setBillingZipCode(currentSpecification?.information?.billingAddress?.zipCode || tenantStore.tenant.billingAddress.zipCode || "");
-      setBillingState(currentSpecification?.information?.billingAddress?.state || tenantStore.tenant.billingAddress.state || "");
-      setBillingCity(currentSpecification?.information?.billingAddress?.city || tenantStore.tenant.billingAddress.city || "");
-      setBillingCountry(currentSpecification?.information?.billingAddress?.country || tenantStore.tenant.billingAddress.country || "");
-      setShippingAddressLine1(currentSpecification?.information?.shippingAddress?.addressLine1 || tenantStore.tenant.shippingAddress.addressLine1 || "");
-      setShippingAddressLine2(currentSpecification?.information?.shippingAddress?.addressLine2 || tenantStore.tenant.shippingAddress.addressLine2 || "");
-      setShippingZipCode(currentSpecification?.information?.shippingAddress?.zipCode || tenantStore.tenant.shippingAddress.zipCode || "");
-      setShippingState(currentSpecification?.information?.shippingAddress?.state || tenantStore.tenant.shippingAddress.state || "");
-      setShippingCity(currentSpecification?.information?.shippingAddress?.city || tenantStore.tenant.shippingAddress.city || "");
-      setShippingCountry(currentSpecification?.information?.shippingAddress?.country || tenantStore.tenant.shippingAddress.country || "");
+    if (sameAsBillingInformation) {
+      setShippingAddressLine1(billingAddressLine1);
+      setShippingAddressLine2(billingAddressLine2);
+      setShippingZipCode(billingZipCode);
+      setShippingState(billingState);
+      setShippingCity(billingCity);
+      setShippingCountry(billingCountry);
+      setShippingCompanyName(billingCompanyName);
+      setShippingFirstName(billingFirstName);
+      setShippingLastName(billingLastName);
+      setShippingPhoneNumber(billingPhoneNumber);
+      setShippingEmail(billingEmail);
     }
-  }, [mounted, currentSpecification, tenantStore.tenant]);
+  }, [sameAsBillingInformation, billingAddressLine1, billingAddressLine2, billingZipCode, billingState, billingCity, billingCountry, billingCompanyName, billingFirstName, billingLastName, billingPhoneNumber, billingEmail]);
 
   const handleSaveAndNext = () => {
     specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
@@ -78,22 +112,32 @@ const Information = observer((props: InformationProps) => {
           phone_number: contactPhoneNumber,
           email: contactEmail,
         },
-        billing_address: {
+        billing_information: {
           address_line_1: billingAddressLine1,
           address_line_2: billingAddressLine2,
           zip_code: billingZipCode,
           state: billingState,
           city: billingCity,
           country: billingCountry,
+          company_name: billingCompanyName,
+          first_name: billingFirstName,
+          last_name: billingLastName,
+          phone_number: billingPhoneNumber,
+          email: billingEmail,
         },
-        shipping_address: {
-          same_as_billing_address: true,
+        shipping_information: {
+          same_as_billing_information: sameAsBillingInformation,
           address_line_1: shippingAddressLine1,
           address_line_2: shippingAddressLine2,
           zip_code: shippingZipCode,
           state: shippingState,
           city: shippingCity,
           country: shippingCountry,
+          company_name: shippingCompanyName,
+          first_name: shippingFirstName,
+          last_name: shippingLastName,
+          phone_number: shippingPhoneNumber,
+          email: shippingEmail,
         }
       }
     });
@@ -106,21 +150,32 @@ const Information = observer((props: InformationProps) => {
           phoneNumber: contactPhoneNumber,
           email: contactEmail,
         },
-        billingAddress: {
+        billingInformation: {
           addressLine1: billingAddressLine1,
           addressLine2: billingAddressLine2,
           zipCode: billingZipCode,
           state: billingState,
           city: billingCity,
           country: billingCountry,
+          companyName: billingCompanyName,
+          firstName: billingFirstName,
+          lastName: billingLastName,
+          phoneNumber: billingPhoneNumber,
+          email: billingEmail,
         },
-        shippingAddress: {
+        shippingInformation: {
+          sameAsBillingInformation: sameAsBillingInformation,
           addressLine1: shippingAddressLine1,
           addressLine2: shippingAddressLine2,
           zipCode: shippingZipCode,
           state: shippingState,
           city: shippingCity,
           country: shippingCountry,
+          companyName: shippingCompanyName,
+          firstName: shippingFirstName,
+          lastName: shippingLastName,
+          phoneNumber: shippingPhoneNumber,
+          email: shippingEmail,
         },
       }
     });
@@ -137,22 +192,33 @@ const Information = observer((props: InformationProps) => {
   }
 
   const handleCancel = () => {
-    setContactFirstName(tenantStore.tenant.contact.firstName || "");
-    setContactLastName(tenantStore.tenant.contact.lastName || "");
-    setContactPhoneNumber(tenantStore.tenant.contact.phoneNumber || "");
-    setContactEmail(tenantStore.tenant.contact.email || "");
-    setBillingAddressLine1(tenantStore.tenant.billingAddress.addressLine1 || "");
-    setBillingAddressLine2(tenantStore.tenant.billingAddress.addressLine2 || "");
-    setBillingZipCode(tenantStore.tenant.billingAddress.zipCode || "");
-    setBillingState(tenantStore.tenant.billingAddress.state || "");
-    setBillingCity(tenantStore.tenant.billingAddress.city || "");
-    setBillingCountry(tenantStore.tenant.billingAddress.country || "");
-    setShippingAddressLine1(tenantStore.tenant.shippingAddress.addressLine1 || "");
-    setShippingAddressLine2(tenantStore.tenant.shippingAddress.addressLine2 || "");
-    setShippingZipCode(tenantStore.tenant.shippingAddress.zipCode || "");
-    setShippingState(tenantStore.tenant.shippingAddress.state || "");
-    setShippingCity(tenantStore.tenant.shippingAddress.city || "");
-    setShippingCountry(tenantStore.tenant.shippingAddress.country || "");
+    setContactFirstName(tenantStore.tenant?.contact?.firstName || "");
+    setContactLastName(tenantStore.tenant?.contact?.lastName || "");
+    setContactPhoneNumber(tenantStore.tenant?.contact?.phoneNumber || "");
+    setContactEmail(tenantStore.tenant?.contact?.email || "");
+    setBillingAddressLine1(tenantStore.tenant?.billingInformation?.addressLine1 || "");
+    setBillingAddressLine2(tenantStore.tenant?.billingInformation?.addressLine2 || "");
+    setBillingZipCode(tenantStore.tenant?.billingInformation?.zipCode || "");
+    setBillingState(tenantStore.tenant?.billingInformation?.state || "");
+    setBillingCity(tenantStore.tenant?.billingInformation?.city || "");
+    setBillingCountry(tenantStore.tenant?.billingInformation?.country || "");
+    setBillingCompanyName(tenantStore.tenant?.billingInformation?.companyName || "");
+    setBillingFirstName(tenantStore.tenant?.billingInformation?.firstName || "");
+    setBillingLastName(tenantStore.tenant?.billingInformation?.lastName || "");
+    setBillingPhoneNumber(tenantStore.tenant?.billingInformation?.phoneNumber || "");
+    setBillingEmail(tenantStore.tenant?.billingInformation?.email || "");
+    setSameAsBillingInformation(false);
+    setShippingAddressLine1(tenantStore.tenant?.shippingInformation?.addressLine1 || "");
+    setShippingAddressLine2(tenantStore.tenant?.shippingInformation?.addressLine2 || "");
+    setShippingZipCode(tenantStore.tenant?.shippingInformation?.zipCode || "");
+    setShippingState(tenantStore.tenant?.shippingInformation?.state || "");
+    setShippingCity(tenantStore.tenant?.shippingInformation?.city || "");
+    setShippingCountry(tenantStore.tenant?.shippingInformation?.country || "");
+    setShippingCompanyName(tenantStore.tenant?.shippingInformation?.companyName || "");
+    setShippingFirstName(tenantStore.tenant?.shippingInformation?.firstName || "");
+    setShippingLastName(tenantStore.tenant?.shippingInformation?.lastName || "");
+    setShippingPhoneNumber(tenantStore.tenant?.shippingInformation?.phoneNumber || "");
+    setShippingEmail(tenantStore.tenant?.shippingInformation?.email || "");
   }
 
   return (
@@ -185,7 +251,7 @@ const Information = observer((props: InformationProps) => {
               </div>
               <div className="relative">
                 <label
-                  htmlFor="firstName"
+                  htmlFor="lastName"
                   className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
                 >
                   Last Name
@@ -219,8 +285,6 @@ const Information = observer((props: InformationProps) => {
                   onChange={(e) => setContactPhoneNumber(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="mt-6 grid grid-cols-2 gap-4">
               <div className="relative">
                 <label
                   htmlFor="email"
@@ -245,6 +309,97 @@ const Information = observer((props: InformationProps) => {
           <dt className="text-sm/6 font-semibold text-gray-900">Billing Address</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="billingCompanyName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Company Name
+                </label>
+                <input
+                  id="billingCompanyName"
+                  name="billingCompanyName"
+                  type="text"
+                  placeholder="Floor Studios"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  value={billingCompanyName}
+                  onChange={(e) => setBillingCompanyName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="billingFirstName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  First Name
+                </label>
+                <input
+                  id="billingFirstName"
+                  name="billingFirstName"
+                  type="text"
+                  placeholder="Floor"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  value={billingFirstName}
+                  onChange={(e) => setBillingFirstName(e.target.value)}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="billingLastName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Last Name
+                </label>
+                <input
+                  id="billingLastName"
+                  name="billingLastName"
+                  type="text"
+                  placeholder="Studios"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  value={billingLastName}
+                  onChange={(e) => setBillingLastName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="billingPhoneNumber"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Phone Number
+                </label>
+                <input
+                  id="billingPhoneNumber"
+                  name="billingPhoneNumber"
+                  type="text"
+                  placeholder="+81 90-1234-5678"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  value={billingPhoneNumber}
+                  onChange={(e) => setBillingPhoneNumber(e.target.value)}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="billingEmail"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Email
+                </label>
+                <input
+                  id="billingEmail"
+                  name="billingEmail"
+                  type="text"
+                  placeholder="floor@floorstudios.com"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  value={billingEmail}
+                  onChange={(e) => setBillingEmail(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
               <div className="relative">
                 <label
                   htmlFor="billingCountry"
@@ -361,7 +516,119 @@ const Information = observer((props: InformationProps) => {
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
           <dt className="text-sm/6 font-semibold text-gray-900">Shipping Address</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {/* 請求先情報と同じにするトグル */}
+            <div className="mt-2 sm:mt-0 mb-6">
+              <div className="flex items-center">
+                <input
+                  id="sameAsBilling"
+                  name="sameAsBilling"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                  checked={sameAsBillingInformation}
+                  onChange={(e) => setSameAsBillingInformation(e.target.checked)}
+                />
+                <label htmlFor="sameAsBilling" className="ml-2 text-sm text-gray-900">
+                  Same as billing information
+                </label>
+              </div>
+            </div>
             <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="shippingCompanyName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Company Name
+                </label>
+                <input
+                  id="shippingCompanyName"
+                  name="shippingCompanyName"
+                  type="text"
+                  placeholder="Floor Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={shippingCompanyName}
+                  onChange={(e) => setShippingCompanyName(e.target.value)}
+                  disabled={sameAsBillingInformation}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="shippingFirstName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  First Name
+                </label>
+                <input
+                  id="shippingFirstName"
+                  name="shippingFirstName"
+                  type="text"
+                  placeholder="Floor"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={shippingFirstName}
+                  onChange={(e) => setShippingFirstName(e.target.value)}
+                  disabled={sameAsBillingInformation}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="shippingLastName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Last Name
+                </label>
+                <input
+                  id="shippingLastName"
+                  name="shippingLastName"
+                  type="text"
+                  placeholder="Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={shippingLastName}
+                  onChange={(e) => setShippingLastName(e.target.value)}
+                  disabled={sameAsBillingInformation}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="shippingPhoneNumber"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Phone Number
+                </label>
+                <input
+                  id="shippingPhoneNumber"
+                  name="shippingPhoneNumber"
+                  type="text"
+                  placeholder="+81 90-1234-5678"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={shippingPhoneNumber}
+                  onChange={(e) => setShippingPhoneNumber(e.target.value)}
+                  disabled={sameAsBillingInformation}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="shippingEmail"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Email
+                </label>
+                <input
+                  id="shippingEmail"
+                  name="shippingEmail"
+                  type="text"
+                  placeholder="floor@floorstudios.com"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={shippingEmail}
+                  onChange={(e) => setShippingEmail(e.target.value)}
+                  disabled={sameAsBillingInformation}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
               <div className="relative">
                 <label
                   htmlFor="shippingCountry"
@@ -374,9 +641,10 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCountry"
                   type="text"
                   placeholder="Japan"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingCountry}
                   onChange={(e) => setShippingCountry(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
             </div>
@@ -393,9 +661,10 @@ const Information = observer((props: InformationProps) => {
                   name="shippingState"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingState}
                   onChange={(e) => setShippingState(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
               <div className="relative">
@@ -410,9 +679,10 @@ const Information = observer((props: InformationProps) => {
                   name="shippingCity"
                   type="text"
                   placeholder="Tokyo"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingCity}
                   onChange={(e) => setShippingCity(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
             </div>
@@ -429,9 +699,10 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine1"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingAddressLine1}
                   onChange={(e) => setShippingAddressLine1(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
             </div>
@@ -448,28 +719,30 @@ const Information = observer((props: InformationProps) => {
                   name="shippingAddressLine2"
                   type="text"
                   placeholder="Floor Studios"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingAddressLine2}
                   onChange={(e) => setShippingAddressLine2(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-4">
               <div className="relative">
                 <label
-                  htmlFor="zipCode"
+                  htmlFor="shippingZipCode"
                   className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
                 >
                   Zip Code
                 </label>
                 <input
-                  id="zipCode"
-                  name="zipCode"
+                  id="shippingZipCode"
+                  name="shippingZipCode"
                   type="text"
                   placeholder="123-4567"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsBillingInformation ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
                   value={shippingZipCode}
                   onChange={(e) => setShippingZipCode(e.target.value)}
+                  disabled={sameAsBillingInformation}
                 />
               </div>
             </div>

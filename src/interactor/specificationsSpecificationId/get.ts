@@ -9,7 +9,9 @@ import {
   Specification,
   ApiGetSpecificationsSpecificationIdResponse,
 } from "@/lib/type/specification/type";
-import { notificationStore } from "@/stores/notificationStore";
+import {
+  notificationStore,
+} from "@/stores/notificationStore";
 
 export const GetSpecificationsSpecificationIdInteractor = async (specificationId: string): Promise<Specification | undefined> => {
   try {
@@ -159,21 +161,32 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
         phoneNumber: specification.information?.contact?.phone_number || "",
         email: specification.information?.contact?.email || "",
       },
-      billingAddress: {
-        addressLine1: specification.information?.billing_address?.address_line_1 || "",
-        addressLine2: specification.information?.billing_address?.address_line_2 || "",
-        zipCode: specification.information?.billing_address?.zip_code || "",
-        state: specification.information?.billing_address?.state || "",
-        city: specification.information?.billing_address?.city || "",
-        country: specification.information?.billing_address?.country || "",
+      billingInformation: {
+        addressLine1: specification.information?.billing_information?.address_line_1 || "",
+        addressLine2: specification.information?.billing_information?.address_line_2 || "",
+        zipCode: specification.information?.billing_information?.zip_code || "",
+        state: specification.information?.billing_information?.state || "",
+        city: specification.information?.billing_information?.city || "",
+        country: specification.information?.billing_information?.country || "",
+        companyName: specification.information?.billing_information?.company_name || "",
+        firstName: specification.information?.billing_information?.first_name || "",
+        lastName: specification.information?.billing_information?.last_name || "",
+        phoneNumber: specification.information?.billing_information?.phone_number || "",
+        email: specification.information?.billing_information?.email || "",
       },
-      shippingAddress: {
-        addressLine1: specification.information?.shipping_address?.address_line_1 || "",
-        addressLine2: specification.information?.shipping_address?.address_line_2 || "",
-        zipCode: specification.information?.shipping_address?.zip_code || "",
-        state: specification.information?.shipping_address?.state || "",
-        city: specification.information?.shipping_address?.city || "",
-        country: specification.information?.shipping_address?.country || "",
+      shippingInformation: {
+        sameAsBillingInformation: specification.information?.shipping_information?.same_as_billing_information || false,
+        addressLine1: specification.information?.shipping_information?.address_line_1 || "",
+        addressLine2: specification.information?.shipping_information?.address_line_2 || "",
+        zipCode: specification.information?.shipping_information?.zip_code || "",
+        state: specification.information?.shipping_information?.state || "",
+        city: specification.information?.shipping_information?.city || "",
+        country: specification.information?.shipping_information?.country || "",
+        companyName: specification.information?.shipping_information?.company_name || "",
+        firstName: specification.information?.shipping_information?.first_name || "",
+        lastName: specification.information?.shipping_information?.last_name || "",
+        phoneNumber: specification.information?.shipping_information?.phone_number || "",
+        email: specification.information?.shipping_information?.email || "",
       }
     }
   }

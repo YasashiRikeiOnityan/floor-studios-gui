@@ -1,9 +1,14 @@
 import { ApiPutTenant } from "@/lib/api";
-import { ApiPutTenantRequest, ApiPutTenantResponse, Tenant } from "@/lib/type";
+import { ApiPutTenantRequest, Tenant } from "@/lib/type";
+import { notificationStore } from "@/stores/notificationStore";
 
-export const PutTenantInteractor = async (tenant: Tenant): Promise<Tenant> => {
-  const response = await ApiPutTenant(mapTenantRequest(tenant));
-  return mapTenant(response);
+export const PutTenantInteractor = async (tenant: Tenant): Promise<void> => {
+  try {
+    await ApiPutTenant(mapTenantRequest(tenant));
+    notificationStore.addNotification("Success", "Brand information updated successfully", "success");
+  } catch {
+    notificationStore.addNotification("Error", "Failed to update brand information", "error");
+  }
 };
 
 const mapTenantRequest = (tenant: Tenant): ApiPutTenantRequest => {
@@ -15,51 +20,32 @@ const mapTenantRequest = (tenant: Tenant): ApiPutTenantRequest => {
       phone_number: tenant.contact.phoneNumber,
       email: tenant.contact.email,
     },
-    billing_address: {
-      address_line_1: tenant.billingAddress.addressLine1,
-      address_line_2: tenant.billingAddress.addressLine2,
-      zip_code: tenant.billingAddress.zipCode,
-      state: tenant.billingAddress.state,
-      city: tenant.billingAddress.city,
-      country: tenant.billingAddress.country,
+    billing_information: {
+      address_line_1: tenant.billingInformation.addressLine1,
+      address_line_2: tenant.billingInformation.addressLine2,
+      zip_code: tenant.billingInformation.zipCode,
+      state: tenant.billingInformation.state,
+      city: tenant.billingInformation.city,
+      country: tenant.billingInformation.country,
+      company_name: tenant.billingInformation.companyName,
+      first_name: tenant.billingInformation.firstName,
+      last_name: tenant.billingInformation.lastName,
+      phone_number: tenant.billingInformation.phoneNumber,
+      email: tenant.billingInformation.email,
     },
-    shipping_address: {
-      same_as_billing_address: tenant.shippingAddress.sameAsBillingAddress,
-      address_line_1: tenant.shippingAddress.addressLine1,
-      address_line_2: tenant.shippingAddress.addressLine2,
-      zip_code: tenant.shippingAddress.zipCode,
-      state: tenant.shippingAddress.state,
-      city: tenant.shippingAddress.city,
-      country: tenant.shippingAddress.country,
-    },
-  };
-};
-
-const mapTenant = (tenant: ApiPutTenantResponse): Tenant => {
-  return {
-    tenantName: tenant.tenant_name,
-    contact: {
-      firstName: tenant.contact?.first_name || "",
-      lastName: tenant.contact?.last_name || "",
-      phoneNumber: tenant.contact?.phone_number || "",
-      email: tenant.contact?.email || "",
-    },
-    billingAddress: {
-      addressLine1: tenant.billing_address?.address_line_1 || "",
-      addressLine2: tenant.billing_address?.address_line_2 || "",
-      zipCode: tenant.billing_address?.zip_code || "",
-      state: tenant.billing_address?.state || "",
-      city: tenant.billing_address?.city || "",
-      country: tenant.billing_address?.country || "",
-    },
-    shippingAddress: {
-      sameAsBillingAddress: tenant.shipping_address?.same_as_billing_address || false,
-      addressLine1: tenant.shipping_address?.address_line_1 || "",
-      addressLine2: tenant.shipping_address?.address_line_2 || "",
-      zipCode: tenant.shipping_address?.zip_code || "",
-      state: tenant.shipping_address?.state || "",
-      city: tenant.shipping_address?.city || "",
-      country: tenant.shipping_address?.country || "",
+    shipping_information: {
+      same_as_billing_information: tenant.shippingInformation.sameAsBillingInformation,
+      address_line_1: tenant.shippingInformation.addressLine1,
+      address_line_2: tenant.shippingInformation.addressLine2,
+      zip_code: tenant.shippingInformation.zipCode,
+      state: tenant.shippingInformation.state,
+      city: tenant.shippingInformation.city,
+      country: tenant.shippingInformation.country,
+      company_name: tenant.shippingInformation.companyName,
+      first_name: tenant.shippingInformation.firstName,
+      last_name: tenant.shippingInformation.lastName,
+      phone_number: tenant.shippingInformation.phoneNumber,
+      email: tenant.shippingInformation.email,
     },
   };
 };

@@ -11,8 +11,6 @@ import TShirtFabricColourway from "./TShirtFabricColourway";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
 import { specificationStore } from "@/stores/specificationStore";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 
 type TShirtFabricProps = {
   callBackUpdateState: () => void;
@@ -544,7 +542,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
 
   const handleSaveAndNext = async () => {
     setIsSaving(true);
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
         materials: await Promise.all(materials.map(async (m) => ({
@@ -817,13 +815,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       )}
 
       {/* ボタン */}
-      <div className="mt-6 flex flex-row justify-between">
-        <Link href="https://floor-studios.com/orders" className="text-sm text-blue-600 flex flex-row items-center gap-x-2">
-          <span className="text-blue-600">
-            <ArrowLeftIcon className="w-4 h-4" />
-          </span>
-          Back to Orders
-        </Link>
+      <div className="mt-6 flex flex-row justify-end">
         <div className="flex flex-row gap-x-3">
           <Button
             type={"button"}
