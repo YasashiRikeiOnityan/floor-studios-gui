@@ -28,7 +28,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
       if (url) {
         window.open(url, '_blank');
       }
-    } catch (error) {
+    } catch {
       notificationStore.addNotification("Error", "Preview failed", "error");
     } finally {
       setIsPreviewing(false);
@@ -47,7 +47,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
         a.click();
         document.body.removeChild(a);
       }
-    } catch (error) {
+    } catch {
       notificationStore.addNotification("Error", "Download failed", "error");
     } finally {
       setIsDownloading(false);
