@@ -77,3 +77,7 @@ export type ApiPutSpecificationsSpecificationIdResponse = {
 export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
   url: string;
 }
+
+export type ApiGetSpecificationsSpecificationIdPreviewResponse = {
+  url: string;
+}

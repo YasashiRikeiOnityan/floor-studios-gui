@@ -6,6 +6,7 @@ import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/specifi
 import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/put";
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/delete";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
+import { GetSpecificationsSpecificationIdPreviewInteractor } from "@/interactor/GetSpecificationsSpecificationIdPreview";
 import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
 
 class SpecificationStore {
@@ -73,6 +74,11 @@ class SpecificationStore {
 
   async getSpecificationsSpecificationIdDownload(specificationId: string) {
     const response = await GetSpecificationsSpecificationIdDownloadInteractor(specificationId);
+    return response.url;
+  }
+
+  async getSpecificationsSpecificationIdPreview(specificationId: string) {
+    const response = await GetSpecificationsSpecificationIdPreviewInteractor(specificationId);
     return response.url;
   }
 

@@ -18,7 +18,8 @@ import {
   ApiPutSpecificationsSpecificationIdResponse,
   SpecificationStatus,
   ApiPostSpecificationsResponse,
-  ApiGetSpecificationsSpecificationIdDownloadResponse
+  ApiGetSpecificationsSpecificationIdDownloadResponse,
+  ApiGetSpecificationsSpecificationIdPreviewResponse
 } from '@/lib/type/specification/type';
 import { refreshToken } from "./cognito";
 import { CognitoRefreshToken } from 'amazon-cognito-identity-js';
@@ -235,6 +236,16 @@ export const ApiGetSpecificationsSpecificationIdDownload = async (specificationI
     return response.data;
   } catch (error) {
     console.error('Failed to download specification:', error);
+    throw error;
+  }
+};
+
+export const ApiGetSpecificationsSpecificationIdPreview = async (specificationId: string): Promise<ApiGetSpecificationsSpecificationIdPreviewResponse> => {
+  try {
+    const response = await httpClient.get(`/specifications/${specificationId}/preview`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to preview specification:', error);
     throw error;
   }
 };
