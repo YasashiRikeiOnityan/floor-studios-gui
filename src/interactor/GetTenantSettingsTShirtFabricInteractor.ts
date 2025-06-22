@@ -11,14 +11,13 @@ const mapTenantSettingsTShirtFabric = (response: ApiGetTenantSettingsTShirtFabri
   return {
     materials: response.materials.map((material) => ({
       rowMaterial: material.row_material,
-      thickness: material.thickness,
     })),
     subMaterials: response.sub_materials.map((subMaterial) => ({
       rowMaterial: subMaterial.row_material,
     })),
     colourways: response.colourways.map((colourway) => ({
-      pantone: colourway.pantone,
-      hex: colourway.hex,
+      colorName: colourway.color_name,
+      colorCode: colourway.color_code,
     })),
   };
 };

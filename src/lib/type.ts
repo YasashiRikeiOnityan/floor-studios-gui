@@ -63,20 +63,18 @@ export type TenantSettingsTShirtFit = {
 export type TenantSettingsTShirtFabric = {
   materials: {
     rowMaterial: string;
-    thickness: string;
   }[];
   subMaterials: {
     rowMaterial: string;
   }[];
   colourways: {
-    pantone: string;
-    hex: string;
+    colorName: string;
+    colorCode: string;
   }[];
 }
 
 export type Material = {
   rowMaterial: string;
-  thickness: string;
   description: string;
   colourway: Colourway;
 }
@@ -88,8 +86,8 @@ export type SubMaterial = {
 }
 
 export type Colourway = {
-  pantone: string;
-  hex: string;
+  colorName: string;
+  colorCode: string;
 }
 
 export type ApiGetTenantResponse = {
@@ -194,8 +192,8 @@ export type ApiGetTenantSettingsTShirtFabricResponse = {
     row_material: string;
   }[];
   colourways: {
-    pantone: string;
-    hex: string;
+    color_name: string;
+    color_code: string;
   }[];
 }
 

@@ -7,12 +7,8 @@ import { observer } from 'mobx-react-lite';
 import { tenantStore } from '@/stores/tenantStore';
 
 type TShirtFabricSubMaterials = {
-  currentSubMaterial: {
-    rowMaterial: string;
-  };
-  setCurrentSubMaterial: (subMaterial: {
-    rowMaterial: string;
-  }) => void;
+  currentSubMaterial: string;
+  setCurrentSubMaterial: (rowMaterial: string) => void;
   fullWidth?: boolean;
 }
 
@@ -20,7 +16,7 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
 
   const subMaterials = [...tenantStore.tenantSettingsTShirtFabric.subMaterials];
 
-  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial);
+  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial);
 
   return (
     <Listbox value={props.currentSubMaterial} onChange={props.setCurrentSubMaterial} as="div" className="relative">
@@ -40,12 +36,12 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
         {subMaterials.map((subMaterial) => (
           <ListboxOption
             key={subMaterial.rowMaterial}
-            value={subMaterial}
+            value={subMaterial.rowMaterial}
             className={`group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-blue-600 data-[focus]:text-white data-[focus]:outline-none
-              ${subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial ? 'bg-blue-50' : ''}`}
+              ${subMaterial.rowMaterial === props.currentSubMaterial ? 'bg-blue-50' : ''}`}
           >
             <span className="block truncate font-normal group-data-[selected]:font-semibold">{subMaterial.rowMaterial}</span>
-            {subMaterial.rowMaterial === props.currentSubMaterial.rowMaterial && (
+            {subMaterial.rowMaterial === props.currentSubMaterial && (
               <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 group-data-[focus]:text-white">
                 <CheckIcon aria-hidden="true" className="size-5" />
               </span>

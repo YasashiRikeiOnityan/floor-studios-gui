@@ -69,10 +69,9 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
       materials: (specification.fabric?.materials || []).map((material) => {
         return {
           rowMaterial: material?.row_material || "",
-          thickness: material?.thickness || "",
           colourway: {
-            pantone: material?.colourway?.pantone || "",
-            hex: material?.colourway?.hex || "",
+            colorName: material?.colourway?.color_name || "",
+            colorCode: material?.colourway?.color_code || "",
           },
           description: {
             description: material?.description?.description || "",
@@ -87,8 +86,8 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
         return {
           rowMaterial: subMaterial.row_material || "",
           colourway: {
-            pantone: subMaterial.colourway?.pantone || "",
-            hex: subMaterial.colourway?.hex || "",
+            colorName: subMaterial.colourway?.color_name || "",
+            colorCode: subMaterial.colourway?.color_code || "",
           },
           description: {
             description: subMaterial.description?.description || "",
@@ -105,9 +104,9 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
       sendLabels: specification.tag?.send_labels || false,
       isCustom: specification.tag?.is_custom || false,
       material: specification.tag?.material || "Woven label",
-      color: specification.tag?.color ? {
-        pantone: specification.tag?.color?.pantone || "",
-        hex: specification.tag?.color?.hex || "",
+      colourway: specification.tag?.colourway ? {
+        colorName: specification.tag?.colourway?.color_name || "",
+        colorCode: specification.tag?.colourway?.color_code || "",
       } : undefined,
       labelStyle: specification.tag?.label_style || "Inseam loop label",
       labelWidth: specification.tag?.label_width,

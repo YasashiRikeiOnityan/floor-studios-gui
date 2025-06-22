@@ -29,7 +29,6 @@ export type SizeValue = {
 
 export type Material = {
   rowMaterial: string;
-  thickness: string;
   description: Description;
   colourway: Colourway;
 }
@@ -41,8 +40,8 @@ export type SubMaterial = {
 }
 
 export type Colourway = {
-  pantone: string;
-  hex: string;
+  colorName: string;
+  colorCode: string;
 }
 
 export type Description = {
@@ -81,7 +80,7 @@ export type TShirtTag = {
   sendLabels: boolean;
   isCustom: boolean;
   material?: string;
-  color?: Colourway,
+  colourway?: Colourway,
   labelStyle?: string;
   description?: Description;
   labelWidth?: number;
@@ -187,10 +186,9 @@ export type ApiGetTShirtSpecificationResponse = {
   fabric?: {
     materials: {
       row_material: string;
-      thickness: string;
       colourway: {
-        pantone: string;
-        hex: string;
+        color_name: string;
+        color_code: string;
       };
       description: {
         description: string;
@@ -203,8 +201,8 @@ export type ApiGetTShirtSpecificationResponse = {
     sub_materials: {
       row_material: string;
       colourway: {
-        pantone: string;
-        hex: string;
+        color_name: string;
+        color_code: string;
       };
       description: {
         description: string;
@@ -235,9 +233,9 @@ export type ApiGetTShirtSpecificationResponse = {
     send_labels: boolean;
     is_custom: boolean;
     material?: string;
-    color?: {
-      pantone: string;
-      hex: string;
+    colourway?: {
+      color_name: string;
+      color_code: string;
     };
     label_style?: string;
     label_width?: number;
@@ -348,10 +346,9 @@ export type ApiPutTShirtSpecificationRequest = {
   fabric?: {
     materials: {
       row_material: string;
-      thickness: string;
       colourway: {
-        pantone: string;
-        hex: string;
+        color_name: string;
+        color_code: string;
       };
       description: {
         description: string;
@@ -364,8 +361,8 @@ export type ApiPutTShirtSpecificationRequest = {
     sub_materials: {
       row_material: string;
       colourway: {
-        pantone: string;
-        hex: string;
+        color_name: string;
+        color_code: string;
       };
       description: {
         description: string;
@@ -397,8 +394,8 @@ export type ApiPutTShirtSpecificationRequest = {
     is_custom: boolean;
     material?: string;
     color?: {
-      pantone: string;
-      hex: string;
+      color_name: string;
+      color_code: string;
     };
     label_style?: string;
     label_width?: number;

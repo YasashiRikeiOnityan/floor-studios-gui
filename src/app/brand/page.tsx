@@ -628,7 +628,7 @@ const Brand = observer(() => {
                   </div>}
                   {/* 配送先住所 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Shipping Address</dt>
+                    <dt className="text-sm/6 font-bold text-gray-900">Shipping Information</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                     {!isLoading ?
                       <>
@@ -665,7 +665,7 @@ const Brand = observer(() => {
                     </dd>
                   </div>}
                   {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Shipping Address</dt>
+                    <dt className="text-sm/6 font-bold text-gray-900">Shipping Information</dt>
                     <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
                       {/* 請求先情報と同じにするトグル */}
                       <div className="mt-2 sm:mt-0 mb-6">

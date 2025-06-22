@@ -39,25 +39,20 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     }
   }, [mounted]);
 
-  const handleMaterialChange = (index: number, value: {
-    rowMaterial: string;
-    thickness: string;
-  }) => {
+  const handleMaterialChange = (index: number, value: string) => {
     const newMaterials = [...materials];
     newMaterials[index] = {
       ...newMaterials[index],
-      ...value,
+      rowMaterial: value,
     };
     setMaterials(newMaterials);
   };
 
-  const handleSubMaterialChange = (index: number, value: {
-    rowMaterial: string;
-  }) => {
+  const handleSubMaterialChange = (index: number, value: string) => {
     const newSubMaterials = [...subMaterials];
     newSubMaterials[index] = {
       ...newSubMaterials[index],
-      ...value,
+      rowMaterial: value,
     };
     setSubMaterials(newSubMaterials);
   };
@@ -499,14 +494,13 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   const handleAddMaterial = () => {
     setMaterials([...materials, {
       rowMaterial: "",
-      thickness: "",
       description: {
         description: "",
         file: undefined,
       },
       colourway: {
-        pantone: "",
-        hex: "",
+        colorName: "",
+        colorCode: "",
       },
     }]);
   };
@@ -519,8 +513,8 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         file: undefined,
       },
       colourway: {
-        pantone: "",
-        hex: "",
+        colorName: "",
+        colorCode: "",
       },
     }]);
   };
@@ -547,7 +541,6 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       fabric: {
         materials: await Promise.all(materials.map(async (m) => ({
           row_material: m.rowMaterial,
-          thickness: m.thickness,
           description: {
             description: m.description.description,
             file: m.description.file ? {
@@ -556,8 +549,8 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             } : undefined,
           },
           colourway: {
-            pantone: m.colourway.pantone,
-            hex: m.colourway.hex,
+            color_name: m.colourway.colorName,
+            color_code: m.colourway.colorCode,
           },
         }))),
         sub_materials: await Promise.all(subMaterials.map(async (m) => ({
@@ -570,8 +563,8 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             } : undefined,
           },
           colourway: {
-            pantone: m.colourway.pantone,
-            hex: m.colourway.hex,
+            color_name: m.colourway.colorName,
+            color_code: m.colourway.colorCode,
           },
         }))),
       },
@@ -581,7 +574,6 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         fabric: {
           materials: materials.map((m) => ({
             rowMaterial: m.rowMaterial,
-            thickness: m.thickness,
             description: {
               description: m.description.description,
               file: m.description.file,
@@ -622,7 +614,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                 <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Material</p>
-                    <TShirtFabricMaterials currentMaterial={{ rowMaterial: material.rowMaterial, thickness: material.thickness }} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
+                    <TShirtFabricMaterials currentMaterial={material.rowMaterial} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>
@@ -707,7 +699,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                 <div key={index} className="grid grid-cols-2 gap-6 border-l-2 border-blue-100 pl-4 py-2">
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Sub Material</p>
-                    <TShirtFabricSubMaterials currentSubMaterial={{ rowMaterial: subMaterial.rowMaterial }} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
+                    <TShirtFabricSubMaterials currentSubMaterial={subMaterial.rowMaterial} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>
