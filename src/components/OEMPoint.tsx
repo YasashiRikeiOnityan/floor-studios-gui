@@ -12,6 +12,8 @@ type OEMPointProps = {
   isUpdateProgress: boolean;
 };
 
+const OEMPOINTS_LIMIT = 6;
+
 const OEMPoint = observer((props: OEMPointProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
   const [oemPoints, setOemPoints] = useState(currentSpecification.oemPoints || [{ description: "", file: undefined }]);
@@ -155,7 +157,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
           </div>
         ))}
 
-        {oemPoints.length < 3 && <Button
+        {oemPoints.length < OEMPOINTS_LIMIT && <Button
           type="button"
           onClick={handleAddOemPoint}
           style={"text"}

@@ -26,6 +26,7 @@ type DescriptionWithFileProps = {
 export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
@@ -106,7 +107,11 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
     }
   };
 
-  const handleFilePreview = async (key: string) => {
+  const handleFilePreview = async (preSignedUrl: string | undefined, key: string) => {
+    if (preSignedUrl) {
+      setPreviewUrl(preSignedUrl);
+      return;
+    }
     try {
       const response = await PostImagesInteractor({
         type: "specification",
@@ -125,6 +130,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
             preSignedUrl: { ...props.description.file?.preSignedUrl, get: response.pre_signed_url },
           },
         };
+        console.log(newDescription);
         props.onDescriptionChange(newDescription);
       }
     } catch (error) {
@@ -175,6 +181,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
             props.onSave({
               description: newDescription.description,
             });
+            setFileInputKey(prev => prev + 1);
           }
         } catch (error) {
           console.error("Error removing file:", error);
@@ -216,6 +223,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
           <input
             type="file"
             id={`file-upload-${props.id || ""}`}
+            key={fileInputKey}
             className="hidden"
             onChange={handleFileChange}
             disabled={loading}
@@ -234,7 +242,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <button
               type="button"
-              onClick={() => handleFilePreview(props.description.file?.key || "")}
+              onClick={() => handleFilePreview(props.description.file?.preSignedUrl?.get, props.description.file?.key || "")}
               className="truncate max-w-[200px] text-blue-600 hover:text-blue-500 cursor-pointer"
             >
               {props.description.file.name}
@@ -251,9 +259,9 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
       </div>
 
       {previewUrl && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto" onClick={handleClosePreview}>
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6" onClick={(e) => e.stopPropagation()}>
               <div className="absolute right-0 top-0 pr-4 pt-4">
                 <button
                   type="button"

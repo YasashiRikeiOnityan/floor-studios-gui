@@ -34,7 +34,7 @@ type TShirtFabricColourway = {
 
 const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
 
-  const colourways = [...tenantStore.tenantSettingsTShirtFabric.colourways];
+  const colourways = [...tenantStore.tenantSettingsTShirtFabric.colourways, { colorName: "Other", colorCode: "#" }];
 
   const currentColourway = colourways.find(colourway => colourway.colorCode === (props.currentColourway?.colorCode || ""));
 
@@ -44,13 +44,13 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
         className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
       >
         <div className="flex items-center gap-x-2 col-start-1 row-start-1 truncate pr-6">
-          <div 
+          {props.currentColourway.colorCode !== "#" && <div 
             className="w-5 h-5 rounded-full" 
             style={{ 
               backgroundColor: currentColourway?.colorCode || "white",
               border: isWhiteColor(currentColourway?.colorCode || "white") ? "1px solid #d1d5db" : "none"
             }}
-          ></div>
+          ></div>}
           <span>{currentColourway?.colorName}</span>
         </div>
         <ChevronUpDownIcon
