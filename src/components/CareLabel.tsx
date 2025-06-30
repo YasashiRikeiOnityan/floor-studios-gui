@@ -25,6 +25,7 @@ const CareLabel = observer((props: CareLabelProps): ReactElement => {
   });
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(undefined);
   const [fileUploading, setFileUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const handleCancel = () => {
     setHasLogo(currentSpecification?.careLabel?.hasLogo || false);
@@ -36,8 +37,9 @@ const CareLabel = observer((props: CareLabelProps): ReactElement => {
     });
   };
 
-  const handleSaveAndNext = () => {
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "OEMPOINT" }),
       care_label: {
         has_logo: hasLogo,
@@ -82,6 +84,7 @@ const CareLabel = observer((props: CareLabelProps): ReactElement => {
         }
       });
       props.callBackUpdateState();
+      setIsSaving(false);
     }
   };
 
@@ -535,6 +538,8 @@ const CareLabel = observer((props: CareLabelProps): ReactElement => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText="Saving..."
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />

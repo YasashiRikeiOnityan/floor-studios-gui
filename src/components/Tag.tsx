@@ -65,6 +65,7 @@ const Tag = observer((props: TagProps) => {
   const [labelStyle, setLabelStyle] = useState<string | undefined>(currentSpecification?.tag?.labelStyle || "Inseam loop label");
   const [labelWidth, setLabelWidth] = useState<number | undefined>(currentSpecification?.tag?.labelWidth || (currentSpecification?.tag?.labelStyle === "Inseam loop label" ? 3 : 4));
   const [labelHeight, setLabelHeight] = useState<number | undefined>(currentSpecification?.tag?.labelHeight || (currentSpecification?.tag?.labelStyle === "Inseam loop label" ? 6 : 3));
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const handleCancel = () => {
     setIsLabel(currentSpecification?.tag?.isLabel || false);
@@ -75,8 +76,9 @@ const Tag = observer((props: TagProps) => {
     setLabelStyle(currentSpecification?.tag?.labelStyle || "Inseam loop label");
   };
 
-  const handleSaveAndNext = () => {
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "TAG" }),
       tag: {
         is_label: isLabel,
@@ -120,6 +122,7 @@ const Tag = observer((props: TagProps) => {
       },
     });
     props.callBackUpdateState();
+    setIsSaving(false);
   };
 
   const labelOptionId = !isLabel ? "no-label" : sendLabels ? "i-will-send-labels" : !isCustom ? "standard" : "custom";
@@ -359,6 +362,8 @@ const Tag = observer((props: TagProps) => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText="Saving..."
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />

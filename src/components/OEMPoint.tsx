@@ -72,7 +72,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
       setDeleteFiles([]);
     }
     const oemPointsWithoutEmpty = oemPoints.filter(oemPoint => oemPoint.description !== "" || oemPoint.file?.key);
-    specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
       ...(props.isUpdateProgress && { progress: "SAMPLE" }),
       oem_points: oemPointsWithoutEmpty.map(oemPoint => ({
         description: oemPoint.description,

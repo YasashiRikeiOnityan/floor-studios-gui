@@ -15,6 +15,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
   const [quantity, setQuantity] = useState<{ [key: string]: number }>(initialQuantity);
   const [deliveryDateEnabled, setDeliveryDateEnabled] = useState<boolean>(currentSpecification?.mainProduction?.deliveryDate ? true : false);
   const [deliveryDate, setDeliveryDate] = useState<string>(currentSpecification?.mainProduction?.deliveryDate || "");
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const handleQuantityChange = (size: string, value: string) => {
     const newValue = parseInt(value) || 0;
@@ -27,8 +28,9 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
     setDeliveryDateEnabled(currentSpecification?.mainProduction?.deliveryDate ? true : false);
   }
 
-  const handleSaveAndNext = () => {
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "INFORMATION" }),
       main_production: {
         quantity: {
@@ -59,6 +61,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
       },
     });
     props.callBackUpdateState();
+    setIsSaving(false);
   }
 
   return (
@@ -157,6 +160,8 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText="Saving..."
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />

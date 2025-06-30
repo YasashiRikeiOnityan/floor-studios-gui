@@ -17,18 +17,12 @@ type TShirtFabricProps = {
   isUpdateProgress: boolean;
 };
 
-const MATERIALS = [
-  "100% Cotton",
-  "100% Organic Cotton",
-]
-
-const COLOURWAYS = [
-  { colorName: "White", colorCode: "#FFFFFF" },
-  { colorName: "Black", colorCode: "#000000" },
-]
-
 const TShirtFabric = observer((props: TShirtFabricProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
+  
+  const MATERIALS = tenantStore.tenantSettingsTShirtFabric.materials.map(material => material.rowMaterial);
+  const COLOURWAYS = tenantStore.tenantSettingsTShirtFabric.colourways.map(colourway => ({ colorName: colourway.colorName, colorCode: colourway.colorCode }));
+  
   const [materials, setMaterials] = useState<Material[]>(currentSpecification?.fabric?.materials || []);
   const [otherMaterials, setOtherMaterials] = useState<string[]>(currentSpecification?.fabric?.materials?.map(material => (material.rowMaterial && !MATERIALS.includes(material.rowMaterial)) ? material.rowMaterial : "") || []);
   const [otherMaterialColourways, setOtherMaterialColourways] = useState<Colourway[]>(currentSpecification?.fabric?.materials?.map(material => (material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName)) ? material.colourway : { colorName: "", colorCode: "" }) || []);
@@ -250,10 +244,12 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       setDeleteSubMaterialFiles([]);
     }
 
+    console.log(materials);
+
     // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
     const updatedMaterials = materials.map((material, index) => ({
       ...material,
-      rowMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? otherMaterials[index] || "" : material.rowMaterial,
+      rowMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? (otherMaterials[index] || "") : material.rowMaterial,
       colourway: material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName) ? otherMaterialColourways[index] : material.colourway,
     }));
 
@@ -394,9 +390,17 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                             colourway: m.colourway
                           } : m
                         ).filter(m => m.description.description !== "" || m.description.file?.key);
+                        
+                        // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
+                        const updatedMaterialsForSave = materialsWithoutEmpty.map((material, idx) => ({
+                          ...material,
+                          rowMaterial: material.rowMaterial,
+                          // rowMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? (otherMaterials[idx] || "") : material.rowMaterial,
+                        }));
+
                         specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
                           fabric: {
-                            materials: await Promise.all(materialsWithoutEmpty.map(m => ({
+                            materials: await Promise.all(updatedMaterialsForSave.map(m => ({
                               row_material: m.rowMaterial,
                               description: {
                                 description: m.description.description,
@@ -426,10 +430,9 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                             }))),
                           },
                         });
-                        console.log(materialsWithoutEmpty);
                         specificationStore.updateSpecification({
                           fabric: {
-                            materials: materialsWithoutEmpty.map(m => ({
+                            materials: updatedMaterialsForSave.map(m => ({
                               rowMaterial: m.rowMaterial,
                               description: {
                                 description: m.description.description,

@@ -43,6 +43,7 @@ const Information = observer((props: InformationProps) => {
   const [shippingPhoneNumber, setShippingPhoneNumber] = useState("");
   const [shippingEmail, setShippingEmail] = useState("");
   const [mounted, setMounted] = useState(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
@@ -101,8 +102,9 @@ const Information = observer((props: InformationProps) => {
     }
   }, [sameAsBillingInformation, billingAddressLine1, billingAddressLine2, billingZipCode, billingState, billingCity, billingCountry, billingCompanyName, billingFirstName, billingLastName, billingPhoneNumber, billingEmail]);
 
-  const handleSaveAndNext = () => {
-    specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "COMPLETE" }),
       ...(props.isUpdateProgress && { status: "COMPLETE" }),
       information: {
@@ -179,6 +181,7 @@ const Information = observer((props: InformationProps) => {
         },
       }
     });
+    setIsSaving(false);
     // 成功ダイアログを表示
     dialogStore.openSuccessDialog(
       "Complete",
@@ -186,7 +189,7 @@ const Information = observer((props: InformationProps) => {
       "OK",
       () => {
         dialogStore.closeSuccessDialog();
-        router.push(`/orders?status=COMPLETE&collection=${currentSpecification?.specificationGroupId || 'NO_GROUP'}`);
+        router.push(`/orders?status=COMPLETE&collection=${currentSpecification?.specificationGroupId || "NO_GROUP"}`);
       }
     );
   }
@@ -763,6 +766,8 @@ const Information = observer((props: InformationProps) => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText="Saving..."
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />

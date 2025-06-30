@@ -13,6 +13,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
   const [sample, setSample] = useState<boolean>(currentSpecification?.sample?.sample || false);
   const [quantity, setQuantity] = useState<{ [key: string]: number }>(currentSpecification?.sample?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [canSendSample, setCanSendSample] = useState<boolean>(currentSpecification?.sample?.canSendSample || false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const handleQuantityChange = (size: string, value: string) => {
     if (parseInt(value) > 0) {
@@ -22,7 +23,8 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
     }
   }
 
-  const handleSaveAndNext = () => {
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
     const body = sample ? {
       ...(props.isUpdateProgress && { progress: "MAINPRODUCTION" }),
       sample: {
@@ -63,6 +65,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
       },
     });
     props.callBackUpdateState();
+    setIsSaving(false);
   }
 
   const handleCancel = () => {
@@ -229,6 +232,8 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
           type={"button"}
           onClick={handleSaveAndNext}
           text={"Save and Next"}
+          loadingText="Saving..."
+          loading={isSaving}
           style={"fill"}
           fullWidth={false}
         />
