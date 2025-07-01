@@ -36,15 +36,15 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
 
   const colourways = [...tenantStore.tenantSettingsTShirtFabric.colourways, { colorName: "Other", colorCode: "#" }];
 
-  const currentColourway = colourways.find(colourway => colourway.colorCode === (props.currentColourway?.colorCode || ""));
+  const currentColourway = colourways.find(colourway => colourway.colorCode === (props.currentColourway?.colorCode || "")) || { colorName: "Other", colorCode: "#" };
 
   return (
-    <Listbox value={props.currentColourway} onChange={props.setCurrentColourway} as="div" className="relative">
+    <Listbox value={currentColourway} onChange={props.setCurrentColourway} as="div" className="relative">
       <ListboxButton
         className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
       >
         <div className="flex items-center gap-x-2 col-start-1 row-start-1 truncate pr-6">
-          {props.currentColourway.colorCode !== "#" && <div 
+          {currentColourway?.colorCode !== "#" && <div 
             className="w-5 h-5 rounded-full" 
             style={{ 
               backgroundColor: currentColourway?.colorCode || "white",
@@ -69,8 +69,8 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
             value={colourway}
             className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:outline-none hover:bg-transparent"
             style={{ 
-              "--hover-bg-color": `${colourway.colorCode !== props.currentColourway.colorCode ? getHoverColor(colourway.colorCode || "white") : "white"}`,
-              backgroundColor: colourway.colorCode === props.currentColourway.colorCode ? `rgba(${hexToRgb(colourway.colorCode || "white")}, 0.1)` : "transparent"
+              "--hover-bg-color": `${colourway.colorCode !== currentColourway.colorCode ? getHoverColor(colourway.colorCode || "white") : "white"}`,
+              backgroundColor: colourway.colorCode === currentColourway.colorCode ? `rgba(${hexToRgb(colourway.colorCode || "white")}, 0.1)` : "transparent"
             } as React.CSSProperties}
           >
             <div className="flex items-center gap-x-2 relative z-10">
@@ -83,7 +83,7 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
               ></div>
               <span className="block truncate font-normal group-data-[selected]:font-semibold">{colourway.colorName}</span>
             </div>
-            {colourway.colorCode === props.currentColourway.colorCode && (
+            {colourway.colorCode === currentColourway.colorCode && (
               <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600 z-10">
                 <CheckIcon aria-hidden="true" className="size-5" />
               </span>

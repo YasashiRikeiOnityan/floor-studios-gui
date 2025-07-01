@@ -46,7 +46,7 @@ const TShirtsSample = (props: TShirtsSampleProps) => {
         can_send_sample: canSendSample,
       }
     }
-    specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, body);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, body);
     specificationStore.updateSpecification({
       sample: sample ? {
         sample: sample,

@@ -17,8 +17,8 @@ const AddNewCollection = (props: AddNewCollectionProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSave = async () => {
-    if (collectionName.length < 1 || collectionName.length > 20) {
-      setValidateError("Collection Name is required and must be less than 20 characters");
+    if (collectionName.length < 1 || collectionName.length > 40) {
+      setValidateError("Collection Name is required and must be less than 40 characters");
       return;
     }
     setIsLoading(true);

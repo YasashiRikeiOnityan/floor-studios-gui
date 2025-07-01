@@ -19,10 +19,10 @@ type TShirtFabricProps = {
 
 const TShirtFabric = observer((props: TShirtFabricProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
-  
+
   const MATERIALS = tenantStore.tenantSettingsTShirtFabric.materials.map(material => material.rowMaterial);
   const COLOURWAYS = tenantStore.tenantSettingsTShirtFabric.colourways.map(colourway => ({ colorName: colourway.colorName, colorCode: colourway.colorCode }));
-  
+
   const [materials, setMaterials] = useState<Material[]>(currentSpecification?.fabric?.materials || []);
   const [otherMaterials, setOtherMaterials] = useState<string[]>(currentSpecification?.fabric?.materials?.map(material => (material.rowMaterial && !MATERIALS.includes(material.rowMaterial)) ? material.rowMaterial : "") || []);
   const [otherMaterialColourways, setOtherMaterialColourways] = useState<Colourway[]>(currentSpecification?.fabric?.materials?.map(material => (material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName)) ? material.colourway : { colorName: "", colorCode: "" }) || []);
@@ -244,8 +244,6 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       setDeleteSubMaterialFiles([]);
     }
 
-    console.log(materials);
-
     // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
     const updatedMaterials = materials.map((material, index) => ({
       ...material,
@@ -340,32 +338,26 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                     <p className="block text-sm/6 font-medium text-gray-900">Material</p>
                     <TShirtFabricMaterials currentMaterial={material.rowMaterial} setCurrentMaterial={(value) => handleMaterialChange(index, value)} fullWidth={true} />
                     {material.rowMaterial && !MATERIALS.includes(material.rowMaterial) && (
-                      <div className="flex flex-col gap-2">
-                        <p className="block text-sm/6 font-medium text-gray-900">Other</p>
-                        <input
-                          type="text"
-                          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-                          placeholder="Other"
-                          value={otherMaterials[index] || ""}
-                          onChange={(e) => handleOtherMaterialChange(index, e.target.value)}
-                        />
-                      </div>
+                      <input
+                        type="text"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                        placeholder="Other Material"
+                        value={otherMaterials[index] || ""}
+                        onChange={(e) => handleOtherMaterialChange(index, e.target.value)}
+                      />
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>
                     <TShirtFabricColourway currentColourway={material.colourway} setCurrentColourway={(value) => handleMaterialColourwayChange(index, value)} fullWidth={true} />
                     {material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName) && (
-                      <div className="flex flex-col gap-2">
-                        <p className="block text-sm/6 font-medium text-gray-900">Other</p>
-                        <input
-                          type="text"
-                          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-                          placeholder="Other"
-                          value={otherMaterialColourways[index].colorName || ""}
-                          onChange={(e) => handleOtherMaterialColourwayChange(index, { colorName: e.target.value, colorCode: "#" })}
-                        />
-                      </div>
+                      <input
+                        type="text"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                        placeholder="Other Colourway"
+                        value={otherMaterialColourways[index].colorName || ""}
+                        onChange={(e) => handleOtherMaterialColourwayChange(index, { colorName: e.target.value, colorCode: "#" })}
+                      />
                     )}
                   </div>
                   <div className="flex flex-col col-span-2 gap-2 mt-6">
@@ -376,7 +368,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                       onDescriptionChange={(value) => handleMaterialDescriptionChange(index, value)}
                       onSave={async (description) => {
                         handleMaterialDescriptionChange(index, description);
-                        const materialsWithoutEmpty = materials.map((m, i) => 
+                        const materialsWithoutEmpty = materials.map((m, i) =>
                           i === index ? {
                             rowMaterial: m.rowMaterial,
                             description: {
@@ -390,7 +382,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                             colourway: m.colourway
                           } : m
                         ).filter(m => m.description.description !== "" || m.description.file?.key);
-                        
+
                         // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
                         const updatedMaterialsForSave = materialsWithoutEmpty.map((material, idx) => ({
                           ...material,
@@ -439,7 +431,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                                 file: {
                                   name: m.description.file?.name || "",
                                   key: m.description.file?.key || "",
-                                  preSignedUrl: m.description.file?.preSignedUrl || undefined ,
+                                  preSignedUrl: m.description.file?.preSignedUrl || undefined,
                                 },
                               },
                               colourway: m.colourway,

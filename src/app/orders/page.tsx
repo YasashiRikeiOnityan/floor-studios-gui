@@ -3,10 +3,12 @@
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
+import Toggle from "@/components/Toggle";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
+import AllCards from "@/components/AllCards";
 import { SpecificationStatus } from "@/lib/type/specification/type";
 import AlertDialog from "@/components/AlertDialod";
 import Notification from "@/components/Notification";
@@ -35,6 +37,7 @@ const OrdersContent = observer(() => {
   const [specificationGroupId, setSpecificationGroupId] = useState<string>(initialGroupId);
   const [status, setStatus] = useState<SpecificationStatus>(initialTab === "Drafts" ? "DRAFT" : "COMPLETE");
   const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
+  const [showAllCollections, setShowAllCollections] = useState(false);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -62,11 +65,20 @@ const OrdersContent = observer(() => {
                     state={activeTab}
                     callBackUpdateState={handleTabClick}
                   />
-                  <div className="hidden lg:block">
-                    <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
-                  </div>
+                  {!showAllCollections && (
+                    <div className="hidden lg:block">
+                      <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-x-8">
+                  <div className="hidden lg:block">
+                    <Toggle
+                      enabled={showAllCollections}
+                      setEnabled={() => setShowAllCollections(!showAllCollections)}
+                      label="Show all collections"
+                    />
+                  </div>
                   <div className="hidden lg:block">
                     <Button
                       type={"button"}
@@ -88,7 +100,14 @@ const OrdersContent = observer(() => {
                 </div>
               </div>
               <div className="lg:hidden flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-3">
-                <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
+                {!showAllCollections && (
+                  <SpecificationGroups currentSpecificationGroupId={specificationGroupId} setCurrentSpecificationGroupId={setSpecificationGroupId} />
+                )}
+                <Toggle
+                  enabled={showAllCollections}
+                  setEnabled={() => setShowAllCollections(!showAllCollections)}
+                  label="Show all collections"
+                />
                 <Button
                   type={"button"}
                   onClick={handleStartNewDesign}
@@ -97,8 +116,14 @@ const OrdersContent = observer(() => {
                   fullWidth={false}
                 />
               </div>
-              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <Cards specificationGroupId={specificationGroupId} status={status} />
+              <div className="mt-5">
+                {showAllCollections ? (
+                  <AllCards status={status} />
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <Cards specificationGroupId={specificationGroupId} status={status} />
+                  </div>
+                )}
               </div>
             </div>
           </main>

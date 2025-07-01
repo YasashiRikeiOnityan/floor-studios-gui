@@ -48,16 +48,16 @@ const NewDesign = observer(() => {
     setValidateBrandNameError("");
     setValidateProductNameError("");
     setValidateProductCodeError("");
-    if (brandName.length < 1 || brandName.length > 20) {
-      setValidateBrandNameError("Brand Name is required and must be less than 20 characters");
+    if (brandName.length < 1 || brandName.length > 40) {
+      setValidateBrandNameError("Brand Name is required and must be less than 40 characters");
       return false;
     }
-    if (productName.length < 1 || productName.length > 20) {
-      setValidateProductNameError("Product Name is required and must be less than 20 characters");
+    if (productName.length < 1 || productName.length > 40) {
+      setValidateProductNameError("Product Name is required and must be less than 40 characters");
       return false;
     }
-    if (productCode.length < 1 || productCode.length > 20) {
-      setValidateProductCodeError("Product Code is required and must be less than 20 characters");
+    if (productCode.length < 1 || productCode.length > 40) {
+      setValidateProductCodeError("Product Code is required and must be less than 40 characters");
       return false;
     }
     return true;
