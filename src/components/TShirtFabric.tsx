@@ -5,7 +5,7 @@ import { tenantStore } from "@/stores/tenantStore";
 import TShirtFabricMaterials from "@/components/TShirtFabricMaterials";
 import TShirtFabricSubMaterials from "@/components/TShirtFabricSubMaterials";
 import { Colourway, Material, SubMaterial, TShirtSpecification } from "@/lib/type/specification/t-shirt/type";
-import { PlusIcon, TrashIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import TShirtFabricColourway from "@/components/TShirtFabricColourway";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { specificationStore } from "@/stores/specificationStore";
