@@ -7,13 +7,14 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Types from "@/components/Types";
 import { SpecificationType } from "@/lib/type/specification/type";
 import { useSearchParams } from "next/navigation";
+import Loading from "@/components/Loading";
 
 
-const NewDesign = observer(() => {
+const NewDesignContent = observer(() => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const collectionParam = searchParams.get("collection");
@@ -199,5 +200,13 @@ const NewDesign = observer(() => {
     </>
   );
 });
+
+const NewDesign = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <NewDesignContent />
+    </Suspense>
+  );
+};
 
 export default NewDesign;
