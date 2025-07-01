@@ -1,6 +1,6 @@
 "use client";
 
-import { SpecificationStatus } from "@/lib/type/specification/type";
+import { BaseSpecification, SpecificationStatus } from "@/lib/type/specification/type";
 import { formatRelativeTime } from "@/lib/utils";
 import { specificationStore } from "@/stores/specificationStore";
 import { specificationGroupsStore } from "@/stores/specificationGroupsStore";
@@ -17,7 +17,7 @@ type AllCardsProps = {
 const AllCards = observer((props: AllCardsProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [specificationsByGroup, setSpecificationsByGroup] = useState<Record<string, any[]>>({});
+  const [specificationsByGroup, setSpecificationsByGroup] = useState<Record<string, BaseSpecification[]>>({});
 
   useEffect(() => {
     const fetchAllSpecifications = async () => {
@@ -32,7 +32,7 @@ const AllCards = observer((props: AllCardsProps) => {
         ...specificationGroupsStore.specificationGroups
       ];
       
-      const specificationsMap: Record<string, any[]> = {};
+      const specificationsMap: Record<string, BaseSpecification[]> = {};
       
       for (const group of allGroups) {
         await specificationStore.getSpecifications(group.specificationGroupId, props.status);
