@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Tabs from "@/components/Tabs";
 import Toggle from "@/components/Toggle";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import PageTitle from "@/components/PageTitle";
 import Cards from "@/components/Cards";
 import AllCards from "@/components/AllCards";
