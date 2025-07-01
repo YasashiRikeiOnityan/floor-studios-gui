@@ -19,7 +19,6 @@ import { Suspense } from "react";
 import Loading from "@/components/Loading";
 
 const OrdersContent = observer(() => {
-  const router = useRouter();
   const tabs = ["Drafts", "Completes"]
   const searchParams = useSearchParams();
   // クエリパラメータ取得
