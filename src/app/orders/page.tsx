@@ -46,10 +46,6 @@ const OrdersContent = observer(() => {
     // router.replace(`/orders?status=${tab === "Drafts" ? "DRAFT" : "COMPLETE"}&collection=${specificationGroupId}`);
   };
 
-  const handleStartNewDesign = () => {
-    router.push("/design/new");
-  }
-
   return (
     <>
       <div className="min-h-full bg-white">
