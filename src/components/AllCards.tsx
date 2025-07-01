@@ -92,7 +92,7 @@ const AllCards = observer((props: AllCardsProps) => {
               {specifications.map((specification) => (
                 <div
                   key={specification.specificationId}
-                  className="rounded-lg bg-gray-50 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                  className="rounded-lg bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
                   onClick={() => {
                     router.push(`/design/edit?id=${specification.specificationId}`);
                   }}

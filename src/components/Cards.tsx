@@ -42,7 +42,7 @@ const Cards = observer((props: CardsProps) => {
   }
 
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {specificationStore.specifications.map((specification) => (
         <div
           key={specification.specificationId}
@@ -75,7 +75,7 @@ const Cards = observer((props: CardsProps) => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   )
 });
 

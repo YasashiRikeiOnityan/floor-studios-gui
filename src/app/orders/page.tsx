@@ -52,7 +52,7 @@ const OrdersContent = observer(() => {
 
   return (
     <>
-      <div className="min-h-full bg-gray-50">
+      <div className="min-h-full bg-white">
         <Header current="Orders" />
         <div className="mt-16 py-5 sm:py-10">
           <PageTitle title="Orders" />
@@ -120,9 +120,7 @@ const OrdersContent = observer(() => {
                 {showAllCollections ? (
                   <AllCards status={status} />
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <Cards specificationGroupId={specificationGroupId} status={status} />
-                  </div>
+                  <Cards specificationGroupId={specificationGroupId} status={status} />
                 )}
               </div>
             </div>

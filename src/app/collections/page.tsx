@@ -13,7 +13,7 @@ const Collections = () => {
   const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
   return (
     <>
-      <div className="min-h-full bg-gray-50">
+      <div className="min-h-full bg-white">
         <Header current="Collections" />
         <div className="mt-16 py-5 sm:py-10">
           <PageTitle title="Collections" />
