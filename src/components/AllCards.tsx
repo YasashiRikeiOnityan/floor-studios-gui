@@ -9,6 +9,7 @@ import SpecificationMenu from "@/components/SpecificationMenu";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
+import AddIcon from "@/components/AddIcon";
 
 type AllCardsProps = {
   status: SpecificationStatus;
@@ -73,55 +74,74 @@ const AllCards = observer((props: AllCardsProps) => {
     <div className="space-y-6">
       {allGroups.map((group) => {
         const specifications = specificationsByGroup[group.specificationGroupId] || [];
-        
-        if (specifications.length === 0) {
-          return null;
-        }
 
         return (
           <div key={group.specificationGroupId} className="border border-gray-200 rounded-lg p-4 bg-white">
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
-                {group.specificationGroupName}
-              </h3>
-              <p className="text-sm text-gray-500">
-                {specifications.length} specification{specifications.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {specifications.map((specification) => (
-                <div
-                  key={specification.specificationId}
-                  className="rounded-lg bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => {
-                    router.push(`/design/edit?id=${specification.specificationId}`);
-                  }}
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {group.specificationGroupName}
+                </h3>
+                <p className="text-sm text-gray-500">
+                  {specifications.length} specification{specifications.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <div className="relative group">
+                <button
+                  type="button"
+                  onClick={() => router.push(`/design/new?collection=${group.specificationGroupId}`)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                  title="Add new design"
                 >
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="gap-1">
-                        <div className="font-bold">
-                          {specification.productName}
+                  <AddIcon className="w-5 h-5" />
+                </button>
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  Add new design
+                </div>
+              </div>
+            </div>
+            {specifications.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {specifications.map((specification) => (
+                  <div
+                    key={specification.specificationId}
+                    className="rounded-lg bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => {
+                      router.push(`/design/edit?id=${specification.specificationId}`);
+                    }}
+                  >
+                    <div className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="gap-1">
+                          <div className="font-bold">
+                            {specification.productName}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {specification.productCode}
+                          </div>
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {specification.productCode}
+                        <div className="relative" onClick={(e) => e.stopPropagation()}>
+                          <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
                         </div>
                       </div>
-                      <div className="relative" onClick={(e) => e.stopPropagation()}>
-                        <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
-                      </div>
-                    </div>
-                    <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
-                      <div>
-                        <div className="text-xs">
-                          {formatRelativeTime(specification.updatedAt || "")}
+                      <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
+                        <div>
+                          <div className="text-xs">
+                            {formatRelativeTime(specification.updatedAt || "")}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center items-center py-8">
+                <div className="text-gray-400 text-center">
+                  <div className="text-sm">No specifications in this collection</div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         );
       })}

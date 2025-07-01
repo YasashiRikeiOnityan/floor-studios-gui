@@ -37,7 +37,7 @@ const OrdersContent = observer(() => {
   const [specificationGroupId, setSpecificationGroupId] = useState<string>(initialGroupId);
   const [status, setStatus] = useState<SpecificationStatus>(initialTab === "Drafts" ? "DRAFT" : "COMPLETE");
   const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
-  const [showAllCollections, setShowAllCollections] = useState(false);
+  const [showAllCollections, setShowAllCollections] = useState(true);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -82,15 +82,6 @@ const OrdersContent = observer(() => {
                   <div className="hidden lg:block">
                     <Button
                       type={"button"}
-                      onClick={handleStartNewDesign}
-                      text={"Start new design"}
-                      style={"outline"}
-                      fullWidth={false}
-                    />
-                  </div>
-                  <div className="hidden lg:block">
-                    <Button
-                      type={"button"}
                       onClick={() => setIsOpenAddNewCollection(true)}
                       text={"Add new collection"}
                       style={"outline"}
@@ -107,13 +98,6 @@ const OrdersContent = observer(() => {
                   enabled={showAllCollections}
                   setEnabled={() => setShowAllCollections(!showAllCollections)}
                   label="Show all collections"
-                />
-                <Button
-                  type={"button"}
-                  onClick={handleStartNewDesign}
-                  text={"Start new design"}
-                  style={"outline"}
-                  fullWidth={false}
                 />
               </div>
               <div className="mt-5">

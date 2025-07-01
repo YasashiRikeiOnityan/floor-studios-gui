@@ -10,14 +10,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Types from "@/components/Types";
 import { SpecificationType } from "@/lib/type/specification/type";
+import { useSearchParams } from "next/navigation";
 
 
 const NewDesign = observer(() => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const collectionParam = searchParams.get("collection");
+  
   const [brandName, setBrandName] = useState(tenantStore.tenant.tenantName);
   const [productName, setProductName] = useState("");
   const [productCode, setProductCode] = useState("");
-  const [specificationGroupId, setSpecificationGroupId] = useState("NO_GROUP");
+  const [specificationGroupId, setSpecificationGroupId] = useState(collectionParam || "NO_GROUP");
   const [validateBrandNameError, setValidateBrandNameError] = useState("");
   const [validateProductNameError, setValidateProductNameError] = useState("");
   const [validateProductCodeError, setValidateProductCodeError] = useState("");
