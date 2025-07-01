@@ -386,8 +386,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                         // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
                         const updatedMaterialsForSave = materialsWithoutEmpty.map((material, idx) => ({
                           ...material,
-                          rowMaterial: material.rowMaterial,
-                          // rowMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? (otherMaterials[idx] || "") : material.rowMaterial,
+                          owMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? (otherMaterials[idx] || "") : material.rowMaterial,
                         }));
 
                         specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
