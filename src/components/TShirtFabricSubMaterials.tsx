@@ -14,12 +14,12 @@ type TShirtFabricSubMaterials = {
 
 const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
 
-  const subMaterials = [...tenantStore.tenantSettingsTShirtFabric.subMaterials];
+  const subMaterials = [...tenantStore.tenantSettingsTShirtFabric.subMaterials, { rowMaterial: "Other" }];
 
-  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial) || subMaterials[0];
+  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial) || { rowMaterial: "Other" };
 
   return (
-    <Listbox value={props.currentSubMaterial} onChange={props.setCurrentSubMaterial} as="div" className="relative">
+    <Listbox value={currentSubMaterial.rowMaterial} onChange={props.setCurrentSubMaterial} as="div" className="relative">
       <ListboxButton className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}>
         <span className="col-start-1 row-start-1 truncate pr-6">{currentSubMaterial?.rowMaterial}</span>
         <ChevronUpDownIcon

@@ -21,7 +21,10 @@ const isWhiteColor = (colorCode: string): boolean => {
 
 const getHoverColor = (colorCode: string): string => {
   if (isWhiteColor(colorCode)) {
-    return "#f3f4f6"; // 薄いグレー
+    return "#d1d5db"; // 薄いグレー（ボーダーと同じ色）
+  }
+  if (colorCode === "#") {
+    return "#f3f4f6"; // Otherの場合は薄いグレー
   }
   return colorCode;
 };

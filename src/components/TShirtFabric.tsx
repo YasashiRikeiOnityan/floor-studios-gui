@@ -21,12 +21,15 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
 
   const MATERIALS = tenantStore.tenantSettingsTShirtFabric.materials.map(material => material.rowMaterial);
+  const SUBMATERIALS = tenantStore.tenantSettingsTShirtFabric.subMaterials.map(subMaterial => subMaterial.rowMaterial);
   const COLOURWAYS = tenantStore.tenantSettingsTShirtFabric.colourways.map(colourway => ({ colorName: colourway.colorName, colorCode: colourway.colorCode }));
 
   const [materials, setMaterials] = useState<Material[]>(currentSpecification?.fabric?.materials || []);
   const [otherMaterials, setOtherMaterials] = useState<string[]>(currentSpecification?.fabric?.materials?.map(material => (material.rowMaterial && !MATERIALS.includes(material.rowMaterial)) ? material.rowMaterial : "") || []);
   const [otherMaterialColourways, setOtherMaterialColourways] = useState<Colourway[]>(currentSpecification?.fabric?.materials?.map(material => (material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName)) ? material.colourway : { colorName: "", colorCode: "" }) || []);
   const [subMaterials, setSubMaterials] = useState<SubMaterial[]>(currentSpecification?.fabric?.subMaterials || []);
+  const [otherSubMaterials, setOtherSubMaterials] = useState<string[]>(currentSpecification?.fabric?.subMaterials?.map(subMaterial => (subMaterial.rowMaterial && !SUBMATERIALS.includes(subMaterial.rowMaterial)) ? subMaterial.rowMaterial : "") || []);
+  const [otherSubMaterialColourways, setOtherSubMaterialColourways] = useState<Colourway[]>(currentSpecification?.fabric?.subMaterials?.map(subMaterial => (subMaterial.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === subMaterial.colourway.colorName)) ? subMaterial.colourway : { colorName: "", colorCode: "" }) || []);
   const [mounted, setMounted] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [deleteMaterialFiles, setDeleteMaterialFiles] = useState<string[]>([]);
@@ -73,6 +76,18 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     setOtherMaterialColourways(newOtherMaterialColourways);
   };
 
+  const handleOtherSubMaterialChange = (index: number, value: string) => {
+    const newOtherSubMaterials = [...otherSubMaterials];
+    newOtherSubMaterials[index] = value;
+    setOtherSubMaterials(newOtherSubMaterials);
+  };
+
+  const handleOtherSubMaterialColourwayChange = (index: number, value: Colourway) => {
+    const newOtherSubMaterialColourways = [...otherSubMaterialColourways];
+    newOtherSubMaterialColourways[index] = value;
+    setOtherSubMaterialColourways(newOtherSubMaterialColourways);
+  };
+
   const handleSubMaterialChange = (index: number, value: string) => {
     const newSubMaterials = [...subMaterials];
     newSubMaterials[index] = {
@@ -80,6 +95,13 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       rowMaterial: value,
     };
     setSubMaterials(newSubMaterials);
+
+    // Otherが選択された場合、otherSubMaterialsの対応するインデックスをクリア
+    if (value === "Other") {
+      const newOtherSubMaterials = [...otherSubMaterials];
+      newOtherSubMaterials[index] = "";
+      setOtherSubMaterials(newOtherSubMaterials);
+    }
   };
 
   const handleMaterialDescriptionChange = (index: number, value: Description) => {
@@ -138,6 +160,15 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       },
     };
     setSubMaterials(newSubMaterials);
+
+    if (value.colorName === "Other") {
+      const newOtherSubMaterialColourways = [...otherSubMaterialColourways];
+      newOtherSubMaterialColourways[index] = {
+        colorName: "",
+        colorCode: "",
+      };
+      setOtherSubMaterialColourways(newOtherSubMaterialColourways);
+    }
   };
 
   const handleAddMaterial = () => {
@@ -169,6 +200,9 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         colorCode: "",
       },
     }]);
+    // otherSubMaterialsとotherSubMaterialColourwaysにも空の要素を追加
+    setOtherSubMaterials([...otherSubMaterials, ""]);
+    setOtherSubMaterialColourways([...otherSubMaterialColourways, { colorName: "", colorCode: "" }]);
   };
 
   const handleRemoveMaterial = (index: number) => {
@@ -186,7 +220,11 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
 
   const handleRemoveSubMaterial = (index: number) => {
     const newSubMaterials = subMaterials.filter((_, i) => i !== index);
+    const newOtherSubMaterials = otherSubMaterials.filter((_, i) => i !== index);
+    const newOtherSubMaterialColourways = otherSubMaterialColourways.filter((_, i) => i !== index);
     setSubMaterials(newSubMaterials);
+    setOtherSubMaterials(newOtherSubMaterials);
+    setOtherSubMaterialColourways(newOtherSubMaterialColourways);
   };
 
   const handleCancel = () => {
@@ -194,6 +232,8 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
     setSubMaterials(currentSpecification?.fabric?.subMaterials || []);
     setOtherMaterials(currentSpecification?.fabric?.materials?.map(material => (material.rowMaterial && !MATERIALS.includes(material.rowMaterial)) ? material.rowMaterial : "") || []);
     setOtherMaterialColourways(currentSpecification?.fabric?.materials?.map(material => (material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName)) ? material.colourway : { colorName: "", colorCode: "" }) || []);
+    setOtherSubMaterials(currentSpecification?.fabric?.subMaterials?.map(subMaterial => (subMaterial.rowMaterial && !SUBMATERIALS.includes(subMaterial.rowMaterial)) ? subMaterial.rowMaterial : "") || []);
+    setOtherSubMaterialColourways(currentSpecification?.fabric?.subMaterials?.map(subMaterial => (subMaterial.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === subMaterial.colourway.colorName)) ? subMaterial.colourway : { colorName: "", colorCode: "" }) || []);
     setDeleteMaterialFiles([]);
     setDeleteSubMaterialFiles([]);
   };
@@ -251,6 +291,13 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       colourway: material.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === material.colourway.colorName) ? otherMaterialColourways[index] : material.colourway,
     }));
 
+    // otherSubMaterialsの内容を踏まえてsubMaterialsのrowMaterialを更新
+    const updatedSubMaterials = subMaterials.map((subMaterial, index) => ({
+      ...subMaterial,
+      rowMaterial: subMaterial.rowMaterial && !SUBMATERIALS.includes(subMaterial.rowMaterial) ? (otherSubMaterials[index] || "") : subMaterial.rowMaterial,
+      colourway: subMaterial.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === subMaterial.colourway.colorName) ? otherSubMaterialColourways[index] : subMaterial.colourway,
+    }));
+
     await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
       ...(props.isUpdateProgress && { progress: "TAG" }),
       fabric: {
@@ -268,20 +315,20 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             color_code: m.colourway.colorCode,
           },
         }))),
-        sub_materials: await Promise.all(subMaterials.map(async (m) => ({
-          row_material: m.rowMaterial,
-          description: {
-            description: m.description.description,
-            file: m.description.file ? {
-              name: m.description.file.name,
-              key: m.description.file.key,
-            } : undefined,
-          },
-          colourway: {
-            color_name: m.colourway.colorName,
-            color_code: m.colourway.colorCode,
-          },
-        }))),
+        sub_materials: await Promise.all(updatedSubMaterials.map(async (m) => ({
+              row_material: m.rowMaterial,
+              description: {
+                description: m.description.description,
+                file: m.description.file ? {
+                  name: m.description.file.name,
+                  key: m.description.file.key,
+                } : undefined,
+              },
+              colourway: {
+                color_name: m.colourway.colorName,
+                color_code: m.colourway.colorCode,
+              },
+            }))),
       },
     });
     if (currentSpecification) {
@@ -295,14 +342,14 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
             },
             colourway: m.colourway,
           })),
-          subMaterials: subMaterials.map((m) => ({
-            rowMaterial: m.rowMaterial,
-            description: {
-              description: m.description.description,
-              file: m.description.file,
-            },
-            colourway: m.colourway,
-          })),
+          subMaterials: updatedSubMaterials.map((m) => ({
+              rowMaterial: m.rowMaterial,
+              description: {
+                description: m.description.description,
+                file: m.description.file,
+              },
+              colourway: m.colourway,
+            })),
         },
       })
     }
@@ -488,10 +535,28 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Sub Material</p>
                     <TShirtFabricSubMaterials currentSubMaterial={subMaterial.rowMaterial} setCurrentSubMaterial={(value) => handleSubMaterialChange(index, value)} fullWidth={true} />
+                    {subMaterial.rowMaterial && !SUBMATERIALS.includes(subMaterial.rowMaterial) && (
+                      <input
+                        type="text"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                        placeholder="Other Sub Material"
+                        value={otherSubMaterials[index] || ""}
+                        onChange={(e) => handleOtherSubMaterialChange(index, e.target.value)}
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col gap-2">
                     <p className="block text-sm/6 font-medium text-gray-900">Colourway</p>
                     <TShirtFabricColourway currentColourway={subMaterial.colourway} setCurrentColourway={(value) => handleSubMaterialColourwayChange(index, value)} fullWidth={true} />
+                    {subMaterial.colourway.colorName && !COLOURWAYS.some(colourway => colourway.colorName === subMaterial.colourway.colorName) && (
+                      <input
+                        type="text"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                        placeholder="Other Colourway"
+                        value={otherSubMaterialColourways[index].colorName || ""}
+                        onChange={(e) => handleOtherSubMaterialColourwayChange(index, { colorName: e.target.value, colorCode: "#" })}
+                      />
+                    )}
                   </div>
 
                   <div className="flex flex-col col-span-2 gap-2 mt-6">

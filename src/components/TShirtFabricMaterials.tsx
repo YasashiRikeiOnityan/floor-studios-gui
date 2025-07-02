@@ -19,7 +19,7 @@ const TShirtFabricMaterials = observer((props: TShirtFabricMaterials) => {
   const currentMaterial = materials.find(material => material.rowMaterial === props.currentMaterial) || { rowMaterial: "Other" };
 
   return (
-    <Listbox value={props.currentMaterial} onChange={(value) => props.setCurrentMaterial(value)} as="div" className="relative">
+    <Listbox value={currentMaterial.rowMaterial} onChange={(value) => props.setCurrentMaterial(value)} as="div" className="relative">
       <ListboxButton className={`grid ${props.fullWidth ? "w-full" : "w-80"} cursor-default grid-cols-1 rounded-md bg-white py-1.5 pl-3 pr-2 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}>
         <span className="col-start-1 row-start-1 truncate pr-6">{currentMaterial?.rowMaterial}</span>
         <ChevronUpDownIcon
