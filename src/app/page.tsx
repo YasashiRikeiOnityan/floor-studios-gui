@@ -301,7 +301,9 @@ const Home = observer(() => {
       <div className="flex min-h-full flex-1">
         <div className="flex flex-1 flex-col justify-start md:mt-10 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="sm:mt-8 mx-auto w-full max-w-sm lg:w-96">
-            <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
+            {!isForgotPassword && (
+              <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
+            )}
             <div>
               {isSignUp && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Create an account</h2>}
               {isSignIn && !isForgotPassword && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>}
