@@ -18,22 +18,6 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isPreviewing, setIsPreviewing] = useState(false);
-
-  const handlePreview = async () => {
-    setIsPreviewing(true);
-    try {
-      const url = await specificationStore.getSpecificationsSpecificationIdPreview(props.specificationId);
-      console.log('Preview URL:', url);
-      if (url) {
-        window.open(url, '_blank');
-      }
-    } catch {
-      notificationStore.addNotification("Error", "Preview failed", "error");
-    } finally {
-      setIsPreviewing(false);
-    }
-  };
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -58,7 +42,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
     <Menu as="div" className="relative ml-3">
       <div>
         <MenuButton className="relative flex h-8 w-8 max-w-xs items-center justify-center rounded-full bg-white text-sm hover:bg-gray-100 hover:cursor-pointer">
-          {isDownloading || isPreviewing || isDeleting ? (
+          {isDownloading || isDeleting ? (
             <Loading full={false} />
           ) : (
             <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
@@ -78,14 +62,6 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
             }}
           >
             Edit
-          </div>
-        </MenuItem>
-        <MenuItem>
-          <div
-            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
-            onClick={handlePreview}
-          >
-            Open in new tab
           </div>
         </MenuItem>
         <MenuItem>
