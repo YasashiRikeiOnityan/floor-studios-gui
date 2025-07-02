@@ -40,19 +40,21 @@ const Cards = observer((props: CardsProps) => {
         <div className="text-gray-500 mb-4">
           No specifications found
         </div>
-        <div className="relative group">
-          <button
-            type="button"
-            onClick={() => router.push(`/design/new?collection=${props.specificationGroupId}`)}
-            className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
-            title="Add new design"
-          >
-            <AddIcon className="w-5 h-5" />
-          </button>
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-            Add new design
+        {props.status === "DRAFT" && (
+          <div className="relative group">
+            <button
+              type="button"
+              onClick={() => router.push(`/design/new?collection=${props.specificationGroupId}`)}
+              className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+              title="Add new design"
+            >
+              <AddIcon className="w-5 h-5" />
+            </button>
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+              Add new design
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
