@@ -58,8 +58,8 @@ class SpecificationStore {
     });
   }
 
-  async putSpecificationsSpecificationId(specificationId: string, data: ApiPutTShirtSpecificationRequest) {
-    const response = await PutSpecificationsSpecificationIdInteractor(specificationId, data);
+  async putSpecificationsSpecificationId(specificationId: string, data: ApiPutTShirtSpecificationRequest, notification: boolean = true) {
+    const response = await PutSpecificationsSpecificationIdInteractor(specificationId, data, notification);
     if (!response) {
       return;
     }

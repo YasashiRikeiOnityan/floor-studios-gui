@@ -284,6 +284,13 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
       setDeleteSubMaterialFiles([]);
     }
 
+    await handleSave();
+
+    props.callBackUpdateState();
+    setIsSaving(false);
+  };
+
+  const handleSave = async (notification: boolean = true) => {
     // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
     const updatedMaterials = materials.map((material, index) => ({
       ...material,
@@ -330,7 +337,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
               },
             }))),
       },
-    });
+    }, notification);
     if (currentSpecification) {
       specificationStore.updateSpecification({
         fabric: {
@@ -353,9 +360,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
         },
       })
     }
-    props.callBackUpdateState();
-    setIsSaving(false);
-  };
+  }
 
   return (
     <>
@@ -415,87 +420,7 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                       onDescriptionChange={(value) => handleMaterialDescriptionChange(index, value)}
                       onSave={async (description) => {
                         handleMaterialDescriptionChange(index, description);
-                        const materialsWithoutEmpty = materials.map((m, i) =>
-                          i === index ? {
-                            rowMaterial: m.rowMaterial,
-                            description: {
-                              description: m.description.description,
-                              file: {
-                                name: description.file?.name || "",
-                                key: description.file?.key || "",
-                                preSignedUrl: m.description.file?.preSignedUrl || undefined,
-                              },
-                            },
-                            colourway: m.colourway
-                          } : m
-                        ).filter(m => m.description.description !== "" || m.description.file?.key);
-
-                        // otherMaterialsの内容を踏まえてmaterialsのrowMaterialを更新
-                        const updatedMaterialsForSave = materialsWithoutEmpty.map((material, idx) => ({
-                          ...material,
-                          owMaterial: material.rowMaterial && !MATERIALS.includes(material.rowMaterial) ? (otherMaterials[idx] || "") : material.rowMaterial,
-                        }));
-
-                        specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
-                          fabric: {
-                            materials: await Promise.all(updatedMaterialsForSave.map(m => ({
-                              row_material: m.rowMaterial,
-                              description: {
-                                description: m.description.description,
-                                file: (m.description.file && m.description.file.key !== "") ? {
-                                  name: m.description.file.name,
-                                  key: m.description.file.key,
-                                } : undefined,
-                              },
-                              colourway: {
-                                color_name: m.colourway.colorName,
-                                color_code: m.colourway.colorCode,
-                              },
-                            }))),
-                            sub_materials: await Promise.all(subMaterials.map(m => ({
-                              row_material: m.rowMaterial,
-                              description: {
-                                description: m.description.description,
-                                file: m.description.file ? {
-                                  name: m.description.file.name,
-                                  key: m.description.file.key,
-                                } : undefined,
-                              },
-                              colourway: {
-                                color_name: m.colourway.colorName,
-                                color_code: m.colourway.colorCode,
-                              },
-                            }))),
-                          },
-                        });
-                        specificationStore.updateSpecification({
-                          fabric: {
-                            materials: updatedMaterialsForSave.map(m => ({
-                              rowMaterial: m.rowMaterial,
-                              description: {
-                                description: m.description.description,
-                                file: {
-                                  name: m.description.file?.name || "",
-                                  key: m.description.file?.key || "",
-                                  preSignedUrl: m.description.file?.preSignedUrl || undefined,
-                                },
-                              },
-                              colourway: m.colourway,
-                            })),
-                            subMaterials: subMaterials.map(m => ({
-                              rowMaterial: m.rowMaterial,
-                              description: {
-                                description: m.description.description,
-                                file: {
-                                  name: m.description.file?.name || "",
-                                  key: m.description.file?.key || "",
-                                  preSignedUrl: m.description.file?.preSignedUrl || undefined,
-                                },
-                              },
-                              colourway: m.colourway,
-                            })),
-                          },
-                        });
+                        await handleSave(false);
                       }}
                     />
                   </div>
@@ -565,7 +490,90 @@ const TShirtFabric = observer((props: TShirtFabricProps) => {
                       id={`sub-material-description-${index}`}
                       description={subMaterial.description}
                       onDescriptionChange={(value) => handleSubMaterialDescriptionChange(index, value.description)}
-                      onSave={() => { }}
+                      onSave={async (description) => {
+                        handleSubMaterialDescriptionChange(index, description.description);
+                        const subMaterialsWithoutEmpty = subMaterials.map((m, i) =>
+                          i === index ? {
+                            rowMaterial: m.rowMaterial,
+                            description: {
+                              description: m.description.description,
+                              file: {
+                                name: description.file?.name || "",
+                                key: description.file?.key || "",
+                                preSignedUrl: m.description.file?.preSignedUrl || undefined,
+                              },
+                            },
+                            colourway: m.colourway
+                          } : m
+                        ).filter(m => m.description.description !== "" || m.description.file?.key);
+
+                        // otherSubMaterialsの内容を踏まえてsubMaterialsのrowMaterialを更新
+                        const updatedSubMaterialsForSave = subMaterialsWithoutEmpty.map((subMaterial, idx) => ({
+                          ...subMaterial,
+                          rowMaterial: subMaterial.rowMaterial && !SUBMATERIALS.includes(subMaterial.rowMaterial) ? (otherSubMaterials[idx] || "") : subMaterial.rowMaterial,
+                        }));
+
+                        specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
+                          fabric: {
+                            materials: await Promise.all(materials.map(m => ({
+                              row_material: m.rowMaterial,
+                              description: {
+                                description: m.description.description,
+                                file: m.description.file ? {
+                                  name: m.description.file.name,
+                                  key: m.description.file.key,
+                                } : undefined,
+                              },
+                              colourway: {
+                                color_name: m.colourway.colorName,
+                                color_code: m.colourway.colorCode,
+                              },
+                            }))),
+                            sub_materials: await Promise.all(updatedSubMaterialsForSave.map(m => ({
+                              row_material: m.rowMaterial,
+                              description: {
+                                description: m.description.description,
+                                file: (m.description.file && m.description.file.key !== "") ? {
+                                  name: m.description.file.name,
+                                  key: m.description.file.key,
+                                } : undefined,
+                              },
+                              colourway: {
+                                color_name: m.colourway.colorName,
+                                color_code: m.colourway.colorCode,
+                              },
+                            }))),
+                          },
+                        }, false);
+                        specificationStore.updateSpecification({
+                          fabric: {
+                            materials: materials.map(m => ({
+                              rowMaterial: m.rowMaterial,
+                              description: {
+                                description: m.description.description,
+                                file: {
+                                  name: m.description.file?.name || "",
+                                  key: m.description.file?.key || "",
+                                  preSignedUrl: m.description.file?.preSignedUrl || undefined,
+                                },
+                              },
+                              colourway: m.colourway,
+                            })),
+                            subMaterials: updatedSubMaterialsForSave.map(m => ({
+                              rowMaterial: m.rowMaterial,
+                              description: {
+                                description: m.description.description,
+                                file: {
+                                  name: m.description.file?.name || "",
+                                  key: m.description.file?.key || "",
+                                  preSignedUrl: m.description.file?.preSignedUrl || undefined,
+                                },
+                              },
+                              colourway: m.colourway,
+                            })),
+                          },
+                        });
+                      }}
                     />
                   </div>
                 </div>

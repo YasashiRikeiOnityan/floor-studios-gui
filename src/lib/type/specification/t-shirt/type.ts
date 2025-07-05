@@ -88,7 +88,6 @@ export type TShirtTag = {
 
 export type TShirtCareLabel = {
   hasLogo: boolean;
-  defaultLogo: boolean;
   file?: {
     name: string;
     key: string;
@@ -222,7 +221,6 @@ export type ApiGetTShirtSpecificationResponse = {
   };
   care_label?: {
     has_logo: boolean;
-    default_logo: boolean;
     file?: {
       name: string;
       key: string;
@@ -254,7 +252,7 @@ export type ApiGetTShirtSpecificationResponse = {
         key: string;
       };
     };
-  };  
+  };
   sample?: {
     is_sample: boolean;
     quantity: {
@@ -390,7 +388,6 @@ export type ApiPutTShirtSpecificationRequest = {
   };
   care_label?: {
     has_logo: boolean;
-    default_logo: boolean;
     file?: {
       name: string;
       key: string;

@@ -140,7 +140,7 @@ const OEMPoint = observer((props: OEMPointProps) => {
                       }
                     })
                   }))
-                });
+                }, false);
                 specificationStore.updateSpecification({
                   oemPoints: oemPointsWithoutEmpty.map(point => ({
                     description: point.description,

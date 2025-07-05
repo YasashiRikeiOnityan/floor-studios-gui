@@ -11,8 +11,7 @@ type TShirtMainProductionProps = {
 
 const TShirtMainProduction = (props: TShirtMainProductionProps) => {
   const currentSpecification = specificationStore.currentSpecification as TShirtSpecification;
-  const initialQuantity = { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 };
-  const [quantity, setQuantity] = useState<{ [key: string]: number }>(initialQuantity);
+  const [quantity, setQuantity] = useState<{ [key: string]: number }>(currentSpecification?.mainProduction?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
   const [deliveryDateEnabled, setDeliveryDateEnabled] = useState<boolean>(currentSpecification?.mainProduction?.deliveryDate ? true : false);
   const [deliveryDate, setDeliveryDate] = useState<string>(currentSpecification?.mainProduction?.deliveryDate || "");
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -23,7 +22,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
   }
 
   const handleCancel = () => {
-    setQuantity(initialQuantity);
+    setQuantity(currentSpecification?.mainProduction?.quantity || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 });
     setDeliveryDate(currentSpecification?.mainProduction?.deliveryDate || "");
     setDeliveryDateEnabled(currentSpecification?.mainProduction?.deliveryDate ? true : false);
   }
@@ -57,7 +56,7 @@ const TShirtMainProduction = (props: TShirtMainProductionProps) => {
           xl: quantity.xl,
           xxl: quantity.xxl,
         },
-        ...(deliveryDateEnabled && { delivery_date: deliveryDate }),
+        ...(deliveryDateEnabled && { deliveryDate: deliveryDate }),
       },
     });
     props.callBackUpdateState();

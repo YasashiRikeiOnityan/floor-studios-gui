@@ -28,6 +28,13 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
   const [loading, setLoading] = useState(false);
   const [fileInputKey, setFileInputKey] = useState(0);
 
+  // descriptionの行数を計算する関数
+  const calculateRows = (text: string): number => {
+    if (!text) return 3; // デフォルト値
+    const lines = text.split('\n').length;
+    return Math.max(3, lines + 1); // 最低3行、最大行数+1
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
 
@@ -130,7 +137,6 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
             preSignedUrl: { ...props.description.file?.preSignedUrl, get: response.pre_signed_url },
           },
         };
-        console.log(newDescription);
         props.onDescriptionChange(newDescription);
       }
     } catch (error) {
@@ -209,7 +215,7 @@ export const DescriptionWithFile = (props: DescriptionWithFileProps) => {
       <textarea
         id={`comment-${props.id || ""}`}
         name={`comment-${props.id || ""}`}
-        rows={3}
+        rows={calculateRows(props.description.description)}
         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
         placeholder="Special requests or comments"
         value={props.description.description}

@@ -119,6 +119,16 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
         } : undefined,
       },
     },
+    careLabel: {
+      hasLogo: specification.care_label?.has_logo || false,
+      description: {
+        description: specification.care_label?.description?.description || "",
+        file: specification.care_label?.description?.file ? {
+          name: specification.care_label.description.file.name,
+          key: specification.care_label.description.file.key,
+        } : undefined,
+      },
+    },
     oemPoints: specification.oem_points?.map((oemPoint) => {
       return {
         description: oemPoint.description,
