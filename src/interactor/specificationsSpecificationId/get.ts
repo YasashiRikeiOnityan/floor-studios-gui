@@ -129,7 +129,7 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
       };
     }),
     sample: {
-      sample: specification.sample?.sample || false,
+      isSample: specification.sample?.is_sample || false,
       quantity: {
         xxs: specification.sample?.quantity?.xxs || 0,
         xs: specification.sample?.quantity?.xs || 0,
@@ -140,6 +140,14 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
         xxl: specification.sample?.quantity?.xxl || 0,
       },
       canSendSample: specification.sample?.can_send_sample || false,
+      sampleFront: specification.sample?.sample_front ? {
+        name: specification.sample.sample_front.name,
+        key: specification.sample.sample_front.key,
+      } : undefined,
+      sampleBack: specification.sample?.sample_back ? {
+        name: specification.sample.sample_back.name,
+        key: specification.sample.sample_back.key,
+      } : undefined,
     },
     mainProduction: {
       quantity: {

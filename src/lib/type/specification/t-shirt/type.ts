@@ -104,9 +104,17 @@ export type TShirtCareLabel = {
 export type TShirtOemPoints = Description[];
 
 export type TShirtSample = {
-  sample: boolean;
-  quantity?: SizeValue;
-  canSendSample?: boolean;
+  isSample: boolean;
+  quantity: SizeValue;
+  canSendSample: boolean;
+  sampleFront?: {
+    name: string;
+    key: string;
+  };
+  sampleBack?: {
+    name: string;
+    key: string;
+  };
 };
 
 export type TShirtMainProduction = {
@@ -248,8 +256,8 @@ export type ApiGetTShirtSpecificationResponse = {
     };
   };  
   sample?: {
-    sample: boolean;
-    quantity?: {
+    is_sample: boolean;
+    quantity: {
       xxs: number;
       xs: number;
       s: number;
@@ -259,6 +267,14 @@ export type ApiGetTShirtSpecificationResponse = {
       xxl: number;
     };
     can_send_sample: boolean;
+    sample_front?: {
+      name: string;
+      key: string;
+    };
+    sample_back?: {
+      name: string;
+      key: string;
+    };
   };
   oem_points?: {
     description: string;
@@ -408,8 +424,8 @@ export type ApiPutTShirtSpecificationRequest = {
     };
   };
   sample?: {
-    sample: boolean;
-    quantity?: {
+    is_sample: boolean;
+    quantity: {
       xxs: number;
       xs: number;
       s: number;
@@ -419,6 +435,14 @@ export type ApiPutTShirtSpecificationRequest = {
       xxl: number;
     };
     can_send_sample?: boolean;
+    sample_front?: {
+      name: string;
+      key: string;
+    };
+    sample_back?: {
+      name: string;
+      key: string;
+    };
   };
   oem_points?: {
     description: string;

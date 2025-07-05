@@ -39,7 +39,7 @@ const TShirtFabricColourway = observer((props: TShirtFabricColourway) => {
 
   const colourways = [...tenantStore.tenantSettingsTShirtFabric.colourways, { colorName: "Other", colorCode: "#" }];
 
-  const currentColourway = colourways.find(colourway => colourway.colorCode === (props.currentColourway?.colorCode || "")) || { colorName: "Other", colorCode: "#" };
+  const currentColourway = colourways.find(colourway => colourway.colorCode === (props.currentColourway?.colorCode || "")) || (props.currentColourway?.colorCode === "" ? colourways[0] : { colorName: "Other", colorCode: "#" });
 
   return (
     <Listbox value={currentColourway} onChange={props.setCurrentColourway} as="div" className="relative">

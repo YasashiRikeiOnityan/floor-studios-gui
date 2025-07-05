@@ -16,7 +16,7 @@ const TShirtFabricSubMaterials = observer((props: TShirtFabricSubMaterials) => {
 
   const subMaterials = [...tenantStore.tenantSettingsTShirtFabric.subMaterials, { rowMaterial: "Other" }];
 
-  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial) || { rowMaterial: "Other" };
+  const currentSubMaterial = subMaterials.find(subMaterial => subMaterial.rowMaterial === props.currentSubMaterial) || (props.currentSubMaterial === "" ? subMaterials[0] : { rowMaterial: "Other" });
 
   return (
     <Listbox value={currentSubMaterial.rowMaterial} onChange={props.setCurrentSubMaterial} as="div" className="relative">
