@@ -18,6 +18,7 @@ const BasicInformation = observer((props: BasicInformationProps) => {
   const [localValidateBrandNameError, setLocalValidateBrandNameError] = useState("");
   const [localValidateProductNameError, setLocalValidateProductNameError] = useState("");
   const [localValidateProductCodeError, setLocalValidateProductCodeError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -63,6 +64,7 @@ const BasicInformation = observer((props: BasicInformationProps) => {
   }
 
   const handleSave = async () => {
+    setIsSaving(true);
     if (!handleValidate() || !specificationStore.currentSpecification) {
       return;
     }
@@ -72,6 +74,7 @@ const BasicInformation = observer((props: BasicInformationProps) => {
       product_code: localProductCode,
       specification_group_id: localSpecificationGroupId
     });
+    setIsSaving(false);
   }
 
   const handleSaveAndNext = async () => {
@@ -187,6 +190,8 @@ const BasicInformation = observer((props: BasicInformationProps) => {
           onClick={handleSaveAndNext}
           text={"Save and Next"}
           style={"fill"}
+          loading={isSaving}
+          loadingText={"Saving..."}
           fullWidth={false}
         />
       </div>

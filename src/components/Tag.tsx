@@ -86,7 +86,7 @@ const Tag = observer((props: TagProps) => {
         is_custom: isCustom,
         ...(isLabel && !sendLabels && { material: material ? material : "" }),
         ...(isLabel && !sendLabels && selectedColor && {
-          color: {
+          colourway: {
             color_name: selectedColor?.colorName || "",
             color_code: selectedColor?.colorCode || "",
           }

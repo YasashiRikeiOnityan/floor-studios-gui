@@ -16,7 +16,6 @@ export type TShirtSpecification = BaseSpecification & {
   information?: TShirtInformation;
 };
 
-
 export type SizeValue = {
   xxs: number;
   xs: number;
@@ -393,7 +392,7 @@ export type ApiPutTShirtSpecificationRequest = {
     send_labels: boolean;
     is_custom: boolean;
     material?: string;
-    color?: {
+    colourway?: {
       color_name: string;
       color_code: string;
     };
