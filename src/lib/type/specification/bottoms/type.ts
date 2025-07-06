@@ -18,11 +18,11 @@ export type BottomsSpecification = BaseSpecification & {
 };
 
 export type SizeValue = {
-  xs: number;
-  s: number;
-  m: number;
-  l: number;
-  xl: number;
+  xs: string;
+  s: string;
+  m: string;
+  l: string;
+  xl: string;
 };
 
 export type Description = {

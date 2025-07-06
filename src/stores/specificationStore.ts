@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Specification, ApiPostSpecificationsRequest, Specifications, SpecificationStatus } from "@/lib/type/specification/type";
+import { Specification, ApiPostSpecificationsRequest, Specifications, SpecificationStatus, ApiPutSpecificationsSpecificationIdRequest } from "@/lib/type/specification/type";
 import { GetSpecificationsInteractor } from "@/interactor/specifications/get";
 import { PostSpecificationsInteractor } from "@/interactor/specifications/post";
 import { GetSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/get";
@@ -7,7 +7,6 @@ import { PutSpecificationsSpecificationIdInteractor } from "@/interactor/specifi
 import { DeleteSpecificationsSpecificationIdInteractor } from "@/interactor/specificationsSpecificationId/delete";
 import { GetSpecificationsSpecificationIdDownloadInteractor } from "@/interactor/GetSpecificationsSpecificationIdDownload";
 import { GetSpecificationsSpecificationIdPreviewInteractor } from "@/interactor/GetSpecificationsSpecificationIdPreview";
-import { ApiPutTShirtSpecificationRequest } from "@/lib/type/specification/t-shirt/type";
 
 class SpecificationStore {
 
@@ -58,7 +57,7 @@ class SpecificationStore {
     });
   }
 
-  async putSpecificationsSpecificationId(specificationId: string, data: ApiPutTShirtSpecificationRequest, notification: boolean = true) {
+  async putSpecificationsSpecificationId(specificationId: string, data: ApiPutSpecificationsSpecificationIdRequest, notification: boolean = true) {
     const response = await PutSpecificationsSpecificationIdInteractor(specificationId, data, notification);
     if (!response) {
       return;

@@ -10,6 +10,7 @@ import BottomsFit from "@/components/BottomsFit";
 import Information from "@/components/Information";
 import TShirtMainProduction from "@/components/TShirtMainProduction";
 import TShirtFabric from "@/components/TShirtFabric";
+import BottomsFabric from "@/components/BottomsFabric";
 import ProgressBar from "@/components/ProgressBar";
 import TShirtsSample from "@/components/TShirtsSample";
 import OEMPoint from "@/components/OEMPoint";
@@ -101,8 +102,8 @@ const EditDesignContent = observer(() => {
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
         case 2:
           return <BottomsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
-        // case 3:
-        //   return <BottomsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
+        case 3:
+          return <BottomsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
           return <Tag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
         case 5:

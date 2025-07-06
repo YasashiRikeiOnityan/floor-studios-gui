@@ -3,7 +3,10 @@ import {
   ApiGetTShirtSpecificationResponse,
   ApiPutTShirtSpecificationRequest,
 } from "@/lib/type/specification/t-shirt/type";
-import { BottomsSpecification } from "./bottoms/type";
+import {
+  BottomsSpecification,
+  ApiPutBottomsSpecificationRequest,
+} from "@/lib/type/specification/bottoms/type";
 
 export type Specification =
   | TShirtSpecification
@@ -64,7 +67,8 @@ export type ApiGetSpecificationsSpecificationIdResponse =
   | ApiGetTShirtSpecificationResponse;
 
 export type ApiPutSpecificationsSpecificationIdRequest = 
-  | ApiPutTShirtSpecificationRequest;
+  | ApiPutTShirtSpecificationRequest
+  | ApiPutBottomsSpecificationRequest;
 
 export type ApiPutSpecificationsSpecificationIdResponse = {
   specification_id: string;

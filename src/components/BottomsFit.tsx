@@ -2,6 +2,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { BottomsSpecification, SizeValue } from "@/lib/type/specification/bottoms/type";
+import Button from "@/components/Button";
 
 type BottomsFitProps = {
   callBackUpdateState: () => void;
@@ -11,15 +12,16 @@ type BottomsFitProps = {
 const BottomsFit = observer((props: BottomsFitProps) => {
 
   const currentSpecification = specificationStore.currentSpecification as BottomsSpecification;
-  const [totalLength, setTotalLength] = useState<SizeValue>(currentSpecification?.fit?.totalLength || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [waist, setWaist] = useState<SizeValue>(currentSpecification?.fit?.waist || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [rise, setRise] = useState<SizeValue>(currentSpecification?.fit?.rise || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [inseam, setInseam] = useState<SizeValue>(currentSpecification?.fit?.inseam || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [hip, setHip] = useState<SizeValue>(currentSpecification?.fit?.hip || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [aroundTheThigh, setAroundTheThigh] = useState<SizeValue>(currentSpecification?.fit?.aroundTheThigh || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [aroundTheKnee, setAroundTheKnee] = useState<SizeValue>(currentSpecification?.fit?.aroundTheKnee || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [hemWidth, setHemWidth] = useState<SizeValue>(currentSpecification?.fit?.hemWidth || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
-  const [aroundTheHem, setAroundTheHem] = useState<SizeValue>(currentSpecification?.fit?.aroundTheHem || { xs: 0, s: 0, m: 0, l: 0, xl: 0 });
+  const [totalLength, setTotalLength] = useState<SizeValue>(currentSpecification?.fit?.totalLength || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [waist, setWaist] = useState<SizeValue>(currentSpecification?.fit?.waist || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [rise, setRise] = useState<SizeValue>(currentSpecification?.fit?.rise || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [inseam, setInseam] = useState<SizeValue>(currentSpecification?.fit?.inseam || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [hip, setHip] = useState<SizeValue>(currentSpecification?.fit?.hip || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [aroundTheThigh, setAroundTheThigh] = useState<SizeValue>(currentSpecification?.fit?.aroundTheThigh || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [aroundTheKnee, setAroundTheKnee] = useState<SizeValue>(currentSpecification?.fit?.aroundTheKnee || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [hemWidth, setHemWidth] = useState<SizeValue>(currentSpecification?.fit?.hemWidth || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [aroundTheHem, setAroundTheHem] = useState<SizeValue>(currentSpecification?.fit?.aroundTheHem || { xs: "", s: "", m: "", l: "", xl: "" });
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleTotalLengthChange = (size: keyof SizeValue, value: string) => {
     setTotalLength(prev => ({
@@ -84,6 +86,51 @@ const BottomsFit = observer((props: BottomsFitProps) => {
     }));
   };
 
+  const handleCancel = () => {
+    setTotalLength(currentSpecification?.fit?.totalLength || { xs: "", s: "", m: "", l: "", xl: "" });
+    setWaist(currentSpecification?.fit?.waist || { xs: "", s: "", m: "", l: "", xl: "" });
+    setRise(currentSpecification?.fit?.rise || { xs: "", s: "", m: "", l: "", xl: "" });
+    setInseam(currentSpecification?.fit?.inseam || { xs: "", s: "", m: "", l: "", xl: "" });
+    setHip(currentSpecification?.fit?.hip || { xs: "", s: "", m: "", l: "", xl: "" });
+    setAroundTheThigh(currentSpecification?.fit?.aroundTheThigh || { xs: "", s: "", m: "", l: "", xl: "" });
+    setAroundTheKnee(currentSpecification?.fit?.aroundTheKnee || { xs: "", s: "", m: "", l: "", xl: "" });
+    setHemWidth(currentSpecification?.fit?.hemWidth || { xs: "", s: "", m: "", l: "", xl: "" });
+    setAroundTheHem(currentSpecification?.fit?.aroundTheHem || { xs: "", s: "", m: "", l: "", xl: "" });
+  };
+
+  const handleSaveAndNext = async () => {
+    setIsSaving(true);
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
+      ...(props.isUpdateProgress && { progress: "FIT" }),
+      fit: {
+        total_length: totalLength,
+        waist: waist,
+        rise: rise,
+        inseam: inseam,
+        hip: hip,
+        around_the_thigh: aroundTheThigh,
+        around_the_knee: aroundTheKnee,
+        hem_width: hemWidth,
+        around_the_hem: aroundTheHem,
+      },
+    });
+    specificationStore.updateSpecification({
+      fit: {
+        totalLength: totalLength,
+        waist: waist,
+        rise: rise,
+        inseam: inseam,
+        hip: hip,
+        aroundTheThigh: aroundTheThigh,
+        aroundTheKnee: aroundTheKnee,
+        hemWidth: hemWidth,
+        aroundTheHem: aroundTheHem,
+      },
+    });
+    setIsSaving(false);
+    props.callBackUpdateState();
+  };
+
   return (
     <>
       <p className="text-sm text-gray-500">
@@ -91,7 +138,7 @@ const BottomsFit = observer((props: BottomsFitProps) => {
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Fill in the size chart</h1>
       <div className="space-y-6 mt-4">
-        <div className="flex justify-between items-start">
+        <div className="flex justify-evenly items-start">
           <div className="space-y-2">
             <div className="flex gap-2 items-center">
               <div className="block w-32"></div>
@@ -453,7 +500,29 @@ const BottomsFit = observer((props: BottomsFitProps) => {
               />
             </div>
           </div>
-          <img src="/bottoms.jpg" alt="bottoms-fit" className="w-150" />
+          <img src="/bottoms.jpg" alt="bottoms-fit" className="w-90" />
+        </div>
+      </div>
+
+      {/* ボタン */}
+      <div className="mt-6 flex flex-row justify-end">
+        <div className="flex flex-row gap-x-3">
+          <Button
+            type={"button"}
+            onClick={handleCancel}
+            text={"Cancel"}
+            style={"text"}
+            fullWidth={false}
+          />
+          <Button
+            type={"button"}
+            onClick={handleSaveAndNext}
+            text={"Save and Next"}
+            loadingText={"Saving..."}
+            loading={isSaving}
+            style={"fill"}
+            fullWidth={false}
+          />
         </div>
       </div>
     </>
