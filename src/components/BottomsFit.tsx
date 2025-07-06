@@ -91,7 +91,7 @@ const BottomsFit = observer((props: BottomsFitProps) => {
       </p>
       <h1 className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-gray-900">Fill in the size chart</h1>
       <div className="space-y-6 mt-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-start">
           <div className="space-y-2">
             <div className="flex gap-2 items-center">
               <div className="block w-32"></div>
@@ -453,6 +453,7 @@ const BottomsFit = observer((props: BottomsFitProps) => {
               />
             </div>
           </div>
+          <img src="/bottoms.jpg" alt="bottoms-fit" className="w-150" />
         </div>
       </div>
     </>
