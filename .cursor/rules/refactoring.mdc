@@ -1,7 +1,7 @@
 ---
 description: 
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 全体的なリファクタリングを行います。ここにリファクタリングの方針を明記します。
 
