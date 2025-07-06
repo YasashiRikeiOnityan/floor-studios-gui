@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { specificationStore } from "@/stores/specificationStore";
 import Header from "@/components/Header";
 import { TShirtEditSteps } from "@/lib/type/specification/t-shirt/type";
+import { BottomsEditSteps } from "@/lib/type/specification/bottoms/type";
 import TShirtFit from "@/components/TShirtFit";
+import BottomsFit from "@/components/BottomsFit";
 import Information from "@/components/Information";
 import TShirtMainProduction from "@/components/TShirtMainProduction";
 import TShirtFabric from "@/components/TShirtFabric";
@@ -43,6 +45,10 @@ const EditDesignContent = observer(() => {
           await specificationStore.getSpecificationsSpecificationId(specificationId);
           if (specificationStore.currentSpecification?.type === "T-SHIRT") {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
+            setCurrentStep(currentStepIndex + 1);
+            setActualStep(currentStepIndex + 1);
+          } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+            const currentStepIndex = BottomsEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
           }
@@ -86,6 +92,31 @@ const EditDesignContent = observer(() => {
           return <TShirtMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
         case 9:
           return <Information callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
+        default:
+          return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
+      }
+    } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+      switch (currentStep) {
+        case 1:
+          return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
+        case 2:
+          return <BottomsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
+        // case 3:
+        //   return <BottomsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
+        case 4:
+          return <Tag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
+        case 5:
+          return <CareLabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
+        // case 6:
+        //   return <BottomsPatch callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
+        case 7:
+          return <OEMPoint callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
+        // case 8:
+        //   return <BottomsSample callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
+        // case 9:
+        //   return <BottomsMainProduction callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
+        case 10:
+          return <Information callBackUpdateState={() => { callBackUpdateState(11) }} isUpdateProgress={actualStep === 10} />
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }

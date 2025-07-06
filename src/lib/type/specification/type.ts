@@ -3,19 +3,15 @@ import {
   ApiGetTShirtSpecificationResponse,
   ApiPutTShirtSpecificationRequest,
 } from "@/lib/type/specification/t-shirt/type";
+import { BottomsSpecification } from "./bottoms/type";
 
 export type Specification =
   | TShirtSpecification
-  | ShortsSpecification;
-
-export type ShortsSpecification = BaseSpecification & {
-  type: SpecificationType;
-  test: string;
-};
+  | BottomsSpecification;
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
-export type SpecificationType = "T-SHIRT" | "SHORTS" | undefined;
+export type SpecificationType = "T-SHIRT" | "BOTTOMS" | undefined;
 
 export type BaseSpecification = {
   specificationId: string;

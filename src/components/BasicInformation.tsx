@@ -28,12 +28,10 @@ const BasicInformation = observer((props: BasicInformationProps) => {
     if (!mounted) {
       return;
     }
-    if (specificationStore.currentSpecification?.type === "T-SHIRT") {
-      setLocalBrandName(specificationStore.currentSpecification?.brandName || "");
-      setLocalProductName(specificationStore.currentSpecification?.productName || "");
-      setLocalProductCode(specificationStore.currentSpecification?.productCode || "");
-      setLocalSpecificationGroupId(specificationStore.currentSpecification?.specificationGroupId || "");
-    }
+    setLocalBrandName(specificationStore.currentSpecification?.brandName || "");
+    setLocalProductName(specificationStore.currentSpecification?.productName || "");
+    setLocalProductCode(specificationStore.currentSpecification?.productCode || "");
+    setLocalSpecificationGroupId(specificationStore.currentSpecification?.specificationGroupId || "");
   }, [mounted]);
 
   const handleValidate = () => {

@@ -13,11 +13,11 @@ const Types = (props: TypesProps) => {
       name: "T-Shirt",
       image: "/t-shirt.png",
     },
-    // {
-    //   id: "SHORTS",
-    //   name: "Shorts",
-    //   image: "/shorts.png",
-    // }
+    {
+      id: "BOTTOMS",
+      name: "Bottoms",
+      image: "/bottoms.png",
+    }
   ];
 
   return (

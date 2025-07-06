@@ -6,6 +6,10 @@ import {
   TShirtSpecification,
 } from "@/lib/type/specification/t-shirt/type";
 import {
+  ApiGetBottomsSpecificationResponse,
+  BottomsSpecification,
+} from "@/lib/type/specification/bottoms/type";
+import {
   Specification,
   ApiGetSpecificationsSpecificationIdResponse,
 } from "@/lib/type/specification/type";
@@ -23,10 +27,14 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
   }
 }
 
-const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse): Specification | undefined => {
+const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse | ApiGetBottomsSpecificationResponse): Specification | undefined => {
   if (specification.type === "T-SHIRT") {
     return {
-      ...formatTShirtSpecification(specification),
+      ...formatTShirtSpecification(specification as ApiGetTShirtSpecificationResponse),
+    };
+  } else if (specification.type === "BOTTOMS") {
+    return {
+      ...formatBottomsSpecification(specification as ApiGetBottomsSpecificationResponse),
     };
   }
   return undefined;
@@ -207,4 +215,135 @@ const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationRespo
       }
     }
   }
+}
+
+const formatBottomsSpecification = (specification: ApiGetBottomsSpecificationResponse): BottomsSpecification => {
+  return {
+    specificationId: specification.specification_id,
+    brandName: specification.brand_name,
+    productName: specification.product_name,
+    productCode: specification.product_code,
+    specificationGroupId: specification.specification_group_id || "",
+    updatedBy: {
+      userId: specification.updated_by?.user_id || "",
+      userName: specification.updated_by?.user_name || "",
+    },
+    updatedAt: specification.updated_at || "",
+    status: specification.status,
+    type: "BOTTOMS",
+    progress: specification.progress || "",
+    fit: specification.fit ? {
+      totalLength: specification.fit?.total_length || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      waist: specification.fit?.waist || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      rise: specification.fit?.rise || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      inseam: specification.fit?.inseam || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      hip: specification.fit?.hip || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      aroundTheThigh: specification.fit?.around_the_thigh || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      aroundTheKnee: specification.fit?.around_the_knee || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      hemWidth: specification.fit?.hem_width || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+      aroundTheHem: specification.fit?.around_the_hem || { xxs: 0, xs: 0, s: 0, m: 0, l: 0, xl: 0, xxl: 0 },
+    } : undefined,
+    fabric: {
+      materials: specification.fabric?.materials || [],
+      subMaterials: specification.fabric?.sub_materials || [],
+      description: {
+        description: specification.fabric?.description?.description || "",
+        file: specification.fabric?.description?.file ? {
+          name: specification.fabric.description.file.name,
+          key: specification.fabric.description.file.key,
+        } : undefined,
+      },
+    },
+    tag: {
+      description: {
+        description: specification.tag?.description?.description || "",
+        file: specification.tag?.description?.file ? {
+          name: specification.tag.description.file.name,
+          key: specification.tag.description.file.key,
+        } : undefined,
+      },
+    },
+    careLabel: {
+      description: {
+        description: specification.care_label?.description?.description || "",
+        file: specification.care_label?.description?.file ? {
+          name: specification.care_label.description.file.name,
+          key: specification.care_label.description.file.key,
+        } : undefined,
+      },
+    },
+    oemPoints: specification.oem_points?.map((oemPoint) => {
+      return {
+        description: oemPoint.description,
+        file: oemPoint.file ? {
+          name: oemPoint.file.name,
+          key: oemPoint.file.key,
+        } : undefined,
+      };
+    }),
+    sample: {
+      isSample: specification.sample?.is_sample || false,
+      quantity: {
+        xs: specification.sample?.quantity?.xs || 0,
+        s: specification.sample?.quantity?.s || 0,
+        m: specification.sample?.quantity?.m || 0,
+        l: specification.sample?.quantity?.l || 0,
+        xl: specification.sample?.quantity?.xl || 0,
+      },
+      canSendSample: specification.sample?.can_send_sample || false,
+      sampleFront: specification.sample?.sample_front ? {
+        name: specification.sample.sample_front.name,
+        key: specification.sample.sample_front.key,
+      } : undefined,
+      sampleBack: specification.sample?.sample_back ? {
+        name: specification.sample.sample_back.name,
+        key: specification.sample.sample_back.key,
+      } : undefined,
+    },
+    mainProduction: {
+      quantity: {
+        xs: specification.main_production?.quantity.xs || 0,
+        s: specification.main_production?.quantity.s || 0,
+        m: specification.main_production?.quantity.m || 0,
+        l: specification.main_production?.quantity.l || 0,
+        xl: specification.main_production?.quantity.xl || 0,
+      },
+      deliveryDate: specification.main_production?.delivery_date || "",
+    },
+    information: {
+      contact: {
+        firstName: specification.information?.contact?.first_name || "",
+        lastName: specification.information?.contact?.last_name || "",
+        phoneNumber: specification.information?.contact?.phone_number || "",
+        email: specification.information?.contact?.email || "",
+      },
+      billingInformation: {
+        addressLine1: specification.information?.billing_information?.address_line_1 || "",
+        addressLine2: specification.information?.billing_information?.address_line_2 || "",
+        zipCode: specification.information?.billing_information?.zip_code || "",
+        state: specification.information?.billing_information?.state || "",
+        city: specification.information?.billing_information?.city || "",
+        country: specification.information?.billing_information?.country || "",
+        companyName: specification.information?.billing_information?.company_name || "",
+        firstName: specification.information?.billing_information?.first_name || "",
+        lastName: specification.information?.billing_information?.last_name || "",
+        phoneNumber: specification.information?.billing_information?.phone_number || "",
+        email: specification.information?.billing_information?.email || "",
+      },
+      shippingInformation: {
+        sameAsBillingInformation: specification.information?.shipping_information?.same_as_billing_information || false,
+        addressLine1: specification.information?.shipping_information?.address_line_1 || "",
+        addressLine2: specification.information?.shipping_information?.address_line_2 || "",
+        zipCode: specification.information?.shipping_information?.zip_code || "",
+        state: specification.information?.shipping_information?.state || "",
+        city: specification.information?.shipping_information?.city || "",
+        country: specification.information?.shipping_information?.country || "",
+        companyName: specification.information?.shipping_information?.company_name || "",
+        firstName: specification.information?.shipping_information?.first_name || "",
+        lastName: specification.information?.shipping_information?.last_name || "",
+        phoneNumber: specification.information?.shipping_information?.phone_number || "",
+        email: specification.information?.shipping_information?.email || "",
+      }
+    }
+  };
 }
