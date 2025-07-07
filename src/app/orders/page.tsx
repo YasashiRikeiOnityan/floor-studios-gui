@@ -17,8 +17,10 @@ import SpecificationGroups from "@/components/SpecificationGroups";
 import AddNewCollection from "@/components/AddNewCollection";
 import { Suspense } from "react";
 import Loading from "@/components/Loading";
+import { useRouter } from "next/navigation";
 
 const OrdersContent = observer(() => {
+  const router = useRouter();
   const tabs = ["Drafts", "Completes"]
   const searchParams = useSearchParams();
   // クエリパラメータ取得
@@ -72,6 +74,17 @@ const OrdersContent = observer(() => {
                       enabled={showAllCollections}
                       setEnabled={() => setShowAllCollections(!showAllCollections)}
                       label="Show all collections"
+                    />
+                  </div>
+                  <div className="hidden lg:block">
+                    <Button
+                      type={"button"}
+                      onClick={() => {
+                        router.push(`/design/new?collection=NO_GROUP`);
+                      }}
+                      text={"Add new design"}
+                      style={"outline"}
+                      fullWidth={false}
                     />
                   </div>
                   <div className="hidden lg:block">
