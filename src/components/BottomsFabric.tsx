@@ -140,7 +140,7 @@ const BottomsFabric = observer((props: BottomsFabricProps) => {
                   <button
                     type="button"
                     onClick={handleAddMaterial}
-                    className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    className="text-gray-400 p-1 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
                     title="Add Material"
                   >
                     <AddIcon className="w-5 h-5" />
@@ -181,7 +181,7 @@ const BottomsFabric = observer((props: BottomsFabricProps) => {
                   <button
                     type="button"
                     onClick={handleAddSubMaterial}
-                    className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                    className="text-gray-400 p-1 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors duration-200"
                     title="Add Sub Material"
                   >
                     <AddIcon className="w-5 h-5" />

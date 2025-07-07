@@ -6,21 +6,28 @@ import Header from "@/components/Header";
 import { TShirtEditSteps } from "@/lib/type/specification/t-shirt/type";
 import { BottomsEditSteps } from "@/lib/type/specification/bottoms/type";
 import TShirtFit from "@/components/TShirtFit";
-import BottomsFit from "@/components/BottomsFit";
 import Information from "@/components/Information";
 import TShirtMainProduction from "@/components/TShirtMainProduction";
 import TShirtFabric from "@/components/TShirtFabric";
-import BottomsFabric from "@/components/BottomsFabric";
+import Tag from "@/components/Tag";
 import ProgressBar from "@/components/ProgressBar";
 import TShirtsSample from "@/components/TShirtsSample";
 import OEMPoint from "@/components/OEMPoint";
 import AlertDialog from "@/components/AlertDialod";
 import CareLabel from "@/components/CareLabel";
-import Tag from "@/components/Tag";
 import Notification from "@/components/Notification";
 import SuccessDialog from "@/components/SuccessDialog";
 import BasicInformation from "@/components/BasicInformation";
 import Loading from "@/components/Loading";
+import BottomsFit from "@/components/BottomsFit";
+import BottomsFabric from "@/components/BottomsFabric";
+import BottomsTag from "@/components/BottomsTag";
+import BottomsCarelabel from "@/components/BottomsCarelabel";
+import BottomsOEMPoint from "@/components/BottomsOEMPoint";
+import BottomsPatch from "@/components/BottomsPatch";
+import BottomsSample from "@/components/BottomsSample";
+import BottomsMainProduction from "@/components/BottomsMainProduction";
+import BottomsInformation from "@/components/BottomsInformation";
 
 const EditDesignContent = observer(() => {
   const searchParams = useSearchParams();
@@ -105,19 +112,19 @@ const EditDesignContent = observer(() => {
         case 3:
           return <BottomsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
-          return <Tag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
+          return <BottomsTag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
         case 5:
-          return <CareLabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
-        // case 6:
-        //   return <BottomsPatch callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
+          return <BottomsCarelabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
+        case 6:
+          return <BottomsPatch callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
         case 7:
-          return <OEMPoint callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
-        // case 8:
-        //   return <BottomsSample callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
-        // case 9:
-        //   return <BottomsMainProduction callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
+          return <BottomsOEMPoint callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
+        case 8:
+          return <BottomsSample callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
+        case 9:
+          return <BottomsMainProduction callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         case 10:
-          return <Information callBackUpdateState={() => { callBackUpdateState(11) }} isUpdateProgress={actualStep === 10} />
+          return <BottomsInformation callBackUpdateState={() => { callBackUpdateState(11) }} isUpdateProgress={actualStep === 10} />
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
@@ -126,7 +133,12 @@ const EditDesignContent = observer(() => {
     }
   };
 
-  const steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
+  let steps: { order: number, name: string, progress: string }[] = [];
+  if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+    steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
+  } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+    steps = BottomsEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
+  }
 
   return (
     <>

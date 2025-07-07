@@ -272,6 +272,15 @@ const formatBottomsSpecification = (specification: ApiGetBottomsSpecificationRes
         } : undefined,
       },
     },
+    patch: {
+      description: {
+        description: specification.patch?.description?.description || "",
+        file: specification.patch?.description?.file ? {
+          name: specification.patch.description.file.name,
+          key: specification.patch.description.file.key,
+        } : undefined,
+      },
+    },
     oemPoints: specification.oem_points?.map((oemPoint) => {
       return {
         description: oemPoint.description,
