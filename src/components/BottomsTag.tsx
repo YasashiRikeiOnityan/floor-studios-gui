@@ -23,12 +23,7 @@ const BottomsTag = observer((props: BottomsTagProps) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-  const [mounted, setMounted] = useState(false);
   const [inputKey, setInputKey] = useState(0);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // マウント時に画像URLを取得
   useEffect(() => {
@@ -53,7 +48,7 @@ const BottomsTag = observer((props: BottomsTagProps) => {
       };
       fetchImage();
     }
-  }, [mounted, description.file?.key]);
+  }, [description.file?.key]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageLoading(true);

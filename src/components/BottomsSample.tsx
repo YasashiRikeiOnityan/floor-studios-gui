@@ -25,13 +25,8 @@ const BottomsSample = (props: BottomsSampleProps) => {
   const [backImageLoading, setBackImageLoading] = useState(false);
   const [frontImageUrl, setFrontImageUrl] = useState<string | undefined>(undefined);
   const [backImageUrl, setBackImageUrl] = useState<string | undefined>(undefined);
-  const [mounted, setMounted] = useState(false);
   const [frontInputKey, setFrontInputKey] = useState(0);
   const [backInputKey, setBackInputKey] = useState(0);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // マウント時に前面画像URLを取得
   useEffect(() => {
@@ -56,7 +51,7 @@ const BottomsSample = (props: BottomsSampleProps) => {
       };
       fetchFrontImage();
     }
-  }, [mounted, sampleFront?.key]);
+  }, [sampleFront?.key]);
 
   // マウント時に背面画像URLを取得
   useEffect(() => {
@@ -81,7 +76,7 @@ const BottomsSample = (props: BottomsSampleProps) => {
       };
       fetchBackImage();
     }
-  }, [mounted, sampleBack?.key]);
+  }, [sampleBack?.key]);
 
   const handleQuantityChange = (size: string, value: string) => {
     if (parseInt(value) > 0) {
