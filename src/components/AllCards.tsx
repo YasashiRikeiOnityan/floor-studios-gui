@@ -122,12 +122,12 @@ const AllCards = observer((props: AllCardsProps) => {
                 {specifications.map((specification) => (
                   <div
                     key={specification.specificationId}
-                    className="rounded-lg bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                    className="rounded-lg bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow min-h-40"
                     onClick={() => {
                       router.push(`/design/edit?id=${specification.specificationId}`);
                     }}
                   >
-                    <div className="p-4">
+                    <div className="p-4 flex flex-col justify-between h-full">
                       <div className="flex items-center justify-between">
                         <div className="gap-1">
                           <div className="font-bold">
@@ -141,7 +141,7 @@ const AllCards = observer((props: AllCardsProps) => {
                           <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
                         </div>
                       </div>
-                      <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
+                      <div className="pr-2 flex items-center justify-end">
                         <div>
                           <div className="text-xs">
                             {formatRelativeTime(specification.updatedAt || "")}

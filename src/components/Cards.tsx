@@ -64,12 +64,12 @@ const Cards = observer((props: CardsProps) => {
       {specificationStore.specifications.map((specification) => (
         <div
           key={specification.specificationId}
-          className="rounded-lg bg-white shadow-md cursor-pointer"
+          className="rounded-lg bg-white shadow-md cursor-pointer min-h-40"
           onClick={() => {
             router.push(`/design/edit?id=${specification.specificationId}`);
           }}
         >
-          <div className="p-4">
+          <div className="p-4 flex flex-col justify-between h-full">
             <div className="flex items-center justify-between">
               <div className="gap-1">
                 <div className="font-bold">
@@ -83,7 +83,7 @@ const Cards = observer((props: CardsProps) => {
                 <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
               </div>
             </div>
-            <div className="mt-5 pr-2 sm:mt-10 flex items-center justify-end">
+            <div className="pr-2 flex items-center justify-end">
               <div>
                 <div className="text-xs">
                   {formatRelativeTime(specification.updatedAt || "")}
