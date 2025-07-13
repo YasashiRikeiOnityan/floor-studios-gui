@@ -254,36 +254,6 @@ const Brand = observer(() => {
                       {validateNameError && <div className="text-sm/6 text-red-500">{validateNameError}</div>}
                     </div>
                   </div>}
-                  {/* ブランドロゴ */}
-                  {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
-                    {isLoading ? <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <Loading />
-                    </dd> : <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      No logo uploaded
-                    </dd>}
-                  </div>}
-                  {isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-                    <dt className="text-sm/6 font-bold text-gray-900">Brand Logo</dt>
-                    <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <div className="flex items-center gap-x-8">
-                        <img
-                          alt=""
-                          src="/FloorStudios.png"
-                          className="max-w-36 flex-none object-cover"
-                        />
-                        <div>
-                          <button
-                            type="button"
-                            className="rounded-md bg-white/10 px-3 py-2 text-sm text-gray-700 shadow-sm hover:bg-white/20"
-                          >
-                            Change logo
-                          </button>
-                          <p className="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
-                        </div>
-                      </div>
-                    </dd>
-                  </div>}
                   {/* 連絡先 */}
                   {!isEditing && <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
                     <dt className="text-sm/6 font-bold text-gray-900">Contact</dt>

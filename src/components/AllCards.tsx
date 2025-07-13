@@ -20,6 +20,17 @@ const AllCards = observer((props: AllCardsProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [specificationsByGroup, setSpecificationsByGroup] = useState<Record<string, BaseSpecification[]>>({});
 
+  // 削除後のコールバック関数
+  const handleSpecificationDeleted = (specificationId: string) => {
+    setSpecificationsByGroup(prev => {
+      const updated = { ...prev };
+      for (const groupId in updated) {
+        updated[groupId] = updated[groupId].filter(spec => spec.specificationId !== specificationId);
+      }
+      return updated;
+    });
+  };
+
   useEffect(() => {
     const fetchAllSpecifications = async () => {
       setIsLoading(true);
@@ -128,7 +139,7 @@ const AllCards = observer((props: AllCardsProps) => {
                     }}
                   >
                     <div className="p-4 flex flex-col justify-between h-full">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-start justify-between">
                         <div className="gap-1">
                           <div className="font-bold">
                             {specification.productName}
@@ -138,7 +149,11 @@ const AllCards = observer((props: AllCardsProps) => {
                           </div>
                         </div>
                         <div className="relative" onClick={(e) => e.stopPropagation()}>
-                          <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
+                          <SpecificationMenu 
+                            specificationId={specification.specificationId} 
+                            status={props.status}
+                            onSpecificationDeleted={handleSpecificationDeleted}
+                          />
                         </div>
                       </div>
                       <div className="pr-2 flex items-center justify-end">

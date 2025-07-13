@@ -70,7 +70,7 @@ const Cards = observer((props: CardsProps) => {
           }}
         >
           <div className="p-4 flex flex-col justify-between h-full">
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <div className="gap-1">
                 <div className="font-bold">
                   {specification.productName}

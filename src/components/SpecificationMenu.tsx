@@ -11,6 +11,7 @@ import { dialogStore } from '@/stores/dialogStore';
 type SpecificationMenuProps = {
   specificationId: string;
   status?: SpecificationStatus;
+  onSpecificationDeleted?: (specificationId: string) => void;
 }
 
 const SpecificationMenu = (props: SpecificationMenuProps) => {
@@ -81,6 +82,10 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
                 dialogStore.closeAlertDialog();
                 await specificationStore.deleteSpecificationsSpecificationsId(props.specificationId);
                 setIsDeleting(false);
+                // 削除後のコールバックを呼び出し
+                if (props.onSpecificationDeleted) {
+                  props.onSpecificationDeleted(props.specificationId);
+                }
               });
             }}
           >
