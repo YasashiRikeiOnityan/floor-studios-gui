@@ -44,7 +44,7 @@ const Types = (props: TypesProps) => {
       image: "/knit_crewneck.png",
     },
     {
-      id: "SWETPANTS1",
+      id: "SWEATPANTS1",
       name: "Sweatpants1",
       image: "/sweatpants1.png",
     },

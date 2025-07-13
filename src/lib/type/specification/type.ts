@@ -14,7 +14,7 @@ export type Specification =
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
-export type SpecificationType = "T-SHIRT" | "LONG_SLEEVE" | "CREWNECK" | "HOODIE" | "ZIP_HOODIE" | "HALF_ZIP" | "KNIT_CREWNECK" | "SWETPANTS1" | undefined;
+export type SpecificationType = "T-SHIRT" | "LONG_SLEEVE" | "CREWNECK" | "HOODIE" | "ZIP_HOODIE" | "HALF_ZIP" | "KNIT_CREWNECK" | "SWEATPANTS1" | undefined;
 
 export type BaseSpecification = {
   specificationId: string;
