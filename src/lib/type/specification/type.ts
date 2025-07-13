@@ -1,15 +1,17 @@
 import {
-  TShirtSpecification,
-  ApiGetTShirtSpecificationResponse,
-  ApiPutTShirtSpecificationRequest,
-} from "@/lib/type/specification/t-shirt/type";
+  TopsSpecification,
+  ApiPutTopsSpecificationRequest,
+  ApiGetTopsSpecificationResponse,
+} from "@/lib/type/specification/tops/type";
+
 import {
   BottomsSpecification,
   ApiPutBottomsSpecificationRequest,
+  ApiGetBottomsSpecificationResponse,
 } from "@/lib/type/specification/bottoms/type";
 
 export type Specification =
-  | TShirtSpecification
+  | TopsSpecification
   | BottomsSpecification;
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
@@ -63,11 +65,12 @@ export type ApiPostSpecificationsResponse = {
   specification_id: string;
 }
 
-export type ApiGetSpecificationsSpecificationIdResponse = 
-  | ApiGetTShirtSpecificationResponse;
+export type ApiGetSpecificationsSpecificationIdResponse =
+  | ApiGetTopsSpecificationResponse
+  | ApiGetBottomsSpecificationResponse;
 
-export type ApiPutSpecificationsSpecificationIdRequest = 
-  | ApiPutTShirtSpecificationRequest
+export type ApiPutSpecificationsSpecificationIdRequest =
+  | ApiPutTopsSpecificationRequest
   | ApiPutBottomsSpecificationRequest;
 
 export type ApiPutSpecificationsSpecificationIdResponse = {

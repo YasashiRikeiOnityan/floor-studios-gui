@@ -5,16 +5,15 @@ import { PaperClipIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
 import Loading from "@/components/Loading";
-import { BottomsSpecification } from "@/lib/type/specification/bottoms/type";
-import { SizeValue } from "@/lib/type/specification/bottoms/type";
+import { TopsSpecification, SizeValue } from "@/lib/type/specification/tops/type";
 
-type BottomsSampleProps = {
+type TopsSampleProps = {
   callBackUpdateState: () => void;
   isUpdateProgress: boolean;
 };
 
-const BottomsSample = (props: BottomsSampleProps) => {
-  const currentSpecification = specificationStore.currentSpecification as BottomsSpecification;
+const TopsSample = (props: TopsSampleProps) => {
+  const currentSpecification = specificationStore.currentSpecification as TopsSpecification;
   const [isSample, setIsSample] = useState<boolean>(currentSpecification?.sample?.isSample || false);
   const [quantity, setQuantity] = useState<SizeValue>(currentSpecification?.sample?.quantity || { xs: "0", s: "0", m: "0", l: "0", xl: "0" });
   const [canSendSample, setCanSendSample] = useState<boolean>(currentSpecification?.sample?.canSendSample || false);
@@ -28,7 +27,6 @@ const BottomsSample = (props: BottomsSampleProps) => {
   const [frontInputKey, setFrontInputKey] = useState(0);
   const [backInputKey, setBackInputKey] = useState(0);
 
-  // マウント時に前面画像URLを取得
   useEffect(() => {
     if (sampleFront?.key) {
       const fetchFrontImage = async () => {
@@ -53,7 +51,6 @@ const BottomsSample = (props: BottomsSampleProps) => {
     }
   }, [sampleFront?.key]);
 
-  // マウント時に背面画像URLを取得
   useEffect(() => {
     if (sampleBack?.key) {
       const fetchBackImage = async () => {
@@ -141,7 +138,6 @@ const BottomsSample = (props: BottomsSampleProps) => {
 
         if (imageType === "front") {
           setSampleFront({ name: file.name, key: response.key });
-          // アップロード後に画像URLを取得
           const getResponse = await PostImagesInteractor({
             type: "specification",
             specification_id: currentSpecification.specificationId,
@@ -153,7 +149,6 @@ const BottomsSample = (props: BottomsSampleProps) => {
           }
         } else {
           setSampleBack({ name: file.name, key: response.key });
-          // アップロード後に画像URLを取得
           const getResponse = await PostImagesInteractor({
             type: "specification",
             specification_id: currentSpecification.specificationId,
@@ -258,8 +253,8 @@ const BottomsSample = (props: BottomsSampleProps) => {
 
   const handleSaveAndNext = async () => {
     setIsSaving(true);
-    const body = isSample ? {
-      ...(props.isUpdateProgress && { progress: "MAINPRODUCTION" }),
+    await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
+      ...(props.isUpdateProgress && { progress: "SAMPLE" }),
       sample: {
         is_sample: isSample,
         quantity: {
@@ -272,34 +267,12 @@ const BottomsSample = (props: BottomsSampleProps) => {
         can_send_sample: canSendSample,
         ...(sampleFront && { sample_front: sampleFront }),
         ...(sampleBack && { sample_back: sampleBack }),
-      }
-    } : {
-      ...(props.isUpdateProgress && { progress: "MAINPRODUCTION" }),
-      sample: {
-        is_sample: isSample,
-        quantity: {
-          xs: quantity.xs,
-          s: quantity.s,
-          m: quantity.m,
-          l: quantity.l,
-          xl: quantity.xl,
-        },
-        can_send_sample: canSendSample,
-        ...(sampleFront && { sample_front: sampleFront }),
-        ...(sampleBack && { sample_back: sampleBack }),
-      }
-    }
-    await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, body);
+      },
+    });
     specificationStore.updateSpecification({
       sample: {
         isSample: isSample,
-        quantity: {
-          xs: quantity.xs,
-          s: quantity.s,
-          m: quantity.m,
-          l: quantity.l,
-          xl: quantity.xl,
-        },
+        quantity: quantity,
         canSendSample: canSendSample,
         sampleFront: sampleFront,
         sampleBack: sampleBack,
@@ -307,15 +280,15 @@ const BottomsSample = (props: BottomsSampleProps) => {
     });
     props.callBackUpdateState();
     setIsSaving(false);
-  }
+  };
 
   const handleCancel = () => {
-    setIsSample(currentSpecification.sample?.isSample || false);
-    setQuantity(currentSpecification.sample?.quantity || { xs: "0", s: "0", m: "0", l: "0", xl: "0" });
-    setCanSendSample(currentSpecification.sample?.canSendSample || false);
-    setSampleFront(currentSpecification.sample?.sampleFront);
-    setSampleBack(currentSpecification.sample?.sampleBack);
-  }
+    setIsSample(currentSpecification?.sample?.isSample || false);
+    setQuantity(currentSpecification?.sample?.quantity || { xs: "0", s: "0", m: "0", l: "0", xl: "0" });
+    setCanSendSample(currentSpecification?.sample?.canSendSample || false);
+    setSampleFront(currentSpecification?.sample?.sampleFront);
+    setSampleBack(currentSpecification?.sample?.sampleBack);
+  };
 
   return (
     <>
@@ -551,7 +524,6 @@ const BottomsSample = (props: BottomsSampleProps) => {
         </div>
       </div>
 
-      {/* ボタン */}
       <div className="mt-6 flex flex-row gap-x-3 justify-end">
         <Button
           type={"button"}
@@ -574,4 +546,4 @@ const BottomsSample = (props: BottomsSampleProps) => {
   );
 };
 
-export default BottomsSample;
+export default TopsSample; 

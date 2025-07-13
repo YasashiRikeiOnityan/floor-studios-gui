@@ -19,6 +19,14 @@ import Notification from "@/components/Notification";
 import SuccessDialog from "@/components/SuccessDialog";
 import BasicInformation from "@/components/BasicInformation";
 import Loading from "@/components/Loading";
+import TopsFit from "@/components/TopsFit";
+import TopsFabric from "@/components/TopsFabric";
+import TopsTag from "@/components/TopsTag";
+import TopsCarelabel from "@/components/TopsCarelabel";
+import TopsOEMPoint from "@/components/TopsOEMPoint";
+import TopsSample from "@/components/TopsSample";
+import TopsMainProduction from "@/components/TopsMainProduction";
+import TopsInformation from "@/components/TopsInformation";
 import BottomsFit from "@/components/BottomsFit";
 import BottomsFabric from "@/components/BottomsFabric";
 import BottomsTag from "@/components/BottomsTag";
@@ -55,7 +63,7 @@ const EditDesignContent = observer(() => {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
-          } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+          } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
             const currentStepIndex = BottomsEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
@@ -85,25 +93,25 @@ const EditDesignContent = observer(() => {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
         case 2:
-          return <TShirtFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
+          return <TopsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
         case 3:
-          return <TShirtFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
+          return <TopsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
-          return <Tag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
+          return <TopsTag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
         case 5:
-          return <CareLabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
+          return <TopsCarelabel callBackUpdateState={() => { callBackUpdateState(6) }} isUpdateProgress={actualStep === 5} />
         case 6:
-          return <OEMPoint callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
+          return <TopsOEMPoint callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
         case 7:
-          return <TShirtsSample callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
+          return <TopsSample callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
         case 8:
-          return <TShirtMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
+          return <TopsMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
         case 9:
-          return <Information callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
+          return <TopsInformation callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
-    } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+    } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
       switch (currentStep) {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
@@ -136,7 +144,7 @@ const EditDesignContent = observer(() => {
   let steps: { order: number, name: string, progress: string }[] = [];
   if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
-  } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+  } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = BottomsEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
   }
 
