@@ -10,9 +10,16 @@ import {
   ApiGetBottomsSpecificationResponse,
 } from "@/lib/type/specification/bottoms/type";
 
+import {
+  TShirtSpecification,
+  ApiGetTShirtSpecificationResponse,
+  ApiPutTShirtSpecificationRequest,
+} from "@/lib/type/specification/t-shirt/type";
+
 export type Specification =
   | TopsSpecification
-  | BottomsSpecification;
+  | BottomsSpecification
+  | TShirtSpecification;
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
@@ -67,11 +74,13 @@ export type ApiPostSpecificationsResponse = {
 
 export type ApiGetSpecificationsSpecificationIdResponse =
   | ApiGetTopsSpecificationResponse
-  | ApiGetBottomsSpecificationResponse;
+  | ApiGetBottomsSpecificationResponse
+  | ApiGetTShirtSpecificationResponse;
 
 export type ApiPutSpecificationsSpecificationIdRequest =
   | ApiPutTopsSpecificationRequest
-  | ApiPutBottomsSpecificationRequest;
+  | ApiPutBottomsSpecificationRequest
+  | ApiPutTShirtSpecificationRequest;
 
 export type ApiPutSpecificationsSpecificationIdResponse = {
   specification_id: string;
