@@ -14,10 +14,41 @@ const Types = (props: TypesProps) => {
       image: "/t-shirt.png",
     },
     {
-      id: "BOTTOMS",
-      name: "Bottoms",
-      image: "/bottoms.png",
-    }
+      id: "LONG_SLEEVE",
+      name: "Long Sleeve",
+      image: "/long_sleeve.png",
+    },
+    {
+      id: "CREWNECK",
+      name: "Crewneck",
+      image: "/crewneck.png",
+    },
+    {
+      id: "HOODIE",
+      name: "Hoodie",
+      image: "/hoodie.png",
+    },
+    {
+      id: "ZIP_HOODIE",
+      name: "Zip-Hoodie",
+      image: "/zip-hoodie.png",
+    },
+    {
+      id: "HALF_ZIP",
+      name: "Half Zip",
+      image: "/halfzip.png",
+    },
+    {
+      id: "KNIT_CREWNECK",
+      name: "Knit Crewneck",
+      image: "/knit_crewneck.png",
+    },
+    {
+      id: "SWETPANTS1",
+      name: "Sweatpants1",
+      image: "/sweatpants1.png",
+    },
+    
   ];
 
   return (

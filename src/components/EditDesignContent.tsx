@@ -51,11 +51,11 @@ const EditDesignContent = observer(() => {
         try {
           setIsLoading(true);
           await specificationStore.getSpecificationsSpecificationId(specificationId);
-          if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+          if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
-          } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+          } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
             const currentStepIndex = BottomsEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
@@ -80,7 +80,7 @@ const EditDesignContent = observer(() => {
   }
 
   const renderContent = () => {
-    if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+    if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
       switch (currentStep) {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
@@ -103,7 +103,7 @@ const EditDesignContent = observer(() => {
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
-    } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+    } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
       switch (currentStep) {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
@@ -134,9 +134,9 @@ const EditDesignContent = observer(() => {
   };
 
   let steps: { order: number, name: string, progress: string }[] = [];
-  if (specificationStore.currentSpecification?.type === "T-SHIRT") {
+  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
-  } else if (specificationStore.currentSpecification?.type === "BOTTOMS") {
+  } else if (["SWETPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = BottomsEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
   }
 
