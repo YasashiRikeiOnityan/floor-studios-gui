@@ -113,7 +113,7 @@ const AllCards = observer((props: AllCardsProps) => {
                   {specifications.length} specification{specifications.length !== 1 ? 's' : ''}
                 </p>
               </div>
-              {props.status === "DRAFT" && (
+              {props.status !== "COMPLETE" && (
                 <div className="relative group">
                   <button
                     type="button"

@@ -500,7 +500,8 @@ const BottomsFit = observer((props: BottomsFitProps) => {
               />
             </div>
           </div>
-          <img src="/bottoms.jpg" alt="bottoms-fit" className="w-90" />
+          {currentSpecification?.type === "SWEATPANTS" && <img src="/sweat_pants.jpg" alt="bottoms-fit" className="w-90" />}
+          {currentSpecification?.type === "DENIMPANTS" && <img src="/denim_pants.jpg" alt="bottoms-fit" className="w-90" />}
         </div>
       </div>
 

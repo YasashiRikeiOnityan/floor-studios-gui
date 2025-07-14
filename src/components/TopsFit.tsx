@@ -125,7 +125,13 @@ const TopsFit = observer((props: TopsFitProps) => {
               ))}
             </div>
           </div>
-          <img src="/t-shirt.jpg" alt="tops-fit" className="w-90" />
+          {currentSpecification?.type === "T-SHIRT" && <img src="/t-shirt.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "LONG_SLEEVE" && <img src="/long_sleeve.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "CREWNECK" && <img src="/crewneck.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "HOODIE" && <img src="/hoodie.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "ZIP_HOODIE" && <img src="/zip_hoodie.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "HALF_ZIP" && <img src="/half_zip.jpg" alt="tops-fit" className="w-90" />}
+          {currentSpecification?.type === "KNIT_CREWNECK" && <img src="/knit_crewneck.jpg" alt="tops-fit" className="w-90" />}
         </div>
       </div>
       {/* ボタン */}
