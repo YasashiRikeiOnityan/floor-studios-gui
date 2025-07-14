@@ -36,7 +36,7 @@ const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdR
     return {
       ...formatTopsSpecification(specification as ApiGetTopsSpecificationResponse),
     };
-  } else if (["SWEATPANTS1"].includes(specification.type || "")) {
+  } else if (["SWEATPANTS", "DENIMPANTS"].includes(specification.type || "")) {
     return {
       ...formatBottomsSpecification(specification as ApiGetBottomsSpecificationResponse),
     };

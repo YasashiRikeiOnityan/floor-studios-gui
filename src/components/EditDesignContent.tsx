@@ -63,7 +63,7 @@ const EditDesignContent = observer(() => {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
-          } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+          } else if (["SWEATPANTS", "DENIMPANTS"].includes(specificationStore.currentSpecification?.type || "")) {
             const currentStepIndex = BottomsEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
@@ -111,7 +111,7 @@ const EditDesignContent = observer(() => {
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
-    } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+    } else if (["SWEATPANTS", "DENIMPANTS"].includes(specificationStore.currentSpecification?.type || "")) {
       switch (currentStep) {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
@@ -144,7 +144,7 @@ const EditDesignContent = observer(() => {
   let steps: { order: number, name: string, progress: string }[] = [];
   if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
-  } else if (["SWEATPANTS1"].includes(specificationStore.currentSpecification?.type || "")) {
+  } else if (["SWEATPANTS", "DENIMPANTS"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = BottomsEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
   }
 
