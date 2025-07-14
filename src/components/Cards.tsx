@@ -13,7 +13,7 @@ import AddIcon from "@/components/AddIcon";
 
 type CardsProps = {
   specificationGroupId: string;
-  status: SpecificationStatus;
+  status: SpecificationStatus | undefined;
 }
 
 const Cards = observer((props: CardsProps) => {
@@ -85,7 +85,7 @@ const Cards = observer((props: CardsProps) => {
               </div>
             </div>
             <div className="pr-2 flex items-center justify-between">
-              <StatusBadge status={props.status || ""} />
+              <StatusBadge status={specification.status || ""} />
               <div className="text-xs">
                 {formatRelativeTime(specification.updatedAt || "")}
               </div>

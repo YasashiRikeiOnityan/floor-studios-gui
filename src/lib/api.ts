@@ -172,11 +172,11 @@ export const ApiDeleteUsersUserId = async (userId: string) => {
   }
 };
 
-export const ApiGetSpecifications = async (specificationGroupId: string, status: SpecificationStatus): Promise<ApiGetSpecificationsResponse> => {
+export const ApiGetSpecifications = async (specificationGroupId: string, status: SpecificationStatus | undefined): Promise<ApiGetSpecificationsResponse> => {
   try {
     const queryParams = {
       specification_group_id: specificationGroupId,
-      status: status,
+      status: status || undefined,
     };
     const response = await httpClient.get('/specifications', { params: queryParams });
     return response.data;

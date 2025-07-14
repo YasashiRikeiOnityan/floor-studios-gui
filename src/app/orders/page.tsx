@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 const OrdersContent = observer(() => {
   const router = useRouter();
-  const tabs = ["Drafts", "Completes"]
+  const tabs = ["All", "Drafts", "Completes"]
   const searchParams = useSearchParams();
   // クエリパラメータ取得
   const statusParam = searchParams.get("status");
@@ -30,19 +30,19 @@ const OrdersContent = observer(() => {
   const statusToTab = (status: string | null) => {
     if (status === "DRAFT" || status === "DRAFTS") return "Drafts";
     if (status === "COMPLETE" || status === "COMPLETES") return "Completes";
-    return "Drafts";
+    return "All";
   };
   const initialTab = statusToTab(statusParam);
   const initialGroupId = collectionParam || "NO_GROUP";
   const [activeTab, setActiveTab] = useState(initialTab);
   const [specificationGroupId, setSpecificationGroupId] = useState<string>(initialGroupId);
-  const [status, setStatus] = useState<SpecificationStatus>(initialTab === "Drafts" ? "DRAFT" : "COMPLETE");
+  const [status, setStatus] = useState<SpecificationStatus | undefined>(initialTab === "All" ? undefined : initialTab === "Drafts" ? "DRAFT" : "COMPLETE");
   const [isOpenAddNewCollection, setIsOpenAddNewCollection] = useState(false);
   const [showAllCollections, setShowAllCollections] = useState(true);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
-    setStatus(tab === "Drafts" ? "DRAFT" : tab === "Completes" ? "COMPLETE" : tab === "Samples" ? "SAMPLE" : "BULK");
+    setStatus(tab === "All" ? undefined : tab === "Drafts" ? "DRAFT" : tab === "Completes" ? "COMPLETE" : tab === "Samples" ? "SAMPLE" : "BULK");
     // URLも同期したい場合は下記を有効化
     // router.replace(`/orders?status=${tab === "Drafts" ? "DRAFT" : "COMPLETE"}&collection=${specificationGroupId}`);
   };

@@ -6,7 +6,7 @@ import {
 } from "@/lib/type/specification/type";
 import { notificationStore } from "@/stores/notificationStore";
 
-export const GetSpecificationsInteractor = async (specificationGroupId: string, status: SpecificationStatus): Promise<Specifications | undefined> => {
+export const GetSpecificationsInteractor = async (specificationGroupId: string, status: SpecificationStatus | undefined): Promise<Specifications | undefined> => {
   try {
     const response = await ApiGetSpecifications(specificationGroupId, status);
     return mapSpecifications(response);
