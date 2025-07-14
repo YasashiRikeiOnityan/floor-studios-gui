@@ -7,7 +7,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
-import { useState, Suspense } from "react";
+import { useState, Suspense, useRef } from "react";
 import Types from "@/components/Types";
 import { SpecificationType } from "@/lib/type/specification/type";
 import { useSearchParams } from "next/navigation";
@@ -28,8 +28,31 @@ const NewDesignContent = observer(() => {
   const [validateProductCodeError, setValidateProductCodeError] = useState("");
   const [currentType, setCurrentType] = useState<SpecificationType>(undefined);
 
+  // 各入力フィールドへの参照を作成（useStateの直後に配置）
+  const brandNameRef = useRef<HTMLInputElement>(null);
+  const productNameRef = useRef<HTMLInputElement>(null);
+  const productCodeRef = useRef<HTMLInputElement>(null);
+
+  // エラーがある要素までスクロールする関数
+  const scrollToError = () => {
+    if (validateBrandNameError && brandNameRef.current) {
+      brandNameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (validateProductNameError && productNameRef.current) {
+      productNameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (validateProductCodeError && productCodeRef.current) {
+      productCodeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  };
+
   const handleCreateAndNext = async () => {
     if (!handleValidate()) {
+      // バリデーションエラー時にスクロール
+      setTimeout(() => scrollToError(), 100);
       return;
     } else {
       const id = await specificationStore.postSpecifications({
@@ -98,6 +121,7 @@ const NewDesignContent = observer(() => {
                     </label>
                     <div className="mt-2">
                       <input
+                        ref={brandNameRef}
                         id="brandname"
                         name="brandname"
                         type="text"
@@ -128,6 +152,7 @@ const NewDesignContent = observer(() => {
                     </label>
                     <div className="mt-2">
                       <input
+                        ref={productNameRef}
                         id="productname"
                         name="productname"
                         type="text"
@@ -148,6 +173,7 @@ const NewDesignContent = observer(() => {
                     </label>
                     <div className="mt-2">
                       <input
+                        ref={productCodeRef}
                         id="productcode"
                         name="productcode"
                         type="text"
