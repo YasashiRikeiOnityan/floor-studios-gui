@@ -5,6 +5,7 @@ import { formatRelativeTime } from "@/lib/utils";
 import { specificationStore } from "@/stores/specificationStore";
 import { useEffect, useState } from "react";
 import SpecificationMenu from "@/components/SpecificationMenu";
+import StatusBadge from "@/components/StatusBadge";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
@@ -83,11 +84,10 @@ const Cards = observer((props: CardsProps) => {
                 <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
               </div>
             </div>
-            <div className="pr-2 flex items-center justify-end">
-              <div>
-                <div className="text-xs">
-                  {formatRelativeTime(specification.updatedAt || "")}
-                </div>
+            <div className="pr-2 flex items-center justify-between">
+              <StatusBadge status={props.status || ""} />
+              <div className="text-xs">
+                {formatRelativeTime(specification.updatedAt || "")}
               </div>
             </div>
           </div>

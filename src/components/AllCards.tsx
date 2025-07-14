@@ -6,6 +6,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { specificationGroupsStore } from "@/stores/specificationGroupsStore";
 import { useEffect, useState } from "react";
 import SpecificationMenu from "@/components/SpecificationMenu";
+import StatusBadge from "@/components/StatusBadge";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
@@ -34,29 +35,29 @@ const AllCards = observer((props: AllCardsProps) => {
   useEffect(() => {
     const fetchAllSpecifications = async () => {
       setIsLoading(true);
-      
+
       // 全コレクションを取得
       await specificationGroupsStore.getSpecificationGroups();
-      
+
       // 各コレクションの仕様書を取得
       const allGroups = [
         { specificationGroupId: "NO_GROUP", specificationGroupName: "Not Assigned to collection" },
         ...specificationGroupsStore.specificationGroups
       ];
-      
+
       const specificationsMap: Record<string, BaseSpecification[]> = {};
-      
+
       for (const group of allGroups) {
         await specificationStore.getSpecifications(group.specificationGroupId, props.status);
         if (specificationStore.specifications.length > 0) {
           specificationsMap[group.specificationGroupId] = [...specificationStore.specifications];
         }
       }
-      
+
       setSpecificationsByGroup(specificationsMap);
       setIsLoading(false);
     };
-    
+
     fetchAllSpecifications();
   }, [props.status]);
 
@@ -149,18 +150,17 @@ const AllCards = observer((props: AllCardsProps) => {
                           </div>
                         </div>
                         <div className="relative" onClick={(e) => e.stopPropagation()}>
-                          <SpecificationMenu 
-                            specificationId={specification.specificationId} 
+                          <SpecificationMenu
+                            specificationId={specification.specificationId}
                             status={props.status}
                             onSpecificationDeleted={handleSpecificationDeleted}
                           />
                         </div>
                       </div>
-                      <div className="pr-2 flex items-center justify-end">
-                        <div>
-                          <div className="text-xs">
-                            {formatRelativeTime(specification.updatedAt || "")}
-                          </div>
+                      <div className="pr-2 flex items-center justify-between">
+                        <StatusBadge status={props.status || ""} />
+                        <div className="text-xs">
+                          {formatRelativeTime(specification.updatedAt || "")}
                         </div>
                       </div>
                     </div>
