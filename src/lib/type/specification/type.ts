@@ -23,7 +23,7 @@ export type Specification =
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
 
-export type SpecificationType = "T-SHIRT" | "LONG_SLEEVE" | "CREWNECK" | "HOODIE" | "ZIP_HOODIE" | "HALF_ZIP" | "KNIT_CREWNECK" | "SWEATPANTS" | "DENIMPANTS" | undefined;
+export type SpecificationType = "T-SHIRT" | "LONG_SLEEVE" | "CREWNECK" | "HOODIE" | "ZIP_HOODIE" | "HALF_ZIP" | "KNIT_CREWNECK" | "JACKET" | "HEAVY_OUTER" | "SWEATPANTS" | "DENIMPANTS" | "CUSTOMIZE" | undefined;
 
 export type BaseSpecification = {
   specificationId: string;

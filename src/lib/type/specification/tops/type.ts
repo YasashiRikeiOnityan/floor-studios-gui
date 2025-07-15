@@ -6,7 +6,8 @@ import {
 
 export type TopsSpecification = BaseSpecification & {
   type: SpecificationType;
-  fit?: TopsFit;
+  fit?: TopsFit ;
+  customFit?: CustomFit;
   fabric?: TopsFabric;
   tag?: TopsTag;
   careLabel?: TopsCareLabel;
@@ -35,6 +36,19 @@ export type Description = {
       delete?: string;
     };
   };
+}
+
+export type CustomSizeValue = {
+  free: string;
+  xs: string;
+  s: string;
+  m: string;
+  l: string;
+  xl: string;
+}
+
+export type CustomFit = {
+  [key: string]: CustomSizeValue;
 }
 
 export type TopsFit = {

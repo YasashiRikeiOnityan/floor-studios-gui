@@ -1,4 +1,5 @@
 import { SpecificationType } from "@/lib/type/specification/type";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
 type TypesProps = {
   currentType: SpecificationType;
@@ -44,6 +45,16 @@ const Types = (props: TypesProps) => {
       image: "/knit_crewneck.png",
     },
     {
+      id: "JACKET",
+      name: "Jacket",
+      image: "/jacket.png",
+    },
+    {
+      id: "HEAVY_OUTER",
+      name: "Heavy Outer",
+      image: "/heavy_outer.png",
+    },
+    {
       id: "SWEATPANTS",
       name: "Sweatpants",
       image: "/sweatpants.png",
@@ -52,6 +63,11 @@ const Types = (props: TypesProps) => {
       id: "DENIMPANTS",
       name: "Denim Pants",
       image: "/denimpants.png",
+    },
+    {
+      id: "CUSTOMIZE",
+      name: "Customize",
+      image: "",
     },
   ];
 
@@ -68,7 +84,12 @@ const Types = (props: TypesProps) => {
         >
           <div className="p-4">
             <div className="flex flex-col items-center justify-center gap-1">
-                <img src={type.image} alt={type.name} className="h-full" />
+                {type.id !== "CUSTOMIZE" && <img src={type.image} alt={type.name} className="h-full" />}
+                {type.id === "CUSTOMIZE" && 
+                  <div className="flex items-center min-h-44">
+                    <AdjustmentsHorizontalIcon className="h-10 w-10 text-gray-500" />
+                  </div>
+                }
                 <div className="text-md">
                   {type.name}
                 </div>
