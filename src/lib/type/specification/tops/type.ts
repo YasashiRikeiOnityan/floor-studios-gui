@@ -7,7 +7,7 @@ import {
 export type TopsSpecification = BaseSpecification & {
   type: SpecificationType;
   fit?: TopsFit ;
-  customFit?: CustomFit;
+  customFit?: CustomFitWithFile;
   fabric?: TopsFabric;
   tag?: TopsTag;
   careLabel?: TopsCareLabel;
@@ -47,8 +47,15 @@ export type CustomSizeValue = {
   xl: string;
 }
 
-export type CustomFit = {
+export type CustomFitData = {
   [key: string]: CustomSizeValue;
+}
+
+export type CustomFitWithFile = CustomFitData & {
+  file?: {
+    name: string;
+    key: string;
+  };
 }
 
 export type TopsFit = {
@@ -149,6 +156,14 @@ export type ApiGetTopsSpecificationResponse = {
     chest_width: SizeValue;
     shoulder_to_shoulder: SizeValue;
     sleeve_length: SizeValue;
+  };
+  custom_fit?: {
+    [key: string]: CustomSizeValue;
+  } & {
+    file?: {
+      name: string;
+      key: string;
+    };
   };
   fabric?: {
     materials: string[];
@@ -253,6 +268,14 @@ export type ApiPutTopsSpecificationRequest = {
     chest_width: SizeValue;
     shoulder_to_shoulder: SizeValue;
     sleeve_length: SizeValue;
+  };
+  custom_fit?: {
+    [key: string]: CustomSizeValue;
+  } & {
+    file?: {
+      name: string;
+      key: string;
+    };
   };
   fabric?: {
     materials: string[];

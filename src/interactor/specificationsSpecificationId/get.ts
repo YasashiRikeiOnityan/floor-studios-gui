@@ -4,6 +4,7 @@ import {
 import {
   ApiGetTopsSpecificationResponse,
   TopsSpecification,
+  CustomFitWithFile,
 } from "@/lib/type/specification/tops/type";
 import {
   ApiGetBottomsSpecificationResponse,
@@ -32,7 +33,7 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
 }
 
 const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse | ApiGetBottomsSpecificationResponse): Specification | undefined => {
-  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specification.type || "")) {
+  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER", "CUSTOMIZE"].includes(specification.type || "")) {
     return {
       ...formatTopsSpecification(specification as ApiGetTopsSpecificationResponse),
     };
@@ -65,6 +66,17 @@ const formatTopsSpecification = (specification: ApiGetTopsSpecificationResponse)
       shoulderToShoulder: specification.fit?.shoulder_to_shoulder || { xs: "", s: "", m: "", l: "", xl: "" },
       sleeveLength: specification.fit?.sleeve_length || { xs: "", s: "", m: "", l: "", xl: "" },
     } : undefined,
+    customFit: specification.custom_fit ? {
+      ...Object.fromEntries(
+        Object.entries(specification.custom_fit).filter(([key, value]) => 
+          key !== 'file' && typeof value === 'object' && 'free' in value
+        )
+      ),
+      file: specification.custom_fit.file ? {
+        name: specification.custom_fit.file.name,
+        key: specification.custom_fit.file.key,
+      } : undefined,
+    } as CustomFitWithFile : undefined,
     fabric: {
       materials: specification.fabric?.materials || [],
       subMaterials: specification.fabric?.sub_materials || [],

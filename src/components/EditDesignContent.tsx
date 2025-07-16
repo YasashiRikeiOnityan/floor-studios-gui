@@ -36,6 +36,7 @@ import BottomsPatch from "@/components/BottomsPatch";
 import BottomsSample from "@/components/BottomsSample";
 import BottomsMainProduction from "@/components/BottomsMainProduction";
 import BottomsInformation from "@/components/BottomsInformation";
+import CustomFit from "@/components/CustomFit";
 
 const EditDesignContent = observer(() => {
   const searchParams = useSearchParams();
@@ -59,7 +60,7 @@ const EditDesignContent = observer(() => {
         try {
           setIsLoading(true);
           await specificationStore.getSpecificationsSpecificationId(specificationId);
-          if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
+          if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER", "CUSTOMIZE"].includes(specificationStore.currentSpecification?.type || "")) {
             const currentStepIndex = TShirtEditSteps.findIndex(step => step.progress === specificationStore.currentSpecification?.progress);
             setCurrentStep(currentStepIndex + 1);
             setActualStep(currentStepIndex + 1);
@@ -88,13 +89,15 @@ const EditDesignContent = observer(() => {
   }
 
   const renderContent = () => {
-    if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
+    if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER", "CUSTOMIZE"].includes(specificationStore.currentSpecification?.type || "")) {
       switch (currentStep) {
         case 1:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
         case 2:
-          return <TopsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />
-        case 3:
+          return specificationStore.currentSpecification?.type === "CUSTOMIZE" 
+            ? <CustomFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} /> 
+            : <TopsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />;
+        case 3: 
           return <TopsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
         case 4:
           return <TopsTag callBackUpdateState={() => { callBackUpdateState(5) }} isUpdateProgress={actualStep === 4} />
@@ -142,7 +145,7 @@ const EditDesignContent = observer(() => {
   };
 
   let steps: { order: number, name: string, progress: string }[] = [];
-  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK"].includes(specificationStore.currentSpecification?.type || "")) {
+  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER", "CUSTOMIZE"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = TShirtEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");
   } else if (["SWEATPANTS", "DENIMPANTS"].includes(specificationStore.currentSpecification?.type || "")) {
     steps = BottomsEditSteps.filter(step => step.progress !== "INITIAL" && step.progress !== "COMPLETE");

@@ -7,7 +7,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { tenantStore } from "@/stores/tenantStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
-import { useState, Suspense, useRef } from "react";
+import { useState, Suspense, useRef, useEffect } from "react";
 import Types from "@/components/Types";
 import { SpecificationType } from "@/lib/type/specification/type";
 import { useSearchParams } from "next/navigation";
@@ -27,6 +27,13 @@ const NewDesignContent = observer(() => {
   const [validateProductNameError, setValidateProductNameError] = useState("");
   const [validateProductCodeError, setValidateProductCodeError] = useState("");
   const [currentType, setCurrentType] = useState<SpecificationType>(undefined);
+
+  // エラーメッセージが設定された時にスクロールする
+  useEffect(() => {
+    if (validateBrandNameError || validateProductNameError || validateProductCodeError) {
+      setTimeout(() => scrollToError(), 100);
+    }
+  }, [validateBrandNameError, validateProductNameError, validateProductCodeError]);
 
   // 各入力フィールドへの参照を作成（useStateの直後に配置）
   const brandNameRef = useRef<HTMLInputElement>(null);
@@ -51,8 +58,6 @@ const NewDesignContent = observer(() => {
 
   const handleCreateAndNext = async () => {
     if (!handleValidate()) {
-      // バリデーションエラー時にスクロール
-      setTimeout(() => scrollToError(), 100);
       return;
     } else {
       const id = await specificationStore.postSpecifications({
