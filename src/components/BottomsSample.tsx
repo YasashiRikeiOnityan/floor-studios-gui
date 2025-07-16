@@ -7,6 +7,7 @@ import { dialogStore } from "@/stores/dialogStore";
 import Loading from "@/components/Loading";
 import { BottomsSpecification } from "@/lib/type/specification/bottoms/type";
 import { SizeValue } from "@/lib/type/specification/bottoms/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsSampleProps = {
   callBackUpdateState: () => void;
@@ -319,6 +320,9 @@ const BottomsSample = (props: BottomsSampleProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification.productCode} - {currentSpecification.productName}
       </p>

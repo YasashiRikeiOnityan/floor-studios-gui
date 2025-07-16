@@ -7,6 +7,7 @@ import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { Description } from "@/lib/type/specification/bottoms/type";
 import { DescriptionWithFile } from "./DescriptionWithFile";
 import { BottomsSpecification } from "@/lib/type/specification/bottoms/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsOEMPointProps = {
   callBackUpdateState: () => void;
@@ -102,6 +103,9 @@ const BottomsOEMPoint = observer((props: BottomsOEMPointProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification.productCode} - {currentSpecification.productName}
       </p>

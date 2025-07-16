@@ -7,6 +7,7 @@ import { Description } from "@/lib/type/specification/tops/type";
 import Button from "@/components/Button";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import AddIcon from "@/components/AddIcon";
+import { formatSpecificationType } from "@/lib/utils";
 
 type TopsFabricProps = {
   callBackUpdateState: () => void;
@@ -104,6 +105,9 @@ const TopsFabric = observer((props: TopsFabricProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(specificationStore.currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {specificationStore.currentSpecification?.productCode} - {specificationStore.currentSpecification?.productName}
       </p>

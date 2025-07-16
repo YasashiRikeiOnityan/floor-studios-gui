@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import Toggle from "@/components/Toggle";
 import { BottomsSpecification, SizeValue } from "@/lib/type/specification/bottoms/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsMainProductionProps = {
   callBackUpdateState: () => void;
@@ -61,6 +62,9 @@ const BottomsMainProduction = (props: BottomsMainProductionProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification.productCode} - {currentSpecification.productName}
       </p>

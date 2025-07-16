@@ -6,6 +6,7 @@ import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
 import Loading from "@/components/Loading";
 import { TopsSpecification, SizeValue } from "@/lib/type/specification/tops/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type TopsSampleProps = {
   callBackUpdateState: () => void;
@@ -292,6 +293,9 @@ const TopsSample = (props: TopsSampleProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification.productCode} - {currentSpecification.productName}
       </p>

@@ -6,6 +6,7 @@ import { specificationStore } from "@/stores/specificationStore";
 import { useRouter } from "next/navigation";
 import { dialogStore } from "@/stores/dialogStore";
 import { BottomsSpecification } from "@/lib/type/specification/bottoms/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsInformationProps = {
   callBackUpdateState: () => void;
@@ -226,6 +227,9 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification?.productCode} - {currentSpecification?.productName}
       </p>

@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { BottomsSpecification, SizeValue } from "@/lib/type/specification/bottoms/type";
 import Button from "@/components/Button";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsFitProps = {
   callBackUpdateState: () => void;
@@ -133,6 +134,9 @@ const BottomsFit = observer((props: BottomsFitProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(specificationStore.currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {specificationStore.currentSpecification?.productCode} - {specificationStore.currentSpecification?.productName}
       </p>

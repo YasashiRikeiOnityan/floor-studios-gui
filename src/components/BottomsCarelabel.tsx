@@ -7,6 +7,7 @@ import { PaperClipIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
 import { dialogStore } from "@/stores/dialogStore";
 import Loading from "@/components/Loading";
+import { formatSpecificationType } from "@/lib/utils";
 
 type BottomsCarelabelProps = {
   callBackUpdateState: () => void;
@@ -206,6 +207,9 @@ const BottomsCarelabel = observer((props: BottomsCarelabelProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(specificationStore.currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {specificationStore.currentSpecification?.productCode} - {specificationStore.currentSpecification?.productName}
       </p>

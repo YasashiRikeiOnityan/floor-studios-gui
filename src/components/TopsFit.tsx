@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { TopsSpecification, SizeValue } from "@/lib/type/specification/tops/type";
 import Button from "@/components/Button";
+import { formatSpecificationType } from "@/lib/utils";
 
 type TopsFitProps = {
   callBackUpdateState: () => void;
@@ -53,6 +54,9 @@ const TopsFit = observer((props: TopsFitProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(specificationStore.currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {specificationStore.currentSpecification?.productCode} - {specificationStore.currentSpecification?.productName}
       </p>

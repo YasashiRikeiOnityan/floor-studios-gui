@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import Button from "@/components/Button";
 import SpecificationGroups from "@/components/SpecificationGroups";
 import { specificationStore } from "@/stores/specificationStore";
+import { formatSpecificationType } from "@/lib/utils";
 
 interface BasicInformationProps {
   callBackUpdateState: (step: number) => void;
@@ -89,6 +90,9 @@ const BasicInformation = observer((props: BasicInformationProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(specificationStore.currentSpecification.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {specificationStore.currentSpecification.productCode} - {specificationStore.currentSpecification.productName}
       </p>

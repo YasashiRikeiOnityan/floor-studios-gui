@@ -38,3 +38,23 @@ export const formatFileSize = (bytes: number): string => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 };
+
+export const formatSpecificationType = (type: string | undefined): string => {
+  if (!type) return "";
+  const typeMap: Record<string, string> = {
+    "T-SHIRT": "T-Shirt",
+    "LONG_SLEEVE": "Long Sleeve",
+    "CREWNECK": "Crewneck",
+    "HOODIE": "Hoodie",
+    "ZIP_HOODIE": "Zip Hoodie",
+    "HALF_ZIP": "Half Zip",
+    "KNIT_CREWNECK": "Knit Crewneck",
+    "JACKET": "Jacket",
+    "HEAVY_OUTER": "Heavy Outer",
+    "SWEATPANTS": "Sweatpants",
+    "DENIMPANTS": "Denim Pants",
+    "CUSTOMIZE": "Customize"
+  };
+
+  return typeMap[type] || type;
+};

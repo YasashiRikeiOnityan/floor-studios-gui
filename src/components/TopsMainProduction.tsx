@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import Toggle from "@/components/Toggle";
 import { TopsSpecification, SizeValue } from "@/lib/type/specification/tops/type";
+import { formatSpecificationType } from "@/lib/utils";
 
 type TopsMainProductionProps = {
   callBackUpdateState: () => void;
@@ -61,6 +62,9 @@ const TopsMainProduction = (props: TopsMainProductionProps) => {
 
   return (
     <>
+      <p className="text-sm text-gray-500">
+        {formatSpecificationType(currentSpecification?.type)}
+      </p>
       <p className="text-sm text-gray-500">
         {currentSpecification.productCode} - {currentSpecification.productName}
       </p>
