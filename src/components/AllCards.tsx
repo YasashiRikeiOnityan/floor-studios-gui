@@ -50,7 +50,13 @@ const AllCards = observer((props: AllCardsProps) => {
       for (const group of allGroups) {
         await specificationStore.getSpecifications(group.specificationGroupId, props.status);
         if (specificationStore.specifications.length > 0) {
-          specificationsMap[group.specificationGroupId] = [...specificationStore.specifications];
+          // 更新順（updatedAt）でソート
+          const sortedSpecifications = [...specificationStore.specifications].sort((a, b) => {
+            const dateA = new Date(a.updatedAt || "").getTime();
+            const dateB = new Date(b.updatedAt || "").getTime();
+            return dateB - dateA; // 新しい順（降順）
+          });
+          specificationsMap[group.specificationGroupId] = sortedSpecifications;
         }
       }
 

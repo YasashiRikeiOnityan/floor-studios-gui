@@ -60,9 +60,16 @@ const Cards = observer((props: CardsProps) => {
     );
   }
 
+  // 更新順（updatedAt）でソート
+  const sortedSpecifications = [...specificationStore.specifications].sort((a, b) => {
+    const dateA = new Date(a.updatedAt || "").getTime();
+    const dateB = new Date(b.updatedAt || "").getTime();
+    return dateB - dateA; // 新しい順（降順）
+  });
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {specificationStore.specifications.map((specification) => (
+      {sortedSpecifications.map((specification) => (
         <div
           key={specification.specificationId}
           className="rounded-lg bg-white shadow-md cursor-pointer min-h-40"
