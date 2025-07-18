@@ -298,324 +298,313 @@ const Home = observer(() => {
 
   return (
     <>
-      <div className="flex min-h-full flex-1">
-        <div className="flex flex-1 flex-col justify-start md:mt-10 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <div className="sm:mt-8 mx-auto w-full max-w-sm lg:w-96">
-            {!isForgotPassword && (
-              <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
-            )}
-            <div>
-              {isSignUp && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Create an account</h2>}
-              {isSignIn && !isForgotPassword && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>}
-              {isSignIn && isForgotPassword && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Reset Password</h2>}
-            </div>
-            <div className="mt-2">
-              <div className="space-y-6">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-lg shadow-md">
+          {!isForgotPassword && (
+            <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
+          )}
+          <div>
+            {isSignUp && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900 text-center">Create an account</h2>}
+            {isSignIn && !isForgotPassword && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900 text-center">Sign in to your account</h2>}
+            {isSignIn && isForgotPassword && <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900 text-center">Reset Password</h2>}
+          </div>
+          <div className="mt-2">
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                  Email address
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateEmailError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                      } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isEmailSent}
+                  />
+                  {validateEmailError && <div className="text-sm/6 text-red-500">{validateEmailError}</div>}
+                </div>
+              </div>
+
+              {!isForgotPassword && (
                 <div>
-                  <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                    Email address
+                  <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
+                    Password
                   </label>
                   <div className="mt-2">
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      id="password"
+                      name="password"
+                      type="password"
                       required
-                      autoComplete="email"
-                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateEmailError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                      autoComplete="current-password"
+                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
                         } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && isSignIn) {
+                          handleSignIn();
+                        }
+                      }}
                       disabled={isEmailSent}
                     />
-                    {validateEmailError && <div className="text-sm/6 text-red-500">{validateEmailError}</div>}
+                    {isSignIn && validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
                   </div>
                 </div>
+              )}
 
+              {isSignUp && !isEmailSent && (
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm/6 font-medium text-gray-900">
+                    Confirm password
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      required
+                      autoComplete="current-password"
+                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleSignUp();
+                        }
+                      }}
+                      disabled={isEmailSent}
+                    />
+                    {validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
+                  </div>
+                </div>
+              )}
+
+              {(isSignUp || isForgotPassword) && isEmailSent && (
+                <div>
+                  <label htmlFor="verificationCode" className="block text-sm/6 font-medium text-gray-900">
+                    Verification code
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      id="verificationCode"
+                      name="verificationCode"
+                      type="text"
+                      required
+                      className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateVerificationCodeError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                        } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                      onChange={(e) => setVerificationCode(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          if (isForgotPassword) {
+                            handleConfirmForgotPassword();
+                          } else {
+                            handleVerify();
+                          }
+                        }
+                      }}
+                    />
+                    {validateVerificationCodeError && <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>}
+                  </div>
+                </div>
+              )}
+
+              {isForgotPassword && isEmailSent && (
+                <>
+                  <div>
+                    <label htmlFor="newPassword" className="block text-sm/6 font-medium text-gray-900">
+                      New password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="newPassword"
+                        name="newPassword"
+                        type="password"
+                        required
+                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="confirmNewPassword" className="block text-sm/6 font-medium text-gray-900">
+                      Confirm new password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="confirmNewPassword"
+                        name="confirmNewPassword"
+                        type="password"
+                        required
+                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
+                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="flex items-center justify-between">
                 {!isForgotPassword && (
-                  <div>
-                    <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                      Password
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        required
-                        autoComplete="current-password"
-                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && isSignIn) {
-                            handleSignIn();
-                          }
-                        }}
-                        disabled={isEmailSent}
-                      />
-                      {isSignIn && validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
-                    </div>
-                  </div>
-                )}
-
-                {isSignUp && !isEmailSent && (
-                  <div>
-                    <label htmlFor="confirmPassword" className="block text-sm/6 font-medium text-gray-900">
-                      Confirm password
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        type="password"
-                        required
-                        autoComplete="current-password"
-                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            handleSignUp();
-                          }
-                        }}
-                        disabled={isEmailSent}
-                      />
-                      {validatePasswordError && <div className="text-sm/6 text-red-500">{validatePasswordError}</div>}
-                    </div>
-                  </div>
-                )}
-
-                {(isSignUp || isForgotPassword) && isEmailSent && (
-                  <div>
-                    <label htmlFor="verificationCode" className="block text-sm/6 font-medium text-gray-900">
-                      Verification code
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        id="verificationCode"
-                        name="verificationCode"
-                        type="text"
-                        required
-                        className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validateVerificationCodeError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                          } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            if (isForgotPassword) {
-                              handleConfirmForgotPassword();
-                            } else {
-                              handleVerify();
-                            }
-                          }
-                        }}
-                      />
-                      {validateVerificationCodeError && <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>}
-                    </div>
-                  </div>
-                )}
-
-                {isForgotPassword && isEmailSent && (
-                  <>
-                    <div>
-                      <label htmlFor="newPassword" className="block text-sm/6 font-medium text-gray-900">
-                        New password
-                      </label>
-                      <div className="mt-2">
+                  <div className="flex gap-3">
+                    <div className="flex h-6 shrink-0 items-center">
+                      <div className="group grid size-4 grid-cols-1">
                         <input
-                          id="newPassword"
-                          name="newPassword"
-                          type="password"
-                          required
-                          className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                            } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                          onChange={(e) => setNewPassword(e.target.value)}
+                          id="remember-me"
+                          name="remember-me"
+                          type="checkbox"
+                          checked={rememberMe}
+                          onChange={(e) => setRememberMe(e.target.checked)}
+                          className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-blue-600 checked:bg-blue-600 indeterminate:border-blue-600 indeterminate:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
                         />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="confirmNewPassword" className="block text-sm/6 font-medium text-gray-900">
-                        Confirm new password
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          id="confirmNewPassword"
-                          name="confirmNewPassword"
-                          type="password"
-                          required
-                          className={`block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 ${validatePasswordError ? 'border-red-500 outline-red-500' : 'border-gray-300 outline-gray-300'
-                            } placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6`}
-                          onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                <div className="flex items-center justify-between">
-                  {!isForgotPassword && (
-                    <div className="flex gap-3">
-                      <div className="flex h-6 shrink-0 items-center">
-                        <div className="group grid size-4 grid-cols-1">
-                          <input
-                            id="remember-me"
-                            name="remember-me"
-                            type="checkbox"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)}
-                            className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-blue-600 checked:bg-blue-600 indeterminate:border-blue-600 indeterminate:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                        <svg
+                          fill="none"
+                          viewBox="0 0 14 14"
+                          className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
+                        >
+                          <path
+                            d="M3 8L6 11L11 3.5"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="opacity-0 group-has-[:checked]:opacity-100"
                           />
-                          <svg
-                            fill="none"
-                            viewBox="0 0 14 14"
-                            className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
-                          >
-                            <path
-                              d="M3 8L6 11L11 3.5"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-0 group-has-[:checked]:opacity-100"
-                            />
-                            <path
-                              d="M3 7H11"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="opacity-0 group-has-[:indeterminate]:opacity-100"
-                            />
-                          </svg>
-                        </div>
+                          <path
+                            d="M3 7H11"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="opacity-0 group-has-[:indeterminate]:opacity-100"
+                          />
+                        </svg>
                       </div>
-                      <label htmlFor="remember-me" className="block text-sm/6 text-gray-900">
-                        Remember me
-                      </label>
                     </div>
-                  )}
-
-                  {isSignIn && !isForgotPassword && (
-                    <div className="text-sm/6">
-                      <button
-                        onClick={() => {
-                          setIsForgotPassword(true);
-                          resetErrors();
-                        }}
-                        className="font-semibold text-blue-600 hover:text-blue-500"
-                      >
-                        Forgot password?
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* サインアップボタン */}
-                {isSignUp && !isEmailSent && (
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      disabled={loading}
-                      onClick={handleSignUp}
-                    >
-                      {loading ? "Signing up..." : "Sign up"}
-                    </button>
+                    <label htmlFor="remember-me" className="block text-sm/6 text-gray-900">
+                      Remember me
+                    </label>
                   </div>
                 )}
 
-                {/* 検証ボタン */}
-                {isSignUp && isEmailSent && (
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      disabled={loading}
-                      onClick={handleVerify}
-                    >
-                      {loading ? "Verifying..." : "Verify"}
-                    </button>
-                  </div>
-                )}
-
-                {/* サインインボタン */}
                 {isSignIn && !isForgotPassword && (
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      disabled={loading}
-                      onClick={handleSignIn}
-                    >
-                      {loading ? "Signing in..." : "Sign in"}
-                    </button>
-                  </div>
-                )}
-
-                {/* パスワードリセットボタン */}
-                {isSignIn && isForgotPassword && !isEmailSent && (
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      disabled={loading}
-                      onClick={handleForgotPassword}
-                    >
-                      {loading ? "Sending..." : "Send reset code"}
-                    </button>
-                  </div>
-                )}
-
-                {/* パスワードリセット確認ボタン */}
-                {isSignIn && isForgotPassword && isEmailSent && (
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      disabled={loading}
-                      onClick={handleConfirmForgotPassword}
-                    >
-                      {loading ? "Processing..." : "Reset password"}
-                    </button>
-                  </div>
-                )}
-
-                {/* エラーメッセージ */}
-                {signUpError && <div className="flex items-center justify-center">
-                  <div className="text-sm/6 text-red-500">{signUpError}</div>
-                </div>}
-                {validateVerificationCodeError && <div className="flex items-center justify-center">
-                  <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>
-                </div>}
-                {signInError && <div className="flex items-center justify-center">
-                  <div className="text-sm/6 text-red-500">{signInError}</div>
-                </div>}
-
-                {/* パスワードリセットから戻るリンク */}
-                {isSignIn && isForgotPassword && (
-                  <div className="text-sm/6 text-center">
+                  <div className="text-sm/6">
                     <button
                       onClick={() => {
-                        setIsForgotPassword(false);
-                        setIsEmailSent(false);
+                        setIsForgotPassword(true);
                         resetErrors();
                       }}
                       className="font-semibold text-blue-600 hover:text-blue-500"
                     >
-                      Back to sign in
+                      Forgot password?
                     </button>
                   </div>
                 )}
               </div>
+
+              {/* サインアップボタン */}
+              {isSignUp && !isEmailSent && (
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    disabled={loading}
+                    onClick={handleSignUp}
+                  >
+                    {loading ? "Signing up..." : "Sign up"}
+                  </button>
+                </div>
+              )}
+
+              {/* 検証ボタン */}
+              {isSignUp && isEmailSent && (
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    disabled={loading}
+                    onClick={handleVerify}
+                  >
+                    {loading ? "Verifying..." : "Verify"}
+                  </button>
+                </div>
+              )}
+
+              {/* サインインボタン */}
+              {isSignIn && !isForgotPassword && (
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    disabled={loading}
+                    onClick={handleSignIn}
+                  >
+                    {loading ? "Signing in..." : "Sign in"}
+                  </button>
+                </div>
+              )}
+
+              {/* パスワードリセットボタン */}
+              {isSignIn && isForgotPassword && !isEmailSent && (
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    disabled={loading}
+                    onClick={handleForgotPassword}
+                  >
+                    {loading ? "Sending..." : "Send reset code"}
+                  </button>
+                </div>
+              )}
+
+              {/* パスワードリセット確認ボタン */}
+              {isSignIn && isForgotPassword && isEmailSent && (
+                <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    disabled={loading}
+                    onClick={handleConfirmForgotPassword}
+                  >
+                    {loading ? "Processing..." : "Reset password"}
+                  </button>
+                </div>
+              )}
+
+              {/* エラーメッセージ */}
+              {signUpError && <div className="flex items-center justify-center">
+                <div className="text-sm/6 text-red-500">{signUpError}</div>
+              </div>}
+              {validateVerificationCodeError && <div className="flex items-center justify-center">
+                <div className="text-sm/6 text-red-500">{validateVerificationCodeError}</div>
+              </div>}
+              {signInError && <div className="flex items-center justify-center">
+                <div className="text-sm/6 text-red-500">{signInError}</div>
+              </div>}
+
+              {/* パスワードリセットから戻るリンク */}
+              {isSignIn && isForgotPassword && (
+                <div className="text-sm/6 text-center">
+                  <button
+                    onClick={() => {
+                      setIsForgotPassword(false);
+                      setIsEmailSent(false);
+                      resetErrors();
+                    }}
+                    className="font-semibold text-blue-600 hover:text-blue-500"
+                  >
+                    Back to sign in
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-
-        {/* 画像 */}
-        <div className="relative hidden w-0 flex-1 lg:block">
-          <img
-            alt=""
-            src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-            className="absolute inset-0 size-full object-cover"
-          />
         </div>
       </div>
       <Notification />
