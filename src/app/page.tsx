@@ -299,6 +299,15 @@ const Home = observer(() => {
   return (
     <>
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        {/* ロゴ */}
+        <div className="absolute top-8 left-16">
+          <img
+            alt="Floor Studios"
+            src="/FloorStudios.png"
+            className="h-4 w-auto"
+          />
+        </div>
+        
         <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-lg shadow-md">
           {!isForgotPassword && (
             <Tabs tabs={tabs} state={tabState} callBackUpdateState={callBackUpdateTabState} />
