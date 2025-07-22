@@ -422,109 +422,107 @@ const TopsSample = (props: TopsSampleProps) => {
           </div>}
 
           {/* サンプル画像アップロード */}
-          {isSample && (
-            <div className="mt-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* 前面画像 */}
-                <div className="space-y-4">
-                  <h4 className="text-sm font-medium text-gray-700">Front View</h4>
-                  <div className="flex items-center gap-x-3">
-                    <div className="flex items-center space-x-3">
-                      <input
-                        type="file"
-                        id="sample-front-upload"
-                        key={frontInputKey}
-                        className="hidden"
-                        onChange={(e) => handleFileChange(e, "front")}
-                        disabled={frontImageLoading}
-                        accept="image/png,image/jpg,image/jpeg"
-                      />
-                      {!sampleFront && <label
-                        htmlFor="sample-front-upload"
-                        className="inline-flex items-center gap-x-2 justify-center rounded-md bg-white py-2 text-sm font-normal text-gray-500 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <PaperClipIcon aria-hidden="true" className="size-4" />
-                        {"Upload Front Image"}
-                      </label>}
-                      {sampleFront && (
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <span className="text-blue-600 truncate max-w-[200px]">
-                            {sampleFront.name}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveFile("front")}
-                            className="text-gray-400 hover:text-gray-500 cursor-pointer"
-                          >
-                            <TrashIcon className="size-4" />
-                          </button>
-                        </div>
-                      )}
-                      {frontImageLoading && <Loading />}
-                    </div>
+          <div className="mt-8 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* 前面画像 */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-gray-700">Front View</h4>
+                <div className="flex items-center gap-x-3">
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="file"
+                      id="sample-front-upload"
+                      key={frontInputKey}
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e, "front")}
+                      disabled={frontImageLoading}
+                      accept="image/png,image/jpg,image/jpeg"
+                    />
+                    {!sampleFront && <label
+                      htmlFor="sample-front-upload"
+                      className="inline-flex items-center gap-x-2 justify-center rounded-md bg-white py-2 text-sm font-normal text-gray-500 hover:bg-gray-50 cursor-pointer"
+                    >
+                      <PaperClipIcon aria-hidden="true" className="size-4" />
+                      {"Upload Front Image"}
+                    </label>}
+                    {sampleFront && (
+                      <div className="flex items-center space-x-2 text-sm text-gray-500">
+                        <span className="text-blue-600 truncate max-w-[200px]">
+                          {sampleFront.name}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile("front")}
+                          className="text-gray-400 hover:text-gray-500 cursor-pointer"
+                        >
+                          <TrashIcon className="size-4" />
+                        </button>
+                      </div>
+                    )}
+                    {frontImageLoading && <Loading />}
                   </div>
-                  {frontImageUrl && (
-                    <div className="mt-4">
-                      <img
-                        src={frontImageUrl}
-                        alt="Front sample"
-                        className="max-w-full h-auto max-h-64 object-contain rounded-lg border border-gray-200"
-                      />
-                    </div>
-                  )}
                 </div>
+                {frontImageUrl && (
+                  <div className="mt-4">
+                    <img
+                      src={frontImageUrl}
+                      alt="Front sample"
+                      className="max-w-full h-auto max-h-64 object-contain rounded-lg border border-gray-200"
+                    />
+                  </div>
+                )}
+              </div>
 
-                {/* 背面画像 */}
-                <div className="space-y-4">
-                  <h4 className="text-sm font-medium text-gray-700">Back View</h4>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <input
-                        type="file"
-                        id="sample-back-upload"
-                        key={backInputKey}
-                        className="hidden"
-                        onChange={(e) => handleFileChange(e, "back")}
-                        disabled={backImageLoading}
-                        accept="image/png,image/jpg,image/jpeg"
-                      />
-                      {!sampleBack && <label
-                        htmlFor="sample-back-upload"
-                        className="inline-flex items-center gap-x-2 justify-center rounded-md bg-white py-2 text-sm font-normal text-gray-500 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <PaperClipIcon aria-hidden="true" className="size-4" />
-                        {"Upload Back Image"}
-                      </label>}
-                      {sampleBack && (
-                        <div className="flex items-center space-x-2 text-sm text-gray-500">
-                          <span className="text-blue-600 truncate max-w-[200px]">
-                            {sampleBack.name}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveFile("back")}
-                            className="text-gray-400 hover:text-gray-500 cursor-pointer"
-                          >
-                            <TrashIcon className="size-4" />
-                          </button>
-                        </div>
-                      )}
-                      {backImageLoading && <Loading />}
-                    </div>
+              {/* 背面画像 */}
+              <div className="space-y-4">
+                <h4 className="text-sm font-medium text-gray-700">Back View</h4>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="file"
+                      id="sample-back-upload"
+                      key={backInputKey}
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e, "back")}
+                      disabled={backImageLoading}
+                      accept="image/png,image/jpg,image/jpeg"
+                    />
+                    {!sampleBack && <label
+                      htmlFor="sample-back-upload"
+                      className="inline-flex items-center gap-x-2 justify-center rounded-md bg-white py-2 text-sm font-normal text-gray-500 hover:bg-gray-50 cursor-pointer"
+                    >
+                      <PaperClipIcon aria-hidden="true" className="size-4" />
+                      {"Upload Back Image"}
+                    </label>}
+                    {sampleBack && (
+                      <div className="flex items-center space-x-2 text-sm text-gray-500">
+                        <span className="text-blue-600 truncate max-w-[200px]">
+                          {sampleBack.name}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile("back")}
+                          className="text-gray-400 hover:text-gray-500 cursor-pointer"
+                        >
+                          <TrashIcon className="size-4" />
+                        </button>
+                      </div>
+                    )}
+                    {backImageLoading && <Loading />}
                   </div>
-                  {backImageUrl && (
-                    <div className="mt-4">
-                      <img
-                        src={backImageUrl}
-                        alt="Back sample"
-                        className="max-w-full h-auto max-h-64 object-contain rounded-lg border border-gray-200"
-                      />
-                    </div>
-                  )}
                 </div>
+                {backImageUrl && (
+                  <div className="mt-4">
+                    <img
+                      src={backImageUrl}
+                      alt="Back sample"
+                      className="max-w-full h-auto max-h-64 object-contain rounded-lg border border-gray-200"
+                    />
+                  </div>
+                )}
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
 
