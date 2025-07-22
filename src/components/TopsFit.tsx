@@ -74,7 +74,7 @@ const TopsFit = observer((props: TopsFitProps) => {
             </div>
             {/* total length */}
             <div className="flex gap-2 items-center">
-              <label className="block w-32 text-left text-sm font-medium text-gray-700">Total Length</label>
+              <label className="block w-32 text-left text-sm font-medium text-gray-700">LENGTH</label>
               {(["xs","s","m","l","xl"] as (keyof SizeValue)[]).map(size => (
                 <input
                   key={size}
@@ -86,9 +86,23 @@ const TopsFit = observer((props: TopsFitProps) => {
                 />
               ))}
             </div>
+            {/* shoulder to shoulder */}
+            <div className="flex gap-2 items-center">
+              <label className="block w-32 text-left text-sm font-medium text-gray-700">SHOULDER</label>
+              {(["xs","s","m","l","xl"] as (keyof SizeValue)[]).map(size => (
+                <input
+                  key={size}
+                  type="text"
+                  placeholder={size}
+                  value={shoulderToShoulder[size]}
+                  onChange={e => handleChange(setShoulderToShoulder)(size, e.target.value)}
+                  className="block w-12 rounded-md bg-white py-1.5 text-center text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
+                />
+              ))}
+            </div>
             {/* chest width */}
             <div className="flex gap-2 items-center">
-              <label className="block w-32 text-left text-sm font-medium text-gray-700">Chest Width</label>
+              <label className="block w-32 text-left text-sm font-medium text-gray-700">CHEST</label>
               {(["xs","s","m","l","xl"] as (keyof SizeValue)[]).map(size => (
                 <input
                   key={size}
@@ -102,7 +116,7 @@ const TopsFit = observer((props: TopsFitProps) => {
             </div>
             {/* sleeve length */}
             <div className="flex gap-2 items-center">
-              <label className="block w-32 text-left text-sm font-medium text-gray-700">Sleeve Length</label>
+              <label className="block w-32 text-left text-sm font-medium text-gray-700">SLEEVE LENGTH</label>
               {(["xs","s","m","l","xl"] as (keyof SizeValue)[]).map(size => (
                 <input
                   key={size}
@@ -110,20 +124,6 @@ const TopsFit = observer((props: TopsFitProps) => {
                   placeholder={size}
                   value={sleeveLength[size]}
                   onChange={e => handleChange(setSleeveLength)(size, e.target.value)}
-                  className="block w-12 rounded-md bg-white py-1.5 text-center text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
-                />
-              ))}
-            </div>
-            {/* shoulder to shoulder */}
-            <div className="flex gap-2 items-center">
-              <label className="block w-32 text-left text-sm font-medium text-gray-700">Shoulder to Shoulder</label>
-              {(["xs","s","m","l","xl"] as (keyof SizeValue)[]).map(size => (
-                <input
-                  key={size}
-                  type="text"
-                  placeholder={size}
-                  value={shoulderToShoulder[size]}
-                  onChange={e => handleChange(setShoulderToShoulder)(size, e.target.value)}
                   className="block w-12 rounded-md bg-white py-1.5 text-center text-base text-gray-900 outline-1 -outline-offset-1 border-gray-300 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6"
                 />
               ))}
