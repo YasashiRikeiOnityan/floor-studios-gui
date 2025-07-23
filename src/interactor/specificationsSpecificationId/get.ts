@@ -4,7 +4,6 @@ import {
 import {
   ApiGetTopsSpecificationResponse,
   TopsSpecification,
-  CustomFitWithFile,
 } from "@/lib/type/specification/tops/type";
 import {
   ApiGetBottomsSpecificationResponse,
@@ -21,6 +20,7 @@ import {
 import {
   notificationStore,
 } from "@/stores/notificationStore";
+import { ApiGetCustomSpecificationResponse, CustomFit, CustomSpecification } from "@/lib/type/specification/custom/type";
 
 export const GetSpecificationsSpecificationIdInteractor = async (specificationId: string): Promise<Specification | undefined> => {
   try {
@@ -33,13 +33,17 @@ export const GetSpecificationsSpecificationIdInteractor = async (specificationId
 }
 
 const formatSpecification = (specification: ApiGetSpecificationsSpecificationIdResponse | ApiGetBottomsSpecificationResponse): Specification | undefined => {
-  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER", "CUSTOMIZE"].includes(specification.type || "")) {
+  if (["T-SHIRT", "LONG_SLEEVE", "CREWNECK", "HOODIE", "ZIP_HOODIE", "HALF_ZIP", "KNIT_CREWNECK", "JACKET", "HEAVY_OUTER"].includes(specification.type || "")) {
     return {
       ...formatTopsSpecification(specification as ApiGetTopsSpecificationResponse),
     };
   } else if (["SWEATPANTS", "DENIMPANTS"].includes(specification.type || "")) {
     return {
       ...formatBottomsSpecification(specification as ApiGetBottomsSpecificationResponse),
+    };
+  } else if (["CUSTOMIZE"].includes(specification.type || "")) {
+    return {
+      ...formatCustomSpecification(specification as ApiGetCustomSpecificationResponse),
     };
   }
   return undefined;
@@ -66,17 +70,6 @@ const formatTopsSpecification = (specification: ApiGetTopsSpecificationResponse)
       shoulderToShoulder: specification.fit?.shoulder_to_shoulder || { xs: "", s: "", m: "", l: "", xl: "" },
       sleeveLength: specification.fit?.sleeve_length || { xs: "", s: "", m: "", l: "", xl: "" },
     } : undefined,
-    customFit: specification.custom_fit ? {
-      ...Object.fromEntries(
-        Object.entries(specification.custom_fit).filter(([key, value]) => 
-          key !== 'file' && typeof value === 'object' && 'free' in value
-        )
-      ),
-      file: specification.custom_fit.file ? {
-        name: specification.custom_fit.file.name,
-        key: specification.custom_fit.file.key,
-      } : undefined,
-    } as CustomFitWithFile : undefined,
     fabric: {
       materials: specification.fabric?.materials || [],
       subMaterials: specification.fabric?.sub_materials || [],
@@ -322,6 +315,114 @@ const formatBottomsSpecification = (specification: ApiGetBottomsSpecificationRes
   };
 }
 
+const formatCustomSpecification = (specification: ApiGetCustomSpecificationResponse): CustomSpecification => {
+  return {
+    specificationId: specification.specification_id,
+    brandName: specification.brand_name,
+    productName: specification.product_name,
+    productCode: specification.product_code,
+    specificationGroupId: specification.specification_group_id || "",
+    updatedBy: {
+      userId: specification.updated_by?.user_id || "",
+      userName: specification.updated_by?.user_name || "",
+    },
+    updatedAt: specification.updated_at || "",
+    status: specification.status,
+    type: specification.type,
+    progress: specification.progress || "",
+    fit: specification.fit ? {
+      ...Object.fromEntries(
+        Object.entries(specification.fit).filter(([key, value]) => 
+          key !== 'file' && typeof value === 'object' && 'free' in value
+        )
+      ),
+      file: specification.fit.file ? {
+        name: specification.fit.file.name,
+        key: specification.fit.file.key,
+      } : undefined,
+    } as CustomFit : undefined,
+    fabric: {
+      materials: specification.fabric?.materials || [],
+      subMaterials: specification.fabric?.sub_materials || [],
+      description: {
+        description: specification.fabric?.description?.description || "",
+        file: specification.fabric?.description?.file ? {
+          name: specification.fabric.description.file.name,
+          key: specification.fabric.description.file.key,
+        } : undefined,
+      },
+    },
+    tag: specification.tag,
+    careLabel: specification.care_label,
+    oemPoints: specification.oem_points,
+    sample: {
+      isSample: specification.sample?.is_sample || false,
+      quantity: {
+        free: specification.sample?.quantity?.free || "",
+        xs: specification.sample?.quantity?.xs || "",
+        s: specification.sample?.quantity?.s || "",
+        m: specification.sample?.quantity?.m || "",
+        l: specification.sample?.quantity?.l || "",
+        xl: specification.sample?.quantity?.xl || "",
+      },
+      canSendSample: specification.sample?.can_send_sample || false,
+      sampleFront: specification.sample?.sample_front ? {
+        name: specification.sample.sample_front.name,
+        key: specification.sample.sample_front.key,
+      } : undefined,
+      sampleBack: specification.sample?.sample_back ? {
+        name: specification.sample.sample_back.name,
+        key: specification.sample.sample_back.key,
+      } : undefined,
+    },
+    mainProduction: {
+      quantity: {
+        free: specification.main_production?.quantity?.free || "",
+        xs: specification.main_production?.quantity?.xs || "",
+        s: specification.main_production?.quantity?.s || "",
+        m: specification.main_production?.quantity?.m || "",
+        l: specification.main_production?.quantity?.l || "",
+        xl: specification.main_production?.quantity?.xl || "",
+      },
+      deliveryDate: specification.main_production?.delivery_date || "",
+    },
+    information: {
+      contact: {
+        firstName: specification.information?.contact?.first_name || "",
+        lastName: specification.information?.contact?.last_name || "",
+        phoneNumber: specification.information?.contact?.phone_number || "",
+        email: specification.information?.contact?.email || "",
+      },
+      billingInformation: {
+        addressLine1: specification.information?.billing_information?.address_line_1 || "",
+        addressLine2: specification.information?.billing_information?.address_line_2 || "",
+        zipCode: specification.information?.billing_information?.zip_code || "",
+        state: specification.information?.billing_information?.state || "",
+        city: specification.information?.billing_information?.city || "",
+        country: specification.information?.billing_information?.country || "",
+        companyName: specification.information?.billing_information?.company_name || "",
+        firstName: specification.information?.billing_information?.first_name || "",
+        lastName: specification.information?.billing_information?.last_name || "",
+        phoneNumber: specification.information?.billing_information?.phone_number || "",
+        email: specification.information?.billing_information?.email || "",
+      },
+      shippingInformation: {
+        sameAsBillingInformation: specification.information?.shipping_information?.same_as_billing_information || false,
+        addressLine1: specification.information?.shipping_information?.address_line_1 || "",
+        addressLine2: specification.information?.shipping_information?.address_line_2 || "",
+        zipCode: specification.information?.shipping_information?.zip_code || "", 
+        state: specification.information?.shipping_information?.state || "",
+        city: specification.information?.shipping_information?.city || "",
+        country: specification.information?.shipping_information?.country || "",
+        companyName: specification.information?.shipping_information?.company_name || "",
+        firstName: specification.information?.shipping_information?.first_name || "",
+        lastName: specification.information?.shipping_information?.last_name || "",
+        phoneNumber: specification.information?.shipping_information?.phone_number || "",
+        email: specification.information?.shipping_information?.email || "",
+      }
+    }
+  };
+}
 
 // const formatTShirtSpecification = (specification: ApiGetTShirtSpecificationResponse): TShirtSpecification => {
 //   return {

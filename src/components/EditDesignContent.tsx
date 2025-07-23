@@ -36,7 +36,9 @@ import BottomsPatch from "@/components/BottomsPatch";
 import BottomsSample from "@/components/BottomsSample";
 import BottomsMainProduction from "@/components/BottomsMainProduction";
 import BottomsInformation from "@/components/BottomsInformation";
-import CustomFit from "@/components/CustomFit";
+import CustomFitComponent from "@/components/CustomFit";
+import CustomSampleComponent from "@/components/CustomSample";
+import CustomMainProductionComponent from "@/components/CustomMainProduction";
 
 const EditDesignContent = observer(() => {
   const searchParams = useSearchParams();
@@ -95,7 +97,7 @@ const EditDesignContent = observer(() => {
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
         case 2:
           return specificationStore.currentSpecification?.type === "CUSTOMIZE" 
-            ? <CustomFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} /> 
+            ? <CustomFitComponent callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} /> 
             : <TopsFit callBackUpdateState={() => { callBackUpdateState(3) }} isUpdateProgress={actualStep === 2} />;
         case 3: 
           return <TopsFabric callBackUpdateState={() => { callBackUpdateState(4) }} isUpdateProgress={actualStep === 3} />
@@ -106,9 +108,13 @@ const EditDesignContent = observer(() => {
         case 6:
           return <TopsOEMPoint callBackUpdateState={() => { callBackUpdateState(7) }} isUpdateProgress={actualStep === 6} />
         case 7:
-          return <TopsSample callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
+          return specificationStore.currentSpecification?.type === "CUSTOMIZE" 
+            ? <CustomSampleComponent callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} /> 
+            : <TopsSample callBackUpdateState={() => { callBackUpdateState(8) }} isUpdateProgress={actualStep === 7} />
         case 8:
-          return <TopsMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
+          return specificationStore.currentSpecification?.type === "CUSTOMIZE" 
+            ? <CustomMainProductionComponent callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} /> 
+            : <TopsMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
         case 9:
           return <TopsInformation callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         default:

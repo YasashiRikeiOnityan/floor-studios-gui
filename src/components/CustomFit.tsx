@@ -1,7 +1,7 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
 import { useState, useEffect } from "react";
-import { TopsSpecification, CustomSizeValue, CustomFitWithFile } from "@/lib/type/specification/tops/type";
+import { CustomSpecification, CustomFit, CustomSizeValue } from "@/lib/type/specification/custom/type";
 import Button from "@/components/Button";
 import { PaperClipIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { PostImagesInteractor } from "@/interactor/PostImagesInteractor";
@@ -23,10 +23,10 @@ type CustomFitItem = {
   xl: string;
 };
 
-const CustomFit = observer((props: CustomFitProps) => {
-  const currentSpecification = specificationStore.currentSpecification as TopsSpecification;
+const CustomFitComponent = observer((props: CustomFitProps) => {
+  const currentSpecification = specificationStore.currentSpecification as CustomSpecification;
   const [customFitItems, setCustomFitItems] = useState<CustomFitItem[]>([]);
-  const [file, setFile] = useState<{ name: string; key: string } | undefined>(currentSpecification?.customFit?.file);
+  const [file, setFile] = useState<{ name: string; key: string } | undefined>(currentSpecification?.fit?.file);
   const [isSaving, setIsSaving] = useState(false);
   const [imageLoading, setImageLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
@@ -34,9 +34,9 @@ const CustomFit = observer((props: CustomFitProps) => {
 
   // 初期化時にデータを設定
   useEffect(() => {
-    if (currentSpecification?.customFit) {
+    if (currentSpecification?.fit) {
       const items: CustomFitItem[] = [];
-      Object.entries(currentSpecification.customFit).forEach(([key, value]) => {
+      Object.entries(currentSpecification.fit).forEach(([key, value]) => {
         if (key !== 'file' && typeof value === 'object' && 'free' in value) {
           items.push({
             itemName: key,
@@ -77,7 +77,7 @@ const CustomFit = observer((props: CustomFitProps) => {
       }));
       setCustomFitItems(defaultItems);
     }
-  }, [currentSpecification?.customFit]);
+  }, [currentSpecification?.fit]);
 
   // 画像の読み込み
   useEffect(() => {
@@ -231,9 +231,9 @@ const CustomFit = observer((props: CustomFitProps) => {
   };
 
   const handleCancel = () => {
-    if (currentSpecification?.customFit) {
+    if (currentSpecification?.fit) {
       const items: CustomFitItem[] = [];
-      Object.entries(currentSpecification.customFit).forEach(([key, value]) => {
+      Object.entries(currentSpecification.fit).forEach(([key, value]) => {
         if (key !== 'file' && typeof value === 'object' && 'free' in value) {
           items.push({
             itemName: key,
@@ -260,7 +260,7 @@ const CustomFit = observer((props: CustomFitProps) => {
       }
 
       setCustomFitItems(items);
-      setFile(currentSpecification.customFit.file);
+      setFile(currentSpecification.fit.file);
     }
   };
 
@@ -268,7 +268,7 @@ const CustomFit = observer((props: CustomFitProps) => {
     setIsSaving(true);
 
     // 空文字でない項目のみをAPIリクエスト用のデータに変換
-    const filteredData: CustomFitWithFile = {};
+    const filteredData: CustomFit = {};
     customFitItems.forEach(item => {
       if (item.itemName.trim() !== '') {
         filteredData[item.itemName] = {
@@ -288,10 +288,10 @@ const CustomFit = observer((props: CustomFitProps) => {
 
     await specificationStore.putSpecificationsSpecificationId(currentSpecification.specificationId, {
       ...(props.isUpdateProgress && { progress: "FIT" }),
-      custom_fit: filteredData,
+      fit: filteredData,
     });
     specificationStore.updateSpecification({
-      customFit: filteredData,
+      fit: filteredData,
     });
     setIsSaving(false);
     props.callBackUpdateState();
@@ -420,4 +420,4 @@ const CustomFit = observer((props: CustomFitProps) => {
   );
 });
 
-export default CustomFit; 
+export default CustomFitComponent; 

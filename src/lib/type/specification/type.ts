@@ -16,9 +16,16 @@ import {
   ApiPutTShirtSpecificationRequest,
 } from "@/lib/type/specification/t-shirt/type";
 
+import {
+  CustomSpecification,
+  ApiGetCustomSpecificationResponse,
+  ApiPutCustomSpecificationRequest,
+} from "@/lib/type/specification/custom/type";
+
 export type Specification =
   | TopsSpecification
   | BottomsSpecification
+  | CustomSpecification
   | TShirtSpecification;
 
 export type SpecificationStatus = "DRAFT" | "COMPLETE" | "SAMPLE" | "BULK" | undefined;
@@ -75,12 +82,14 @@ export type ApiPostSpecificationsResponse = {
 export type ApiGetSpecificationsSpecificationIdResponse =
   | ApiGetTopsSpecificationResponse
   | ApiGetBottomsSpecificationResponse
-  | ApiGetTShirtSpecificationResponse;
+  | ApiGetTShirtSpecificationResponse
+  | ApiGetCustomSpecificationResponse;
 
 export type ApiPutSpecificationsSpecificationIdRequest =
   | ApiPutTopsSpecificationRequest
   | ApiPutBottomsSpecificationRequest
-  | ApiPutTShirtSpecificationRequest;
+  | ApiPutTShirtSpecificationRequest
+  | ApiPutCustomSpecificationRequest;
 
 export type ApiPutSpecificationsSpecificationIdResponse = {
   specification_id: string;
