@@ -1,7 +1,7 @@
 import { specificationStore } from "@/stores/specificationStore";
 import { observer } from "mobx-react-lite";
-import { useState, useEffect } from "react";
-import { CustomSpecification, CustomMainProduction, CustomSizeValue } from "@/lib/type/specification/custom/type";
+import { useState } from "react";
+import { CustomSpecification, CustomSizeValue } from "@/lib/type/specification/custom/type";
 import Button from "@/components/Button";
 import Toggle from "@/components/Toggle";
 import { formatSpecificationType } from "@/lib/utils";
