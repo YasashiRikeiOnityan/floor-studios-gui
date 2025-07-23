@@ -2,7 +2,7 @@ import { specificationStore } from '@/stores/specificationStore';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
-import Loading from './Loading';
+import Loading from '@/components/Loading';
 import { useRouter } from 'next/navigation';
 import { SpecificationStatus } from '@/lib/type/specification/type';
 import { notificationStore } from '@/stores/notificationStore';

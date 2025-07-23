@@ -116,7 +116,7 @@ const EditDesignContent = observer(() => {
             ? <CustomMainProductionComponent callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} /> 
             : <TopsMainProduction callBackUpdateState={() => { callBackUpdateState(9) }} isUpdateProgress={actualStep === 8} />
         case 9:
-          return <TopsInformation callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
+          return <TopsInformation />
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }
@@ -141,7 +141,7 @@ const EditDesignContent = observer(() => {
         case 9:
           return <BottomsMainProduction callBackUpdateState={() => { callBackUpdateState(10) }} isUpdateProgress={actualStep === 9} />
         case 10:
-          return <BottomsInformation callBackUpdateState={() => { callBackUpdateState(11) }} isUpdateProgress={actualStep === 10} />
+          return <BottomsInformation />
         default:
           return <BasicInformation callBackUpdateState={() => { callBackUpdateState(2) }} isUpdateProgress={actualStep === 1} />;
       }

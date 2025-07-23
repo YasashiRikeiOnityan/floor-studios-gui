@@ -8,12 +8,7 @@ import { dialogStore } from "@/stores/dialogStore";
 import { TopsSpecification } from "@/lib/type/specification/tops/type";
 import { formatSpecificationType } from "@/lib/utils";
 
-type TopsInformationProps = {
-  callBackUpdateState: () => void;
-  isUpdateProgress: boolean;
-};
-
-const TopsInformation = observer((props: TopsInformationProps) => {
+const TopsInformation = observer(() => {
   const currentSpecification = specificationStore.currentSpecification as TopsSpecification;
   const router = useRouter();
   const [contactFirstName, setContactFirstName] = useState("");
@@ -145,8 +140,8 @@ const TopsInformation = observer((props: TopsInformationProps) => {
   const handleSaveAndNext = async () => {
     setIsSaving(true);
     await specificationStore.putSpecificationsSpecificationId(currentSpecification?.specificationId || "", {
-      ...(props.isUpdateProgress && { progress: "COMPLETE" }),
-      ...(props.isUpdateProgress && { status: "COMPLETE" }),
+      progress: "COMPLETE",
+      status: "COMPLETE",
       information: {
         contact: {
           first_name: contactFirstName,
