@@ -43,6 +43,18 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
   const [shippingLastName, setShippingLastName] = useState("");
   const [shippingPhoneNumber, setShippingPhoneNumber] = useState("");
   const [shippingEmail, setShippingEmail] = useState("");
+  const [sameAsShippingInformationSample, setSameAsShippingInformationSample] = useState(false);
+  const [mainProductionAddressLine1, setMainProductionAddressLine1] = useState("");
+  const [mainProductionAddressLine2, setMainProductionAddressLine2] = useState("");
+  const [mainProductionZipCode, setMainProductionZipCode] = useState("");
+  const [mainProductionState, setMainProductionState] = useState("");
+  const [mainProductionCity, setMainProductionCity] = useState("");
+  const [mainProductionCountry, setMainProductionCountry] = useState("");
+  const [mainProductionCompanyName, setMainProductionCompanyName] = useState("");
+  const [mainProductionFirstName, setMainProductionFirstName] = useState("");
+  const [mainProductionLastName, setMainProductionLastName] = useState("");
+  const [mainProductionPhoneNumber, setMainProductionPhoneNumber] = useState("");
+  const [mainProductionEmail, setMainProductionEmail] = useState("");
   const [mounted, setMounted] = useState(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
@@ -69,18 +81,30 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
         setBillingLastName(currentSpecification?.information?.billingInformation?.lastName || tenantStore.tenant?.billingInformation?.lastName || "");
         setBillingPhoneNumber(currentSpecification?.information?.billingInformation?.phoneNumber || tenantStore.tenant?.billingInformation?.phoneNumber || "");
         setBillingEmail(currentSpecification?.information?.billingInformation?.email || tenantStore.tenant?.billingInformation?.email || "");
-        setSameAsBillingInformation(currentSpecification?.information?.shippingInformation?.sameAsBillingInformation || false);
-        setShippingAddressLine1(currentSpecification?.information?.shippingInformation?.addressLine1 || tenantStore.tenant?.shippingInformation?.addressLine1 || "");
-        setShippingAddressLine2(currentSpecification?.information?.shippingInformation?.addressLine2 || tenantStore.tenant?.shippingInformation?.addressLine2 || "");
-        setShippingZipCode(currentSpecification?.information?.shippingInformation?.zipCode || tenantStore.tenant?.shippingInformation?.zipCode || "");
-        setShippingState(currentSpecification?.information?.shippingInformation?.state || tenantStore.tenant?.shippingInformation?.state || "");
-        setShippingCity(currentSpecification?.information?.shippingInformation?.city || tenantStore.tenant?.shippingInformation?.city || "");
-        setShippingCountry(currentSpecification?.information?.shippingInformation?.country || tenantStore.tenant?.shippingInformation?.country || "");
-        setShippingCompanyName(currentSpecification?.information?.shippingInformation?.companyName || tenantStore.tenant?.shippingInformation?.companyName || "");
-        setShippingFirstName(currentSpecification?.information?.shippingInformation?.firstName || tenantStore.tenant?.shippingInformation?.firstName || "");
-        setShippingLastName(currentSpecification?.information?.shippingInformation?.lastName || tenantStore.tenant?.shippingInformation?.lastName || "");
-        setShippingPhoneNumber(currentSpecification?.information?.shippingInformation?.phoneNumber || tenantStore.tenant?.shippingInformation?.phoneNumber || "");
-        setShippingEmail(currentSpecification?.information?.shippingInformation?.email || tenantStore.tenant?.shippingInformation?.email || "");
+        setSameAsBillingInformation(currentSpecification?.information?.shippingInformationSample?.sameAsBillingInformation || false);
+        setShippingAddressLine1(currentSpecification?.information?.shippingInformationSample?.addressLine1 || tenantStore.tenant?.shippingInformationSample?.addressLine1 || "");
+        setShippingAddressLine2(currentSpecification?.information?.shippingInformationSample?.addressLine2 || tenantStore.tenant?.shippingInformationSample?.addressLine2 || "");
+        setShippingZipCode(currentSpecification?.information?.shippingInformationSample?.zipCode || tenantStore.tenant?.shippingInformationSample?.zipCode || "");
+        setShippingState(currentSpecification?.information?.shippingInformationSample?.state || tenantStore.tenant?.shippingInformationSample?.state || "");
+        setShippingCity(currentSpecification?.information?.shippingInformationSample?.city || tenantStore.tenant?.shippingInformationSample?.city || "");
+        setShippingCountry(currentSpecification?.information?.shippingInformationSample?.country || tenantStore.tenant?.shippingInformationSample?.country || "");
+        setShippingCompanyName(currentSpecification?.information?.shippingInformationSample?.companyName || tenantStore.tenant?.shippingInformationSample?.companyName || "");
+        setShippingFirstName(currentSpecification?.information?.shippingInformationSample?.firstName || tenantStore.tenant?.shippingInformationSample?.firstName || "");
+        setShippingLastName(currentSpecification?.information?.shippingInformationSample?.lastName || tenantStore.tenant?.shippingInformationSample?.lastName || "");
+        setShippingPhoneNumber(currentSpecification?.information?.shippingInformationSample?.phoneNumber || tenantStore.tenant?.shippingInformationSample?.phoneNumber || "");
+        setShippingEmail(currentSpecification?.information?.shippingInformationSample?.email || tenantStore.tenant?.shippingInformationSample?.email || "");
+        setSameAsShippingInformationSample(currentSpecification?.information?.shippingInformationMainProduction?.sameAsShippingInformationSample || false);
+        setMainProductionAddressLine1(currentSpecification?.information?.shippingInformationMainProduction?.addressLine1 || tenantStore.tenant?.shippingInformationMainProduction?.addressLine1 || "");
+        setMainProductionAddressLine2(currentSpecification?.information?.shippingInformationMainProduction?.addressLine2 || tenantStore.tenant?.shippingInformationMainProduction?.addressLine2 || "");
+        setMainProductionZipCode(currentSpecification?.information?.shippingInformationMainProduction?.zipCode || tenantStore.tenant?.shippingInformationMainProduction?.zipCode || "");
+        setMainProductionState(currentSpecification?.information?.shippingInformationMainProduction?.state || tenantStore.tenant?.shippingInformationMainProduction?.state || "");
+        setMainProductionCity(currentSpecification?.information?.shippingInformationMainProduction?.city || tenantStore.tenant?.shippingInformationMainProduction?.city || "");
+        setMainProductionCountry(currentSpecification?.information?.shippingInformationMainProduction?.country || tenantStore.tenant?.shippingInformationMainProduction?.country || "");
+        setMainProductionCompanyName(currentSpecification?.information?.shippingInformationMainProduction?.companyName || tenantStore.tenant?.shippingInformationMainProduction?.companyName || "");
+        setMainProductionFirstName(currentSpecification?.information?.shippingInformationMainProduction?.firstName || tenantStore.tenant?.shippingInformationMainProduction?.firstName || "");
+        setMainProductionLastName(currentSpecification?.information?.shippingInformationMainProduction?.lastName || tenantStore.tenant?.shippingInformationMainProduction?.lastName || "");
+        setMainProductionPhoneNumber(currentSpecification?.information?.shippingInformationMainProduction?.phoneNumber || tenantStore.tenant?.shippingInformationMainProduction?.phoneNumber || "");
+        setMainProductionEmail(currentSpecification?.information?.shippingInformationMainProduction?.email || tenantStore.tenant?.shippingInformationMainProduction?.email || "");
       }
     };
     fetchTenant();
@@ -102,6 +126,23 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
       setShippingEmail(billingEmail);
     }
   }, [sameAsBillingInformation, billingAddressLine1, billingAddressLine2, billingZipCode, billingState, billingCity, billingCountry, billingCompanyName, billingFirstName, billingLastName, billingPhoneNumber, billingEmail]);
+
+  // Mass Productionの情報がSampleと同じ場合の自動設定
+  useEffect(() => {
+    if (sameAsShippingInformationSample) {
+      setMainProductionAddressLine1(shippingAddressLine1);
+      setMainProductionAddressLine2(shippingAddressLine2);
+      setMainProductionZipCode(shippingZipCode);
+      setMainProductionState(shippingState);
+      setMainProductionCity(shippingCity);
+      setMainProductionCountry(shippingCountry);
+      setMainProductionCompanyName(shippingCompanyName);
+      setMainProductionFirstName(shippingFirstName);
+      setMainProductionLastName(shippingLastName);
+      setMainProductionPhoneNumber(shippingPhoneNumber);
+      setMainProductionEmail(shippingEmail);
+    }
+  }, [sameAsShippingInformationSample, shippingAddressLine1, shippingAddressLine2, shippingZipCode, shippingState, shippingCity, shippingCountry, shippingCompanyName, shippingFirstName, shippingLastName, shippingPhoneNumber, shippingEmail]);
 
   const handleSaveAndNext = async () => {
     setIsSaving(true);
@@ -128,7 +169,7 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
           phone_number: billingPhoneNumber,
           email: billingEmail,
         },
-        shipping_information: {
+        shipping_information_sample: {
           same_as_billing_information: sameAsBillingInformation,
           address_line_1: shippingAddressLine1,
           address_line_2: shippingAddressLine2,
@@ -141,6 +182,20 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
           last_name: shippingLastName,
           phone_number: shippingPhoneNumber,
           email: shippingEmail,
+        },
+        shipping_information_main_production: {
+          same_as_shipping_information_sample: sameAsShippingInformationSample,
+          address_line_1: mainProductionAddressLine1,
+          address_line_2: mainProductionAddressLine2,
+          zip_code: mainProductionZipCode,
+          state: mainProductionState,
+          city: mainProductionCity,
+          country: mainProductionCountry,
+          company_name: mainProductionCompanyName,
+          first_name: mainProductionFirstName,
+          last_name: mainProductionLastName,
+          phone_number: mainProductionPhoneNumber,
+          email: mainProductionEmail,
         }
       }
     });
@@ -166,7 +221,7 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
           phoneNumber: billingPhoneNumber,
           email: billingEmail,
         },
-        shippingInformation: {
+        shippingInformationSample: {
           sameAsBillingInformation: sameAsBillingInformation,
           addressLine1: shippingAddressLine1,
           addressLine2: shippingAddressLine2,
@@ -179,6 +234,20 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
           lastName: shippingLastName,
           phoneNumber: shippingPhoneNumber,
           email: shippingEmail,
+        },
+        shippingInformationMainProduction: {
+          sameAsShippingInformationSample: sameAsShippingInformationSample,
+          addressLine1: mainProductionAddressLine1,
+          addressLine2: mainProductionAddressLine2,
+          zipCode: mainProductionZipCode,
+          state: mainProductionState,
+          city: mainProductionCity,
+          country: mainProductionCountry,
+          companyName: mainProductionCompanyName,
+          firstName: mainProductionFirstName,
+          lastName: mainProductionLastName,
+          phoneNumber: mainProductionPhoneNumber,
+          email: mainProductionEmail,
         },
       }
     });
@@ -212,17 +281,29 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
     setBillingPhoneNumber(tenantStore.tenant?.billingInformation?.phoneNumber || "");
     setBillingEmail(tenantStore.tenant?.billingInformation?.email || "");
     setSameAsBillingInformation(false);
-    setShippingAddressLine1(tenantStore.tenant?.shippingInformation?.addressLine1 || "");
-    setShippingAddressLine2(tenantStore.tenant?.shippingInformation?.addressLine2 || "");
-    setShippingZipCode(tenantStore.tenant?.shippingInformation?.zipCode || "");
-    setShippingState(tenantStore.tenant?.shippingInformation?.state || "");
-    setShippingCity(tenantStore.tenant?.shippingInformation?.city || "");
-    setShippingCountry(tenantStore.tenant?.shippingInformation?.country || "");
-    setShippingCompanyName(tenantStore.tenant?.shippingInformation?.companyName || "");
-    setShippingFirstName(tenantStore.tenant?.shippingInformation?.firstName || "");
-    setShippingLastName(tenantStore.tenant?.shippingInformation?.lastName || "");
-    setShippingPhoneNumber(tenantStore.tenant?.shippingInformation?.phoneNumber || "");
-    setShippingEmail(tenantStore.tenant?.shippingInformation?.email || "");
+    setShippingAddressLine1(tenantStore.tenant?.shippingInformationSample?.addressLine1 || "");
+    setShippingAddressLine2(tenantStore.tenant?.shippingInformationSample?.addressLine2 || "");
+    setShippingZipCode(tenantStore.tenant?.shippingInformationSample?.zipCode || "");
+    setShippingState(tenantStore.tenant?.shippingInformationSample?.state || "");
+    setShippingCity(tenantStore.tenant?.shippingInformationSample?.city || "");
+    setShippingCountry(tenantStore.tenant?.shippingInformationSample?.country || "");
+    setShippingCompanyName(tenantStore.tenant?.shippingInformationSample?.companyName || "");
+    setShippingFirstName(tenantStore.tenant?.shippingInformationSample?.firstName || "");
+    setShippingLastName(tenantStore.tenant?.shippingInformationSample?.lastName || "");
+    setShippingPhoneNumber(tenantStore.tenant?.shippingInformationSample?.phoneNumber || "");
+    setShippingEmail(tenantStore.tenant?.shippingInformationSample?.email || "");
+    setSameAsShippingInformationSample(false);
+    setMainProductionAddressLine1(tenantStore.tenant?.shippingInformationMainProduction?.addressLine1 || "");
+    setMainProductionAddressLine2(tenantStore.tenant?.shippingInformationMainProduction?.addressLine2 || "");
+    setMainProductionZipCode(tenantStore.tenant?.shippingInformationMainProduction?.zipCode || "");
+    setMainProductionState(tenantStore.tenant?.shippingInformationMainProduction?.state || "");
+    setMainProductionCity(tenantStore.tenant?.shippingInformationMainProduction?.city || "");
+    setMainProductionCountry(tenantStore.tenant?.shippingInformationMainProduction?.country || "");
+    setMainProductionCompanyName(tenantStore.tenant?.shippingInformationMainProduction?.companyName || "");
+    setMainProductionFirstName(tenantStore.tenant?.shippingInformationMainProduction?.firstName || "");
+    setMainProductionLastName(tenantStore.tenant?.shippingInformationMainProduction?.lastName || "");
+    setMainProductionPhoneNumber(tenantStore.tenant?.shippingInformationMainProduction?.phoneNumber || "");
+    setMainProductionEmail(tenantStore.tenant?.shippingInformationMainProduction?.email || "");
   }
 
   return (
@@ -521,7 +602,7 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
           </dd>
         </div>
         <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
-          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Information</dt>
+          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Information (Sample Production)</dt>
           <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             {/* 請求先情報と同じにするトグル */}
             <div className="mt-2 sm:mt-0 mb-6">
@@ -750,6 +831,242 @@ const BottomsInformation = observer((props: BottomsInformationProps) => {
                   value={shippingZipCode}
                   onChange={(e) => setShippingZipCode(e.target.value)}
                   disabled={sameAsBillingInformation}
+                />
+              </div>
+            </div>
+          </dd>
+        </div>
+
+        <div className="py-6 sm:grid sm:grid-cols-3 sm:gap-4">
+          <dt className="text-sm/6 font-semibold text-gray-900">Shipping Information (Mass Production)</dt>
+          <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {/* Mass Productionの情報がSampleと同じにするトグル */}
+            <div className="mt-2 sm:mt-0 mb-6">
+              <div className="flex items-center">
+                <input
+                  id="sameAsShippingInformationSample"
+                  name="sameAsShippingInformationSample"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                  checked={sameAsShippingInformationSample}
+                  onChange={(e) => setSameAsShippingInformationSample(e.target.checked)}
+                />
+                <label htmlFor="sameAsShippingInformationSample" className="ml-2 text-sm text-gray-900">
+                  Same as shipping information (sample production)
+                </label>
+              </div>
+            </div>
+            <div className="mt-2 sm:mt-0 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionCompanyName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Company Name
+                </label>
+                <input
+                  id="mainProductionCompanyName"
+                  name="mainProductionCompanyName"
+                  type="text"
+                  placeholder="Floor Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionCompanyName}
+                  onChange={(e) => setMainProductionCompanyName(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionFirstName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  First Name
+                </label>
+                <input
+                  id="mainProductionFirstName"
+                  name="mainProductionFirstName"
+                  type="text"
+                  placeholder="Floor"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionFirstName}
+                  onChange={(e) => setMainProductionFirstName(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionLastName"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Last Name
+                </label>
+                <input
+                  id="mainProductionLastName"
+                  name="mainProductionLastName"
+                  type="text"
+                  placeholder="Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionLastName}
+                  onChange={(e) => setMainProductionLastName(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionPhoneNumber"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Phone Number
+                </label>
+                <input
+                  id="mainProductionPhoneNumber"
+                  name="mainProductionPhoneNumber"
+                  type="text"
+                  placeholder="+81 90-1234-5678"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionPhoneNumber}
+                  onChange={(e) => setMainProductionPhoneNumber(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionEmail"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Email
+                </label>
+                <input
+                  id="mainProductionEmail"
+                  name="mainProductionEmail"
+                  type="text"
+                  placeholder="floor@floorstudios.com"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionEmail}
+                  onChange={(e) => setMainProductionEmail(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionCountry"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Country
+                </label>
+                <input
+                  id="mainProductionCountry"
+                  name="mainProductionCountry"
+                  type="text"
+                  placeholder="Japan"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionCountry}
+                  onChange={(e) => setMainProductionCountry(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionState"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  State
+                </label>
+                <input
+                  id="mainProductionState"
+                  name="mainProductionState"
+                  type="text"
+                  placeholder="Tokyo"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionState}
+                  onChange={(e) => setMainProductionState(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionCity"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  City
+                </label>
+                <input
+                  id="mainProductionCity"
+                  name="mainProductionCity"
+                  type="text"
+                  placeholder="Tokyo"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionCity}
+                  onChange={(e) => setMainProductionCity(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 col-span-2">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionAddressLine1"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Address Line 1
+                </label>
+                <input
+                  id="mainProductionAddressLine1"
+                  name="mainProductionAddressLine1"
+                  type="text"
+                  placeholder="Floor Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionAddressLine1}
+                  onChange={(e) => setMainProductionAddressLine1(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 col-span-2">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionAddressLine2"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Address Line 2
+                </label>
+                <input
+                  id="mainProductionAddressLine2"
+                  name="mainProductionAddressLine2"
+                  type="text"
+                  placeholder="Floor Studios"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionAddressLine2}
+                  onChange={(e) => setMainProductionAddressLine2(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
+                />
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label
+                  htmlFor="mainProductionZipCode"
+                  className="absolute -top-2 left-2 inline-block rounded-lg bg-white px-1 text-xs font-medium text-gray-500"
+                >
+                  Zip Code
+                </label>
+                <input
+                  id="mainProductionZipCode"
+                  name="mainProductionZipCode"
+                  type="text"
+                  placeholder="123-4567"
+                  className={`block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-blue-600 sm:text-sm/6 ${sameAsShippingInformationSample ? 'bg-gray-100 text-gray-500' : 'bg-white text-gray-900'}`}
+                  value={mainProductionZipCode}
+                  onChange={(e) => setMainProductionZipCode(e.target.value)}
+                  disabled={sameAsShippingInformationSample}
                 />
               </div>
             </div>

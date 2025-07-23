@@ -109,8 +109,22 @@ export type BottomsInformation = {
     phoneNumber: string;
     email: string;
   };
-  shippingInformation?: {
+  shippingInformationSample?: {
     sameAsBillingInformation: boolean;
+    addressLine1: string;
+    addressLine2: string;
+    zipCode: string;
+    state: string;
+    city: string;
+    country: string;
+    companyName: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+  };
+  shippingInformationMainProduction?: {
+    sameAsShippingInformationSample: boolean;
     addressLine1: string;
     addressLine2: string;
     zipCode: string;
@@ -232,8 +246,22 @@ export type ApiGetBottomsSpecificationResponse = {
       phone_number: string;
       email: string;
     };
-    shipping_information?: {
-      same_as_billing_information: boolean; 
+    shipping_information_sample?: {
+      same_as_billing_information: boolean;
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
+    };
+    shipping_information_main_production?: {
+      same_as_shipping_information_sample: boolean;
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
@@ -350,8 +378,22 @@ export type ApiPutBottomsSpecificationRequest = {
       phone_number: string;
       email: string;
     };
-    shipping_information?: {
+    shipping_information_sample?: {
       same_as_billing_information: boolean;
+      address_line_1: string;
+      address_line_2: string;
+      zip_code: string;
+      state: string;
+      city: string;
+      country: string;
+      company_name: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      email: string;
+    };
+    shipping_information_main_production?: {
+      same_as_shipping_information_sample: boolean;
       address_line_1: string;
       address_line_2: string;
       zip_code: string;
