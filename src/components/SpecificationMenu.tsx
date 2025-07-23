@@ -11,7 +11,9 @@ import { PostSpecificationsSpecificationIdDuplicateInteractor } from '@/interact
 
 type SpecificationMenuProps = {
   specificationId: string;
+  specificationGroupId: string;
   status?: SpecificationStatus;
+  onSpecificationDuplicated?: (specificationGroupId: string) => void;
   onSpecificationDeleted?: (specificationId: string) => void;
 }
 
@@ -45,6 +47,9 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
     setIsDuplicating(true);
     try {
       await PostSpecificationsSpecificationIdDuplicateInteractor(props.specificationId);
+      if (props.onSpecificationDuplicated) {
+        props.onSpecificationDuplicated(props.specificationGroupId);
+      }
     } catch {
       console.error("Failed to duplicate specification");
     } finally {
@@ -103,10 +108,6 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
                 dialogStore.closeAlertDialog();
                 await specificationStore.deleteSpecificationsSpecificationsId(props.specificationId);
                 setIsDeleting(false);
-                // 削除後のコールバックを呼び出し
-                if (props.onSpecificationDeleted) {
-                  props.onSpecificationDeleted(props.specificationId);
-                }
               });
             }}
           >

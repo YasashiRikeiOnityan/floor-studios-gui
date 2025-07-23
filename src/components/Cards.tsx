@@ -19,7 +19,6 @@ type CardsProps = {
 const Cards = observer((props: CardsProps) => {
 
   const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +29,12 @@ const Cards = observer((props: CardsProps) => {
     };
     fetchSpecifications();
   }, [props.specificationGroupId, props.status]);
+
+  // 複製後のコールバック関数
+  const handleSpecificationDuplicated = async (specificationGroupId: string) => {
+    // コピー元のコレクションの仕様書を取得
+    await specificationStore.getSpecifications(specificationGroupId, props.status);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -88,7 +93,12 @@ const Cards = observer((props: CardsProps) => {
                 </div>
               </div>
               <div className="relative" onClick={(e) => e.stopPropagation()}>
-                <SpecificationMenu specificationId={specification.specificationId} status={props.status} />
+                <SpecificationMenu
+                  specificationId={specification.specificationId}
+                  specificationGroupId={props.specificationGroupId}
+                  status={props.status}
+                  onSpecificationDuplicated={handleSpecificationDuplicated}
+                />
               </div>
             </div>
             <div className="pr-2 flex items-center justify-between">

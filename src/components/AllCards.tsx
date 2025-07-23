@@ -21,6 +21,23 @@ const AllCards = observer((props: AllCardsProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [specificationsByGroup, setSpecificationsByGroup] = useState<Record<string, BaseSpecification[]>>({});
 
+  // 複製後のコールバック関数
+  const handleSpecificationDuplicated = async (specificationGroupId: string) => {
+    // コピー元のコレクションの仕様書を取得
+    await specificationStore.getSpecifications(specificationGroupId, props.status);
+    // コピー元コレクションの仕様書を更新日時でソート
+    const sortedSpecifications = [...specificationStore.specifications].sort((a, b) => {
+      const dateA = new Date(a.updatedAt || "").getTime();
+      const dateB = new Date(b.updatedAt || "").getTime();
+      return dateB - dateA; // 新しい順（降順）
+    });
+    setSpecificationsByGroup(prev => {
+      const updated = { ...prev };
+      updated[specificationGroupId] = sortedSpecifications;
+      return updated;
+    });
+  };
+
   // 削除後のコールバック関数
   const handleSpecificationDeleted = (specificationId: string) => {
     setSpecificationsByGroup(prev => {
@@ -159,6 +176,8 @@ const AllCards = observer((props: AllCardsProps) => {
                           <SpecificationMenu
                             specificationId={specification.specificationId}
                             status={props.status}
+                            specificationGroupId={group.specificationGroupId}
+                            onSpecificationDuplicated={handleSpecificationDuplicated}
                             onSpecificationDeleted={handleSpecificationDeleted}
                           />
                         </div>

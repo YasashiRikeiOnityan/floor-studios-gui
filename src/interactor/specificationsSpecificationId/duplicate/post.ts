@@ -5,9 +5,12 @@ export const PostSpecificationsSpecificationIdDuplicateInteractor = async (speci
   try {
     const response = await ApiPostSpecificationsSpecificationIdDuplicate(specificationId);
     notificationStore.addNotification("Success", "Specification duplicated successfully", "success");
-    return response;
+    return {
+      specificationId: response.specification_id,
+    };
   } catch {
     notificationStore.addNotification("Error", "Failed to duplicate specification", "error");
+    return undefined;
   }
 };
 
