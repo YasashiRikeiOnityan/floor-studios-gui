@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { SpecificationStatus } from '@/lib/type/specification/type';
 import { notificationStore } from '@/stores/notificationStore';
 import { dialogStore } from '@/stores/dialogStore';
+import { PostSpecificationsSpecificationIdDuplicateInteractor } from '@/interactor/specificationsSpecificationId/duplicate/post';
 
 type SpecificationMenuProps = {
   specificationId: string;
@@ -19,6 +20,7 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
 
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isDuplicating, setIsDuplicating] = useState(false);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -39,11 +41,22 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
     }
   };
 
+  const handleDuplicate = async () => {
+    setIsDuplicating(true);
+    try {
+      await PostSpecificationsSpecificationIdDuplicateInteractor(props.specificationId);
+    } catch {
+      console.error("Failed to duplicate specification");
+    } finally {
+      setIsDuplicating(false);
+    }
+  };
+
   return (
     <Menu as="div" className="relative ml-3">
       <div>
         <MenuButton className="relative flex h-8 w-8 max-w-xs items-center justify-center rounded-full bg-white text-sm hover:bg-gray-100 hover:cursor-pointer">
-          {isDownloading || isDeleting ? (
+          {isDownloading || isDeleting || isDuplicating ? (
             <Loading full={false} />
           ) : (
             <EllipsisVerticalIcon className="h-5 w-5 text-gray-500" />
@@ -71,6 +84,14 @@ const SpecificationMenu = (props: SpecificationMenuProps) => {
             onClick={handleDownload}
           >
             Download
+          </div>
+        </MenuItem>
+        <MenuItem>
+          <div
+            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none hover:cursor-pointer"
+            onClick={handleDuplicate}
+          >
+            Duplicate
           </div>
         </MenuItem>
         <MenuItem>

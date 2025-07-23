@@ -19,6 +19,7 @@ import {
   SpecificationStatus,
   ApiPostSpecificationsResponse,
   ApiGetSpecificationsSpecificationIdDownloadResponse,
+  ApiPostSpecificationsSpecificationIdDuplicateResponse,
   ApiGetSpecificationsSpecificationIdPreviewResponse
 } from '@/lib/type/specification/type';
 import { refreshToken } from "./cognito";
@@ -239,6 +240,16 @@ export const ApiGetSpecificationsSpecificationIdDownload = async (specificationI
     throw error;
   }
 };
+
+export const ApiPostSpecificationsSpecificationIdDuplicate = async (specificationId: string): Promise<ApiPostSpecificationsSpecificationIdDuplicateResponse> => {
+  try {
+    const response = await httpClient.post(`/specifications/${specificationId}/duplicate`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to duplicate specification:', error);
+    throw error;
+  }
+}
 
 export const ApiGetSpecificationsSpecificationIdPreview = async (specificationId: string): Promise<ApiGetSpecificationsSpecificationIdPreviewResponse> => {
   try {

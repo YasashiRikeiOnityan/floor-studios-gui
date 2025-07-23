@@ -99,6 +99,10 @@ export type ApiGetSpecificationsSpecificationIdDownloadResponse = {
   url: string;
 }
 
+export type ApiPostSpecificationsSpecificationIdDuplicateResponse = {
+  specification_id: string;
+}
+
 export type ApiGetSpecificationsSpecificationIdPreviewResponse = {
   url: string;
 }
